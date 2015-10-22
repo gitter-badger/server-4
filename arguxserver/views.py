@@ -15,10 +15,12 @@ class MainViews:
     def __init__(self, request):
         self.request = request
 
+    # TODO
     @view_config(route_name='home')
     def home(self):
         return {"project":"A"}
 
+    # TODO
     @view_config(route_name='hosts')
     def hosts(self):
         return {"project":"A"}
@@ -27,3 +29,9 @@ class MainViews:
     def host(self):
         host = self.request.matchdict['host']
         return {"argux_host": host}
+
+    @view_config(route_name='item_details', renderer='templates/item_details.pt')
+    def item_details(self):
+        host = self.request.matchdict['host']
+        item = self.request.matchdict['item']
+        return {"argux_host": host, "argux_item": item}

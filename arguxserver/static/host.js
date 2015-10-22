@@ -22,19 +22,25 @@ $(function() {
                     }
 
                     if (item['name']) {
-                        categories[category]+="<tr>"
-                            +"<td><a href='/host/"+item['key']+"'>"+item['name']+"</a></td>"
-                            +"<td></td>"
-                            +"<td></td>"
-                            +"<td><a href='/argux/"+argux_host+"/"+item['key']+"/stats'>#</a></td>"
-                            +"</tr>";
+                        categories[category]+='<tr>'
+                            +'<td><a href="/host/'+item['key']+'">'+item['name']+'</a></td>'
+                            +'<td></td>'
+                            +'<td></td>'
+                            +'<td></td>'
+                            +'<td class="col-md-1 item-details"><a href="/argux/'+argux_host+'/'+item['key']+'/stats" aria-label="Details">'
+                            +'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>'
+                            +'</a></td>'
+                            +'</tr>';
                     } else {
-                        categories[category]+="<tr>"
-                            +"<td><a href='/host/"+item['key']+"'>"+item['key']+"</a></td>"
-                            +"<td></td>"
-                            +"<td></td>"
-                            +"<td></td>"
-                            +"</tr>";
+                        categories[category]+='<tr>'
+                            +'<td><a href="/host/'+item['key']+'">'+item['key']+'</a></td>'
+                            +'<td></td>'
+                            +'<td></td>'
+                            +'<td></td>'
+                            +'<td class="col-md-1 item-details"><a href="/host/'+argux_host+'/'+item['key']+'/details" aria-label="Details">'
+                            +'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>'
+                            +'</a></td>'
+                            +'</tr>';
                     }
                 });
 
@@ -66,6 +72,7 @@ $(function() {
                         +'<th>Value</th>'
                         +'<th>Timestamp</th>'
                         +'<th>Last Checked</th>'
+                        +'<th></th>'
                         +'</tr>'
                         +'</thead>'
                         +'<tbody>'

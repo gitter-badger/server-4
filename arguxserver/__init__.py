@@ -20,9 +20,10 @@ def main(global_config, **settings):
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
 
-    config.add_route('home',    '/')
-    config.add_route('hosts',   '/host')
-    config.add_route('host',    '/host/{host}')
+    config.add_route('home',         '/')
+    config.add_route('hosts',        '/host')
+    config.add_route('host',         '/host/{host}')
+    config.add_route('item_details', '/host/{host}/{item}/details')
 
     config.add_route('hosts_1', '/argux/rest/1.0/host')
     config.add_route('host_1',  '/argux/rest/1.0/host/{host}')
