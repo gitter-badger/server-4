@@ -53,7 +53,13 @@ class RestViews:
                 else:
                     name = None
 
+                if (a.category):
+                    category = a.category.name
+                else:
+                    category = None
+
                 items.append({
+                    "category": category,
                     "name": name,
                     "key": a.key})
 
@@ -84,16 +90,30 @@ class RestViews:
             return {'fqdn': host, 'item': item, 'time': time}
 
         if (self.request.method == "PUT"):
-            name = self.request.json_body['name']
-            description = self.request.json_body['description']
+            try:
+                name = self.request.json_body.get('name', None)
+                description = self.request.json_body.get('description', None)
+                category = self.request.json_body.get('category', None)
+            except ValueError:
+                name = None
+                description = None
+                category = None
+                pass
             n = None
+            c = None
 
             h = models.DBSession.query(models.Host).filter(models.Host.name == host).first()
             if (name != None and description != None):
                 n = models.DBSession.query(models.ItemName).filter(models.ItemName.name == name).first()
                 if (n == None):
                     n = models.ItemName(name=name, description=description)
-            i = models.Item(host_id=h.id, key=item, name=n)
+
+            if (category != None):
+                c = models.DBSession.query(models.ItemCategory).filter(models.ItemCategory.name == category).first()
+                if (c == None):
+                    c = models.ItemCategory(name=category)
+
+            i = models.Item(host_id=h.id, key=item, name=n, category=c)
             models.DBSession.add(i)
             return Response(
                 status='201 Created',

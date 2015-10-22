@@ -35,8 +35,10 @@ Index('u_host_index', Host.name, unique=True, mysql_length=255)
 class ItemCategory(Base):
     __tablename__ = 'item_category'
     id = Column(Integer, primary_key=True)
-    name = Column(Text)
-    description = Column(Text)
+    name = Column(Text, nullable=False)
+
+Index('u_itemcategory_name', ItemCategory.name, unique=True, mysql_length=255)
+
 
 #
 # ItemName

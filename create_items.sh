@@ -17,3 +17,9 @@ curl -X PUT \
      -H "Content-Type: application/json" \
      -d "{\"name\":\"System uptime\", \"description\":\"System Uptime\"}" \
      $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/sys.uptime
+
+# Store item with name and description
+curl -X PUT \
+     -H "Content-Type: application/json" \
+     -d "{\"name\":\"Incoming network traffic on interface eth0\", \"description\":\"Network traffic measured in bytes/s\", \"category\": \"net\"}" \
+     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/net.if\\\[eth0\\\].in
