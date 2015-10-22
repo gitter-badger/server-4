@@ -14,11 +14,6 @@ class RestViews:
     def __init__(self, request):
         self.request = request
 
-    @notfound_view_config()
-    def not_found(self):
-        return Response('Not Found, dude', status='404 Not Found')
-        
-
     @view_config(route_name='hosts_1')
     def hosts(self):
         h = models.DBSession.query(models.Host)
@@ -42,7 +37,11 @@ class RestViews:
             h = models.DBSession.query(models.Host).filter(models.Host.name == host).first()
 
             if (h == None):
-                return HTTPNotFound()
+                return Response(
+                    status="404 Not Found",
+                    content_type='application/json',
+                    charset='utf-8',
+                    body='{"error":"NOT FOUND"}')
 
             i = models.DBSession.query(models.Item).filter(models.Item.host_id == h.id)
 
@@ -67,15 +66,16 @@ class RestViews:
                 'name' : h.name,
                 'items': items
                 }
-        if (self.request.method == "POST"):
-            return {'fqdn':'POST'}
 
-        if (self.request.method == "PUT"):
+        if (self.request.method == "POST"):
             h = models.Host(name=host)
             models.DBSession.add(h)
             return Response(
                 status='201 Created',
-                content_type='application/json; charset=UTF-8')
+                content_type='application/json')
+
+        if (self.request.method == "POST"):
+            return {'fqdn':'POST'}
 
     @view_config(route_name='item_1')
     def items(self):
@@ -89,19 +89,30 @@ class RestViews:
             end_time = self.request.params.get('end_time', '-1')
             return {'fqdn': host, 'item': item, 'time': time}
 
-        if (self.request.method == "PUT"):
+        if (self.request.method == "POST"):
             try:
                 name = self.request.json_body.get('name', None)
                 description = self.request.json_body.get('description', None)
                 category = self.request.json_body.get('category', None)
+                _type = self.request.json_body.get('type', None)
             except ValueError:
                 name = None
                 description = None
                 category = None
-                pass
-            n = None
-            c = None
+                return Response(
+                    status='400 Bad Request',
+                    content_type='application/json',
+                    charset='UTF-8',
+                    body='{"error": "400 Bad Request", "message": "type not specified"}')
 
+            if (_type == None):
+                return Response(
+                    status='400 Bad Request',
+                    content_type='application/json; charset=UTF-8',
+                    charset='UTF-8',
+                    body='{"error": "400 Bad Request", "message": "type not specified"}')
+            n = None
+            c = None 
             h = models.DBSession.query(models.Host).filter(models.Host.name == host).first()
             if (name != None and description != None):
                 n = models.DBSession.query(models.ItemName).filter(models.ItemName.name == name).first()
@@ -124,3 +135,35 @@ class RestViews:
 
 
         return {'fqdn':'unknown'}
+
+    @view_config(route_name='metric_1')
+    def metrics(self):
+
+        host = self.request.matchdict['host']
+        item = self.request.matchdict['item']
+
+        if (self.request.method == "GET"):
+            time = self.request.params.get('time', '60')
+            start_time = self.request.params.get('start_time', '-1')
+            end_time = self.request.params.get('end_time', '-1')
+            return {'fqdn': host, 'item': item, 'time': time}
+
+        if (self.request.method == "POST"):
+            try:
+                value = self.request.json_body.get('value', None)
+            except ValueError:
+                value= None
+                return Response(
+                    status='400 Bad Request',
+                    content_type='application/json',
+                    charset='UTF-8',
+                    body='{"error": "400 Bad Request", "message": "value not specified"}')
+
+            h = models.DBSession.query(models.Host).filter(models.Host.name == host).first()
+            i = models.DBSession.query(models.Item).filter(models.Item.host == h).filter(models.Item.key == item)
+            return Response(
+                status='201 Created',
+                content_type='application/json; charset=UTF-8')
+
+        if (self.request.method == "POST"):
+            return {'fqdn':'POST'}

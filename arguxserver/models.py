@@ -52,6 +52,17 @@ class ItemName(Base):
 Index('u_itemname_name', ItemName.name, unique=True, mysql_length=255)
 
 #
+# ItemType
+#
+class ItemType(Base):
+    __tablename__ = 'itemtype'
+    id = Column(Integer, primary_key=True)
+    name = Column(Text, nullable=False)
+    description = Column(Text, nullable=False)
+
+Index('u_itemtype_name', ItemType.name, unique=True, mysql_length=255)
+
+#
 # Item
 #
 class Item(Base):
@@ -63,5 +74,7 @@ class Item(Base):
     name = relationship(ItemName, backref = 'item_name');
     category_id = Column(Integer, ForeignKey('item_category.id'), nullable=True, default=None)
     category = relationship(ItemCategory, backref = 'item_category')
-
+    itemtype_id = Column(Integer, ForeignKey('itemtype.id'), nullable=False)
+    itemtype = relationship(ItemType, backref = 'item_type');
+ 
 Index('u_item_host_id_index', Item.key, Item.host_id, unique=True, mysql_length=255)
