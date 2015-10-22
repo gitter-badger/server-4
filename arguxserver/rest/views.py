@@ -84,8 +84,16 @@ class RestViews:
             return {'fqdn': host, 'item': item, 'time': time}
 
         if (self.request.method == "PUT"):
+            name = self.request.json_body['name']
+            description = self.request.json_body['description']
+            n = None
+
             h = models.DBSession.query(models.Host).filter(models.Host.name == host).first()
-            i = models.Item(host_id=h.id, key=item)
+            if (name != None and description != None):
+                n = models.DBSession.query(models.ItemName).filter(models.ItemName.name == name).first()
+                if (n == None):
+                    n = models.ItemName(name=name, description=description)
+            i = models.Item(host_id=h.id, key=item, name=n)
             models.DBSession.add(i)
             return Response(
                 status='201 Created',
