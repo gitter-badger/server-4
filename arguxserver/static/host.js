@@ -21,27 +21,31 @@ $(function() {
                         category = 'global';
                     }
 
-                    if (item['name']) {
-                        categories[category]+='<tr>'
-                            +'<td><a href="/host/'+item['key']+'">'+item['name']+'</a></td>'
-                            +'<td></td>'
-                            +'<td></td>'
-                            +'<td class="hidden-xs" class="hidden-xs"></td>'
-                            +'<td class="col-md-1 item-details"><a href="/argux/'+argux_host+'/'+item['key']+'/stats" aria-label="Details">'
-                            +'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>'
-                            +'</a></td>'
-                            +'</tr>';
+                    // If name does not exist, show the key.
+                    if (item.name != null) {
+                        name = item.name
                     } else {
-                        categories[category]+='<tr>'
-                            +'<td><a href="/host/'+item['key']+'">'+item['key']+'</a></td>'
-                            +'<td></td>'
-                            +'<td class="hidden-xs"></td>'
-                            +'<td class="hidden-xs"></td>'
-                            +'<td class="col-md-1 item-details"><a href="/host/'+argux_host+'/'+item['key']+'/details" aria-label="Details">'
-                            +'<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>'
-                            +'</a></td>'
-                            +'</tr>';
+                        name = item.key
                     }
+
+                    categories[category]+='<tr>'
+                      + '<td>'
+                      + '<a href="/host/'+argux_host+'/'+item.key+'/details">'
+                      + name
+                      + '</a>'
+                      + '</td>'
+                      + '<td></td>'
+                      + '<td class="hidden-xs"></td>'
+                      + '<td class="hidden-xs"></td>'
+                      + '<td class="col-md-1 item-details">'
+                      + '<a href="/host/'+argux_host+'/'+item.key+'/stats" aria-label="Stats">'
+                      + '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>'
+                      + '</a>&nbsp;'
+                      + '<a href="/host/'+argux_host+'/'+item.key+'/details" aria-label="Details">'
+                      + '<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>'
+                      + '</a>'
+                      + '</td>'
+                      + '</tr>';
                 });
 
                 // Determine if a panel was collapsed before the refresh.
