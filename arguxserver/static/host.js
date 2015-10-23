@@ -28,24 +28,24 @@ $(function() {
                         name = item.key
                     }
 
-                    categories[category]+='<tr>'
-                      + '<td>'
-                      + '<a href="/host/'+argux_host+'/'+item.key+'/details">'
-                      + name
-                      + '</a>'
-                      + '</td>'
-                      + '<td></td>'
-                      + '<td class="hidden-xs"></td>'
-                      + '<td class="hidden-xs"></td>'
-                      + '<td class="col-md-1 item-details">'
-                      + '<a href="/host/'+argux_host+'/'+item.key+'/stats" aria-label="Stats">'
-                      + '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>'
-                      + '</a>&nbsp;'
-                      + '<a href="/host/'+argux_host+'/'+item.key+'/details" aria-label="Details">'
-                      + '<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>'
-                      + '</a>'
-                      + '</td>'
-                      + '</tr>';
+                    categories[category]+='<tr>' +
+                      '<td>' +
+                      '<a href="/host/'+argux_host+'/'+item.key+'/details">' +
+                      name +
+                      '</a>' +
+                      '</td>' +
+                      '<td></td>' +
+                      '<td class="hidden-xs"></td>' +
+                      '<td class="hidden-xs"></td>' +
+                      '<td class="col-md-1 item-details">' +
+                      '<a href="/host/'+argux_host+'/'+item.key+'/stats" aria-label="Stats">' +
+                      '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>' +
+                      '</a>&nbsp;' +
+                      '<a href="/host/'+argux_host+'/'+item.key+'/details" aria-label="Details">' +
+                      '<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>' +
+                      '</a>' +
+                      '</td>' +
+                      '</tr>';
                 });
 
                 // Determine if a panel was collapsed before the refresh.
