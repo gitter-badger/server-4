@@ -16,17 +16,16 @@ $(function() {
                 $.each(json.items, function(i, item) {
 
                     var category = 'global';
+                    var item_name = item.key;
 
                     // Pick a category
                     if (item.category !== null) {
                         category = item.category;
                     }
 
-                    // If name does not exist, show the key.
+                    // If name exists, don't use the key.
                     if (item.name !== null) {
                         item_name = item.name;
-                    } else {
-                        item_name = item.key;
                     }
 
                     categories[category]+='<tr>' +
