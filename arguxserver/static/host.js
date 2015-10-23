@@ -58,40 +58,42 @@ $(function() {
                 $('#items').empty();
 
                 for (var key in categories) {
-                    $('#items').append(
-                        '<div class="panel panel-default">' +
-                        '<div class="panel-heading">' +
-                        '<a data-toggle="collapse" data-target="#table-items-'+key+'">' +
-                        ' <span class="badge">'+alerts[key]+'</span>' +
-                        '</a>' +
-                        '</div>' +
-                        '<div class="collapse in" id="table-items-'+key+'">' +
-                        '<table class="table table-striped">' +
-                        '<thead>' +
-                        '<tr>' + 
-                        '<th>Name</th>' +
-                        '<th>Value</th>' +
-                        '<th class="hidden-xs">Timestamp</th>' +
-                        '<th class="hidden-xs">Last Checked</th>' +
-                        '<th></th>' +
-                        '</tr>' +
-                        '</thead>' +
-                        '<tbody>' +
-                        '<tbody id="items-'+key+'">' +
-                        '</tbody>' +
-                        '</table>' +
-                        '</div>' +
-                        '</div>');
+                    if (categories.hasOwnProperty(key)) {
+                        $('#items').append(
+                            '<div class="panel panel-default">' +
+                            '<div class="panel-heading">' +
+                            '<a data-toggle="collapse" data-target="#table-items-'+key+'">' +
+                            ' <span class="badge">'+alerts[key]+'</span>' +
+                            '</a>' +
+                            '</div>' +
+                            '<div class="collapse in" id="table-items-'+key+'">' +
+                            '<table class="table table-striped">' +
+                            '<thead>' +
+                            '<tr>' + 
+                            '<th>Name</th>' +
+                            '<th>Value</th>' +
+                            '<th class="hidden-xs">Timestamp</th>' +
+                            '<th class="hidden-xs">Last Checked</th>' +
+                            '<th></th>' +
+                            '</tr>' +
+                            '</thead>' +
+                            '<tbody>' +
+                            '<tbody id="items-'+key+'">' +
+                            '</tbody>' +
+                            '</table>' +
+                            '</div>' +
+                            '</div>');
 
-                    // Collapse panels that were collapsed before the refresh.
-                    if (collapsed[key] === false) {
-                        $('#table-items-'+key).removeClass('in');
+                        // Collapse panels that were collapsed before the refresh.
+                        if (collapsed[key] === false) {
+                            $('#table-items-'+key).removeClass('in');
+                        }
+
+                        // Add the panel-content.
+                        $('#items-'+key).append(
+                            categories[key]
+                            );
                     }
-
-                    // Add the panel-content.
-                    $('#items-'+key).append(
-                        categories[key]
-                        );
                 }
                 /*
                 $("#hosts tr").click(function() {
