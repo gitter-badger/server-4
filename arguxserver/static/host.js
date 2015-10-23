@@ -12,11 +12,11 @@ $(function() {
 
 
                 // Build the panel contents.
-                $.each(json['items'], function(i, item) {
+                $.each(json.items, function(i, item) {
 
                     // Pick a category
-                    if (item['category']) {
-                        category = item['category'];
+                    if (item.category) {
+                        category = item.category;
                     } else {
                         category = 'global';
                     }
