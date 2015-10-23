@@ -18,7 +18,7 @@ $(function() {
                     var category = 'global';
 
                     // Pick a category
-                    if (item.category !=== null) {
+                    if (item.category !== null) {
                         category = item.category;
                     }
 
