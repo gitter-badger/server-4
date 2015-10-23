@@ -63,6 +63,7 @@ $(function() {
                             '<div class="panel panel-default">' +
                             '<div class="panel-heading">' +
                             '<a data-toggle="collapse" data-target="#table-items-'+key+'">' +
+                            key +
                             ' <span class="badge">'+alerts[key]+'</span>' +
                             '</a>' +
                             '</div>' +
