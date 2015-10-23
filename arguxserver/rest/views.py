@@ -74,8 +74,8 @@ class RestViews:
                 status='201 Created',
                 content_type='application/json')
 
-        if (self.request.method == "POST"):
-            return {'fqdn':'POST'}
+        if (self.request.method == "PUT"):
+            return {'fqdn':'PUT'}
 
     @view_config(route_name='item_1')
     def items(self):
@@ -124,7 +124,9 @@ class RestViews:
                 if (c == None):
                     c = models.ItemCategory(name=category)
 
-            i = models.Item(host_id=h.id, key=item, name=n, category=c)
+            t = models.DBSession.query(models.ItemType).filter(models.ItemType.name == _type).first()
+
+            i = models.Item(host_id=h.id, key=item, name=n, category=c, itemtype=t)
             models.DBSession.add(i)
             return Response(
                 status='201 Created',
