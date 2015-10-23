@@ -1,7 +1,8 @@
+/* globals ARGUX_HOST: false */
 $(function() {
     function doPoll() {
         $.ajax({
-            url: "/argux/rest/1.0/host/"+argux_host,
+            url: "/argux/rest/1.0/host/"+ARGUX_HOST,
             type: "GET",
             dataType: "json",
             success: function(json) {
@@ -14,34 +15,34 @@ $(function() {
                 // Build the panel contents.
                 $.each(json.items, function(i, item) {
 
+                    var category = 'global';
+
                     // Pick a category
-                    if (item.category) {
+                    if (item.category !=== null) {
                         category = item.category;
-                    } else {
-                        category = 'global';
                     }
 
                     // If name does not exist, show the key.
-                    if (item.name != null) {
-                        name = item.name
+                    if (item.name !== null) {
+                        item_name = item.name;
                     } else {
-                        name = item.key
+                        item_name = item.key;
                     }
 
                     categories[category]+='<tr>' +
                       '<td>' +
-                      '<a href="/host/'+argux_host+'/'+item.key+'/details">' +
-                      name +
+                      '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/details">' +
+                      item_name +
                       '</a>' +
                       '</td>' +
                       '<td></td>' +
                       '<td class="hidden-xs"></td>' +
                       '<td class="hidden-xs"></td>' +
                       '<td class="col-md-1 item-details">' +
-                      '<a href="/host/'+argux_host+'/'+item.key+'/stats" aria-label="Stats">' +
+                      '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/stats" aria-label="Stats">' +
                       '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>' +
                       '</a>&nbsp;' +
-                      '<a href="/host/'+argux_host+'/'+item.key+'/details" aria-label="Details">' +
+                      '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/details" aria-label="Details">' +
                       '<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>' +
                       '</a>' +
                       '</td>' +
@@ -59,35 +60,32 @@ $(function() {
 
                 for (var key in categories) {
                     $('#items').append(
-                        '<div class="panel panel-default">'
-                        +'<div class="panel-heading">'
-                        //+'<button class="btn btn-default btn-lr" '
-                        +'<a '
-                        +' data-toggle="collapse" data-target="#table-items-'+key+'">'
-                        +key
-                        +' <span class="badge">'+alerts[key]+'</span>'
-                        +'</a>'
-                        +'</div>'
-                        +'<div class="collapse in" id="table-items-'+key+'">'
-                        +'<table class="table table-striped">'
-                        +'<thead>'
-                        +'<tr>'
-                        +'<th>Name</th>'
-                        +'<th>Value</th>'
-                        +'<th class="hidden-xs">Timestamp</th>'
-                        +'<th class="hidden-xs">Last Checked</th>'
-                        +'<th></th>'
-                        +'</tr>'
-                        +'</thead>'
-                        +'<tbody>'
-                        +'<tbody id="items-'+key+'">'
-                        +'</tbody>'
-                        +'</table>'
-                        +'</div>'
-                        +'</div>');
+                        '<div class="panel panel-default">' +
+                        '<div class="panel-heading">' +
+                        '<a data-toggle="collapse" data-target="#table-items-'+key+'">' +
+                        ' <span class="badge">'+alerts[key]+'</span>' +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="collapse in" id="table-items-'+key+'">' +
+                        '<table class="table table-striped">' +
+                        '<thead>' +
+                        '<tr>' + 
+                        '<th>Name</th>' +
+                        '<th>Value</th>' +
+                        '<th class="hidden-xs">Timestamp</th>' +
+                        '<th class="hidden-xs">Last Checked</th>' +
+                        '<th></th>' +
+                        '</tr>' +
+                        '</thead>' +
+                        '<tbody>' +
+                        '<tbody id="items-'+key+'">' +
+                        '</tbody>' +
+                        '</table>' +
+                        '</div>' +
+                        '</div>');
 
                     // Collapse panels that were collapsed before the refresh.
-                    if (collapsed[key] == false) {
+                    if (collapsed[key] === false) {
                         $('#table-items-'+key).removeClass('in');
                     }
 
