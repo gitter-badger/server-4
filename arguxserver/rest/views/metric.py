@@ -9,6 +9,11 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
+from arguxserver.dao import (
+    HostDAO,
+    ItemDAO
+    )
+
 @view_defaults(renderer='json')
 class RestMetricViews:
     def __init__(self, request):
@@ -43,8 +48,9 @@ class RestMetricViews:
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "value not specified"}')
 
-        h = models.DBSession.query(models.Host).filter(models.Host.name == host).first()
-        i = models.DBSession.query(models.Item).filter(models.Item.host == h).filter(models.Item.key == item)
+        h = HostDAO.getHostByName(host)
+        i = ItemDAO.getItemByName(host, item)
+
         return Response(
             status='201 Created',
             content_type='application/json; charset=UTF-8')

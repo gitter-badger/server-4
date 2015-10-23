@@ -7,7 +7,13 @@ from pyramid.view import (
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
 
-from arguxserver import models
+from arguxserver.dao import (
+    HostDAO,
+    ItemCategoryDAO,
+    ItemNameDAO,
+    ItemTypeDAO,
+    ItemDAO
+    )
 
 @view_defaults(renderer='json')
 class RestItemViews:
@@ -65,21 +71,21 @@ class RestItemViews:
                 body='{"error": "400 Bad Request", "message": "type not specified"}')
         n = None
         c = None 
-        h = models.DBSession.query(models.Host).filter(models.Host.name == host).first()
+
+        h = HostDAO.getHostByName(host)
         if (name != None and description != None):
-            n = models.DBSession.query(models.ItemName).filter(models.ItemName.name == name).first()
+            n = ItemNameDAO.getItemNameByName(name)
             if (n == None):
-                n = models.ItemName(name=name, description=description)
+                n = ItemNameDAO.createItemName(name, description)
 
         if (category != None):
-            c = models.DBSession.query(models.ItemCategory).filter(models.ItemCategory.name == category).first()
+            c = ItemCategoryDAO.getItemCategoryByName(category)
             if (c == None):
-                c = models.ItemCategory(name=category)
+                c = ItemCategoryDAO.createItemCategory(category)
 
-        t = models.DBSession.query(models.ItemType).filter(models.ItemType.name == _type).first()
+        t = ItemTypeDAO.getItemTypeByName(_type)
 
-        i = models.Item(host_id=h.id, key=item, name=n, category=c, itemtype=t)
-        models.DBSession.add(i)
+        i = ItemDAO.createItem(h, item, n, c, t)
         return Response(
             status='201 Created',
             content_type='application/json; charset=UTF-8')
