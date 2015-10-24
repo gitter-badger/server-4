@@ -15,29 +15,29 @@ from arguxserver.dao import (
     )
 
 @view_defaults(renderer='json')
-class RestMetricViews:
+class RestValuesViews:
     def __init__(self, request):
         self.request = request
 
-    @view_config(route_name='metric_1')
-    def metric_1_view(self):
+    @view_config(route_name='values_1')
+    def values_1_view(self):
 
         host = self.request.matchdict['host']
         item = self.request.matchdict['item']
 
         if (self.request.method == "GET"):
-            self.metric_1_view_read(host, item)
+            self.values_1_view_read(host, item)
 
         if (self.request.method == "POST"):
-            self.metric_1_view_create(host, item)
+            self.values_1_view_create(host, item)
 
-    def metric_1_view_read(self, host, item):
+    def values_1_view_read(self, host, item):
         time = self.request.params.get('time', '60')
         start_time = self.request.params.get('start_time', '-1')
         end_time = self.request.params.get('end_time', '-1')
         return {'fqdn': host, 'item': item, 'time': time}
 
-    def metric_1_view_create(self, host, item):
+    def values_1_view_create(self, host, item):
         try:
             value = self.request.json_body.get('value', None)
         except ValueError:
