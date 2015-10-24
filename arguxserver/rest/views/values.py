@@ -11,8 +11,11 @@ from arguxserver import models
 
 from arguxserver.dao import (
     HostDAO,
-    ItemDAO
+    ItemDAO,
+    ValuesDAO
     )
+
+import dateutil.parser
 
 @view_defaults(renderer='json')
 class RestValuesViews:
@@ -40,6 +43,7 @@ class RestValuesViews:
     def values_1_view_create(self, host, item):
         try:
             value = self.request.json_body.get('value', None)
+            ts = self.request.json_body.get('timestamp', None)
         except ValueError:
             value= None
             return Response(
@@ -49,7 +53,11 @@ class RestValuesViews:
                 body='{"error": "400 Bad Request", "message": "value not specified"}')
 
         h = HostDAO.getHostByName(host)
-        i = ItemDAO.getItemByName(host, item)
+        i = ItemDAO.getItemByHostKey(h, item)
+
+        t = dateutil.parser.parse(ts)
+
+        ValuesDAO.pushValue(i, t, value)
 
         return Response(
             status='201 Created',

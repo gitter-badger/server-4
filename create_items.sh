@@ -47,3 +47,11 @@ curl -X POST \
         \"type\":\"int\"
         }" \
      $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/sys.uptime
+
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d "{
+        \"value\":\"0.12\",
+        \"timestamp\":\"2015-12-31T22:11:10Z\"
+        }" \
+    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/cpu.load.avg\\\[1\\\]/values

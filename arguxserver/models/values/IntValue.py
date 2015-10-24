@@ -14,11 +14,11 @@ from sqlalchemy.orm import (
     relationship
     )
 
-from . import Base
+from .. import Base
 
 class IntValue(Base):
     __tablename__ = 'history_int'
     id = Column(Integer, primary_key=True)
     value = Column(Integer, nullable=True)
     timestamp = Column(DateTime, nullable=False)
-    item_id = Column(Integer, ForeignKey('item.id') nullable=False)
+    item_id = Column(Integer, ForeignKey('item.id'), nullable=False)

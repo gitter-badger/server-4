@@ -8,7 +8,7 @@ from arguxserver.models import (
     )
 
 def getItemByHostKey(host, key):
-    i = DBSession.query(Item).filter(Item.host == host).filter(Item.key == key).first()
+    i = DBSession.query(Item).filter(Item.host_id == host.id).filter(Item.key == key).first()
     return i
 
 def createItem(host, key, name, category, itemtype):

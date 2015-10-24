@@ -15,3 +15,6 @@ from .Item import Item
 from .ItemType import ItemType
 from .ItemName import ItemName
 from .ItemCategory import ItemCategory
+
+from .values.IntValue import IntValue
+from .values.FloatValue import FloatValue
