@@ -9,7 +9,7 @@ var data = {
         {
             label: "My First dataset",
             fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
+            strokeColor: "rgba(110,110,220,1)",
             pointColor: "rgba(220,220,220,1)",
             pointStrokeColor: "#fff",
             pointHighlightFill: "#fff",
@@ -46,7 +46,7 @@ $(function() {
                     myNewChart.destroy();
                 }
 
-                myNewChart = new Chart(ctx).Line(data, {animation: false});
+                myNewChart = new Chart(ctx).Line(data, {animation: false, showTooltips: false, pointDot: false});
 
                 setTimeout(doPoll, 30000);
             }
