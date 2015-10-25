@@ -91,7 +91,7 @@ class RestViews:
             else:
                 category = None
 
-            v = ValuesDAO.getValues(a)
+            v = ValuesDAO.getLastValue(a)
 
             if (v):
                 items.append({

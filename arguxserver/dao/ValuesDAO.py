@@ -1,3 +1,4 @@
+from datetime import datetime
 
 from arguxserver.models import (
     DBSession,
@@ -21,5 +22,10 @@ def pushValue(item, timestamp, value):
 
 def getValues(item):
     klass = __push_value_class.get(item.itemtype.name, lambda: "nothing")
-    c = DBSession.query(klass).filter(klass.item_id == item.id).first()
+    c = DBSession.query(klass).filter(klass.item_id == item.id).filter(klass.timestamp > datetime.now()).order_by(klass.timestamp.asc()).all()
+    return c
+
+def getLastValue(item):
+    klass = __push_value_class.get(item.itemtype.name, lambda: "nothing")
+    c = DBSession.query(klass).filter(klass.item_id == item.id).order_by(klass.timestamp.desc()).first()
     return c

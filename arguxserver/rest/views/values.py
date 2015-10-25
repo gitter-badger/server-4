@@ -29,7 +29,7 @@ class RestValuesViews:
         item = self.request.matchdict['item']
 
         if (self.request.method == "GET"):
-            self.values_1_view_read(host, item)
+            return self.values_1_view_read(host, item)
 
         if (self.request.method == "POST"):
             self.values_1_view_create(host, item)
@@ -62,7 +62,10 @@ class RestValuesViews:
     #
     def values_1_view_read(self, host, item):
 
-        query = self.request.json_body.get('query', None)
+        values = []
+        #query = self.request.json_body.get('query', None)
+        query = self.request.params.get('query', None)
+        show_date = self.request.params.get('show_date', 'true')
 
         if (query == None):
             return Response(
@@ -71,18 +74,24 @@ class RestValuesViews:
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "query not specified"}')
 
+        if (show_date == True):
+            date_fmt = "%Y-%m-%dT%H:%M:%S"
+        else:
+            date_fmt = "%H:%M"
+
         h = HostDAO.getHostByName(host)
         i = ItemDAO.getItemByHostKey(h, item)
 
-        value = ValuesDAO.getValues(i)
+        v = ValuesDAO.getValues(i)
 
-        values = {
-            'ts': value.timestamp,
+        for value in v:
+            values.append ( {
+            'ts': value.timestamp.strftime(date_fmt),
             'value': value.value
-            }
+            } )
 
         return {
                 'host': host,
                 'item': item,
-                'values': [values] }
+                'values': values }
 
