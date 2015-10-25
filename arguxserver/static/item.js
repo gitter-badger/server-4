@@ -1,3 +1,6 @@
+/* globals Chart: false */
+
+Chart.defaults.global.responsive = true;
 
 var data = {
     labels: ["January", "February", "March", "April", "May", "June", "July"],
