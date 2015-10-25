@@ -9,6 +9,12 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
+from arguxserver.dao import (
+    HostDAO,
+    ItemDAO,
+    ValuesDAO
+    )
+
 @view_defaults(renderer='json')
 class RestViews:
     def __init__(self, request):
@@ -21,11 +27,11 @@ class RestViews:
         if (h == None):
             return HTTPNotFound()
 
-        items = []
+        hosts = []
         for a in h:
             items.append(a.name)
 
-        return { 'hosts': items }
+        return { 'hosts': hosts }
 
     @view_config(route_name='host_1')
     def host_1_view(self):
@@ -37,19 +43,26 @@ class RestViews:
             charset='UTF-8',
             body='{"error": "500 Internal Server Error", "message": "dunno"}')
 
-        host  = self.request.matchdict['host']
-        items = self.request.params.get('items', 'NONE')
+        host    = self.request.matchdict['host']
+        details = self.request.params.get('details', 'false')
 
         if (self.request.method == "GET"):
-            ret = self.host_1_view_read(host, items)
+            ret = self.host_1_view_read(host, details)
 
         if (self.request.method == "POST"):
-            ret = self.host_1_view_create(host, items)
+            ret = self.host_1_view_create(host)
 
         return ret
 
-    def host_1_view_read(self, host, items):
-        h = models.DBSession.query(models.Host).filter(models.Host.name == host).first()
+    def host_1_view_create(self, host):
+        h = models.Host(name=host)
+        models.DBSession.add(h)
+        return Response(
+            status='201 Created',
+            content_type='application/json')
+
+    def host_1_view_read(self, host, details):
+        h = HostDAO.getHostByName(host)
 
         if (h == None):
             return Response(
@@ -58,7 +71,13 @@ class RestViews:
                 charset='utf-8',
                 body='{"error":"NOT FOUND"}')
 
-        i = models.DBSession.query(models.Item).filter(models.Item.host_id == h.id)
+        i = ItemDAO.getItemsFromHost(h)
+        if (i == None):
+            return Response(
+                status="404 Not Found",
+                content_type='application/json',
+                charset='utf-8',
+                body='{"error":"NOT FOUND"}')
 
         items = []
         for a in i:
@@ -72,19 +91,23 @@ class RestViews:
             else:
                 category = None
 
-            items.append({
-                "category": category,
-                "name": name,
-                "key": a.key})
+            v = ValuesDAO.getValues(a)
+
+            if (v):
+                items.append({
+                    "category": category,
+                    "name": name,
+                    "key": a.key,
+                    "last_val": v.value,
+                    "last_ts": v.timestamp.strftime("%Y-%m-%dT%H:%M:%S")})
+            else:
+                items.append({
+                    "category": category,
+                    "name": name,
+                    "key": a.key })
 
         return {
             'name' : h.name,
             'items': items
             }
 
-    def host_1_view_create(self, host, items):
-        h = models.Host(name=host)
-        models.DBSession.add(h)
-        return Response(
-            status='201 Created',
-            content_type='application/json')

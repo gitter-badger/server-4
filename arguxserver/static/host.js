@@ -2,7 +2,7 @@
 $(function() {
     function doPoll() {
         $.ajax({
-            url: "/argux/rest/1.0/host/"+ARGUX_HOST,
+            url: "/argux/rest/1.0/host/"+ARGUX_HOST+"?details=true",
             type: "GET",
             dataType: "json",
             success: function(json) {
@@ -17,6 +17,8 @@ $(function() {
 
                     var category = 'global';
                     var item_name = item.key;
+                    var item_value = 'unknown';
+                    var item_time = '-';
 
                     // Pick a category
                     if (item.category !== null) {
@@ -28,15 +30,23 @@ $(function() {
                         item_name = item.name;
                     }
 
+                    //
+                    if (item.last_ts !== undefined) {
+                        item_time = item.last_ts;
+                    }
+
+                    if (item.last_val !== undefined) {
+                        item_value = item.last_val;
+                    }
+
                     categories[category]+='<tr>' +
                       '<td>' +
                       '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/details">' +
                       item_name +
                       '</a>' +
                       '</td>' +
-                      '<td></td>' +
-                      '<td class="hidden-xs"></td>' +
-                      '<td class="hidden-xs"></td>' +
+                      '<td>' + item_value + '</td>' +
+                      '<td class="hidden-xs">' + item_time +'</td>' +
                       '<td class="col-md-1 item-details">' +
                       '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/stats" aria-label="Stats">' +
                       '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>' +
@@ -74,7 +84,6 @@ $(function() {
                             '<th>Name</th>' +
                             '<th>Value</th>' +
                             '<th class="hidden-xs">Timestamp</th>' +
-                            '<th class="hidden-xs">Last Checked</th>' +
                             '<th></th>' +
                             '</tr>' +
                             '</thead>' +

@@ -7,6 +7,10 @@ from arguxserver.models import (
     Item
     )
 
+def getItemsFromHost(host):
+    i = DBSession.query(Item).filter(Item.host_id == host.id)
+    return i
+
 def getItemByHostKey(host, key):
     i = DBSession.query(Item).filter(Item.host_id == host.id).filter(Item.key == key).first()
     return i
