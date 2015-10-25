@@ -17,6 +17,7 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
+    'python-dateutil >= 2.4',
     ]
 
 setup(name='argux-server',
