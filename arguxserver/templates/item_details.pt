@@ -54,13 +54,18 @@
                 <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span></a>
             <button type="button" class="btn btn-primary">${argux_item}</button>
         </div>
-        <div class="page-header">
-        <h1>${argux_item}</h1>
+        <div class="container-fluid">
+        <div class="col-md-7">
+            <div class="page-header">
+            <h1>${argux_item}</h1>
+            </div>
         </div>
-        <div>
-            <canvas id="myChart"></canvas>
+        <div class="col-md-3 pull-right">
+            <div class="child">
+            <canvas id="myChart" class="child"></canvas>
+            </div>
         </div>
-    
+        </div>
     </div>
 
     <!-- Bootstrap core JavaScript

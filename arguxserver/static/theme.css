@@ -7,3 +7,8 @@
 .item-details {
     text-align: right;
 }
+
+.child {
+    width: 100%;
+    height: 100%;
+}
