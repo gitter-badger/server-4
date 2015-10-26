@@ -9,8 +9,8 @@ from arguxserver.models import (
 
 # Map
 __push_value_class = {
-    "int" : FloatValue,
-    "float" : IntValue
+    "int" : IntValue,
+    "float" : FloatValue
 }
 
 
