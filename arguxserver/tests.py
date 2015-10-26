@@ -12,10 +12,10 @@ class ViewTests(unittest.TestCase):
         testing.tearDown()
 
     def test_rest_view(self):
-        from .views import RestViews
+        from .views import MainViews
         #request = testing.DummyRequest(params={'host':'a','items':'b'},path='/argux/rest/1.0/host/a')
         r = request.Request.blank(path='/argux/rest/1.0/a/b')
-        r.matchdict = {'host':'a','item':'b'}
-        v = RestViews(r)
-        info = v.items()
-        self.assertEqual(info['fqdn'], 'a')
+        r.matchdict = {'host':'localhost','item':'NONE'}
+        v = MainViews(r)
+        info = v.item_details()
+        #self.assertEqual(info['fqdn'], 'a')
