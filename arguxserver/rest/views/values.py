@@ -74,8 +74,9 @@ class RestValuesViews:
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "query not specified"}')
 
-        if (show_date == True):
-            date_fmt = "%Y-%m-%dT%H:%M:%S"
+        if (show_date == 'false'):
+            #date_fmt = "%Y-%m-%dT%H:%M:%S"
+            date_fmt = "%m/%d/%Y %H:%M:%S"
         else:
             date_fmt = "%H:%M"
 

@@ -1,27 +1,58 @@
 /* globals Chart: false */
 /* globals ARGUX_HOST: false */
 
-Chart.defaults.global.responsive = true;
-
-var data = {
-    labels: [],
-    datasets: [
-        {
-            label: "My First dataset",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(110,110,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: []
-        }
-    ]
+var config = {
+    type: 'line',
+    data: {
+        datasets: [
+            {
+                label: ARGUX_ITEM,
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(110,110,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            xAxes: [{
+                type: "time",
+                display: true,
+                time: {
+                    format: 'MM/DD/YYYY HH:mm:SS',
+                    //round: 'min'
+                },
+                scaleLabel: {
+                    show: true,
+                    labelString: 'Date'
+                }
+            }, ],
+            yAxes: [{
+                display: true,
+                ticks: {
+                    beginAtZero: true,
+                },
+                scaleLabel: {
+                    show: true,
+                    labelString: 'value'
+                }
+            }]
+        },
+        elements: {
+            line: {
+                tension: 0.3
+            }
+        },
+    }
 };
 
 // Get the context of the canvas element we want to select
 var ctx = document.getElementById("myChart").getContext("2d");
-var myNewChart = null;
+var myNewChart = new Chart(ctx, config);
 
 $(function() {
     function doPoll() {
@@ -31,24 +62,19 @@ $(function() {
             dataType: "json",
             success: function(json) {
 
-                var labels = [];
                 var datapoints = [];
 
                 $.each(json.values, function(i, value) {
-                    labels.push(value.ts);
-                    datapoints.push(value.value);
+                    datapoints.push({
+                        x: value.ts,
+                        y: value.value});
                 });
 
-                data.datasets[0].data = datapoints;
-                data.labels = labels;
+                config.data.datasets[0].data = datapoints;
 
-                if (myNewChart !== null) {
-                    myNewChart.destroy();
-                }
+                myNewChart.update();
 
-                myNewChart = new Chart(ctx).Line(data, {animation: false, showTooltips: false, pointDot: false});
-
-                setTimeout(doPoll, 30000);
+                setTimeout(doPoll, 3000);
             }
         });
     }
