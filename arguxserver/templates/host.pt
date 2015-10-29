@@ -45,18 +45,29 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid">
+    <div class="body container-fluid">
+        <div class="page-header">
+        <h1>${argux_host}</h1>
+        </div>
+        <!--
         <div class="alerts">
             <div class="alert alert-info" role="alert"><p>Alerts are not yet implemented</p></div>
         </div>
-        <div id="items">
+        -->
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#">Metrics</a></li>
+          <li><a href="#">Details</a></li>
+          <li><a href="#">Alerts<span class="badge warning">2</span></a></li>
+          <li><a href="#">Notes <span class="badge">2</span></a></li>
+        </ul>
+        <div class="host-items" id="items">
         </div>
     </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="//oss.maxcdn.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="${request.static_url('arguxserver:static/js/jquery.min.js')}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="${request.static_url('arguxserver:static/host.js')}"></script>
   </body>

@@ -7,8 +7,10 @@ $(function() {
             dataType: "json",
             success: function(json) {
 
-                var categories = {'global':'', 'net':''};
-                var alerts     = {'global':'', 'net':''};
+                //var categories = {'global':'', 'net':'', 'storage':''};
+                //var alerts     = {'global':'', 'net':'', 'storage':''};
+                var categories = {}
+                var alerts     = {}
                 var collapsed  = {};
 
 
@@ -39,6 +41,11 @@ $(function() {
                         item_value = item.last_val;
                     }
 
+                    /* Initialise alerts to '' */
+                    if (alerts.hasOwnProperty(category) === false) {
+                        alerts[category] = '';
+                    }
+
                     categories[category]+='<tr>' +
                       '<td>' +
                       '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/details">' +
@@ -47,7 +54,7 @@ $(function() {
                       '</td>' +
                       '<td>' + item_value + '</td>' +
                       '<td class="hidden-xs">' + item_time +'</td>' +
-                      '<td class="col-md-1 item-details">' +
+                      '<td class="item-details">' +
                       '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/stats" aria-label="Stats">' +
                       '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>' +
                       '</a>&nbsp;' +
@@ -82,9 +89,9 @@ $(function() {
                             '<thead>' +
                             '<tr>' + 
                             '<th>Name</th>' +
-                            '<th>Value</th>' +
-                            '<th class="hidden-xs">Timestamp</th>' +
-                            '<th></th>' +
+                            '<th class="col-xs-2">Value</th>' +
+                            '<th class="col-sm-3 hidden-xs">Timestamp</th>' +
+                            '<th class="col-xs-1 col-sm-1"></th>' +
                             '</tr>' +
                             '</thead>' +
                             '<tbody>' +
@@ -105,6 +112,7 @@ $(function() {
                             );
                     }
                 }
+
                 /*
                 $("#hosts tr").click(function() {
                     var href = $(this).find("a").attr("href");

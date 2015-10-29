@@ -1,9 +1,5 @@
 @import url(//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700);
 
-.alerts {
-    margin-top: 70px;
-};
-
 .item-details {
     text-align: right;
 }
@@ -11,4 +7,17 @@
 .child {
     width: 100%;
     height: 100%;
+}
+
+div.body {
+    margin-top: 60px;
+}
+
+.page-header {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.host-items {
+    margin-top: 10px;
 }
