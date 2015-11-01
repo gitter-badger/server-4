@@ -21,3 +21,7 @@ div.body {
 div.host-items {
     margin-top: 10px;
 }
+
+div.notes-toolbar {
+    margin: 20px 0;
+}

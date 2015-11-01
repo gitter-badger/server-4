@@ -70,7 +70,59 @@
             <a tal:attributes="href '/host/'+argux_host+'/'+item" tal:content="item_l[repeat.item.index]"></a>
           </li>
         </ul>
-        <div class="host-details" id="details">
+        <div
+            tal:condition="action=='notes'"
+            class="host-details container"
+            id="details">
+            <nav>
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li>
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+              <div class="pull-right">
+                  <div class="btn-toolbar notes-toolbar">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                  </div>
+              </div>
+            </nav>
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3 class="panel-title">Title</h3></div>
+                <div class="panel-body">
+                    <div>
+                    Koffie
+                    </div>
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>
+                    </div>
+                </div>
+                <div class="panel-footer">Author</div>
+            </div>
+            <div>
+              <ul class="pagination">
+                <li>
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li><a href="#">1</a></li>
+                <li>
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
         </div>
     </div>
 
@@ -79,6 +131,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="${request.static_url('arguxserver:static/js/jquery.min.js')}"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="${request.static_url('arguxserver:static/host_detail.js')}"></script>
+    <script src="${request.static_url('arguxserver:static/host_details.js')}"></script>
   </body>
 </html>
