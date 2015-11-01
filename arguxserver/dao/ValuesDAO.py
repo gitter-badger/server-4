@@ -34,10 +34,13 @@ def getValues(item):
             .order_by(klass.timestamp.desc()) \
             .first()
 
+    if (c == None):
+        return []
+
     # Get all values of the last 15 minutes before the last.
     a = DBSession.query(klass) \
             .filter(klass.item_id == item.id) \
-            .filter(klass.timestamp > c.timestamp - timedelta(minutes=20)) \
+            .filter(klass.timestamp > c.timestamp - timedelta(minutes=60)) \
             .order_by(klass.timestamp.asc()) \
             .all()
     return a

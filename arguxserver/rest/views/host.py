@@ -29,7 +29,7 @@ class RestViews:
 
         hosts = []
         for a in h:
-            items.append(a.name)
+            hosts.append({"name": a.name, "val": 0})
 
         return { 'hosts': hosts }
 
@@ -50,7 +50,7 @@ class RestViews:
             ret = self.host_1_view_read(host, details)
 
         if (self.request.method == "POST"):
-            ret = self.host_1_view_create(host)
+           ret = self.host_1_view_create(host)
 
         return ret
 

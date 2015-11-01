@@ -48,17 +48,17 @@ $(function() {
 
                     categories[category]+='<tr>' +
                       '<td>' +
-                      '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/details">' +
+                      '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/details">' +
                       item_name +
                       '</a>' +
                       '</td>' +
                       '<td>' + item_value + '</td>' +
                       '<td class="hidden-xs">' + item_time +'</td>' +
                       '<td class="item-details">' +
-                      '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/stats" aria-label="Stats">' +
+                      '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/stats" aria-label="Stats">' +
                       '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>' +
                       '</a>&nbsp;' +
-                      '<a href="/host/'+ARGUX_HOST+'/'+item.key+'/details" aria-label="Details">' +
+                      '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/details" aria-label="Details">' +
                       '<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>' +
                       '</a>' +
                       '</td>' +
