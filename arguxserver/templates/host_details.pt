@@ -55,7 +55,10 @@
           <li class="active">${argux_host}</li>
         </ol>
         <div class="page-header">
-        <h1>${argux_host}</h1>
+        <h1>${argux_host}<a href="#" class="btn"><span class="glyphicon glyphicon-chevron-up"></span></a></h1>
+        <div class="hidden">
+        Some description
+        </div>
         </div>
         <!--
         <div class="alerts">
@@ -64,8 +67,8 @@
         -->
         <ul class="nav nav-tabs">
           <li><a href="/host/${argux_host}">Metrics</a></li>
-          <li tal:define="item_l ('Details', 'Alerts', 'Notes')"
-              tal:repeat="item ('details', 'alerts', 'notes')"
+          <li tal:define="item_l ('Details', 'Metrics', 'Alerts', 'Notes')"
+              tal:repeat="item ('details', 'metrics', 'alerts', 'notes')"
               tal:attributes="class 'active' if item==action else nothing">
             <a tal:attributes="href '/host/'+argux_host+'/'+item" tal:content="item_l[repeat.item.index]"></a>
           </li>
