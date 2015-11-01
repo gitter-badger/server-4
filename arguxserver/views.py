@@ -29,9 +29,9 @@ class MainViews:
     @view_config(route_name='host', renderer='templates/host.pt')
     def host(self):
         host = self.request.matchdict['host']
-        return {"argux_host": host}
+        return {"argux_host": host, "action": 'details'}
 
-    @view_config(route_name='host_details', renderer='templates/host_details.pt')
+    @view_config(route_name='host_details', renderer='templates/host.pt')
     def host_details(self):
         host = self.request.matchdict['host']
         action = self.request.matchdict['action']

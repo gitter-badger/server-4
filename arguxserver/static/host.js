@@ -2,6 +2,7 @@
 /* globals ARGUX_HOST_ACTION: false */
 
 $(function() {
+if (ARGUX_HOST_ACTION=='metrics') {
     function doPoll() {
         $.ajax({
             url: "/argux/rest/1.0/host/"+ARGUX_HOST+"?details=true",
@@ -25,8 +26,7 @@ $(function() {
                     var item_time = '-';
 
                     // Pick a category
-                    if (item.category !== null) {
-                        category = item.category;
+                    if (item.category !== null) { category = item.category;
                     }
 
                     // If name exists, don't use the key.
@@ -128,6 +128,7 @@ $(function() {
         });
     }
     doPoll();
+}
 });
 
 

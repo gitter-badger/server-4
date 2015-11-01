@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="${request.locale_name}">
+<html lang="${request.locale_name}"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,6 +26,7 @@
     <![endif]-->
     <script type="text/javascript">
         var ARGUX_HOST="${argux_host}";
+        var ARGUX_HOST_ACTION="${action}";
     </script>
   </head>
 
@@ -51,7 +55,10 @@
           <li class="active">${argux_host}</li>
         </ol>
         <div class="page-header">
-        <h1>${argux_host}</h1>
+        <h1>${argux_host}<a href="#" class="btn"><span class="glyphicon glyphicon-chevron-up"></span></a></h1>
+        <div class="hidden">
+        Some description
+        </div>
         </div>
         <!--
         <div class="alerts">
@@ -59,13 +66,16 @@
         </div>
         -->
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#">Metrics</a></li>
-          <li><a href="/host/${argux_host}/details">Details</a></li>
-          <li><a href="/host/${argux_host}/alerts">Alerts</a></li>
-          <li><a href="/host/${argux_host}/notes">Notes</a></li>
+          <li tal:define="item_l ('Details', 'Metrics', 'Alerts', 'Notes')"
+              tal:repeat="item ('details', 'metrics', 'alerts', 'notes')"
+              tal:attributes="class 'active' if item==action else nothing">
+            <a tal:attributes="href '/host/'+argux_host+'/'+item" tal:content="item_l[repeat.item.index]"></a>
+            <span tal:condition="action==item">
+                <span tal:define="global tmpl load: ./host_${item}.pt"/>
+            </span>
+          </li>
         </ul>
-        <div class="host-items" id="items">
-        </div>
+        <div metal:extend-macro='tmpl'></div>
     </div>
 
     <!-- Bootstrap core JavaScript
