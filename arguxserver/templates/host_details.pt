@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="${request.locale_name}">
+<html lang="${request.locale_name}"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,6 +26,7 @@
     <![endif]-->
     <script type="text/javascript">
         var ARGUX_HOST="${argux_host}";
+        var ARGUX_HOST_ACTION="${action}";
     </script>
   </head>
 
@@ -60,9 +64,11 @@
         -->
         <ul class="nav nav-tabs">
           <li><a href="/host/${argux_host}">Metrics</a></li>
-          <li class="active"><a href="#">Details</a></li>
-          <li><a href="/host/${argux_host}/alerts">Alerts<span class="badge warning">2</span></a></li>
-          <li><a href="/host/${argux_host}/notes">Notes <span class="badge">2</span></a></li>
+          <li tal:define="item_l ('Details', 'Alerts', 'Notes')"
+              tal:repeat="item ('details', 'alerts', 'notes')"
+              tal:attributes="class 'active' if item==action else nothing">
+            <a tal:attributes="href '/host/'+argux_host+'/'+item" tal:content="item_l[repeat.item.index]"></a>
+          </li>
         </ul>
         <div class="host-details" id="details">
         </div>

@@ -36,6 +36,8 @@ var config = {
                 display: true,
                 ticks: {
                     beginAtZero: true,
+                    suggestedMin: 0.0,
+                    suggestedMax: 1.0,
                 },
                 scaleLabel: {
                     show: true,
@@ -72,7 +74,6 @@ $(function() {
                 });
 
                 config.data.datasets[0].data = datapoints;
-                config.options.scales.xAxes[0].time.from = datapoints[0].x;
 
                 myNewChart.update();
 

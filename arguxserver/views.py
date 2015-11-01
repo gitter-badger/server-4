@@ -34,7 +34,8 @@ class MainViews:
     @view_config(route_name='host_details', renderer='templates/host_details.pt')
     def host_details(self):
         host = self.request.matchdict['host']
-        return {"argux_host": host}
+        action = self.request.matchdict['action']
+        return {"argux_host": host, "action": action}
 
     @view_config(route_name='item_details', renderer='templates/item_details.pt')
     def item_details(self):
