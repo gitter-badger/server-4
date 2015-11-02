@@ -26,6 +26,8 @@ def main(global_config, **settings):
     config.add_route('item_details', '/host/{host}/item/{item}/details')
     config.add_route('host_details', '/host/{host}/{action}')
 
+    config.add_route('dashboards',   '/dashboard')
+
     config.add_route('hosts_1',   '/argux/rest/1.0/host')
     config.add_route('host_1',    '/argux/rest/1.0/host/{host}')
     config.add_route('item_1',    '/argux/rest/1.0/host/{host}/item/{item}')

@@ -46,7 +46,14 @@
     </nav>
     <div class="body container-fluid">
         <ol class="breadcrumb">
-          <li class="active">Hosts</li>
+          <li class="active dropdown">Hosts
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"/>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="/dashboard">Dashboards</a></li>
+            </ul>
+          </li>
         </ol>
         <div class="row">
             <div class="col-xs-12 col-sm-4 col-md-3">
