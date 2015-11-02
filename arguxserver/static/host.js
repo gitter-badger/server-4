@@ -131,4 +131,15 @@ if (ARGUX_HOST_ACTION=='metrics') {
 }
 });
 
-
+// Show/hide details below host header.
+$("#host_detail_btn").click(function(e) {
+    var span = $('#host_detail_btn > span');
+    $('#host_detail').toggleClass('hidden');
+    if ($('#host_detail').is('.hidden')) {
+        span.addClass('glyphicon-chevron-up');
+        span.removeClass('glyphicon-chevron-down');
+    } else {
+        span.addClass('glyphicon-chevron-down');
+        span.removeClass('glyphicon-chevron-up');
+    }
+});

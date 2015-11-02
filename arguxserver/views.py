@@ -29,13 +29,15 @@ class MainViews:
     @view_config(route_name='host', renderer='templates/host.pt')
     def host(self):
         host = self.request.matchdict['host']
-        return {"argux_host": host, "action": 'details'}
+        host_desc = 'Lorem Ipsum'
+        return {"argux_host": host, "argux_host_desc": host_desc, "action": 'details'}
 
     @view_config(route_name='host_details', renderer='templates/host.pt')
     def host_details(self):
         host = self.request.matchdict['host']
+        host_desc = 'Lorem Ipsum'
         action = self.request.matchdict['action']
-        return {"argux_host": host, "action": action}
+        return {"argux_host": host, "argux_host_desc": host_desc, "action": action}
 
     @view_config(route_name='item_details', renderer='templates/item_details.pt')
     def item_details(self):

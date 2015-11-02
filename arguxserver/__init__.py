@@ -28,8 +28,9 @@ def main(global_config, **settings):
 
     config.add_route('hosts_1',   '/argux/rest/1.0/host')
     config.add_route('host_1',    '/argux/rest/1.0/host/{host}')
-    config.add_route('item_1',    '/argux/rest/1.0/host/{host}/{item}')
-    config.add_route('values_1',  '/argux/rest/1.0/host/{host}/{item}/values')
+    config.add_route('item_1',    '/argux/rest/1.0/host/{host}/item/{item}')
+    config.add_route('values_1',  '/argux/rest/1.0/host/{host}/item/{item}/values')
+    config.add_route('host_details_1', '/argux/rest/1.0/host/{host}/details/{detail_id}')
 
     # Pretty-print JSON, useful for development.
     if (settings['rest.pretty_json'] == 'true'):

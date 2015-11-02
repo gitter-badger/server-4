@@ -55,7 +55,13 @@ class RestViews:
         return ret
 
     def host_1_view_create(self, host):
-        h = models.Host(name=host)
+        description=None
+        try:
+            description = self.request.json_body.get('description', None)
+        except ValueError:
+            description = None
+
+        h = models.Host(name=host, description=description)
         models.DBSession.add(h)
         return Response(
             status='201 Created',

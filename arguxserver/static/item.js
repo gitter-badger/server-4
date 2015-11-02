@@ -60,7 +60,7 @@ var myNewChart = new Chart(ctx, config);
 $(function() {
     function doPoll() {
         $.ajax({
-            url: "/argux/rest/1.0/host/"+ARGUX_HOST+"/"+ARGUX_ITEM+"/values?query=a&show_date=false",
+            url: "/argux/rest/1.0/host/"+ARGUX_HOST+"/item/"+ARGUX_ITEM+"/values?query=a&show_date=false",
             type: "GET",
             dataType: "json",
             success: function(json) {

@@ -1,6 +1,6 @@
 <div
     tal:condition="action=='notes'"
-    class="host-details container"
+    class="host-details col-md-8"
     id="details">
     <nav>
       <ul class="pagination">
