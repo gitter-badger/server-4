@@ -2,6 +2,7 @@ language: python
 python:
   - "3.3"
 install:
+  - pip install nosetests
   - pip install coveralls
   - python setup.py install
   - initialise_argux-server_db development.ini
