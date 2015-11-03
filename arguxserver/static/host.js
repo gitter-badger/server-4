@@ -93,7 +93,7 @@ if (ARGUX_HOST_ACTION=='metrics') {
                             '<th>Name</th>' +
                             '<th class="col-xs-2">Value</th>' +
                             '<th class="col-sm-3 hidden-xs">Timestamp</th>' +
-                            '<th class="col-xs-1 col-sm-1"></th>' +
+                            '<th class="col-xs-2 col-sm-1"></th>' +
                             '</tr>' +
                             '</thead>' +
                             '<tbody>' +
