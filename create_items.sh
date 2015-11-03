@@ -59,3 +59,16 @@ curl -X POST \
         \"timestamp\":\"2015-12-31T22:11:10Z\"
         }" \
     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[1\\\]/values
+
+#curl -X POST \
+#     -H "Content-Type: application/json" \
+#     -d "{
+#        \"subject\":\"Note\"
+#        \"body\":\"blaaat\"
+#        \"map\": {
+#            \"host\" [
+#                \"localhost\"
+#                ]
+#            }
+#        }" \
+#    $SERVER/$REST_URI/note

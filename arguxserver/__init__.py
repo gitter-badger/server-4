@@ -34,6 +34,8 @@ def main(global_config, **settings):
     config.add_route('values_1',  '/argux/rest/1.0/host/{host}/item/{item}/values')
     config.add_route('host_details_1', '/argux/rest/1.0/host/{host}/details')
 
+    config.add_route('note_1',   '/argux/rest/1.0/note')
+
     # Pretty-print JSON, useful for development.
     if (settings['rest.pretty_json'] == 'true'):
         config.add_renderer('json', JSON(indent=4))
