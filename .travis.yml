@@ -1,0 +1,16 @@
+language: python
+python:
+  - "3.3"
+install:
+  - pip install coveralls
+  - python setup.py install
+  - initialise_argux-server_db development.ini
+
+# command to run tests, e.g. python setup.py test
+script:
+  coverage run --source=arguxserver nosetests
+
+after_success:
+  coveralls
+
+sudo: false
