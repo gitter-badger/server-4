@@ -5,7 +5,7 @@ $(function() {
 if (ARGUX_HOST_ACTION=='metrics') {
     function doPoll() {
         $.ajax({
-            url: "/argux/rest/1.0/host/"+ARGUX_HOST+"?details=true",
+            url: "/argux/rest/1.0/host/"+ARGUX_HOST+"?items=true",
             type: "GET",
             dataType: "json",
             success: function(json) {

@@ -7,21 +7,21 @@ from pyramid.view import (
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
 
+from arguxserver import models
+
 from arguxserver.dao import (
     HostDAO,
-    ItemCategoryDAO,
-    ItemNameDAO,
-    ItemTypeDAO,
-    ItemDAO
+    ItemDAO,
+    ValuesDAO
     )
 
 @view_defaults(renderer='json')
-class RestHostDetailsViews:
+class RestNoteViews:
     def __init__(self, request):
         self.request = request
 
-    @view_config(route_name='host_details_1')
-    def host_details_1_view(self):
+    @view_config(route_name='note_1')
+    def note_1_view(self):
 
         # Fallback response
         ret = Response(
@@ -30,20 +30,21 @@ class RestHostDetailsViews:
             charset='UTF-8',
             body='{"error": "500 Internal Server Error", "message": "dunno"}')
 
-        host = self.request.matchdict['host']
-
         if (self.request.method == "GET"):
-            ret = self.host_details_1_view_read(host)
+            ret = self.note_1_view_read()
 
         if (self.request.method == "POST"):
-            ret = self.host_details_1_view_create(host)
+           ret = self.note_1_view_create()
 
         return ret
 
-    def host_details_1_view_read(self, host):
-        return {'fqdn': 'time'}
-
-    def host_details_1_view_create(self, host):
+    def note_1_view_create(self):
         return Response(
             status='201 Created',
-            content_type='application/json; charset=UTF-8')
+            content_type='application/json')
+
+    def note_1_view_read(self):
+        return Response(
+            status='404 not found',
+            content_type='application/json')
+

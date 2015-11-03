@@ -45,9 +45,10 @@ class RestViews:
 
         host    = self.request.matchdict['host']
         details = self.request.params.get('details', 'false')
+        items   = self.request.params.get('items', 'false')
 
         if (self.request.method == "GET"):
-            ret = self.host_1_view_read(host, details)
+            ret = self.host_1_view_read(host, items, details)
 
         if (self.request.method == "POST"):
            ret = self.host_1_view_create(host)
@@ -67,8 +68,11 @@ class RestViews:
             status='201 Created',
             content_type='application/json')
 
-    def host_1_view_read(self, host, details):
+    def host_1_view_read(self, host, has_items, has_details):
         h = HostDAO.getHostByName(host)
+
+        items  = []
+        details = []
 
         if (h == None):
             return Response(
@@ -77,13 +81,24 @@ class RestViews:
                 charset='utf-8',
                 body='{"error":"NOT FOUND"}')
 
-        i = ItemDAO.getItemsFromHost(h)
+        if (has_items == 'true'):
+            items = self._getItems(h)
+
+        if (has_details == 'true'):
+            details = []
+
+
+        return {
+            'name' : h.name,
+            'items': items,
+            'details': details
+            }
+
+    def _getItems(self, host):
+
+        i = ItemDAO.getItemsFromHost(host)
         if (i == None):
-            return Response(
-                status="404 Not Found",
-                content_type='application/json',
-                charset='utf-8',
-                body='{"error":"NOT FOUND"}')
+            return []
 
         items = []
         for a in i:
@@ -111,9 +126,5 @@ class RestViews:
                     "category": category,
                     "name": name,
                     "key": a.key })
-
-        return {
-            'name' : h.name,
-            'items': items
-            }
+        return items
 

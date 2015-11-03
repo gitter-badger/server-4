@@ -16,7 +16,7 @@ from sqlalchemy.orm import (
 from . import Base
 
 #
-# Host
+# HostDetail
 #
 class HostDetail(Base):
     __tablename__ = 'host_detail'
