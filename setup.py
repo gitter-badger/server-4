@@ -39,7 +39,7 @@ setup(name='argux-server',
       zip_safe=False,
       install_requires=requires,
       tests_require=requires,
-      test_suite="arguxserver",
+      test_suite="tests",
       entry_points="""\
       [paste.app_factory]
       main = arguxserver:main

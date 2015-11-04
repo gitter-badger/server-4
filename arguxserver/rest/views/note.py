@@ -9,10 +9,11 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
+from datetime import datetime
+
 from arguxserver.dao import (
-    HostDAO,
-    ItemDAO,
-    ValuesDAO
+    NoteDAO,
+    HostDAO
     )
 
 @view_defaults(renderer='json')
@@ -39,6 +40,29 @@ class RestNoteViews:
         return ret
 
     def note_1_view_create(self):
+        #try:
+        hostname = self.request.json_body.get("host", None)
+        subject  = self.request.json_body.get("subject", None)
+        msg      = self.request.json_body.get("message", None)
+
+        if (msg == None):
+            raise Exception()
+        if (subject == None):
+            raise Exception()
+        if (hostname == None):
+            raise Exception()
+
+        host = HostDAO.getHostByName(hostname)
+
+        if (host == None):
+            raise Exception()
+
+        note = NoteDAO.createHostNote(host, subject, msg, datetime.now())
+
+        #except Exception:
+        #    return Response(
+        #        status='400 Bad Request',
+        #        content_type='application/json')
         return Response(
             status='201 Created',
             content_type='application/json')

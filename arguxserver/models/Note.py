@@ -25,5 +25,7 @@ class Note(Base):
     subject    = Column(Text, nullable=False)
     body       = Column(Text, nullable=False)
     timestamp  = Column(DateTime, nullable=False)
+    host_id    = Column(Integer, ForeignKey('host.id'))
+    host       = relationship ("Host", backref="notes")
 
 Index('u_note_index', Note.id, unique=True, mysql_length=255)
