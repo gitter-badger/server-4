@@ -7,18 +7,11 @@ from pyramid.view import (
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
 
-from arguxserver.dao import (
-    HostDAO,
-    ItemCategoryDAO,
-    ItemNameDAO,
-    ItemTypeDAO,
-    ItemDAO
-    )
-
 @view_defaults(renderer='json')
 class RestItemViews:
     def __init__(self, request):
         self.request = request
+        self.dao = request.registry.settings['dao']
 
     @view_config(route_name='item_1')
     def item_1_view(self):
@@ -48,6 +41,8 @@ class RestItemViews:
         return {'fqdn': host, 'item': item, 'time': time}
 
     def item_1_view_create(self, host, item):
+        dao = self.dao
+
         try:
             name = self.request.json_body.get('name', None)
             description = self.request.json_body.get('description', None)
@@ -72,20 +67,20 @@ class RestItemViews:
         n = None
         c = None 
 
-        h = HostDAO.getHostByName(host)
+        h = dao.HostDAO.getHostByName(host)
         if (name != None and description != None):
-            n = ItemNameDAO.getItemNameByName(name)
+            n = dao.ItemNameDAO.getItemNameByName(name)
             if (n == None):
-                n = ItemNameDAO.createItemName(name, description)
+                n = dao.ItemNameDAO.createItemName(name, description)
 
         if (category != None):
-            c = ItemCategoryDAO.getItemCategoryByName(category)
+            c = dao.ItemCategoryDAO.getItemCategoryByName(category)
             if (c == None):
-                c = ItemCategoryDAO.createItemCategory(category)
+                c = dao.ItemCategoryDAO.createItemCategory(category)
 
-        t = ItemTypeDAO.getItemTypeByName(_type)
+        t = dao.ItemTypeDAO.getItemTypeByName(_type)
 
-        i = ItemDAO.createItem(h, item, n, c, t)
+        i = dao.ItemDAO.createItem(h, item, n, c, t)
         return Response(
             status='201 Created',
             content_type='application/json; charset=UTF-8')

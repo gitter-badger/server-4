@@ -9,18 +9,13 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
-from arguxserver.dao import (
-    HostDAO,
-    ItemDAO,
-    ValuesDAO
-    )
-
 import dateutil.parser
 
 @view_defaults(renderer='json')
 class RestValuesViews:
     def __init__(self, request):
         self.request = request
+        self.dao = request.registry.settings['dao']
 
     @view_config(route_name='values_1')
     def values_1_view(self):
@@ -35,6 +30,8 @@ class RestValuesViews:
             self.values_1_view_create(host, item)
 
     def values_1_view_create(self, host, item):
+        dao = self.dao
+
         try:
             value = self.request.json_body.get('value', None)
             ts = self.request.json_body.get('timestamp', None)
@@ -46,12 +43,12 @@ class RestValuesViews:
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "value not specified"}')
 
-        h = HostDAO.getHostByName(host)
-        i = ItemDAO.getItemByHostKey(h, item)
+        h = dao.HostDAO.getHostByName(host)
+        i = dao.ItemDAO.getItemByHostKey(h, item)
 
         t = dateutil.parser.parse(ts)
 
-        ValuesDAO.pushValue(i, t, value)
+        dao.ValuesDAO.pushValue(i, t, value)
 
         return Response(
             status='201 Created',
@@ -61,6 +58,7 @@ class RestValuesViews:
     # Read Values
     #
     def values_1_view_read(self, host, item):
+        dao = self.dao
 
         values = []
         #query = self.request.json_body.get('query', None)
@@ -80,10 +78,10 @@ class RestValuesViews:
         else:
             date_fmt = "%H:%M"
 
-        h = HostDAO.getHostByName(host)
-        i = ItemDAO.getItemByHostKey(h, item)
+        h = dao.HostDAO.getHostByName(host)
+        i = dao.ItemDAO.getItemByHostKey(h, item)
 
-        v = ValuesDAO.getValues(i)
+        v = dao.ValuesDAO.getValues(i)
 
         for value in v:
             values.append ( {

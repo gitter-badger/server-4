@@ -9,16 +9,12 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
-from arguxserver.dao import (
-    HostDAO,
-    ItemDAO,
-    ValuesDAO
-    )
-
 @view_defaults(renderer='json')
-class RestViews:
+class RestHostViews:
+
     def __init__(self, request):
         self.request = request
+        self.dao = request.registry.settings['dao']
 
     @view_config(route_name='hosts_1')
     def hosts(self):
@@ -69,7 +65,7 @@ class RestViews:
             content_type='application/json')
 
     def host_1_view_read(self, host, has_items, has_details):
-        h = HostDAO.getHostByName(host)
+        h = self.dao.HostDAO.getHostByName(host)
 
         items  = []
         details = []
@@ -96,7 +92,7 @@ class RestViews:
 
     def _getItems(self, host):
 
-        i = ItemDAO.getItemsFromHost(host)
+        i = self.dao.ItemDAO.getItemsFromHost(host)
         if (i == None):
             return []
 
@@ -112,7 +108,7 @@ class RestViews:
             else:
                 category = None
 
-            v = ValuesDAO.getLastValue(a)
+            v = self.dao.ValuesDAO.getLastValue(a)
 
             if (v):
                 items.append({

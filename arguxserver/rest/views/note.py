@@ -9,16 +9,12 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
-from arguxserver.dao import (
-    HostDAO,
-    ItemDAO,
-    ValuesDAO
-    )
-
 @view_defaults(renderer='json')
 class RestNoteViews:
+
     def __init__(self, request):
         self.request = request
+        self.dao = request.registry.settings['dao']
 
     @view_config(route_name='note_1')
     def note_1_view(self):
