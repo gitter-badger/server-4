@@ -11,15 +11,12 @@ from arguxserver import models
 
 from datetime import datetime
 
-from arguxserver.dao import (
-    NoteDAO,
-    HostDAO
-    )
-
 @view_defaults(renderer='json')
 class RestNoteViews:
+
     def __init__(self, request):
         self.request = request
+        self.dao = request.registry.settings['dao']
 
     @view_config(route_name='note_1')
     def note_1_view(self):
@@ -40,6 +37,7 @@ class RestNoteViews:
         return ret
 
     def note_1_view_create(self):
+        dao = self.dao
         #try:
         hostname = self.request.json_body.get("host", None)
         subject  = self.request.json_body.get("subject", None)
@@ -52,12 +50,12 @@ class RestNoteViews:
         if (hostname == None):
             raise Exception()
 
-        host = HostDAO.getHostByName(hostname)
+        host = dao.HostDAO.getHostByName(hostname)
 
         if (host == None):
             raise Exception()
 
-        note = NoteDAO.createHostNote(host, subject, msg, datetime.now())
+        note = dao.NoteDAO.createHostNote(host, subject, msg, datetime.now())
 
         #except Exception:
         #    return Response(
@@ -68,6 +66,26 @@ class RestNoteViews:
             content_type='application/json')
 
     def note_1_view_read(self):
+
+        hostname = self.request.params.get('host', None)
+
+        host = self.dao.HostDAO.getHostByName(hostname)
+        n = self.dao.NoteDAO.getNotesForHost(host)
+
+        if (n):
+            notes = []
+            for a in n:
+                notes.append({
+                    "subject": a.subject
+                    "message": a.message
+                    "timestamp": a.timestamp.strfitme("%Y-%m-%dT%H:%M:%S")
+                })
+
+            return {
+                'host': hostname,
+                'notes': notes
+            }
+
         return Response(
             status='404 not found',
             content_type='application/json')

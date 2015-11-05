@@ -6,8 +6,8 @@ from arguxserver.models import (
 
 
 def getNotesForHost(host):
-    #c = DBSession.query(NoteMap).filter(NoteMap.host_id == host.id)
-    return None
+    n = DBSession.query(Note).filter(Note.host == host)
+    return n
 
 def createHostNote(host, subject, body, timestamp):
     n = Note(host=host, subject=subject,body=body, timestamp=timestamp)
