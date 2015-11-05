@@ -45,6 +45,6 @@ class MainViews:
         item = self.request.matchdict['item']
         return {"argux_host": host, "argux_item": item}
 
-    @view_config(route_name='dashboards', renderer='templates/home.pt')
+    @view_config(route_name='dashboards', renderer='templates/dashboard.pt')
     def dashboard(self):
         return {"project":"A"}

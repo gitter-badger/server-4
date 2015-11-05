@@ -76,9 +76,9 @@ class RestNoteViews:
             notes = []
             for a in n:
                 notes.append({
-                    "subject": a.subject
-                    "message": a.message
-                    "timestamp": a.timestamp.strfitme("%Y-%m-%dT%H:%M:%S")
+                    "subject": a.subject,
+                    "message": a.message,
+                    "timestamp": a.timestamp.strftime("%Y-%m-%dT%H:%M:%S")
                 })
 
             return {

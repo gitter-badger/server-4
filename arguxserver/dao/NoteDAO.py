@@ -9,7 +9,7 @@ def getNotesForHost(host):
     n = DBSession.query(Note).filter(Note.host == host)
     return n
 
-def createHostNote(host, subject, body, timestamp):
-    n = Note(host=host, subject=subject,body=body, timestamp=timestamp)
+def createHostNote(host, subject, message, timestamp):
+    n = Note(host=host, subject=subject,message=message, timestamp=timestamp)
     DBSession.add(n)
     return n

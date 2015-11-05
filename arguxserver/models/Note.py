@@ -23,7 +23,7 @@ class Note(Base):
     __tablename__ = 'note'
     id         = Column(Integer, primary_key=True)
     subject    = Column(Text, nullable=False)
-    body       = Column(Text, nullable=False)
+    message    = Column(Text, nullable=False)
     timestamp  = Column(DateTime, nullable=False)
     host_id    = Column(Integer, ForeignKey('host.id'))
     host       = relationship ("Host", backref="notes")

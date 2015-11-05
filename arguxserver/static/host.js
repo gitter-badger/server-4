@@ -2,6 +2,36 @@
 /* globals ARGUX_HOST_ACTION: false */
 
 $(function() {
+if (ARGUX_HOST_ACTION=='notes') {
+    function doPoll() {
+        $.ajax({
+            url: "/argux/rest/1.0/note?host="+ARGUX_HOST,
+            type: "GET",
+            dataType: "json",
+            success: function(json) {
+
+                $('#items').empty()
+                // Build the panel contents.
+                $.each(json.notes, function(i, note) {
+
+                    $('#items').append(
+                        '<div class="panel panel-default">' +
+                        '<div class="panel-heading">' +
+                        note.subject +
+                        '</div>' +
+                        '<div class="panel-body">' +
+                        '<p>' +
+                        note.message +
+                        '</p>' +
+                        '</div>' +
+                        '</div>');
+                });
+                setTimeout(doPoll, 5000);
+            }
+        });
+    }
+    doPoll();
+}
 if (ARGUX_HOST_ACTION=='metrics') {
     function doPoll() {
         $.ajax({
