@@ -20,3 +20,4 @@ from .Note import Note
 
 from .values.IntValue import IntValue
 from .values.FloatValue import FloatValue
+from .values.TextValue import TextValue
