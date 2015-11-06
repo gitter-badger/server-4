@@ -3,7 +3,8 @@ from sqlalchemy import (
     Index,
     Integer,
     Text,
-    ForeignKey
+    ForeignKey,
+    Boolean
     )
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -33,5 +34,7 @@ class Item(Base):
     category = relationship(ItemCategory, backref = 'item_category')
     itemtype_id = Column(Integer, ForeignKey('itemtype.id'), nullable=False)
     itemtype = relationship(ItemType, backref = 'item_type');
+    bookmark = Column(Boolean, default=False, nullable=False)
+    bookmark_label = Column(Text, nullable=True)
  
 Index('u_item_host_id_index', Item.key, Item.host_id, unique=True, mysql_length=255)

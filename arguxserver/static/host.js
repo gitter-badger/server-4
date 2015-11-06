@@ -2,6 +2,9 @@
 /* globals ARGUX_HOST_ACTION: false */
 
 $(function() {
+if (ARGUX_HOST_ACTION=='details') {
+
+}
 if (ARGUX_HOST_ACTION=='notes') {
     function doPoll() {
         $.ajax({
@@ -92,6 +95,9 @@ if (ARGUX_HOST_ACTION=='metrics') {
                       '</a>&nbsp;' +
                       '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/details" aria-label="Details">' +
                       '<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>' +
+                      '</a>' +
+                      '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/bookmark" aria-label="Bookmark">' +
+                      '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>' +
                       '</a>' +
                       '</td>' +
                       '</tr>';

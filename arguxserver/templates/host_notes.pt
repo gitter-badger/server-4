@@ -25,18 +25,6 @@
       </div>
     </nav>
     <div id="items">
-    <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">Title</h3></div>
-        <div class="panel-body">
-            <div>
-            Koffie
-            </div>
-            <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-pencil"></span></button>
-            </div>
-        </div>
-        <div class="panel-footer">Author</div>
-    </div>
     </div>
     <div>
       <ul class="pagination">

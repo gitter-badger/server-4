@@ -11,7 +11,6 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 from .Host import Host
-from .HostDetail import HostDetail
 from .Item import Item
 from .ItemType import ItemType
 from .ItemName import ItemName
