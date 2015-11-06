@@ -30,7 +30,15 @@ class MainViews:
     def host(self):
         host = self.request.matchdict['host']
         host_desc = 'Lorem Ipsum'
-        return {"argux_host": host, "argux_host_desc": host_desc, "action": 'details'}
+
+        has_summary = False
+
+        if (has_summary == True):
+            action = 'summary'
+        else:
+            action = 'metrics'
+
+        return {"argux_host": host, "argux_host_desc": host_desc, "action": action}
 
     @view_config(route_name='host_details', renderer='templates/host.pt')
     def host_details(self):

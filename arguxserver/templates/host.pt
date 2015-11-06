@@ -73,8 +73,8 @@
         </div>
         -->
         <ul class="nav nav-tabs">
-          <li tal:define="item_l ('Details', 'Metrics', 'Alerts', 'Notes')"
-              tal:repeat="item ('details', 'metrics', 'alerts', 'notes')"
+          <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
+              tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
               tal:attributes="class 'active' if item==action else nothing">
             <a tal:attributes="href '/host/'+argux_host+'/'+item" tal:content="item_l[repeat.item.index]"></a>
             <span tal:condition="action==item">
