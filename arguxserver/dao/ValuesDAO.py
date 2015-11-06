@@ -4,13 +4,15 @@ from arguxserver.models import (
     DBSession,
     Item,
     IntValue,
-    FloatValue
+    FloatValue,
+    TextValue
     )
 
 # Map
 __push_value_class = {
     "int" : IntValue,
-    "float" : FloatValue
+    "float" : FloatValue,
+    "text" : TextValue,
 }
 
 
@@ -28,11 +30,7 @@ def getLastValue(item):
 def getValues(item):
     klass = __push_value_class.get(item.itemtype.name, lambda: "nothing")
 
-    # Get last value
-    c = DBSession.query(klass) \
-            .filter(klass.item_id == item.id) \
-            .order_by(klass.timestamp.desc()) \
-            .first()
+    c = getLastValue(item)
 
     if (c == None):
         return []
@@ -44,4 +42,3 @@ def getValues(item):
             .order_by(klass.timestamp.asc()) \
             .all()
     return a
-
