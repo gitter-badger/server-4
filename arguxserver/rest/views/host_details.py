@@ -11,6 +11,11 @@ from . import RestView
 
 @view_defaults(renderer='json')
 class RestHostDetailsViews(RestView):
+    """
+    
+    self.request:  set via parent constructor
+    self.dao:      set via parent constructor
+    """
 
     @view_config(route_name='host_details_1')
     def host_details_1_view(self):

@@ -15,6 +15,11 @@ from . import RestView
 
 @view_defaults(renderer='json')
 class RestValuesViews(RestView):
+    """
+    
+    self.request:  set via parent constructor
+    self.dao:      set via parent constructor
+    """
 
     @view_config(route_name='values_1')
     def values_1_view(self):

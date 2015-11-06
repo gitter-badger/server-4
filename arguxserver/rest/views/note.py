@@ -15,6 +15,11 @@ from . import RestView
 
 @view_defaults(renderer='json')
 class RestNoteViews(RestView):
+    """
+    
+    self.request:  set via parent constructor
+    self.dao:      set via parent constructor
+    """
 
     @view_config(route_name='note_1')
     def note_1_view(self):
