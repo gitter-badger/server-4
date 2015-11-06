@@ -7,12 +7,10 @@ from pyramid.view import (
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
 
-@view_defaults(renderer='json')
-class RestHostDetailsViews:
+from . import RestView
 
-    def __init__(self, request):
-        self.request = request
-        self.dao = request.registry.settings['dao']
+@view_defaults(renderer='json')
+class RestHostDetailsViews(RestView):
 
     @view_config(route_name='host_details_1')
     def host_details_1_view(self):

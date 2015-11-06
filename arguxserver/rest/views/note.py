@@ -11,12 +11,10 @@ from arguxserver import models
 
 from datetime import datetime
 
-@view_defaults(renderer='json')
-class RestNoteViews:
+from . import RestView
 
-    def __init__(self, request):
-        self.request = request
-        self.dao = request.registry.settings['dao']
+@view_defaults(renderer='json')
+class RestNoteViews(RestView):
 
     @view_config(route_name='note_1')
     def note_1_view(self):

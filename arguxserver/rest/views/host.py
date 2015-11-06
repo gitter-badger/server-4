@@ -9,12 +9,10 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
-@view_defaults(renderer='json')
-class RestHostViews:
+from . import RestView
 
-    def __init__(self, request):
-        self.request = request
-        self.dao = request.registry.settings['dao']
+@view_defaults(renderer='json')
+class RestHostViews(RestView):
 
     @view_config(route_name='hosts_1')
     def hosts(self):

@@ -11,11 +11,10 @@ from arguxserver import models
 
 import dateutil.parser
 
+from . import RestView
+
 @view_defaults(renderer='json')
-class RestValuesViews:
-    def __init__(self, request):
-        self.request = request
-        self.dao = request.registry.settings['dao']
+class RestValuesViews(RestView):
 
     @view_config(route_name='values_1')
     def values_1_view(self):

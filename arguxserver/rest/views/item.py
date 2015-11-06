@@ -7,11 +7,10 @@ from pyramid.view import (
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
 
+from . import RestView
+
 @view_defaults(renderer='json')
-class RestItemViews:
-    def __init__(self, request):
-        self.request = request
-        self.dao = request.registry.settings['dao']
+class RestItemViews(RestView):
 
     @view_config(route_name='item_1')
     def item_1_view(self):
