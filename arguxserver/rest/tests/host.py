@@ -31,7 +31,7 @@ class RestHostViewsTests(unittest.TestCase):
         r.registry.settings['dao'] = dao.mock
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
-        info = v.hosts()
+        info = v.host_1_view()
 
     def test_read_host_with_items(self):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost?items=true')
@@ -40,7 +40,7 @@ class RestHostViewsTests(unittest.TestCase):
         r.registry.settings['dao'] = dao.mock
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
-        info = v.hosts()
+        info = v.host_1_view()
 
     def test_create_host(self):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost', POST="TEST")
@@ -49,4 +49,4 @@ class RestHostViewsTests(unittest.TestCase):
         r.registry.settings['dao'] = dao.mock
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
-        info = v.hosts()
+        info = v.host_1_view()

@@ -10,8 +10,7 @@ def getHostByName(name):
     return Host("name")
 
 def createHost(name, description=""):
-    h = Host(name=name, description=description)
-    DBSession.add(h)
+    h = Host(name, description)
     return h
 
 def getAllHosts():
