@@ -21,7 +21,7 @@ class RestHostViews(RestView):
 
     @view_config(route_name='hosts_1')
     def hosts(self):
-        h = models.DBSession.query(models.Host)
+        h = self.dao.HostDAO.getAllHosts()
 
         if (h == None):
             return HTTPNotFound()
@@ -61,8 +61,7 @@ class RestHostViews(RestView):
         except ValueError:
             description = None
 
-        h = models.Host(name=host, description=description)
-        models.DBSession.add(h)
+        self.dao.HostDAO.createHost(name=host, description=description)
         return Response(
             status='201 Created',
             content_type='application/json')
