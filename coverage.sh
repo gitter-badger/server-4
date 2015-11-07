@@ -1,1 +1,1 @@
-nosetest --cover-package=arguxserver --cover-erase --with-coverage
+nosetests --cover-package=arguxserver --cover-erase --with-coverage
