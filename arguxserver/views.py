@@ -14,6 +14,7 @@ class MainViews:
 
     def __init__(self, request):
         self.request = request
+        self.dao = request.registry.settings['dao']
 
     # TODO
     @view_config(route_name='home')
@@ -29,7 +30,11 @@ class MainViews:
     @view_config(route_name='host', renderer='templates/host.pt')
     def host(self):
         host = self.request.matchdict['host']
-        host_desc = 'Lorem Ipsum'
+        host_desc = ''
+        h = self.dao.HostDAO.getHostByName(host)
+
+        if (h):
+            host_desc = h.description
 
         has_summary = False
 
@@ -43,7 +48,12 @@ class MainViews:
     @view_config(route_name='host_details', renderer='templates/host.pt')
     def host_details(self):
         host = self.request.matchdict['host']
-        host_desc = 'Lorem Ipsum'
+        host_desc = ''
+        h = self.dao.HostDAO.getHostByName(host)
+
+        if (h):
+            host_desc = h.description
+
         action = self.request.matchdict['action']
         return {"argux_host": host, "argux_host_desc": host_desc, "action": action}
 

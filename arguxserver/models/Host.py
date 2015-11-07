@@ -22,6 +22,6 @@ class Host(Base):
     __tablename__ = 'host'
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
-    description = Column(Text)
+    description = Column(Text, nullable=False, default="")
 
 Index('u_host_index', Host.name, unique=True, mysql_length=255)

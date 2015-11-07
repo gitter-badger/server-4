@@ -8,7 +8,7 @@ def getHostByName(name):
     h = DBSession.query(Host).filter(Host.name == name).first()
     return h
 
-def createHost(name, description=None):
+def createHost(name, description=""):
     h = Host(name=name, description=description)
     DBSession.add(h)
     return h

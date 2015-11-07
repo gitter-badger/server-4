@@ -62,8 +62,8 @@
           <li class="active">${argux_host}</li>
         </ol>
         <div class="page-header">
-        <h1>${argux_host}<a href="#" id="host_detail_btn" class="btn"><span class="glyphicon glyphicon-chevron-up"></span></a></h1>
-        <div class="hidden" id="host_detail">
+        <h1>${argux_host}<a tal:condition="argux_host_desc!=''" href="#" id="host_detail_btn" class="btn"><span class="glyphicon glyphicon-chevron-up"></span></a></h1>
+        <div tal:condition="argux_host_desc!=''" class="hidden" id="host_detail">
         ${argux_host_desc}
         </div>
         </div>

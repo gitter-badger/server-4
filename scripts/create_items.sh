@@ -14,6 +14,11 @@ curl -X POST \
     }" \
     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME
 
+# Host
+curl -X POST \
+    -H "Content-Type: application/json" \
+    $SERVER/$REST_URI/$HOST_URI/webserver
+
 curl -X POST \
      -H "Content-Type: application/json" \
      -d "{
