@@ -4,7 +4,7 @@ from pyramid import testing
 from pyramid import request
 from pyramid.registry import Registry
 
-from arguxserver import dao
+from tests.mock import dao
 
 from arguxserver.rest.views.host import RestHostViews
 
@@ -19,7 +19,7 @@ class RestHostViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/host')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao.mock
+        r.registry.settings['dao'] = dao
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
         info = v.hosts()
@@ -28,7 +28,7 @@ class RestHostViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao.mock
+        r.registry.settings['dao'] = dao
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
         info = v.host_1_view()
@@ -37,7 +37,7 @@ class RestHostViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost?items=true')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao.mock
+        r.registry.settings['dao'] = dao
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
         info = v.host_1_view()
@@ -46,7 +46,7 @@ class RestHostViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost', POST="TEST")
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao.mock
+        r.registry.settings['dao'] = dao
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
         info = v.host_1_view()

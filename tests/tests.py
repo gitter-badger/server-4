@@ -5,7 +5,7 @@ from pyramid import request
 
 from pyramid.registry import Registry
 
-from arguxserver import dao
+from tests.mock import dao
 
 class ViewTests(unittest.TestCase):
     def setUp(self):
@@ -20,7 +20,7 @@ class ViewTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/a/b')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao.mock
+        r.registry.settings['dao'] = dao
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = MainViews(r)
         info = v.item_details()
