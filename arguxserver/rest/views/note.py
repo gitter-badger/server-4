@@ -41,10 +41,13 @@ class RestNoteViews(RestView):
 
     def note_1_view_create(self):
         dao = self.dao
-        #try:
-        hostname = self.request.json_body.get("host", None)
-        subject  = self.request.json_body.get("subject", None)
-        msg      = self.request.json_body.get("message", None)
+        try:
+            hostname = self.request.json_body.get("host", None)
+            subject  = self.request.json_body.get("subject", None)
+            msg      = self.request.json_body.get("message", None)
+        except ValueError:
+            print(self.request.body)
+            return "AA"
 
         if (msg == None):
             raise Exception()

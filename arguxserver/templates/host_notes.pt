@@ -19,7 +19,12 @@
       <div class="pull-right">
           <div class="btn-toolbar notes-toolbar">
             <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                <button type="button"
+                        class="btn btn-default btn-sm"
+                        data-target=".bs-example-modal-lg"
+                        data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
             </div>
           </div>
       </div>
@@ -41,3 +46,43 @@
         </li>
       </ul>
     </div>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Add note -->
+                <form id="notes-form" action="">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">New Note for ..</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Nav tabs -->
+                    <!--
+                    <ul class="nav nav-pills" role="tablist">
+                    <li role="presentation" class="active"><a href="#edit" aria-controls="edit" role="tab" data-toggle="tab">Edit</a></li>
+                    <li role="presentation"><a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
+                    </ul>
+                    -->
+
+                     <!-- Tab panes -->
+                     <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="edit">
+                            <label for="note-subject">Subject</label>
+                            <input type="text" class="form-control" id="note-subject"/>
+                            <label for="note-body">Message</label>
+                            <textarea class="form-control" rows="8" id="note-body"></textarea>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="preview">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Note</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,7 +6,7 @@ from arguxserver.models import (
 
 
 def getNotesForHost(host):
-    n = DBSession.query(Note).filter(Note.host == host)
+    n = DBSession.query(Note).filter(Note.host == host).order_by(Note.timestamp. desc())
     return n
 
 def createHostNote(host, subject, message, timestamp):

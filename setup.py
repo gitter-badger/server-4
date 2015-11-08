@@ -9,7 +9,7 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
-    'pyramid',
+    'pyramid == 1.5.7',
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'pyramid_tm',
@@ -17,7 +17,7 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
-    'python-dateutil >= 2.4',
+    'python-dateutil == 2.4',
     ]
 
 setup(name='argux-server',

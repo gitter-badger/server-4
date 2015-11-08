@@ -2,10 +2,33 @@
 /* globals ARGUX_HOST_ACTION: false */
 
 $(function() {
+
 if (ARGUX_HOST_ACTION=='details') {
 
 }
 if (ARGUX_HOST_ACTION=='notes') {
+    $('#notes-form').submit(function(event) {
+
+        var subject = $('#note-subject').val();
+        var message = $('#note-body').val();
+
+        if (( subject !== "") &&
+            ( message !== "")) {
+            // Use JSON.stringify to properly escape the message and subject
+            // for use in a JSON message envelope
+            $.ajax({
+                type: 'POST',
+                url:  '/argux/rest/1.0/note',
+                dataType: 'json',
+                data: '{'+
+                      '"host": "'+ARGUX_HOST+'",' +
+                      '"message": '+JSON.stringify(message)+',' +
+                      '"subject": '+JSON.stringify(subject)+
+                      '}'
+            });
+        }
+    });
+
     function doPoll() {
         $.ajax({
             url: "/argux/rest/1.0/note?host="+ARGUX_HOST,
@@ -16,6 +39,8 @@ if (ARGUX_HOST_ACTION=='notes') {
                 $('#items').empty()
                 // Build the panel contents.
                 $.each(json.notes, function(i, note) {
+                    // Note timestamp is in ISO format.
+                    ts = new Date(note.timestamp)
 
                     $('#items').append(
                         '<div class="panel panel-default">' +
@@ -26,6 +51,9 @@ if (ARGUX_HOST_ACTION=='notes') {
                         '<p>' +
                         note.message +
                         '</p>' +
+                        '<div class="xs">' +
+                        ts.toLocaleString() +
+                        '</div>' +
                         '</div>' +
                         '</div>');
                 });

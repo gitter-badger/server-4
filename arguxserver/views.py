@@ -5,7 +5,10 @@ from pyramid.view import (
     )
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPNotFound
+from pyramid.httpexceptions import (
+    HTTPNotFound,
+    HTTPFound
+    )
 
 from arguxserver import models
 
@@ -48,13 +51,14 @@ class MainViews:
     @view_config(route_name='host_details', renderer='templates/host.pt')
     def host_details(self):
         host = self.request.matchdict['host']
+        action = self.request.matchdict['action']
+
         host_desc = ''
         h = self.dao.HostDAO.getHostByName(host)
 
         if (h):
             host_desc = h.description
 
-        action = self.request.matchdict['action']
         return {"argux_host": host, "argux_host_desc": host_desc, "action": action}
 
     @view_config(route_name='item_details', renderer='templates/item_details.pt')
