@@ -1,6 +1,6 @@
 languages:
-   Python: true
-   Javascript: true
+  Python: true
+  Javascript: true
 
 exclude_paths:
--  "tests/**"
+  - "tests/**"
