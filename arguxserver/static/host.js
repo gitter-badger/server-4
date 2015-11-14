@@ -1,5 +1,6 @@
 /* globals ARGUX_HOST: false */
 /* globals ARGUX_HOST_ACTION: false */
+/* globals ARGUX_BASE: false */
 
 $(function() {
 
@@ -18,7 +19,7 @@ if (ARGUX_HOST_ACTION=='notes') {
             // for use in a JSON message envelope
             $.ajax({
                 type: 'POST',
-                url:  '/argux/rest/1.0/note',
+                url:  ARGUX_BASE+'/rest/1.0/note',
                 dataType: 'json',
                 data: '{'+
                       '"host": "'+ARGUX_HOST+'",' +
@@ -31,7 +32,7 @@ if (ARGUX_HOST_ACTION=='notes') {
 
     function doPoll() {
         $.ajax({
-            url: "/argux/rest/1.0/note?host="+ARGUX_HOST,
+            url: ARGUX_BASE+"/rest/1.0/note?host="+ARGUX_HOST,
             type: "GET",
             dataType: "json",
             success: function(json) {
@@ -66,7 +67,7 @@ if (ARGUX_HOST_ACTION=='notes') {
 if (ARGUX_HOST_ACTION=='metrics') {
     function doPoll() {
         $.ajax({
-            url: "/argux/rest/1.0/host/"+ARGUX_HOST+"?items=true",
+            url: ARGUX_BASE+"/rest/1.0/host/"+ARGUX_HOST+"?items=true",
             type: "GET",
             dataType: "json",
             success: function(json) {
@@ -108,23 +109,29 @@ if (ARGUX_HOST_ACTION=='metrics') {
                     if (alerts.hasOwnProperty(category) === false) {
                         alerts[category] = '';
                     }
+                    var item_base_url = 
+                        ARGUX_BASE +
+                        '/host/' +
+                        ARGUX_HOST +
+                        '/item/' +
+                        item.key
 
                     categories[category]+='<tr>' +
                       '<td>' +
-                      '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/details">' +
+                      '<a href="'+item_base_url+'/details">' +
                       item_name +
                       '</a>' +
                       '</td>' +
                       '<td>' + item_value + '</td>' +
                       '<td class="hidden-xs">' + item_time +'</td>' +
                       '<td class="item-details">' +
-                      '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/stats" aria-label="Stats">' +
+                      '<a href="'+item_base_url+'/stats" aria-label="Stats">' +
                       '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>' +
                       '</a>&nbsp;' +
-                      '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/details" aria-label="Details">' +
+                      '<a href="'+item_base_url+'/details" aria-label="Details">' +
                       '<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>' +
                       '</a>' +
-                      '<a href="/host/'+ARGUX_HOST+'/item/'+item.key+'/bookmark" aria-label="Bookmark">' +
+                      '<a href="'+item_base_url+'/bookmark" aria-label="Bookmark">' +
                       '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>' +
                       '</a>' +
                       '</td>' +
