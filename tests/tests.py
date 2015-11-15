@@ -21,7 +21,7 @@ class ViewTests(unittest.TestCase):
         r.registry = Registry()
         r.registry.settings = {}
         r.registry.settings['dao'] = dao
-        r.matchdict = {'host':'localhost','item':'NONE'}
+        r.matchdict = {'host':'localhost','item':'NONE','action':'details'}
         v = MainViews(r)
         info = v.item_details()
         #self.assertEqual(info['fqdn'], 'a')
