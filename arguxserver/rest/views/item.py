@@ -17,7 +17,7 @@ class RestItemViews(RestView):
     self.dao:      set via parent constructor
     """
 
-    @view_config(route_name='item_1')
+    @view_config(route_name='rest_item_1')
     def item_1_view(self):
 
         # Fallback response

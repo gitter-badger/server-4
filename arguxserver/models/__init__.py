@@ -15,6 +15,7 @@ from .Item import Item
 from .ItemType import ItemType
 from .ItemName import ItemName
 from .ItemCategory import ItemCategory
+from .ItemTypeDetail import ItemTypeDetail
 
 from .Note import Note
 

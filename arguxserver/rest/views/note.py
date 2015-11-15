@@ -21,7 +21,7 @@ class RestNoteViews(RestView):
     self.dao:      set via parent constructor
     """
 
-    @view_config(route_name='note_1')
+    @view_config(route_name='rest_note_1')
     def note_1_view(self):
 
         # Fallback response

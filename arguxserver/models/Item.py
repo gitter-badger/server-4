@@ -33,7 +33,7 @@ class Item(Base):
     category_id = Column(Integer, ForeignKey('item_category.id'), nullable=True, default=None)
     category = relationship(ItemCategory, backref = 'item_category')
     itemtype_id = Column(Integer, ForeignKey('itemtype.id'), nullable=False)
-    itemtype = relationship(ItemType, backref = 'item_type');
+    itemtype = relationship(ItemType, backref = 'items');
     bookmark = Column(Boolean, default=False, nullable=False)
     bookmark_label = Column(Text, nullable=True)
  

@@ -19,7 +19,7 @@ class RestHostViews(RestView):
     self.dao:      set via parent constructor
     """
 
-    @view_config(route_name='hosts_1')
+    @view_config(route_name='rest_hosts_1')
     def hosts(self):
         h = self.dao.HostDAO.getAllHosts()
 
@@ -32,7 +32,7 @@ class RestHostViews(RestView):
 
         return { 'hosts': hosts }
 
-    @view_config(route_name='host_1')
+    @view_config(route_name='rest_host_1')
     def host_1_view(self):
 
         # Fallback response

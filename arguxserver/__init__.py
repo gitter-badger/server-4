@@ -32,13 +32,27 @@ def main(global_config, **settings):
 
     config.add_route('dashboards',   '/dashboard')
 
-    config.add_route('hosts_1',         '/rest/1.0/host')
-    config.add_route('host_1',          '/rest/1.0/host/{host}')
-    config.add_route('item_1',          '/rest/1.0/host/{host}/item/{item}')
-    config.add_route('values_1',        '/rest/1.0/host/{host}/item/{item}/values')
-    config.add_route('host_details_1',  '/rest/1.0/host/{host}/details')
 
-    config.add_route('note_1',          '/rest/1.0/note')
+    # REST 1.0 API
+    config.add_route('rest_hosts_1',
+            '/rest/1.0/host')
+    config.add_route('rest_host_1',
+            '/rest/1.0/host/{host}')
+    config.add_route('rest_host_details_1',
+            '/rest/1.0/host/{host}/details')
+
+    config.add_route('rest_item_1',
+            '/rest/1.0/host/{host}/item/{item}')
+    config.add_route('rest_values_1',
+            '/rest/1.0/host/{host}/item/{item}/values')
+
+    config.add_route('rest_note_1',
+            '/rest/1.0/note')
+
+    config.add_route('rest_itemtype_details_1',
+            '/rest/1.0/itemtype/{itemtype}/detail')
+    config.add_route('rest_itemtype_detail_1',
+            '/rest/1.0/itemtype/{itemtype}/detail/{id}')
 
     # Pretty-print JSON, useful for development.
     if (settings['rest.pretty_json'] == 'true'):

@@ -21,7 +21,7 @@ class RestValuesViews(RestView):
     self.dao:      set via parent constructor
     """
 
-    @view_config(route_name='values_1')
+    @view_config(route_name='rest_values_1')
     def values_1_view(self):
 
         host = self.request.matchdict['host']
