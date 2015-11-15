@@ -1,5 +1,6 @@
 /* globals Chart: false */
 /* globals ARGUX_HOST: false */
+/* globals ARGUX_ITEM: false */
 
 var config = {
     type: 'line',
