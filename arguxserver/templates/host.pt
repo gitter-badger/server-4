@@ -79,7 +79,7 @@
               tal:attributes="class 'active' if item==action else nothing">
             <a tal:attributes="href '/host/'+argux_host+'/'+item" tal:content="item_l[repeat.item.index]"></a>
             <span tal:condition="action==item">
-                <span tal:define="global tmpl load: ./host_${item}.pt"/>
+                <span tal:define="global tmpl load: ./host/${item}.pt"/>
             </span>
           </li>
         </ul>
