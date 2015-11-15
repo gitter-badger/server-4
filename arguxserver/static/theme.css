@@ -18,6 +18,10 @@ div.body {
     margin-bottom: 10px;
 }
 
+div.section-body {
+    margin-top: 10px;
+}
+
 div.host-items {
     margin-top: 10px;
 }

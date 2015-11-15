@@ -1,6 +1,7 @@
 /* globals Chart: false */
 /* globals ARGUX_HOST: false */
 /* globals ARGUX_ITEM: false */
+/* globals ARGUX_ITEM_ACTION: false */
 
 var config = {
     type: 'line',
@@ -61,7 +62,7 @@ var myNewChart = new Chart(ctx, config);
 $(function() {
     function doPoll() {
         $.ajax({
-            url: "/argux/rest/1.0/host/"+ARGUX_HOST+"/item/"+ARGUX_ITEM+"/values?query=a&show_date=false",
+            url: ARGUX_BASE+"/rest/1.0/host/"+ARGUX_HOST+"/item/"+ARGUX_ITEM+"/values?query=a&show_date=false",
             type: "GET",
             dataType: "json",
             success: function(json) {

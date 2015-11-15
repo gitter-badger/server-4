@@ -1,23 +1,39 @@
-<div class="container">
-        <div class="col-md-3">
-            <div>
-            <h3>Details</h3>
-            <table class="table table-striped">
-            <tbody>
-                <tr>
-                    <td>Last Value</td><td>...</td>
-                </tr>
-                <tr>
-                    <td>Last Alert</td><td>...</td>
-                </tr>
-                <tr>
-                    <td>Last Alert</td><td>...</td>
-                </tr>
-            </tbody>
-            </table>
-            </div>
-            <div class="child">
-            <canvas id="myChart" class="child"></canvas>
-            </div>
+<div class="section-body">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+        <div class="panel-heading">Details</div>
+        <table class="table table-striped panel-body">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Timestamp</td>
+                <td>Value</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Last Value</td>
+                <td>...</td>
+                <td>...</td>
+            </tr>
+            <tr>
+                <td>Last Value</td>
+                <td>...</td>
+                <td>...</td>
+            </tr>
+            <tr>
+                <td>Last Value</td>
+                <td>...</td>
+                <td>...</td>
+            </tr>
+        </tbody>
+        </table>
         </div>
+    </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+        <div class="panel-heading">Timechart</div>
+            <canvas id="myChart" class="child"></canvas>
+        </div>
+    </div>
 </div>

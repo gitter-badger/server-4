@@ -77,7 +77,7 @@
           <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
               tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
               tal:attributes="class 'active' if item==action else nothing">
-            <a tal:attributes="href '/host/'+argux_host+'/'+item" tal:content="item_l[repeat.item.index]"></a>
+            <a tal:attributes="href request.application_url+'/host/'+argux_host+'/'+item" tal:content="item_l[repeat.item.index]"></a>
             <span tal:condition="action==item">
                 <span tal:define="global tmpl load: ./host/${item}.pt"/>
             </span>

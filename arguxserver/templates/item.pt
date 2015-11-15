@@ -22,8 +22,10 @@
       <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">
+        var ARGUX_BASE="${request.application_url}";
         var ARGUX_HOST="${argux_host}";
         var ARGUX_ITEM="${argux_item}";
+        var ARGUX_ITEM_ACTION="${action}";
     </script>
   </head>
 
@@ -66,7 +68,7 @@
           <li tal:define="item_l ('Details', 'Alerts')"
               tal:repeat="item ('details', 'alerts')"
               tal:attributes="class 'active' if item==action else nothing">
-            <a tal:attributes="href '/host/'+argux_host+'/item/'+argux_item+'/'+item"
+            <a tal:attributes="href request.application_url+'/host/'+argux_host+'/item/'+argux_item+'/'+item"
                tal:content="item_l[repeat.item.index]"></a>
             <span tal:condition="action==item">
                 <span tal:define="global tmpl load: ./item/${item}.pt"/>
