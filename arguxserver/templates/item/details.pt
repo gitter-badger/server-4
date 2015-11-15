@@ -1,0 +1,23 @@
+<div class="container">
+        <div class="col-md-3">
+            <div>
+            <h3>Details</h3>
+            <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>Last Value</td><td>...</td>
+                </tr>
+                <tr>
+                    <td>Last Alert</td><td>...</td>
+                </tr>
+                <tr>
+                    <td>Last Alert</td><td>...</td>
+                </tr>
+            </tbody>
+            </table>
+            </div>
+            <div class="child">
+            <canvas id="myChart" class="child"></canvas>
+            </div>
+        </div>
+</div>

@@ -59,16 +59,21 @@
           <li><a href="/host/${argux_host}">${argux_host}</a></li>
           <li class="active">${argux_item}</li>
         </ol>
-        <div class="col-md-7">
-            <div class="page-header">
-            <h1>${argux_item}</h1>
-            </div>
+        <div class="page-header">
+        <h1>${argux_item} <small>${argux_host}</small></h1>
         </div>
-        <div class="col-md-3 pull-right">
-            <div class="child">
-            <canvas id="myChart" class="child"></canvas>
-            </div>
-        </div>
+        <ul class="nav nav-tabs">
+          <li tal:define="item_l ('Details', 'Alerts')"
+              tal:repeat="item ('details', 'alerts')"
+              tal:attributes="class 'active' if item==action else nothing">
+            <a tal:attributes="href '/host/'+argux_host+'/item/'+argux_item+'/'+item"
+               tal:content="item_l[repeat.item.index]"></a>
+            <span tal:condition="action==item">
+                <span tal:define="global tmpl load: ./item/${item}.pt"/>
+            </span>
+          </li>
+        </ul>
+        <div metal:extend-macro='tmpl'></div>
     </div>
 
     <!-- Bootstrap core JavaScript

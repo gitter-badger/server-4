@@ -26,8 +26,9 @@ def main(global_config, **settings):
     config.add_route('home',         '/')
     config.add_route('hosts',        '/host')
     config.add_route('host',         '/host/{host}')
-    config.add_route('item_details', '/host/{host}/item/{item}/details')
     config.add_route('host_details', '/host/{host}/{action}')
+    config.add_route('item',         '/host/{host}/item/{item}')
+    config.add_route('item_details', '/host/{host}/item/{item}/{action}')
 
     config.add_route('dashboards',   '/dashboard')
 

@@ -87,19 +87,13 @@ function pollMetrics() {
 
                 categories[category]+='<tr>' +
                   '<td>' +
-                  '<a href="'+item_base_url+'/details">' +
+                  '<a href="'+item_base_url+'">' +
                   item_name +
                   '</a>' +
                   '</td>' +
                   '<td>' + item_value + '</td>' +
                   '<td class="hidden-xs">' + item_time +'</td>' +
                   '<td class="item-details">' +
-                  '<a href="'+item_base_url+'/stats" aria-label="Stats">' +
-                  '<span class="glyphicon glyphicon-stats" aria-hidden="true"></span>' +
-                  '</a>&nbsp;' +
-                  '<a href="'+item_base_url+'/details" aria-label="Details">' +
-                  '<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>' +
-                  '</a>' +
                   '<a href="'+item_base_url+'/bookmark" aria-label="Bookmark">' +
                   '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>' +
                   '</a>' +

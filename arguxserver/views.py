@@ -61,11 +61,19 @@ class MainViews:
 
         return {"argux_host": host, "argux_host_desc": host_desc, "action": action}
 
-    @view_config(route_name='item_details', renderer='templates/item_details.pt')
+    @view_config(route_name='item', renderer='templates/item.pt')
+    def item(self):
+        host = self.request.matchdict['host']
+        item = self.request.matchdict['item']
+
+        return {"argux_host": host, "argux_item": item, "action": 'details'}
+
+    @view_config(route_name='item_details', renderer='templates/item.pt')
     def item_details(self):
         host = self.request.matchdict['host']
         item = self.request.matchdict['item']
-        return {"argux_host": host, "argux_item": item}
+        action = self.request.matchdict['action']
+        return {"argux_host": host, "argux_item": item, "action": action}
 
     @view_config(route_name='dashboards', renderer='templates/dashboard.pt')
     def dashboard(self):
