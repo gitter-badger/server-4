@@ -9,11 +9,13 @@ function pollNotes() {
         dataType: "json",
         success: function(json) {
 
-            $('#items').empty()
+            $('#items').empty();
+
             // Build the panel contents.
             $.each(json.notes, function(i, note) {
+
                 // Note timestamp is in ISO format.
-                ts = new Date(note.timestamp)
+                var ts = new Date(note.timestamp);
 
                 $('#items').append(
                     '<div class="panel panel-default">' +
@@ -42,8 +44,8 @@ function pollMetrics() {
         dataType: "json",
         success: function(json) {
 
-            var categories = {}
-            var alerts     = {}
+            var categories = {};
+            var alerts     = {};
             var collapsed  = {};
 
             // Build the panel contents.
@@ -81,7 +83,7 @@ function pollMetrics() {
                     '/host/' +
                     ARGUX_HOST +
                     '/item/' +
-                    item.key
+                    item.key;
 
                 categories[category]+='<tr>' +
                   '<td>' +
