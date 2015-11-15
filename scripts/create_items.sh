@@ -1,5 +1,6 @@
 
 SERVER=http://localhost:6543
+ARGUX_BASE=/
 REST_URI=rest/1.0
 HOST_URI=host
 
@@ -27,8 +28,6 @@ curl -X POST \
         \"type\":\"float\"
         }" \
     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[1\\\]
-
-exit 0
 
 curl -X POST \
      -H "Content-Type: application/json" \
