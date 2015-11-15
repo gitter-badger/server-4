@@ -24,7 +24,7 @@
     <script type="text/javascript">
         var ARGUX_BASE="${request.application_url}";
         var ARGUX_HOST="${argux_host}";
-        var ARGUX_ITEM="${argux_item}";
+        var ARGUX_ITEM="${argux_item.key}";
         var ARGUX_ITEM_ACTION="${action}";
     </script>
   </head>
@@ -55,20 +55,20 @@
               <span class="caret"/>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="/dashboard">Dashboards</a></li>
+              <li><a href="${request.application_url}/dashboard">Dashboards</a></li>
             </ul>
           </li>
-          <li><a href="/host/${argux_host}">${argux_host}</a></li>
-          <li class="active">${argux_item}</li>
+          <li><a href="${request.application_url}/host/${argux_host}">${argux_host}</a></li>
+          <li class="active">${argux_item.name.name}</li>
         </ol>
         <div class="page-header">
-        <h1>${argux_item} <small>${argux_host}</small></h1>
+        <h1>${argux_host} <small>${argux_item.name.name}</small></h1>
         </div>
         <ul class="nav nav-tabs">
           <li tal:define="item_l ('Details', 'Alerts')"
               tal:repeat="item ('details', 'alerts')"
               tal:attributes="class 'active' if item==action else nothing">
-            <a tal:attributes="href request.application_url+'/host/'+argux_host+'/item/'+argux_item+'/'+item"
+            <a tal:attributes="href request.application_url+'/host/'+argux_host+'/item/'+argux_item.key+'/'+item"
                tal:content="item_l[repeat.item.index]"></a>
             <span tal:condition="action==item">
                 <span tal:define="global tmpl load: ./item/${item}.pt"/>

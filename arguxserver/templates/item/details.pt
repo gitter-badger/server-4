@@ -1,6 +1,7 @@
 <div class="section-body">
     <div class="col-md-6">
-        <div class="panel panel-default">
+        <div tal:condition="len(item_details) > 0"
+             class="panel panel-default">
         <div class="panel-heading">Details</div>
         <table class="table table-striped panel-body">
         <thead>
@@ -11,20 +12,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Last Value</td>
-                <td>...</td>
-                <td>...</td>
-            </tr>
-            <tr>
-                <td>Last Value</td>
-                <td>...</td>
-                <td>...</td>
-            </tr>
-            <tr>
-                <td>Last Value</td>
-                <td>...</td>
-                <td>...</td>
+            <tr tal:repeat="detail item_details">
+                <td tal:content="detail.name"></td>
+                <td tal:content="detail.ts"></td>
+                <td tal:content="detail.value"></td>
             </tr>
         </tbody>
         </table>

@@ -63,17 +63,30 @@ class MainViews:
 
     @view_config(route_name='item', renderer='templates/item.pt')
     def item(self):
-        host = self.request.matchdict['host']
-        item = self.request.matchdict['item']
+        host_name = self.request.matchdict['host']
+        item_key  = self.request.matchdict['item']
 
-        return {"argux_host": host, "argux_item": item, "action": 'details'}
+        details = [
+            {"name": "MAX", "ts": "1-1-1970", "value":"14" }
+            ]
+
+        host     = self.dao.HostDAO.getHostByName(host_name)
+        item     = self.dao.ItemDAO.getItemByHostKey(host, item_key)
+        return {"argux_host": host_name, "argux_item": item, "action": 'details', "item_details": details}
 
     @view_config(route_name='item_details', renderer='templates/item.pt')
     def item_details(self):
-        host = self.request.matchdict['host']
-        item = self.request.matchdict['item']
-        action = self.request.matchdict['action']
-        return {"argux_host": host, "argux_item": item, "action": action}
+        host_name = self.request.matchdict['host']
+        item_key  = self.request.matchdict['item']
+        action    = self.request.matchdict['action']
+
+        details = [
+            {"name": "MAX", "ts": "1-1-1970", "value":"14" }
+            ]
+
+        host     = self.dao.HostDAO.getHostByName(host_name)
+        item     = self.dao.ItemDAO.getItemByHostKey(host, item_key)
+        return {"argux_host": host_name, "argux_item": item, "action": action, "item_details": details}
 
     @view_config(route_name='dashboards', renderer='templates/dashboard.pt')
     def dashboard(self):
