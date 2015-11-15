@@ -25,9 +25,9 @@
       <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">
+        var ARGUX_BASE="${request.application_url}";
         var ARGUX_HOST="${argux_host}";
         var ARGUX_HOST_ACTION="${action}";
-        var ARGUX_BASE="${request.application_url}";
     </script>
   </head>
 

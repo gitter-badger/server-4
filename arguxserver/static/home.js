@@ -1,5 +1,5 @@
 /* globals Chart: false */
-/* globals ARGUX_HOST: false */
+/* globals ARGUX_BASE: false */
 
 var config = {
     type: 'pie',
@@ -37,7 +37,7 @@ var myNewChart = new Chart(ctx, config);
 $(function() {
     function doPoll() {
         $.ajax({
-            url: "/argux/rest/1.0/host",
+            url: ARGUX_BASE+"/rest/1.0/host",
             type: "GET",
             dataType: "json",
             success: function(json) {
@@ -46,7 +46,7 @@ $(function() {
                 $.each(json.hosts, function(i, value) {
                     $('#hosts').append(
                         '<tr><td>' +
-                        '<a href="/host/' + value.name + '">' +
+                        '<a href="'+ARGUX_BASE+'/host/' + value.name + '">' +
                         value.name +
                         '</a></td><td>' +
                         '0' +
