@@ -33,7 +33,16 @@
     <div class="col-md-6">
         <div class="panel panel-default">
         <div class="panel-heading">Timechart</div>
-            <canvas id="myChart" class="child"></canvas>
+        <div class="panel-body">
+            <ul class="nav nav-pills pull-right" aria-label="">
+                <li role="presentation"><a href="#">1 week</a></li>
+                <li role="presentation"><a href="#">24 hours</a></li>
+                <li role="presentation" class="active"><a href="#">30 minutes (realtime)</a></li>
+            </ul>
+            <div>
+                <canvas id="myChart" class="child"></canvas>
+            </div>
+        </div>
         </div>
     </div>
 </div>
