@@ -56,35 +56,41 @@ var config = {
     }
 };
 
+function pollItemValues() {
+    $.ajax({
+        url: ARGUX_BASE+
+             "/rest/1.0/host/"+
+             ARGUX_HOST+
+             "/item/"+
+             ARGUX_ITEM+
+             "/values?query=a&show_date=false",
+        type: "GET",
+        dataType: "json",
+        success: function(json) {
+
+            var datapoints = [];
+
+            $.each(json.values, function(i, value) {
+                datapoints.push({
+                    x: value.ts,
+                    y: value.value});
+            });
+
+            config.data.datasets[0].data = datapoints;
+
+            myNewChart.update();
+
+            setTimeout(pollItemValues, 3000);
+        }
+    });
+}
+
 // Get the context of the canvas element we want to select
 var ctx = document.getElementById("item-timechart").getContext("2d");
 var myNewChart = new Chart(ctx, config);
 
 $(function() {
     if (ARGUX_ITEM_ACTION==="details") {
-        function doPoll() {
-            $.ajax({
-                url: ARGUX_BASE+"/rest/1.0/host/"+ARGUX_HOST+"/item/"+ARGUX_ITEM+"/values?query=a&show_date=false",
-                type: "GET",
-                dataType: "json",
-                success: function(json) {
-
-                    var datapoints = [];
-
-                    $.each(json.values, function(i, value) {
-                        datapoints.push({
-                            x: value.ts,
-                            y: value.value});
-                    });
-
-                    config.data.datasets[0].data = datapoints;
-
-                    myNewChart.update();
-
-                    setTimeout(doPoll, 3000);
-                }
-            });
-        }
-        doPoll();
+        pollItemValues();
     }
 });
