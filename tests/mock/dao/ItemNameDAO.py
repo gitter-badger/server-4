@@ -1,3 +1,8 @@
+class ItemName:
+
+    def __init__(self, name):
+        self.name = name
+
 def getItemNameByName(name):
     return
 

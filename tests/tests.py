@@ -14,6 +14,7 @@ class ViewTests(unittest.TestCase):
     def tearDown(self):
         testing.tearDown()
 
+    @unittest.skip("Redundant test")
     def test_rest_view(self):
         from arguxserver.views import MainViews
         #request = testing.DummyRequest(params={'host':'a','items':'b'},path='/argux/rest/1.0/host/a')

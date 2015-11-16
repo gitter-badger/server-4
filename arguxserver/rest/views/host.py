@@ -32,29 +32,12 @@ class RestHostViews(RestView):
 
         return { 'hosts': hosts }
 
-    @view_config(route_name='rest_host_1')
-    def host_1_view(self):
+    @view_config(
+            route_name='rest_host_1',
+            request_method='POST')
+    def host_1_view_post(self):
+        host = self.request.matchdict['host']
 
-        # Fallback response
-        ret = Response(
-            status='500 Internal Server Error',
-            content_type='application/json',
-            charset='UTF-8',
-            body='{"error": "500 Internal Server Error", "message": "dunno"}')
-
-        host    = self.request.matchdict['host']
-        details = self.request.params.get('details', 'false')
-        items   = self.request.params.get('items', 'false')
-
-        if (self.request.method == "GET"):
-            ret = self.host_1_view_read(host, items, details)
-
-        if (self.request.method == "POST"):
-           ret = self.host_1_view_create(host)
-
-        return ret
-
-    def host_1_view_create(self, host):
         description=None
         try:
             description = self.request.json_body.get('description', None)
@@ -66,7 +49,14 @@ class RestHostViews(RestView):
             status='201 Created',
             content_type='application/json')
 
-    def host_1_view_read(self, host, has_items, has_details):
+    @view_config(
+            route_name='rest_host_1',
+            request_method='GET')
+    def host_1_view_get(self):
+        host = self.request.matchdict['host']
+        has_details = self.request.params.get('details', 'false')
+        has_items   = self.request.params.get('items', 'false')
+
         h = self.dao.HostDAO.getHostByName(host)
 
         items  = []
