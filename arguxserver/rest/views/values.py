@@ -104,14 +104,6 @@ class RestValuesViews(RestView):
             'value': value.value
             } )
 
-        values.append ( {
-            'ts': start.strftime(date_fmt)
-        })
-
-        values.append ( {
-            'ts': end.strftime(date_fmt)
-        })
-
         return {
                 'host': host,
                 'item': item,
