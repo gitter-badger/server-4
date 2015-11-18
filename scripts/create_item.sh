@@ -8,7 +8,7 @@ HOST_NAME=localhost
 for i in {1..59}
 do
 
-cmd="date -v+"$i"M +%FT%TZ"
+cmd="date -v-"$i"M +%FT%TZ"
 
 TS=`$cmd`
 RND=$(((RANDOM%100)))
