@@ -11,7 +11,7 @@ from arguxserver import models
 
 import dateutil.parser
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from . import RestView
 
@@ -76,30 +76,27 @@ class RestValuesViews(RestView):
         start = dateutil.parser.parse(q_start)
 
         if (q_end == 'now'):
-            end = dateutil.now()
+            end = datetime.now()
+            start = end - timedelta(minutes=30)
         elif (q_end == None):
-            end = dateutil.now()
+            end = datetime.now()
         else:
             end = dateutil.parser.parse(q_end)
-            start = end - dateutil.timedelta(minutes=30)
+            start = end - timedelta(minutes=30)
 
-        if (query == None):
+        if (False):
             return Response(
                 status='400 Bad Request',
                 content_type='application/json',
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "query not specified"}')
 
-        if (show_date == 'false'):
-            #date_fmt = "%Y-%m-%dT%H:%M:%S"
-            date_fmt = "%m/%d/%Y %H:%M:%S"
-        else:
-            date_fmt = "%H:%M"
+        date_fmt = "%m/%d/%Y %H:%M:%S"
 
         h = dao.HostDAO.getHostByName(host)
         i = dao.ItemDAO.getItemByHostKey(h, item)
 
-        v = dao.ValuesDAO.getValues(i)
+        v = dao.ValuesDAO.getValues(i, start_time = start, end_time = end)
 
         for value in v:
             values.append ( {
@@ -108,7 +105,11 @@ class RestValuesViews(RestView):
             } )
 
         values.append ( {
-            'ts': datetime.now().strftime(date_fmt)
+            'ts': start.strftime(date_fmt)
+        })
+
+        values.append ( {
+            'ts': end.strftime(date_fmt)
         })
 
         return {

@@ -25,11 +25,37 @@
         <div class="panel panel-default" id="timechart">
             <div class="panel-heading">Timechart</div>
             <div class="panel-body">
-                <ul class="nav nav-pills pull-right" aria-label="">
-                    <li role="presentation"><a href="#timechart">1 week</a></li>
-                    <li role="presentation"><a href="#timechart">24 hours</a></li>
-                    <li role="presentation" class="active"><a href="#timechart">30 minutes (realtime)</a></li>
-                </ul>
+                <div class="btn-toolbar pull-right">
+                    <!-- Split button -->
+                    <div class="btn-group">
+                      <a href="?timeframe=1w&#timechart"
+                         type="button"
+                         role="button"
+                         class="btn btn-default btn-sm">24 hours</a>
+                      <button type="button"
+                              class="btn btn-default dropdown-toggle btn-sm"
+                              data-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a href="#">1 Week</a></li>
+                        <li><a href="#">1 Month</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">All time</a></li>
+                      </ul>
+                    </div>
+                    <a href="?timeframe=1w&#timechart"
+                       type="button"
+                       role="button"
+                       class="btn btn-default btn-sm">12 hours</a>
+                    <a href="?timeframe=1w&#timechart"
+                       type="button"
+                       role="button"
+                       class="btn btn-primary btn-sm">30 minutes (realtime)</a>
+                </div>
                 <div>
                     <canvas id="item-timechart" class="item-timechart"></canvas>
                 </div>

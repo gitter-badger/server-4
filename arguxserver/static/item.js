@@ -32,7 +32,7 @@ var config = {
                 },
                 scaleLabel: {
                     show: true,
-                    labelString: 'Date'
+                    labelString: 'Date/Time'
                 }
             }, ],
             yAxes: [{
@@ -44,7 +44,7 @@ var config = {
                 },
                 scaleLabel: {
                     show: true,
-                    labelString: 'value'
+                    labelString: ARGUX_ITEM
                 }
             }]
         },
@@ -56,14 +56,14 @@ var config = {
     }
 };
 
-function pollItemValues() {
+function pollItemValues(graph_type) {
     $.ajax({
         url: ARGUX_BASE+
              "/rest/1.0/host/"+
              ARGUX_HOST+
              "/item/"+
              ARGUX_ITEM+
-             "/values?query=a&show_date=false",
+             "/values?end=now&start=-30m",
         type: "GET",
         dataType: "json",
         success: function(json) {

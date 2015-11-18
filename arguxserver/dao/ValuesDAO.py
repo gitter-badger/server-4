@@ -27,18 +27,19 @@ def getLastValue(item):
     c = DBSession.query(klass).filter(klass.item_id == item.id).order_by(klass.timestamp.desc()).first()
     return c
 
-def getValues(item):
-    klass = __push_value_class.get(item.itemtype.name, lambda: "nothing")
+def getValues(item, start_time = None, end_time = None, count = -1):
+    klass = __push_value_class.get(item.itemtype.name, "nothing")
 
-    c = getLastValue(item)
+    q = DBSession.query(klass) \
+            .filter(klass.item_id == item.id)
 
-    if (c == None):
-        return []
+    if (start_time):
+        q = q.filter(
+                klass.timestamp > start_time)
+    if (end_time):
+        q = q.filter(
+                klass.timestamp < end_time)
 
-    # Get all values of the last 15 minutes before the last.
-    a = DBSession.query(klass) \
-            .filter(klass.item_id == item.id) \
-            .filter(klass.timestamp > c.timestamp - timedelta(minutes=60)) \
-            .order_by(klass.timestamp.asc()) \
-            .all()
-    return a
+    values = q.order_by(klass.timestamp.asc()).all()
+
+    return values
