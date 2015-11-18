@@ -9,6 +9,8 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
+from arguxserver.util import time_offset_expr
+
 import dateutil.parser
 
 from datetime import datetime, timedelta
@@ -61,6 +63,7 @@ class RestValuesViews(RestView):
     @view_config(
             route_name='rest_values_1',
             request_method='GET')
+
     def values_1_view_read(self):
         dao = self.dao
 
@@ -73,11 +76,13 @@ class RestValuesViews(RestView):
 
         show_date = self.request.params.get('show_date', 'true')
 
-        start = dateutil.parser.parse(q_start)
+        i = self.ts_to_td(q_start)
+        if (i != None):
+             start_offset = i[0]*i[1]
 
         if (q_end == 'now'):
             end = datetime.now()
-            start = end - timedelta(minutes=30)
+            start = end + start_offset
         elif (q_end == None):
             end = datetime.now()
         else:
@@ -109,3 +114,25 @@ class RestValuesViews(RestView):
                 'item': item,
                 'values': values }
 
+
+    def ts_to_td(self, ts):
+        ret_s = 1
+        ret_td = timedelta(minutes = 0)
+
+        i = time_offset_expr.match(ts)
+        if (i == None):
+            return None
+
+        # Check if it is a positive or negative return value
+        if (i.group(1) == '-'):
+            ret_s = -1
+
+        # minutes?
+        if (i.group(3) == 'm'):
+            ret_td = timedelta(minutes = int(i.group(2)))
+
+        # hours?
+        if (i.group(3) == 'h'):
+            ret_td = timedelta(hours = int(i.group(2)))
+
+        return (ret_s, ret_td)

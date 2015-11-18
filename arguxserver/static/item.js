@@ -56,14 +56,14 @@ var config = {
     }
 };
 
-function pollItemValues(graph_type) {
+function pollItemValues(start, end) {
     $.ajax({
         url: ARGUX_BASE+
              "/rest/1.0/host/"+
              ARGUX_HOST+
              "/item/"+
              ARGUX_ITEM+
-             "/values?end=now&start=-30m",
+             "/values?end="+end+"&start="+start,
         type: "GET",
         dataType: "json",
         success: function(json) {
@@ -91,6 +91,6 @@ var myNewChart = new Chart(ctx, config);
 
 $(function() {
     if (ARGUX_ITEM_ACTION==="details") {
-        pollItemValues();
+        pollItemValues('-30m', 'now');
     }
 });
