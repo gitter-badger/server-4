@@ -56,7 +56,7 @@ var config = {
     }
 };
 
-function pollItemValues(start, end) {
+function pollItemValues(chart, start, end) {
     $.ajax({
         url: ARGUX_BASE+
              "/rest/1.0/host/"+
@@ -70,27 +70,39 @@ function pollItemValues(start, end) {
 
             var datapoints = [];
 
-            $.each(json.values, function(i, value) {
+            if (json.values.count > 0) {
+                $.each(json.values, function(i, value) {
+                    datapoints.push({
+                        x: value.ts,
+                        y: value.value});
+                });
+            } else {
                 datapoints.push({
-                    x: value.ts,
-                    y: value.value});
-            });
+                        x: '01/01/1970 00:00:01',
+                        y: 0.1
+                        });
+                datapoints.push({
+                        x: '01/01/1970 00:30:01',
+                        y: 0.1
+                        });
+            }
 
             config.data.datasets[0].data = datapoints;
 
-            myNewChart.update();
+            chart.update();
 
             setTimeout(pollItemValues, 3000);
         }
     });
 }
 
-// Get the context of the canvas element we want to select
-var ctx = document.getElementById("item-timechart").getContext("2d");
-var myNewChart = new Chart(ctx, config);
-
 $(function() {
     if (ARGUX_ITEM_ACTION==="details") {
-        pollItemValues('-30m', 'now');
+        // Get the context of the canvas element we want to select
+        var ctx = document.getElementById("item-timechart").getContext("2d");
+        var chart = new Chart(ctx, config);
+
+        pollItemValues(chart, '-30m', 'now');
+
     }
 });
