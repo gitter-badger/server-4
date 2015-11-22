@@ -26,6 +26,8 @@
         var ARGUX_HOST="${argux_host}";
         var ARGUX_ITEM="${argux_item.key}";
         var ARGUX_ITEM_ACTION="${action}";
+        var TIMESPAN_START="${timespan_start}";
+        var TIMESPAN_END="${timespan_end}";
     </script>
   </head>
 

@@ -72,7 +72,13 @@ class MainViews:
 
         host     = self.dao.HostDAO.getHostByName(host_name)
         item     = self.dao.ItemDAO.getItemByHostKey(host, item_key)
-        return {"argux_host": host_name, "argux_item": item, "action": 'details', "item_details": details}
+        return {
+            "argux_host": host_name,
+            "argux_item": item,
+            "timespan_start": "-45m",
+            "timespan_end": "now",
+            "action": 'details',
+            "item_details": details}
 
     @view_config(route_name='item_details', renderer='templates/item.pt')
     def item_details(self):
@@ -80,13 +86,22 @@ class MainViews:
         item_key  = self.request.matchdict['item']
         action    = self.request.matchdict['action']
 
+        ts        = self.request.params.get('timespan', '30m')
+
         details = [
             {"name": "MAX", "ts": "1-1-1970", "value":"14" }
             ]
 
         host     = self.dao.HostDAO.getHostByName(host_name)
         item     = self.dao.ItemDAO.getItemByHostKey(host, item_key)
-        return {"argux_host": host_name, "argux_item": item, "action": action, "item_details": details}
+
+        return {
+            "argux_host": host_name,
+            "argux_item": item,
+            "timespan_start": "-40m",
+            "timespan_end": "now",
+            "action": action,
+            "item_details": details}
 
     @view_config(route_name='dashboards', renderer='templates/dashboard.pt')
     def dashboard(self):

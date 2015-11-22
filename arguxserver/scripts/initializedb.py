@@ -21,6 +21,10 @@ from ..models import (
     ItemCategory
     )
 
+from ..models.gui import (
+    Timespan
+    )
+
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
@@ -43,4 +47,20 @@ def main(argv=sys.argv):
         model = ItemType(name='int', description='Integer field')
         DBSession.add(model)
         model = ItemType(name='float', description='Floating point')
+        DBSession.add(model)
+        model = ItemType(name='text', description='Text')
+        DBSession.add(model)
+
+        model = Timespan(
+                name='30 minutes (realtime)',
+                key='30m',
+                start='-30m',
+                end='now')
+        DBSession.add(model)
+
+        model = Timespan(
+                name='12 hours',
+                key='12h',
+                start='-12h',
+                end='now')
         DBSession.add(model)

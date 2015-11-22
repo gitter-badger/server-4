@@ -4,6 +4,9 @@
 /* globals ARGUX_ITEM: false */
 /* globals ARGUX_ITEM_ACTION: false */
 
+/* globals TIMESPAN_START: false */
+/* globals TIMESPAN_END: false */
+
 var config = {
     type: 'line',
     data: {
@@ -56,14 +59,14 @@ var config = {
     }
 };
 
-function pollItemValues(chart, start, end) {
+function pollItemValues(chart) {
     $.ajax({
         url: ARGUX_BASE+
              "/rest/1.0/host/"+
              ARGUX_HOST+
              "/item/"+
              ARGUX_ITEM+
-             "/values?end="+end+"&start="+start,
+             "/values?start="+TIMESPAN_START+"&end="+TIMESPAN_END,
         type: "GET",
         dataType: "json",
         success: function(json) {
@@ -102,7 +105,7 @@ $(function() {
         var ctx = document.getElementById("item-timechart").getContext("2d");
         var chart = new Chart(ctx, config);
 
-        pollItemValues(chart, '-30m', 'now');
+        pollItemValues(chart);
 
     }
 });
