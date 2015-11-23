@@ -7,7 +7,7 @@
 >  python setup.py develop
 
 ## Initialize the database
-> initialize_argux-server_db
+> initialize_argux-server_db development.py
 
 # Dependencies
 Argux depends the following software
