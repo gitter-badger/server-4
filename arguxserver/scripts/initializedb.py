@@ -1,6 +1,4 @@
-"""
-Initialisation script for Argux DB
-"""
+"""Initialisation script for Argux DB."""
 import os
 import sys
 import transaction
