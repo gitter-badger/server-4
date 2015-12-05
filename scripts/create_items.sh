@@ -58,6 +58,7 @@ curl -X POST \
         }" \
      $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/sys.uptime
 
+exit 0
 curl -X POST \
      -H "Content-Type: application/json" \
      -d "{

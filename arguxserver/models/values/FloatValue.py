@@ -18,8 +18,9 @@ from sqlalchemy.orm import (
 from .. import Base, DBSession
 from ..Item import Item
 
-import re
+from datetime import datetime
 
+import re
 
 trigger_expr = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
 
@@ -30,35 +31,44 @@ class FloatValue(Base):
     timestamp = Column(DateTime, nullable=False)
     item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
 
+Index('floatvalue_ts_index', FloatValue.timestamp, mysql_length=255)
+
+class FloatSimpleAlert(Base):
+    __tablename__ = 'simple_alert_float'
+    id = Column(Integer, primary_key=True)
+    trigger_id = Column(Integer, ForeignKey('simple_trigger_float.id'), nullable=False)
+    start_time = Column(DateTime, nullable=False)
+    end_time = Column(DateTime, nullable=True)
+
+Index('floatsimple_alert_start_ts', FloatSimpleAlert.start_time, mysql_length=255)
+Index('floatsimple_alert_end_ts', FloatSimpleAlert.end_time, mysql_length=255)
+
 def __handle_last(trigger, selector, operator, value):
     item = trigger.item
     val = DBSession.query(FloatValue) \
             .filter(FloatValue.item_id == item.id) \
             .order_by(FloatValue.timestamp.desc()).first()
-
-    print(operator)
-
     if operator == '>':
+        print(val.timestamp.strftime("%Y/%m/%d %H:%M:%S")+" "+str(val.value) +">"+str(value))
         if val.value > float(value):
-            return True
+            return (True, val.timestamp)
         else:
-            return False
+            return (False, val.timestamp)
     if operator == '<':
         if val.value < float(value):
-            return True
+            return (True, val.timestamp)
         else:
-            return False
+            return (False, val.timestamp)
     if operator == '>=':
-        print(str(val.value) +">="+str(value))
         if val.value >= float(value):
-            return True
+            return (True, val.timestamp)
         else:
-            return False
+            return (False, val.timestamp)
     if operator == '<=':
         if val.value >= float(value):
-            return True
+            return (True, val.timestamp)
         else:
-            return False
+            return (False, val.timestamp)
 
 trigger_handlers = {
     "last": __handle_last
@@ -95,13 +105,22 @@ class FloatSimpleTrigger(Base):
         handler = trigger_handlers.get(i.group(1), None)
 
         if handler:
-            return handler(self, i.group(2), i.group(3), i.group(4))
+            alert = DBSession.query(FloatSimpleAlert) \
+                 .filter(FloatSimpleAlert.trigger_id == self.id) \
+                 .filter(FloatSimpleAlert.end_time == None).first()
+
+            print(alert)
+
+            (is_active, time) = handler(self, i.group(2), i.group(3), i.group(4))
+            print(is_active)
+            if is_active:
+                if not alert:
+                    alert = FloatSimpleAlert(trigger_id = self.id, start_time = time, end_time=None)
+                    DBSession.add(alert)
+            else:
+                if alert:
+                    alert.end_time = time
+            DBSession.flush()
         else:
             return False
 
-class FloatSimpleAlert(Base):
-    __tablename__ = 'simple_alert_float'
-    id = Column(Integer, primary_key=True)
-    trigger_id = Column(Integer, ForeignKey('simple_trigger_float.id'), nullable=False)
-    start_value = Column(Integer, ForeignKey('history_float.id'), nullable=False)
-    end_value = Column(Integer, ForeignKey('history_float.id'), nullable=True)
