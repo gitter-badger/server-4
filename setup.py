@@ -21,7 +21,7 @@ requires = [
     ]
 
 setup(name='argux-server',
-      version='0.0',
+      version='0.0.1',
       description='argux-server',
       long_description=README + '\n\n' + CHANGES,
       classifiers=[
@@ -30,7 +30,7 @@ setup(name='argux-server',
         "Topic :: Internet :: WWW/HTTP",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         ],
-      author='',
+      author='Stephan Arts',
       author_email='',
       url='',
       keywords='web wsgi bfg pylons pyramid',

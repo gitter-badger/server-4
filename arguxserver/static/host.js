@@ -121,7 +121,7 @@ function pollMetrics() {
                         '</a>' +
                         '</div>' +
                         '<div class="collapse in" id="table-items-'+key+'">' +
-                        '<table class="table table-striped">' +
+                        '<table class="table table-striped table-condensed">' +
                         '<thead>' +
                         '<tr>' + 
                         '<th>Name</th>' +

@@ -6,6 +6,10 @@ HOST_URI=host
 
 HOST_NAME=localhost
 
+# Host
+curl -X POST \
+    -H "Content-Type: application/json" \
+    $SERVER/$REST_URI/$HOST_URI/webserver
 
 # Host
 curl -X POST \
@@ -15,11 +19,7 @@ curl -X POST \
     }" \
     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME
 
-# Host
-curl -X POST \
-    -H "Content-Type: application/json" \
-    $SERVER/$REST_URI/$HOST_URI/webserver
-
+# Items
 curl -X POST \
      -H "Content-Type: application/json" \
      -d "{

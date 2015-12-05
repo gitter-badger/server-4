@@ -29,3 +29,12 @@ div.host-items {
 div.notes-toolbar {
     margin: 20px 0;
 }
+
+.glyphicon-none:before {
+    content: "\1879";
+    color: transparent !important;
+}
+
+div.panel-warning > div.panel-heading .glyphicon {
+    color: #000;
+}

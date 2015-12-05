@@ -30,7 +30,7 @@ var config = {
                 type: "time",
                 display: true,
                 time: {
-                    format: 'MM/DD/YYYY HH:mm:SS',
+                    format: 'DD/MM/YYYY HH:mm:SS',
                     //round: 'min'
                 },
                 scaleLabel: {
@@ -53,13 +53,17 @@ var config = {
         },
         elements: {
             line: {
-                tension: 0.3
+                tension: 0.0
             }
         },
     }
 };
 
-function pollItemValues(chart) {
+var ctx;
+var chart;
+
+
+function pollItemValues() {
     $.ajax({
         url: ARGUX_BASE+
              "/rest/1.0/host/"+
@@ -73,22 +77,25 @@ function pollItemValues(chart) {
 
             var datapoints = [];
 
-            if (json.values.count > 0) {
+            start = moment().subtract(30, 'minute');
+            end   = moment();
+
+            datapoints.push({
+                    x: start.format('DD/MM/YYYY HH:mm:ss'),
+                    });
+
+            if (json.values.length > 0) {
                 $.each(json.values, function(i, value) {
                     datapoints.push({
                         x: value.ts,
                         y: value.value});
                 });
-            } else {
-                datapoints.push({
-                        x: '01/01/1970 00:00:01',
-                        y: 0.1
-                        });
-                datapoints.push({
-                        x: '01/01/1970 00:30:01',
-                        y: 0.1
-                        });
             }
+
+            datapoints.push({
+                    x: end.format('DD/MM/YYYY HH:mm:ss'),
+                    });
+
 
             config.data.datasets[0].data = datapoints;
 
@@ -99,13 +106,56 @@ function pollItemValues(chart) {
     });
 }
 
+function pollTriggers() {
+    $.ajax({
+        url: ARGUX_BASE+
+             "/rest/1.0/host/"+
+             ARGUX_HOST+
+             "/item/"+
+             ARGUX_ITEM+
+             "/trigger",
+        type: "GET",
+        dataType: "json",
+        success: function(json) {
+
+            $('#triggers').empty();
+
+/*                    '<tr class="alert alert-warning"><td>' + */
+/*                    '<span class="glyphicon glyphicon-exclamation-sign"></span> ' +*/
+            $.each(json.triggers, function(i, trigger) {
+                $('#triggers').append(
+                    '<tr class=""><td>' +
+                    '<span class="glyphicon glyphicon-none"></span> ' +
+                    '<a href="#">' +
+                    trigger.name +
+                    '</a>' +
+                    '</td><td>' +
+                    trigger.rule +
+                    '</td><td>' +
+                    '0' +
+                    '<a href="#" class="pull-right" data-toggle="tooltip" title="Remove Trigger">' +
+                    '<span class="glyphicon glyphicon-remove"></span>' +
+                    '</a>' +
+                    '<a href="#" class="pull-right" data-toggle="tooltip" title="Edit Trigger">' +
+                    '<span class="glyphicon glyphicon-edit"></span>' +
+                    '</a>' +
+                    '</td></tr>'
+                );
+            });
+            setTimeout(pollTriggers, 3000);
+        }
+    });
+
+}
+
 $(function() {
     if (ARGUX_ITEM_ACTION==="details") {
         // Get the context of the canvas element we want to select
-        var ctx = document.getElementById("item-timechart").getContext("2d");
-        var chart = new Chart(ctx, config);
-
-        pollItemValues(chart);
-
+        ctx = document.getElementById("item-timechart").getContext("2d");
+        chart = new Chart(ctx, config);
+        pollItemValues();
+    }
+    if (ARGUX_ITEM_ACTION==="triggers") {
+        pollTriggers();
     }
 });

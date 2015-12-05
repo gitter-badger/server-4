@@ -67,8 +67,8 @@
         <h1>${argux_host} <small>${argux_item.name.name}</small></h1>
         </div>
         <ul class="nav nav-tabs">
-          <li tal:define="item_l ('Details', 'Alerts')"
-              tal:repeat="item ('details', 'alerts')"
+          <li tal:define="item_l ('Details', 'Alerts', 'Triggers')"
+              tal:repeat="item ('details', 'alerts','triggers')"
               tal:attributes="class 'active' if item==action else nothing">
             <a tal:attributes="href request.application_url+'/host/'+argux_host+'/item/'+argux_item.key+'/'+item"
                tal:content="item_l[repeat.item.index]"></a>

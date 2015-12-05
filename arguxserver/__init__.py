@@ -11,6 +11,8 @@ from .models import (
 
 from arguxserver import dao
 
+from arguxserver.trigger import TriggerWorker
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -45,6 +47,10 @@ def main(global_config, **settings):
             '/rest/1.0/host/{host}/item/{item}')
     config.add_route('rest_values_1',
             '/rest/1.0/host/{host}/item/{item}/values')
+    config.add_route('rest_triggers_1',
+            '/rest/1.0/host/{host}/item/{item}/trigger')
+    config.add_route('rest_trigger_1',
+            '/rest/1.0/host/{host}/item/{item}/trigger/{id}')
 
     config.add_route('rest_note_1',
             '/rest/1.0/note')
@@ -60,4 +66,8 @@ def main(global_config, **settings):
 
     config.scan('.views')
     config.scan('.rest.views')
+
+    t = TriggerWorker()
+    t.start()
+
     return config.make_wsgi_app()
