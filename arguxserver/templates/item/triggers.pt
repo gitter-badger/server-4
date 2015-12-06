@@ -9,7 +9,7 @@
         <div class="panel-body">
             <p>This table contains a list of triggers associated with <code>${argux_item.name.name}</code> on <strong>${argux_host}</strong></p>
         </div>
-        <table class="table table-condensed">
+       <table class="table table-condensed">
         <thead>
         <tr>
             <th>Name</th><th>Rule</th><th>Last Alert</th>
