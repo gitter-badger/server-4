@@ -98,6 +98,8 @@ class FloatSimpleTrigger(Base):
         return ret
 
     def evaluate_rule(self):
+        Session = sessionmaker()
+        session = Session()
         i = trigger_expr.match(self.rule)
         if (i == None):
             return False
@@ -105,22 +107,21 @@ class FloatSimpleTrigger(Base):
         handler = trigger_handlers.get(i.group(1), None)
 
         if handler:
-            alert = DBSession.query(FloatSimpleAlert) \
+            alert = session.query(FloatSimpleAlert) \
                  .filter(FloatSimpleAlert.trigger_id == self.id) \
                  .filter(FloatSimpleAlert.end_time == None).first()
 
-            print(alert)
-
             (is_active, time) = handler(self, i.group(2), i.group(3), i.group(4))
-            print(is_active)
+
             if is_active:
                 if not alert:
                     alert = FloatSimpleAlert(trigger_id = self.id, start_time = time, end_time=None)
-                    DBSession.add(alert)
+                    session.add(alert)
+                    session.commit()
             else:
                 if alert:
                     alert.end_time = time
-            DBSession.flush()
+                    session.commit()
         else:
             return False
 
