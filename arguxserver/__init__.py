@@ -45,8 +45,8 @@ def main(global_config, **settings):
 
     config.add_route('rest_item_1',
             '/rest/1.0/host/{host}/item/{item}')
-    config.add_route('rest_values_1',
-            '/rest/1.0/host/{host}/item/{item}/values')
+    config.add_route('rest_item_details_1',
+            '/rest/1.0/host/{host}/item/{item}/details')
     config.add_route('rest_triggers_1',
             '/rest/1.0/host/{host}/item/{item}/trigger')
     config.add_route('rest_trigger_1',

@@ -69,7 +69,7 @@ function pollItemValues() {
              ARGUX_HOST+
              "/item/"+
              ARGUX_ITEM+
-             "/values?start="+TIMESPAN_START+"&end="+TIMESPAN_END,
+             "/details?start="+TIMESPAN_START+"&end="+TIMESPAN_END,
         type: "GET",
         dataType: "json",
         success: function(json) {

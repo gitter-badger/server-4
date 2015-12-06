@@ -100,7 +100,7 @@ class RestHostViews(RestView):
             else:
                 category = None
 
-            v = self.dao.ValuesDAO.getLastValue(a)
+            v = self.dao.ItemDAO.getLastValue(a)
 
             if (v):
                 items.append({

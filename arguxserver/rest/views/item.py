@@ -88,3 +88,69 @@ class RestItemViews(RestView):
         return Response(
             status='201 Created',
             content_type='application/json; charset=UTF-8')
+
+    @view_config(route_name='rest_item_details_1')
+    def item_details_1_view(self):
+
+        # Fallback response
+        ret = Response(
+            status='400 Bad Request',
+            content_type='application/json',
+            charset='UTF-8',
+            body='{"error": "400 Bad Request", "message": "don\'t do that"}')
+
+        host = self.request.matchdict['host']
+        item = self.request.matchdict['item']
+
+        if (self.request.method == "GET"):
+            ret = self.item_details_1_view_read(host, item)
+
+        return ret
+
+    def item_details_1_view_read(host, item):
+        values = []
+        alerts = []
+        q_start = self.request.params.get('start', '-30m')
+        q_end = self.request.params.get('end', 'now')
+
+        get_values = self.request.params.get('get_values', 'true')
+        get_alerts = self.request.params.get('get_alerts', 'false')
+
+        i = self.ts_to_td(q_start)
+        if (i != None):
+             start_offset = i[0]*i[1]
+
+        if (q_end == 'now'):
+            end = datetime.now()
+            start = end + start_offset
+        elif (q_end == None):
+            end = datetime.now()
+        else:
+            end = dateutil.parser.parse(q_end)
+            start = end - timedelta(minutes=30)
+
+        if (False):
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json',
+                charset='UTF-8',
+                body='{"error": "400 Bad Request", "message": "query not specified"}')
+
+        date_fmt = "%d/%m/%Y %H:%M:%S"
+
+        h = self.dao.HostDAO.getHostByName(host)
+        i = self.dao.ItemDAO.getItemByHostKey(h, item)
+
+        if get_values:
+            v = self.dao.ItemDAO.getValues(i, start_time = start, end_time = end)
+            for value in v:
+                values.append ( {
+                'ts': value.timestamp.strftime(date_fmt),
+                'value': value.value
+                } )
+
+        return {
+                'host': host,
+                'item': item,
+                'values': values,
+                'active_alerts': alerts }

@@ -25,9 +25,9 @@ class RestValuesViews(RestView):
     self.dao:      set via parent constructor
     """
 
-    @view_config(
-            route_name='rest_values_1',
-            request_method='POST')
+    #@view_config(
+    #        route_name='rest_values_1',
+    #        request_method='POST')
     def values_1_view_create(self):
         dao = self.dao
 
@@ -51,7 +51,7 @@ class RestValuesViews(RestView):
 
         t = dateutil.parser.parse(ts)
 
-        dao.ValuesDAO.pushValue(i, t, value)
+        dao.ItemDAO.pushValue(i, t, value)
 
         return Response(
             status='201 Created',
@@ -60,9 +60,9 @@ class RestValuesViews(RestView):
     #
     # Read Values
     #
-    @view_config(
-            route_name='rest_values_1',
-            request_method='GET')
+    #@view_config(
+    #        route_name='rest_values_1',
+    #        request_method='GET')
 
     def values_1_view_read(self):
         dao = self.dao
@@ -101,7 +101,7 @@ class RestValuesViews(RestView):
         h = dao.HostDAO.getHostByName(host)
         i = dao.ItemDAO.getItemByHostKey(h, item)
 
-        v = dao.ValuesDAO.getValues(i, start_time = start, end_time = end)
+        v = dao.ItemDAO.getValues(i, start_time = start, end_time = end)
 
         for value in v:
             values.append ( {
