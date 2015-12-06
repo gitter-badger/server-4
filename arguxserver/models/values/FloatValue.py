@@ -125,4 +125,3 @@ class FloatSimpleTrigger(Base):
             session.close()
         else:
             return False
-

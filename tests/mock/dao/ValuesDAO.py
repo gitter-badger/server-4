@@ -13,11 +13,3 @@ __push_value_class = {
 }
 
 
-def pushValue(item, timestamp, value):
-    return
-
-def getLastValue(item):
-    return MockValue(42, datetime.now(), 1)
-
-def getValues(item):
-    return []

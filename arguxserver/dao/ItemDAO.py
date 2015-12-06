@@ -80,3 +80,15 @@ def getValues(item, start_time = None, end_time = None, count = -1):
 
     return values
 
+def getAlerts(item, active=True, inActive=False):
+    alert_klass = __alert_class.get(item.itemtype.name)
+    alerts = []
+    triggers = getTriggers(item)
+    for trigger in triggers:
+        a = DBSession.query(alert_klass) \
+                .filter(alert_klass.trigger_id == trigger.id) \
+                .filter(alert_klass.end_time == None)
+
+        alerts.extend(a)
+
+    return alerts

@@ -6,6 +6,8 @@ import time
 
 from arguxserver.dao import ItemDAO
 
+
+
 class TriggerWorker(Thread):
 
     def run(self):
@@ -16,3 +18,4 @@ class TriggerWorker(Thread):
                 print(trigger.evaluate_rule())
             time.sleep(60)
             print("THREAD")
+

@@ -187,12 +187,19 @@ class RestItemViews(RestView):
                 'ts': value.timestamp.strftime(date_fmt),
                 'value': value.value
                 } )
+        if get_alerts:
+            a = self.dao.ItemDAO.getAlerts(i)
+            for alert in a:
+                alerts.append ( {
+                'start_time': alert.start_time.strftime(date_fmt),
+                'name': 'ow'
+                } )
 
         return {
                 'host': host,
                 'item': item,
                 'values': values,
-                'active_alerts': alerts }
+                'alerts': alerts }
 
     def ts_to_td(self, ts):
         ret_s = 1

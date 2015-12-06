@@ -1,5 +1,18 @@
+from datetime import datetime, timedelta
 
 from .ItemNameDAO import ItemName
+
+class MockValue():
+    def __init__(self, value, timestamp, item_id):
+        self.value = value
+        self.timestamp = timestamp
+
+
+# Map
+__push_value_class = {
+    "int" : MockValue,
+    "float" : MockValue
+}
 
 class Item:
 
@@ -24,3 +37,12 @@ def getItemByHostKey(host, key):
 def createItem(host, key, name, category, itemtype):
     i = Item(host, key, name, category, itemtype)
     return i
+
+def pushValue(item, timestamp, value):
+    return
+
+def getLastValue(item):
+    return MockValue(42, datetime.now(), 1)
+
+def getValues(item):
+    return []

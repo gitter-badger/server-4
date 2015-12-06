@@ -62,45 +62,28 @@ var config = {
 var ctx;
 var chart;
 
-function pollItemValues() {
+function pollItemValues(showValues, showAlerts, callback) {
     $.ajax({
         url: ARGUX_BASE+
              "/rest/1.0/host/"+
              ARGUX_HOST+
              "/item/"+
              ARGUX_ITEM+
-             "/details?start="+TIMESPAN_START+"&end="+TIMESPAN_END,
+             "/details?start="+
+             TIMESPAN_START+
+             "&end="+
+             TIMESPAN_END+
+             "&get_values="+
+             showValues+
+             "&get_alerts="+
+             showAlerts,
         type: "GET",
         dataType: "json",
         success: function(json) {
 
-            var datapoints = [];
+            callback(json);
 
-            start = moment().subtract(30, 'minute');
-            end   = moment();
-
-            datapoints.push({
-                    x: start.format('DD/MM/YYYY HH:mm:ss'),
-                    });
-
-            if (json.values.length > 0) {
-                $.each(json.values, function(i, value) {
-                    datapoints.push({
-                        x: value.ts,
-                        y: value.value});
-                });
-            }
-
-            datapoints.push({
-                    x: end.format('DD/MM/YYYY HH:mm:ss'),
-                    });
-
-
-            config.data.datasets[0].data = datapoints;
-
-            chart.update();
-
-            setTimeout(pollItemValues, 3000);
+            setTimeout(pollItemValues, 3000, showValues, showAlerts, callback);
         }
     });
 }
@@ -147,12 +130,64 @@ function pollTriggers() {
 
 }
 
+function details_cb(json) {
+    var datapoints = [];
+
+    start = moment().subtract(30, 'minute');
+    end   = moment();
+
+    datapoints.push({
+            x: start.format('DD/MM/YYYY HH:mm:ss'),
+            });
+
+    if (json.values) {
+        $.each(json.values, function(i, value) {
+            datapoints.push({
+                x: value.ts,
+                y: value.value});
+        });
+    }
+
+    datapoints.push({
+            x: end.format('DD/MM/YYYY HH:mm:ss'),
+            });
+
+
+    config.data.datasets[0].data = datapoints;
+
+    chart.update();
+}
+
+function alerts_cb(json) {
+
+    $('#alerts').empty();
+
+    if (json.alerts) {
+        $.each(json.alerts, function(i, al) {
+
+            $('#alerts').append(
+                '<tr class=""><td>' +
+                '<span class="glyphicon glyphicon-none"></span> ' +
+                '<a href="#">' +
+                al.name +
+                '</a>' +
+                '</td><td>' +
+                al.start_time +
+                '</td></tr>'
+            );
+        });
+    }
+}
+
 $(function() {
     if (ARGUX_ITEM_ACTION==="details") {
         // Get the context of the canvas element we want to select
         ctx = document.getElementById("item-timechart").getContext("2d");
         chart = new Chart(ctx, config);
-        pollItemValues();
+        pollItemValues(true, false, details_cb);
+    }
+    if (ARGUX_ITEM_ACTION==="alerts") {
+        pollItemValues(false, true, alerts_cb);
     }
     if (ARGUX_ITEM_ACTION==="triggers") {
         pollTriggers();
