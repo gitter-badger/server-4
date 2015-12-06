@@ -62,7 +62,6 @@ var config = {
 var ctx;
 var chart;
 
-
 function pollItemValues() {
     $.ajax({
         url: ARGUX_BASE+
