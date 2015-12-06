@@ -122,6 +122,7 @@ class FloatSimpleTrigger(Base):
                 if alert:
                     alert.end_time = time
                     session.commit()
+            session.close()
         else:
             return False
 

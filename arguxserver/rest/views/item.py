@@ -7,7 +7,14 @@ from pyramid.view import (
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
 
+
+import dateutil.parser
+
+from datetime import datetime, timedelta
+
 from . import RestView
+
+from arguxserver.util import time_offset_expr
 
 @view_defaults(renderer='json')
 class RestItemViews(RestView):
@@ -89,6 +96,38 @@ class RestItemViews(RestView):
             status='201 Created',
             content_type='application/json; charset=UTF-8')
 
+    @view_config(
+            route_name='rest_item_values_1',
+            request_method='POST')
+    def item_values_1_view(self):
+        dao = self.dao
+
+        host = self.request.matchdict['host']
+        item = self.request.matchdict['item']
+
+
+        try:
+            value = self.request.json_body.get('value', None)
+            ts = self.request.json_body.get('timestamp', None)
+        except ValueError:
+            value= None
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json',
+                charset='UTF-8',
+                body='{"error": "400 Bad Request", "message": "value not specified"}')
+
+        h = dao.HostDAO.getHostByName(host)
+        i = dao.ItemDAO.getItemByHostKey(h, item)
+
+        t = dateutil.parser.parse(ts)
+
+        dao.ItemDAO.pushValue(i, t, value)
+
+        return Response(
+            status='201 Created',
+            content_type='application/json; charset=UTF-8')
+
     @view_config(route_name='rest_item_details_1')
     def item_details_1_view(self):
 
@@ -107,7 +146,7 @@ class RestItemViews(RestView):
 
         return ret
 
-    def item_details_1_view_read(host, item):
+    def item_details_1_view_read(self, host, item):
         values = []
         alerts = []
         q_start = self.request.params.get('start', '-30m')
@@ -154,3 +193,25 @@ class RestItemViews(RestView):
                 'item': item,
                 'values': values,
                 'active_alerts': alerts }
+
+    def ts_to_td(self, ts):
+        ret_s = 1
+        ret_td = timedelta(minutes = 0)
+
+        i = time_offset_expr.match(ts)
+        if (i == None):
+            return None
+
+        # Check if it is a positive or negative return value
+        if (i.group(1) == '-'):
+            ret_s = -1
+
+        # minutes?
+        if (i.group(3) == 'm'):
+            ret_td = timedelta(minutes = int(i.group(2)))
+
+        # hours?
+        if (i.group(3) == 'h'):
+            ret_td = timedelta(hours = int(i.group(2)))
+
+        return (ret_s, ret_td)
