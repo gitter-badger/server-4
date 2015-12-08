@@ -172,7 +172,7 @@ function alerts_cb(json) {
                 al.name +
                 '</a>' +
                 '</td><td>' +
-                moment(al.start_time).fromNow() +
+                moment(al.start_time).fromNow(true) +
                 '</td></tr>'
             );
         });
