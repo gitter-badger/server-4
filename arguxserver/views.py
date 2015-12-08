@@ -34,6 +34,7 @@ class MainViews:
     def host(self):
         host = self.request.matchdict['host']
         host_desc = ''
+        n_alerts = 0
         h = self.dao.HostDAO.getHostByName(host)
 
         if (h):
@@ -46,12 +47,17 @@ class MainViews:
         else:
             action = 'metrics'
 
-        return {"argux_host": host, "argux_host_desc": host_desc, "action": action}
+        return {
+            "argux_host": host,
+            "argux_host_desc": host_desc,
+            "active_alerts": n_alerts,
+            "action": action}
 
     @view_config(route_name='host_details', renderer='templates/host.pt')
     def host_details(self):
         host = self.request.matchdict['host']
         action = self.request.matchdict['action']
+        n_alerts = 0
 
         host_desc = ''
         h = self.dao.HostDAO.getHostByName(host)
@@ -59,26 +65,17 @@ class MainViews:
         if (h):
             host_desc = h.description
 
-        return {"argux_host": host, "argux_host_desc": host_desc, "action": action}
+        return {
+            "argux_host": host,
+            "argux_host_desc": host_desc,
+            "active_alerts": n_alerts,
+            "action": action}
 
     @view_config(route_name='item', renderer='templates/item.pt')
     def item(self):
-        host_name = self.request.matchdict['host']
-        item_key  = self.request.matchdict['item']
+        self.request.matchdict['action'] = 'details'
 
-        details = [
-            {"name": "MAX", "ts": "1-1-1970", "value":"14" }
-            ]
-
-        host     = self.dao.HostDAO.getHostByName(host_name)
-        item     = self.dao.ItemDAO.getItemByHostKey(host, item_key)
-        return {
-            "argux_host": host_name,
-            "argux_item": item,
-            "timespan_start": "-45m",
-            "timespan_end": "now",
-            "action": 'details',
-            "item_details": details}
+        return self.item_details()
 
     @view_config(route_name='item_details', renderer='templates/item.pt')
     def item_details(self):
