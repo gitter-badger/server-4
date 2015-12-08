@@ -49,7 +49,7 @@ def __handle_last(trigger, selector, operator, value):
             .filter(FloatValue.item_id == item.id) \
             .order_by(FloatValue.timestamp.desc()).first()
     if operator == '>':
-        print(val.timestamp.strftime("%Y/%m/%d %H:%M:%S")+" "+str(val.value) +">"+str(value))
+        print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
         if val.value > float(value):
             return (True, val.timestamp)
         else:

@@ -30,7 +30,7 @@ var config = {
                 type: "time",
                 display: true,
                 time: {
-                    format: 'DD/MM/YYYY HH:mm:SS',
+                    format: 'YYYY-MM-DDTHH:mm:SS',
                     //round: 'min'
                 },
                 scaleLabel: {
@@ -137,7 +137,7 @@ function details_cb(json) {
     end   = moment();
 
     datapoints.push({
-            x: start.format('DD/MM/YYYY HH:mm:ss'),
+            x: start.format('YYYY-MM-DDTHH:mm:ss'),
             });
 
     if (json.values) {
@@ -149,7 +149,7 @@ function details_cb(json) {
     }
 
     datapoints.push({
-            x: end.format('DD/MM/YYYY HH:mm:ss'),
+            x: end.format('YYYY-MM-DDTHH:mm:ss'),
             });
 
 
@@ -172,7 +172,7 @@ function alerts_cb(json) {
                 al.name +
                 '</a>' +
                 '</td><td>' +
-                al.start_time +
+                moment(al.start_time).fromNow() +
                 '</td></tr>'
             );
         });

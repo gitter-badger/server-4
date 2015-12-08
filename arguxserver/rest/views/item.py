@@ -175,7 +175,7 @@ class RestItemViews(RestView):
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "query not specified"}')
 
-        date_fmt = "%d/%m/%Y %H:%M:%S"
+        date_fmt = "%Y-%m-%dT%H:%M:%S"
 
         h = self.dao.HostDAO.getHostByName(host)
         i = self.dao.ItemDAO.getItemByHostKey(h, item)
