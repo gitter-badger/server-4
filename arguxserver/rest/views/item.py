@@ -149,6 +149,8 @@ class RestItemViews(RestView):
     def item_details_1_view_read(self, host, item):
         values = []
         alerts = []
+        n_alerts = 0
+
         q_start = self.request.params.get('start', '-30m')
         q_end = self.request.params.get('end', 'now')
 
@@ -189,6 +191,8 @@ class RestItemViews(RestView):
                 } )
         if get_alerts:
             a = self.dao.ItemDAO.getAlerts(i)
+
+            n_alerts = len(a)
             for alert in a:
                 alerts.append ( {
                 'start_time': alert.start_time.strftime(date_fmt),
@@ -198,6 +202,7 @@ class RestItemViews(RestView):
         return {
                 'host': host,
                 'item': item,
+                'active_alerts': n_alerts,
                 'values': values,
                 'alerts': alerts }
 

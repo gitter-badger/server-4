@@ -80,7 +80,7 @@ def getValues(item, start_time = None, end_time = None, count = -1):
 
     return values
 
-def getAlerts(item, active=True, inActive=False):
+def getAlerts(item, active=True, inactive=False):
     alert_klass = __alert_class.get(item.itemtype.name)
     alerts = []
     triggers = getTriggers(item)

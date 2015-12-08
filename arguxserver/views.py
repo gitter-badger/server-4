@@ -95,12 +95,17 @@ class MainViews:
         host     = self.dao.HostDAO.getHostByName(host_name)
         item     = self.dao.ItemDAO.getItemByHostKey(host, item_key)
 
+        a = self.dao.ItemDAO.getAlerts(item)
+
+        n_alerts = len(a)
+
         return {
             "argux_host": host_name,
             "argux_item": item,
             "timespan_start": "-40m",
             "timespan_end": "now",
             "action": action,
+            'active_alerts': n_alerts,
             "item_details": details}
 
     @view_config(route_name='dashboards', renderer='templates/dashboard.pt')

@@ -80,9 +80,14 @@ function pollItemValues(showValues, showAlerts, callback) {
         type: "GET",
         dataType: "json",
         success: function(json) {
-
             callback(json);
-
+            if(json.active_alerts > 0) {
+                $("#alert_count").text(json.active_alerts);
+            } else {
+                $("#alert_count").text('');
+            }
+        },
+        complete: function(json) {
             setTimeout(pollItemValues, 3000, showValues, showAlerts, callback);
         }
     });
