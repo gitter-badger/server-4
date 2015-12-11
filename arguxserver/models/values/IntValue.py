@@ -15,7 +15,11 @@ from sqlalchemy.orm import (
 
 from .. import Base, DBSession
 
-from .AbstractValue import AbstractValue
+from .AbstractValue import (
+    AbstractValue,
+    AbstractSimpleTrigger
+)
+
 
 class IntValue(AbstractValue, Base):
     __tablename__ = 'history_int'
@@ -35,17 +39,8 @@ trigger_handlers = {
     "last": __handle_last
 }
 
-class IntSimpleTrigger(Base):
+class IntSimpleTrigger(AbstractSimpleTrigger, Base):
     __tablename__ = 'simple_trigger_int'
-    id = Column(Integer, primary_key=True)
-    name = Column(Text, nullable=False)
-    description = Column(Text, nullable=False, default="")
-    rule = Column(Text, nullable=False)
-    item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
-
-    @staticmethod
-    def validate_rule(rule):
-        return False
 
     def evaluate_rule(self):
         i = trigger_expr.match(self.rule)

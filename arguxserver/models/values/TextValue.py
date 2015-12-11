@@ -16,7 +16,10 @@ from sqlalchemy.orm import (
     )
 
 from .. import Base
-from .AbstractValue import AbstractValue
+from .AbstractValue import (
+    AbstractValue,
+    AbstractSimpleTrigger
+)
 
 
 class TextValue(AbstractValue, Base):
@@ -38,17 +41,8 @@ trigger_handlers = {
 }
 
 
-class TextSimpleTrigger(Base):
+class TextSimpleTrigger(AbstractSimpleTrigger, Base):
     __tablename__ = 'simple_trigger_text'
-    id = Column(Integer, primary_key=True)
-    name = Column(Text, nullable=False)
-    description = Column(Text, nullable=False, default="")
-    rule = Column(Text, nullable=False)
-    item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
-
-    @staticmethod
-    def validate_rule(rule):
-        return False
 
     def evaluate_rule(self):
         i = trigger_expr.match(self.rule)

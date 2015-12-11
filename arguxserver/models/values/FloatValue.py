@@ -29,6 +29,7 @@ import re
 
 trigger_expr = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
 
+
 class FloatValue(AbstractValue, Base):
     __tablename__ = 'history_float'
     value = Column(Float, nullable=True)
@@ -80,18 +81,6 @@ trigger_handlers = {
 class FloatSimpleTrigger(AbstractSimpleTrigger, Base):
     __tablename__ = 'simple_trigger_float'
 
-    @staticmethod
-    def validate_rule(rule):
-        i = trigger_expr.match(rule)
-        if (i == None):
-            return False
-
-        ret = [ i.group(1), i.group(2), i.group(3), i.group(4) ]
-
-        if trigger_handlers.get(i.group(1), None) == None:
-            return False
-
-        return ret
 
     def evaluate_rule(self):
         Session = sessionmaker()
