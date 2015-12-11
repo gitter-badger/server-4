@@ -15,12 +15,13 @@ from sqlalchemy.orm import (
 
 from .. import Base, DBSession
 
-class IntValue(Base):
+from .AbstractValue import AbstractValue
+
+class IntValue(AbstractValue, Base):
     __tablename__ = 'history_int'
-    id = Column(Integer, primary_key=True)
     value = Column(Integer, nullable=True)
-    timestamp = Column(DateTime, nullable=False)
-    item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
+
+Index('intvalue_ts_index', IntValue.timestamp, mysql_length=255)
 
 def __handle_last(trigger, selector, operator, value):
     item = trigger.item

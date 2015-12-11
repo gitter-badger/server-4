@@ -16,13 +16,14 @@ from sqlalchemy.orm import (
     )
 
 from .. import Base
+from .AbstractValue import AbstractValue
 
-class TextValue(Base):
+
+class TextValue(AbstractValue, Base):
     __tablename__ = 'history_text'
-    id = Column(Integer, primary_key=True)
     value = Column(Text, nullable=True)
-    timestamp = Column(DateTime, nullable=False)
-    item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
+
+Index('textvalue_ts_index', TextValue.timestamp, mysql_length=255)
 
 def __handle_last(trigger, selector, operator, value):
     item = trigger.item

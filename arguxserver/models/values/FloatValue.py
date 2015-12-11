@@ -18,18 +18,20 @@ from sqlalchemy.orm import (
 from .. import Base, DBSession
 from ..Item import Item
 
+from .AbstractValue import (
+    AbstractValue,
+    AbstractSimpleTrigger
+)
+
 from datetime import datetime
 
 import re
 
 trigger_expr = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
 
-class FloatValue(Base):
+class FloatValue(AbstractValue, Base):
     __tablename__ = 'history_float'
-    id = Column(Integer, primary_key=True)
     value = Column(Float, nullable=True)
-    timestamp = Column(DateTime, nullable=False)
-    item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
 
 Index('floatvalue_ts_index', FloatValue.timestamp, mysql_length=255)
 
@@ -75,14 +77,8 @@ trigger_handlers = {
 }
 
 
-class FloatSimpleTrigger(Base):
+class FloatSimpleTrigger(AbstractSimpleTrigger, Base):
     __tablename__ = 'simple_trigger_float'
-    id = Column(Integer, primary_key=True)
-    name = Column(Text, nullable=False)
-    description = Column(Text, nullable=False, default="")
-    rule = Column(Text, nullable=False)
-    item_id = Column(Integer, ForeignKey('item.id'), nullable=False)
-    item = relationship(Item);
 
     @staticmethod
     def validate_rule(rule):

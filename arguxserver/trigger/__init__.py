@@ -16,6 +16,10 @@ class TriggerWorker(Thread):
             triggers = ItemDAO.getAllTriggers()
             for trigger in triggers:
                 print(trigger.evaluate_rule())
-            time.sleep(60)
+
+            try:
+                time.sleep(60)
+            except KeyboardInterrupt:
+                self.stop() 
             print("THREAD")
 
