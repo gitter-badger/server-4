@@ -46,67 +46,38 @@ class FloatSimpleAlert(Base):
 Index('floatsimple_alert_start_ts', FloatSimpleAlert.start_time, mysql_length=255)
 Index('floatsimple_alert_end_ts', FloatSimpleAlert.end_time, mysql_length=255)
 
-def __handle_last(trigger, selector, operator, value):
-    item = trigger.item
-    val = DBSession.query(FloatValue) \
-            .filter(FloatValue.item_id == item.id) \
-            .order_by(FloatValue.timestamp.desc()).first()
-    if operator == '>':
-        print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
-        if val.value > float(value):
-            return (True, val.timestamp)
-        else:
-            return (False, val.timestamp)
-    if operator == '<':
-        if val.value < float(value):
-            return (True, val.timestamp)
-        else:
-            return (False, val.timestamp)
-    if operator == '>=':
-        if val.value >= float(value):
-            return (True, val.timestamp)
-        else:
-            return (False, val.timestamp)
-    if operator == '<=':
-        if val.value >= float(value):
-            return (True, val.timestamp)
-        else:
-            return (False, val.timestamp)
-
-trigger_handlers = {
-    "last": __handle_last
-}
-
 
 class FloatSimpleTrigger(AbstractSimpleTrigger, Base):
     __tablename__ = 'simple_trigger_float'
+    AlertKlass    = FloatSimpleAlert
 
-
-    def evaluate_rule(self):
-        Session = sessionmaker()
-        session = Session()
-        i = trigger_expr.match(self.rule)
-        if (i == None):
-            return False
-
-        handler = trigger_handlers.get(i.group(1), None)
-
-        if handler:
-            alert = session.query(FloatSimpleAlert) \
-                 .filter(FloatSimpleAlert.trigger_id == self.id) \
-                 .filter(FloatSimpleAlert.end_time == None).first()
-
-            (is_active, time) = handler(self, i.group(2), i.group(3), i.group(4))
-
-            if is_active:
-                if not alert:
-                    alert = FloatSimpleAlert(trigger_id = self.id, start_time = time, end_time=None)
-                    session.add(alert)
-                    session.commit()
+    def __handle_last(trigger, session, selector, operator, value):
+        item = trigger.item
+        val = session.query(FloatValue) \
+                .filter(FloatValue.item_id == item.id) \
+                .order_by(FloatValue.timestamp.desc()).first()
+        if operator == '>':
+            print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
+            if val.value > float(value):
+                return (True, val.timestamp)
             else:
-                if alert:
-                    alert.end_time = time
-                    session.commit()
-            session.close()
-        else:
-            return False
+                return (False, val.timestamp)
+        if operator == '<':
+            if val.value < float(value):
+                return (True, val.timestamp)
+            else:
+                return (False, val.timestamp)
+        if operator == '>=':
+            if val.value >= float(value):
+                return (True, val.timestamp)
+            else:
+                return (False, val.timestamp)
+        if operator == '<=':
+            if val.value >= float(value):
+                return (True, val.timestamp)
+            else:
+                return (False, val.timestamp)
+
+    trigger_handlers = {
+        "last": __handle_last
+    }
