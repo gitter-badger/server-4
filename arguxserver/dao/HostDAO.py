@@ -5,15 +5,15 @@ from arguxserver.models import (
 
 class HostDAO(object):
 
-    def getHostByName(self, name):
+    def get_host_by_name(self, name):
         h = DB_SESSION.query(Host).filter(Host.name == name).first()
         return h
 
-    def createHost(self, name, description=""):
+    def create_host(self, name, description=""):
         h = Host(name=name, description=description)
         DB_SESSION.add(h)
         return h
 
-    def getAllHosts(self):
+    def get_all_hosts(self):
         h = DB_SESSION.query(Host)
         return h

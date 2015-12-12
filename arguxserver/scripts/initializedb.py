@@ -14,7 +14,7 @@ from pyramid.scripts.common import parse_vars
 
 from ..models import (
     DB_SESSION,
-    Base,
+    BASE,
     Host,
     ItemName,
     ItemType,

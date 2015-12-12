@@ -6,13 +6,13 @@ class Host:
         self.name = "localhost"
 
 
-def getHostByName(name):
+def get_host_by_name(name):
     return Host("name")
 
-def createHost(name, description=""):
+def create_host(name, description=""):
     h = Host(name, description)
     return h
 
-def getAllHosts():
+def get_all_hosts():
     h = Host('a')
     return [h]

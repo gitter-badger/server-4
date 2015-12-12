@@ -13,7 +13,7 @@ class TriggerWorker(Thread):
     def run(self):
         while(True):
             # Run once a minute.
-            triggers = ITEM_DAO.getAllTriggers()
+            triggers = ITEM_DAO.get_all_triggers()
             for trigger in triggers:
                 ITEM_DAO.evaluateTrigger(trigger)
             try:

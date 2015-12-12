@@ -1,6 +1,6 @@
 
-def getItemCategoryByName(name):
+def get_itemcategory_by_name(name):
     return None
 
-def createItemCategory(name):
+def create_itemCategory(name):
     return

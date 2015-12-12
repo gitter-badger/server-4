@@ -26,23 +26,23 @@ class Item:
 _items = {}
 _items['localhost'] = [Item('localhost', 'cpu.load.avg[1]', ItemName('CPU Load Average'), None, 'int')]
 
-def getItemsFromHost(host):
+def get_items_from_host(host):
     if (host.name == 'localhost'):
         return _items['localhost']
     return []
 
-def getItemByHostKey(host, key):
+def get_item_by_host_key(host, key):
     return None
 
-def createItem(host, key, name, category, itemtype):
+def create_item(host, key, name, category, itemtype):
     i = Item(host, key, name, category, itemtype)
     return i
 
-def pushValue(item, timestamp, value):
+def push_value(item, timestamp, value):
     return
 
-def getLastValue(item):
+def get_last_value(item):
     return MockValue(42, datetime.now(), 1)
 
-def getValues(item):
+def get_values(item):
     return []
