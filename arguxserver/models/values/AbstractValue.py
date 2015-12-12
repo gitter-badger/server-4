@@ -20,9 +20,9 @@ import re
 from .. import Base, DBSession
 
 from ..Item import Item
+from ..TriggerSeverity import TriggerSeverity
 
 trigger_expr = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
-
 
 class AbstractValue():
     id = Column(Integer, primary_key=True)
@@ -42,6 +42,13 @@ class AbstractSimpleTrigger():
     trigger_handlers = {}
 
     @declared_attr
+    def severity_id(cls):
+        return Column(Integer, ForeignKey('trigger_severity.id'), nullable=False)
+
+    def severity(cls):
+        return relationship(TriggerSeverity);
+
+    @declared_attr
     def item_id(cls):
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
@@ -56,9 +63,6 @@ class AbstractSimpleTrigger():
             return False
 
         ret = [ i.group(1), i.group(2), i.group(3), i.group(4) ]
-
-        if self.trigger_handlers.get(i.group(1), None) == None:
-            return False
 
         return ret
 
@@ -83,7 +87,7 @@ class AbstractSimpleTrigger():
 
             if is_active:
                 if not alert:
-                    alert = AlertKlass(trigger_id = self.id, start_time = time, end_time=None)
+                    alert = self.AlertKlass(trigger_id = self.id, start_time = time, end_time=None)
                     session.add(alert)
                     session.commit()
             else:

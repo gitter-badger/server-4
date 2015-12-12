@@ -18,7 +18,8 @@ from ..models import (
     Host,
     ItemName,
     ItemType,
-    ItemCategory
+    ItemCategory,
+    TriggerSeverity
 )
 
 def usage(argv):
@@ -46,4 +47,11 @@ def main():
         model = ItemType(name='float', description='Floating point')
         DBSession.add(model)
         model = ItemType(name='text', description='Text')
+        DBSession.add(model)
+
+        model = TriggerSeverity(level=1, key="info", name="Information")
+        DBSession.add(model)
+        model = TriggerSeverity(level=2, key="warn", name="Warning")
+        DBSession.add(model)
+        model = TriggerSeverity(level=3, key="crit", name="Critical")
         DBSession.add(model)

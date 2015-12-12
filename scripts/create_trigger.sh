@@ -6,6 +6,7 @@ HOST_URI=host
 HOST_NAME=localhost
 
 curl -X POST \
+     -v \
      -H "Content-Type: application/json" \
      -d "{
         \"name\":\"CPU Load > 5\",

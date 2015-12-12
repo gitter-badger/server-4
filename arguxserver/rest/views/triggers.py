@@ -41,7 +41,7 @@ class RestTriggerViews(RestView):
 
         try:
             t = dao.ItemDAO.createTrigger(i, name, rule, description)
-        except Exception:
+        except Exception as e:
             return Response(
                 status='400 Bad Request',
                 content_type='application/json; charset=UTF-8')

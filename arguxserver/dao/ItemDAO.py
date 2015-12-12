@@ -5,7 +5,8 @@ from arguxserver.models import (
     Host,
     ItemCategory,
     ItemName,
-    Item
+    Item,
+    TriggerSeverity
     )
 
 from arguxserver.dao.util import (
@@ -27,13 +28,22 @@ def createItem(host, key, name, category, itemtype):
     DBSession.add(i)
     return i
 
-def createTrigger(item, name, rule, description=""):
+def createTrigger(item, name, rule, description="", severity="info"):
     trigger_klass = __trigger_class.get(item.itemtype.name)
+
+    severity = DBSession.query(TriggerSeverity).filter(TriggerSeverity.key == severity).first()
+    if not severity:
+        raise Exception()
 
     if trigger_klass.validate_rule(rule) == False:
         raise Exception()
 
-    trigger = trigger_klass(name = name, rule=rule, description=description, item_id=item.id)
+
+    trigger = trigger_klass(name = name,
+                            rule=rule,
+                            description=description,
+                            item_id=item.id,
+                            severity_id=severity.id)
     DBSession.add(trigger)
     return trigger
 

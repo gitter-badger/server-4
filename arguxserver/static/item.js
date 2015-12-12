@@ -169,10 +169,14 @@ function alerts_cb(json) {
 
     if (json.alerts) {
         $.each(json.alerts, function(i, al) {
-
+            if(al.severity === 'info') {
+                icon = 'glyphicon-none';
+            } else {
+                icon = 'glyphicon-exclamation-sign';
+            }
             $('#alerts').append(
                 '<tr class=""><td>' +
-                '<span class="glyphicon glyphicon-none"></span> ' +
+                '<span class="glyphicon '+icon+'"></span> ' +
                 '<a href="#">' +
                 al.name +
                 '</a>' +

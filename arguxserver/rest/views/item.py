@@ -196,6 +196,7 @@ class RestItemViews(RestView):
             for alert in a:
                 alerts.append ( {
                 'start_time': alert.start_time.strftime(date_fmt),
+                'severity': 'info',
                 'name': 'ow'
                 } )
 

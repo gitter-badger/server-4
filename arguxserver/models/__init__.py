@@ -17,6 +17,7 @@ from .ItemName import ItemName
 from .ItemCategory import ItemCategory
 from .ItemTypeDetail import ItemTypeDetail
 
+from .TriggerSeverity import TriggerSeverity
 from .Note import Note
 
 from .values.IntValue import (
