@@ -13,12 +13,12 @@ from sqlalchemy.orm import (
     relationship
     )
 
-from . import Base
+from . import BASE
 
 #
 # Host
 #
-class Host(Base):
+class Host(BASE):
     __tablename__ = 'host'
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)

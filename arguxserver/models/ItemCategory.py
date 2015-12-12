@@ -15,13 +15,13 @@ from sqlalchemy.orm import (
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
-from . import Base
+from . import BASE
 
 
 #
 # ItemCategory
 #
-class ItemCategory(Base):
+class ItemCategory(BASE):
     __tablename__ = 'item_category'
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)

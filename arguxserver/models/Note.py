@@ -14,12 +14,12 @@ from sqlalchemy.orm import (
     relationship
     )
 
-from . import Base
+from . import BASE
 
 #
 # Note
 #
-class Note(Base):
+class Note(BASE):
     __tablename__ = 'note'
     id         = Column(Integer, primary_key=True)
     subject    = Column(Text, nullable=False)

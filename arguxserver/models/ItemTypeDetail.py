@@ -16,12 +16,12 @@ from sqlalchemy.orm import (
 
 from .ItemType import ItemType
 
-from . import Base
+from . import BASE
 
 #
 # ItemTypeDetail
 #
-class ItemTypeDetail(Base):
+class ItemTypeDetail(BASE):
     __tablename__ = 'itemtype_detail'
     id = Column(Integer, primary_key=True)
     itemtype_id = Column(Integer, ForeignKey('itemtype.id'), nullable=False)

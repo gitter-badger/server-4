@@ -13,7 +13,7 @@ from sqlalchemy.orm import (
     relationship
     )
 
-from .. import Base, DBSession
+from .. import BASE
 
 from .AbstractValue import (
     AbstractValue,
@@ -22,13 +22,13 @@ from .AbstractValue import (
 )
 
 
-class IntValue(AbstractValue, Base):
+class IntValue(AbstractValue, BASE):
     __tablename__ = 'history_int'
     value = Column(Integer, nullable=True)
 
 Index('intvalue_ts_index', IntValue.timestamp, mysql_length=255)
 
-class IntSimpleTrigger(AbstractSimpleTrigger, Base):
+class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
     __tablename__ = 'simple_trigger_int'
 
     def evaluate_rule(self):
@@ -46,9 +46,6 @@ class IntSimpleTrigger(AbstractSimpleTrigger, Base):
 
     def __handle_last(trigger, selector, operator, value):
         item = trigger.item
-        val = DBSession.query(IntValue) \
-                .filter(IntValue.item_id == item.id) \
-                .order_by(IntValue.timestamp.desc()).first()
 
         return False
 
@@ -56,7 +53,7 @@ class IntSimpleTrigger(AbstractSimpleTrigger, Base):
         "last": __handle_last
     }
 
-class IntSimpleAlert(AbstractSimpleAlert, Base):
+class IntSimpleAlert(AbstractSimpleAlert, BASE):
     __tablename__ = 'simple_alert_int'
     trigger_id = Column(Integer, ForeignKey('simple_trigger_int.id'), nullable=False)
     trigger = relationship(IntSimpleTrigger)

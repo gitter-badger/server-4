@@ -13,7 +13,7 @@ from pyramid.paster import (
 from pyramid.scripts.common import parse_vars
 
 from ..models import (
-    DBSession,
+    DB_SESSION,
     Base,
     Host,
     ItemName,
@@ -39,19 +39,19 @@ def main():
     setup_logging(config_uri)
     settings = get_appsettings(config_uri, options=options)
     engine = engine_from_config(settings, 'sqlalchemy.')
-    DBSession.configure(bind=engine)
-    Base.metadata.create_all(engine)
+    DB_SESSION.configure(bind=engine)
+    BASE.metadata.create_all(engine)
     with transaction.manager:
         model = ItemType(name='int', description='Integer field')
-        DBSession.add(model)
+        DB_SESSION.add(model)
         model = ItemType(name='float', description='Floating point')
-        DBSession.add(model)
+        DB_SESSION.add(model)
         model = ItemType(name='text', description='Text')
-        DBSession.add(model)
+        DB_SESSION.add(model)
 
         model = TriggerSeverity(level=1, key="info", name="Information")
-        DBSession.add(model)
+        DB_SESSION.add(model)
         model = TriggerSeverity(level=2, key="warn", name="Warning")
-        DBSession.add(model)
+        DB_SESSION.add(model)
         model = TriggerSeverity(level=3, key="crit", name="Critical")
-        DBSession.add(model)
+        DB_SESSION.add(model)

@@ -15,7 +15,7 @@ from sqlalchemy.orm import (
     relationship
     )
 
-from .. import Base, DBSession
+from .. import BASE
 from ..Item import Item
 
 from .AbstractValue import (
@@ -31,13 +31,13 @@ import re
 trigger_expr = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
 
 
-class FloatValue(AbstractValue, Base):
+class FloatValue(AbstractValue, BASE):
     __tablename__ = 'history_float'
     value = Column(Float, nullable=True)
 
 Index('floatvalue_ts_index', FloatValue.timestamp, mysql_length=255)
 
-class FloatSimpleTrigger(AbstractSimpleTrigger, Base):
+class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
     __tablename__ = 'simple_trigger_float'
 
     def __handle_last(trigger, session, selector, operator, value):
@@ -71,7 +71,7 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, Base):
         "last": __handle_last
     }
 
-class FloatSimpleAlert(AbstractSimpleAlert, Base):
+class FloatSimpleAlert(AbstractSimpleAlert, BASE):
     __tablename__ = 'simple_alert_float'
     trigger_id = Column(Integer, ForeignKey('simple_trigger_float.id'), nullable=False)
     trigger = relationship(FloatSimpleTrigger)

@@ -14,12 +14,12 @@ from sqlalchemy.orm import (
     relationship
     )
 
-from . import Base
+from . import BASE
 
 #
 # TriggerSeverity
 #
-class TriggerSeverity(Base):
+class TriggerSeverity(BASE):
     __tablename__ = 'trigger_severity'
     id = Column(Integer, primary_key=True)
     key = Column(Text, nullable=False)

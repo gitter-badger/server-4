@@ -1,19 +1,24 @@
-from datetime import datetime, timedelta
+"""
+Data Access Object class for handling Items.
+"""
+
+from datetime import datetime
 
 from arguxserver.models import (
-    DBSession,
-    Host,
+    DB_SESSION,
     ItemCategory,
     ItemName,
+    ItemType,
+    ItemTypeDetail,
     Item,
     TriggerSeverity
-    )
+)
 
 from arguxserver.dao.util import (
     VALUE_CLASS,
     TRIGGER_CLASS,
     ALERT_CLASS
-    )
+)
 
 from sqlalchemy.orm import (
     sessionmaker
@@ -22,22 +27,22 @@ from sqlalchemy.orm import (
 class ItemDAO(object):
 
     def getItemsFromHost(self, host):
-        i = DBSession.query(Item).filter(Item.host_id == host.id)
+        i = DB_SESSION.query(Item).filter(Item.host_id == host.id)
         return i
 
     def getItemByHostKey(self, host, key):
-        i = DBSession.query(Item).filter(Item.host_id == host.id).filter(Item.key == key).first()
+        i = DB_SESSION.query(Item).filter(Item.host_id == host.id).filter(Item.key == key).first()
         return i
 
     def createItem(self, host, key, name, category, itemtype):
         i = Item(host_id=host.id, key=key, name=name, category=category, itemtype=itemtype)
-        DBSession.add(i)
+        DB_SESSION.add(i)
         return i
 
     def createTrigger(self, item, name, rule, description="", severity="info"):
         trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
 
-        severity = DBSession.query(TriggerSeverity).filter(TriggerSeverity.key == severity).first()
+        severity = DB_SESSION.query(TriggerSeverity).filter(TriggerSeverity.key == severity).first()
         if not severity:
             raise Exception()
 
@@ -50,7 +55,7 @@ class ItemDAO(object):
                                 description=description,
                                 item_id=item.id,
                                 severity_id=severity.id)
-        DBSession.add(trigger)
+        DB_SESSION.add(trigger)
         return trigger
 
 
@@ -90,7 +95,7 @@ class ItemDAO(object):
 
     def getTriggers(self, item):
         trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
-        triggers = DBSession.query(trigger_klass) \
+        triggers = DB_SESSION.query(trigger_klass) \
                 .filter(trigger_klass.item_id == item.id)
 
         return triggers
@@ -99,25 +104,25 @@ class ItemDAO(object):
         triggers = []
         for name in TRIGGER_CLASS:
             klass = TRIGGER_CLASS[name]
-            triggers.extend(DBSession.query(klass).all())
+            triggers.extend(DB_SESSION.query(klass).all())
 
         return triggers
 
     def pushValue(self, item, timestamp, value):
         value_klass = VALUE_CLASS.get(item.itemtype.name, None)
         i = value_klass(item_id = item.id, timestamp=timestamp, value=value)
-        DBSession.add(i)
+        DB_SESSION.add(i)
         return
 
     def getLastValue(self, item):
         klass = VALUE_CLASS.get(item.itemtype.name, lambda: "nothing")
-        c = DBSession.query(klass).filter(klass.item_id == item.id).order_by(klass.timestamp.desc()).first()
+        c = DB_SESSION.query(klass).filter(klass.item_id == item.id).order_by(klass.timestamp.desc()).first()
         return c
 
     def getValues(self, item, start_time = None, end_time = None, count = -1):
         klass = VALUE_CLASS.get(item.itemtype.name, "nothing")
 
-        q = DBSession.query(klass) \
+        q = DB_SESSION.query(klass) \
                 .filter(klass.item_id == item.id)
 
         if (start_time):
@@ -136,7 +141,7 @@ class ItemDAO(object):
         alerts = []
         triggers = self.getTriggers(item)
         for trigger in triggers:
-            a = DBSession.query(alert_klass) \
+            a = DB_SESSION.query(alert_klass) \
                     .filter(alert_klass.trigger_id == trigger.id) \
                     .filter(alert_klass.end_time == None)
 
@@ -145,30 +150,30 @@ class ItemDAO(object):
         return alerts
 
     def getItemNameByName(self, name):
-        i = DBSession.query(ItemName).filter(ItemName.name == name).first()
+        i = DB_SESSION.query(ItemName).filter(ItemName.name == name).first()
         return i
 
     def createItemName(self, name, description):
-        i = ItemName(name=name,description=description)
-        DBSession.add(i)
+        i = ItemName(name=name, description=description)
+        DB_SESSION.add(i)
         return i
 
     def getItemCategoryByName(self, name):
-        c = DBSession.query(ItemCategory).filter(ItemCategory.name == name).first()
-        return c
+        cat = DB_SESSION.query(ItemCategory).filter(ItemCategory.name == name).first()
+        return cat
 
     def createItemCategory(self, name):
-        c = ItemCategory(name=category)
-        DBSession.add(c)
-        return c
+        cat = ItemCategory(name=name)
+        DB_SESSION.add(cat)
+        return cat
 
     def getItemTypeByName(self, name):
-        i = DBSession.query(ItemType).filter(ItemType.name == name).first()
+        i = DB_SESSION.query(ItemType).filter(ItemType.name == name).first()
         return i
 
     def addDetail(self, item_type,name,rule):
         d = ItemTypeDetail(itemtype=item_type, name=name, rule=rule)
-        DBSession.add(d)
+        DB_SESSION.add(d)
         return None
 
     def getDetails(self, item_type):

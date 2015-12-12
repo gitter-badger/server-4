@@ -16,8 +16,6 @@ from sqlalchemy.ext.declarative import declared_attr
 
 import re
 
-from .. import Base, DBSession
-
 from ..Item import Item
 from ..TriggerSeverity import TriggerSeverity
 

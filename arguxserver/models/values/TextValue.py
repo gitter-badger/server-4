@@ -15,7 +15,7 @@ from sqlalchemy.orm import (
     relationship
     )
 
-from .. import Base
+from .. import BASE
 from .AbstractValue import (
     AbstractValue,
     AbstractSimpleTrigger,
@@ -23,7 +23,7 @@ from .AbstractValue import (
 )
 
 
-class TextValue(AbstractValue, Base):
+class TextValue(AbstractValue, BASE):
     __tablename__ = 'history_text'
     value = Column(Text, nullable=True)
 
@@ -31,7 +31,7 @@ Index('textvalue_ts_index', TextValue.timestamp, mysql_length=255)
 
 
 
-class TextSimpleTrigger(AbstractSimpleTrigger, Base):
+class TextSimpleTrigger(AbstractSimpleTrigger, BASE):
     __tablename__ = 'simple_trigger_text'
 
     def evaluate_rule(self):
@@ -49,9 +49,6 @@ class TextSimpleTrigger(AbstractSimpleTrigger, Base):
 
     def __handle_last(trigger, selector, operator, value):
         item = trigger.item
-        val = DBSession.query(TextValue) \
-                .filter(TextValue.item_id == item.id) \
-                .order_by(TextValue.timestamp.desc()).first()
 
         return False
 
@@ -59,7 +56,7 @@ class TextSimpleTrigger(AbstractSimpleTrigger, Base):
         "last": __handle_last
     }
 
-class TextSimpleAlert(AbstractSimpleAlert, Base):
+class TextSimpleAlert(AbstractSimpleAlert, BASE):
     __tablename__ = 'simple_alert_text'
     trigger_id = Column(Integer, ForeignKey('simple_trigger_text.id'), nullable=False)
     trigger = relationship(TextSimpleTrigger)

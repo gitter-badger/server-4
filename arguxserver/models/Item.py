@@ -18,12 +18,12 @@ from .ItemName import ItemName
 from .ItemType import ItemType
 from .ItemCategory import ItemCategory
 
-from . import Base
+from . import BASE
 
 #
 # Item
 #
-class Item(Base):
+class Item(BASE):
     __tablename__ = 'item'
     id = Column(Integer, primary_key=True)
     key = Column(Text, nullable=False)

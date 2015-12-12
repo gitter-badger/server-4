@@ -13,12 +13,12 @@ from sqlalchemy.orm import (
     relationship
     )
 
-from . import Base
+from . import BASE
 
 #
 # ItemType
 #
-class ItemType(Base):
+class ItemType(BASE):
     __tablename__ = 'itemtype'
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
