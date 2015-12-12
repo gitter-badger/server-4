@@ -1,8 +1,4 @@
-"""
-Data Access Object class for handling Items.
-"""
-
-from datetime import datetime
+""" Data Access Object class for handling Items.  """
 
 from arguxserver.models import (
     DB_SESSION,
@@ -24,20 +20,28 @@ from sqlalchemy.orm import (
     sessionmaker
 )
 
+
 def get_items_from_host(host):
-    i = DB_SESSION.query(Item).filter(Item.host_id == host.id)
-    return i
+    """ Get all items registered on a host. """
+    item = DB_SESSION.query(Item).filter(Item.host_id == host.id)
+    return item
+
 
 def get_item_by_host_key(host, key):
-    i = DB_SESSION.query(Item).filter(Item.host_id == host.id).filter(Item.key == key).first()
-    return i
+    """ Get item registered on a host. """
+    item = DB_SESSION.query(Item).filter(Item.host_id == host.id).filter(Item.key == key).first()
+    return item
+
 
 def create_item(host, key, name, category, itemtype):
-    i = Item(host_id=host.id, key=key, name=name, category=category, itemtype=itemtype)
-    DB_SESSION.add(i)
-    return i
+    """ Create new Item. """
+    item = Item(host_id=host.id, key=key, name=name, category=category, itemtype=itemtype)
+    DB_SESSION.add(item)
+    return item
+
 
 def create_trigger(item, name, rule, description="", severity="info"):
+    """ Create trigger. """
     trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
 
     severity = DB_SESSION.query(TriggerSeverity).filter(TriggerSeverity.key == severity).first()
@@ -57,7 +61,8 @@ def create_trigger(item, name, rule, description="", severity="info"):
     return trigger
 
 
-def evaluateTrigger(trigger):
+def evaluate_trigger(trigger):
+    """ Evaluate Trigger """
     item = trigger.item
 
     alert_klass = ALERT_CLASS.get(item.itemtype.name)
@@ -91,14 +96,18 @@ def evaluateTrigger(trigger):
         session.close()
         return False
 
+
 def get_triggers(item):
+    """ Return all triggers on an item. """
     trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
     triggers = DB_SESSION.query(trigger_klass) \
             .filter(trigger_klass.item_id == item.id)
 
     return triggers
 
+
 def get_all_triggers():
+    """ Return all triggers. """
     triggers = []
     for name in TRIGGER_CLASS:
         klass = TRIGGER_CLASS[name]
@@ -106,18 +115,25 @@ def get_all_triggers():
 
     return triggers
 
+
 def push_value(item, timestamp, value):
+    """ Push new value to an item. """
     value_klass = VALUE_CLASS.get(item.itemtype.name, None)
-    i = value_klass(item_id = item.id, timestamp=timestamp, value=value)
-    DB_SESSION.add(i)
-    return
+
+    val = value_klass(item_id = item.id, timestamp=timestamp, value=value)
+    DB_SESSION.add(val)
+    return val
+
 
 def get_last_value(item):
+    """ Return last value published on an item. """
     klass = VALUE_CLASS.get(item.itemtype.name, lambda: "nothing")
-    c = DB_SESSION.query(klass).filter(klass.item_id == item.id).order_by(klass.timestamp.desc()).first()
-    return c
+    val = DB_SESSION.query(klass).filter(klass.item_id == item.id).order_by(klass.timestamp.desc()).first()
+    return val 
+
 
 def get_values(item, start_time = None, end_time = None, count = -1):
+    """ Query values. """
     klass = VALUE_CLASS.get(item.itemtype.name, "nothing")
 
     q = DB_SESSION.query(klass) \
@@ -134,6 +150,7 @@ def get_values(item, start_time = None, end_time = None, count = -1):
 
     return values
 
+
 def get_alerts(item, active=True, inactive=False):
     alert_klass = ALERT_CLASS.get(item.itemtype.name)
     alerts = []
@@ -147,32 +164,39 @@ def get_alerts(item, active=True, inactive=False):
 
     return alerts
 
+
 def get_itemname_by_name(name):
     i = DB_SESSION.query(ItemName).filter(ItemName.name == name).first()
     return i
+
 
 def create_itemName(name, description):
     i = ItemName(name=name, description=description)
     DB_SESSION.add(i)
     return i
 
+
 def get_itemcategory_by_name(name):
     cat = DB_SESSION.query(ItemCategory).filter(ItemCategory.name == name).first()
     return cat
+
 
 def create_itemCategory(name):
     cat = ItemCategory(name=name)
     DB_SESSION.add(cat)
     return cat
 
+
 def getItemTypeByName(name):
     i = DB_SESSION.query(ItemType).filter(ItemType.name == name).first()
     return i
+
 
 def add_itemtype_detail(item_type,name,rule):
     d = ItemTypeDetail(itemtype=item_type, name=name, rule=rule)
     DB_SESSION.add(d)
     return None
+
 
 def get_itemtype_details(item_type):
     return item_type.details
