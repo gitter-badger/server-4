@@ -3,17 +3,17 @@ from arguxserver.models import (
     Host
     )
 
+class HostDAO(object):
 
-def getHostByName(name):
-    h = DBSession.query(Host).filter(Host.name == name).first()
-    return h
+    def getHostByName(self, name):
+        h = DBSession.query(Host).filter(Host.name == name).first()
+        return h
 
-def createHost(name, description=""):
-    h = Host(name=name, description=description)
-    DBSession.add(h)
-    return h
+    def createHost(self, name, description=""):
+        h = Host(name=name, description=description)
+        DBSession.add(h)
+        return h
 
-def getAllHosts():
-    h = DBSession.query(Host)
-    return h
-    
+    def getAllHosts(self):
+        h = DBSession.query(Host)
+        return h

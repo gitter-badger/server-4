@@ -5,11 +5,13 @@ from arguxserver.models import (
     )
 
 
-def getNotesForHost(host):
-    n = DBSession.query(Note).filter(Note.host == host).order_by(Note.timestamp. desc())
-    return n
+class NoteDAO(object):
 
-def createHostNote(host, subject, message, timestamp):
-    n = Note(host=host, subject=subject,message=message, timestamp=timestamp)
-    DBSession.add(n)
-    return n
+    def getNotesForHost(self, host):
+        n = DBSession.query(Note).filter(Note.host == host).order_by(Note.timestamp. desc())
+        return n
+
+    def createHostNote(self, host, subject, message, timestamp):
+        n = Note(host=host, subject=subject,message=message, timestamp=timestamp)
+        DBSession.add(n)
+        return n

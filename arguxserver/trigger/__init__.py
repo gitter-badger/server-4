@@ -4,7 +4,7 @@ from threading import Thread
 
 import time
 
-from arguxserver.dao import ItemDAO
+from arguxserver.dao import ITEM_DAO
 
 
 
@@ -13,9 +13,9 @@ class TriggerWorker(Thread):
     def run(self):
         while(True):
             # Run once a minute.
-            triggers = ItemDAO.getAllTriggers()
+            triggers = ITEM_DAO.getAllTriggers()
             for trigger in triggers:
-                ItemDAO.evaluateTrigger(trigger)
+                ITEM_DAO.evaluateTrigger(trigger)
             try:
                 time.sleep(60)
             except KeyboardInterrupt:

@@ -35,7 +35,7 @@ class MainViews:
         host = self.request.matchdict['host']
         host_desc = ''
         n_alerts = 0
-        h = self.dao.HostDAO.getHostByName(host)
+        h = self.dao.HOST_DAO.getHostByName(host)
 
         if (h):
             host_desc = h.description
@@ -60,7 +60,7 @@ class MainViews:
         n_alerts = 0
 
         host_desc = ''
-        h = self.dao.HostDAO.getHostByName(host)
+        h = self.dao.HOST_DAO.getHostByName(host)
 
         if (h):
             host_desc = h.description
@@ -89,10 +89,10 @@ class MainViews:
             {"name": "MAX", "ts": "1-1-1970", "value":"14" }
             ]
 
-        host     = self.dao.HostDAO.getHostByName(host_name)
-        item     = self.dao.ItemDAO.getItemByHostKey(host, item_key)
+        host     = self.dao.HOST_DAO.getHostByName(host_name)
+        item     = self.dao.ITEM_DAO.getItemByHostKey(host, item_key)
 
-        a = self.dao.ItemDAO.getAlerts(item)
+        a = self.dao.ITEM_DAO.getAlerts(item)
 
         n_alerts = len(a)
 

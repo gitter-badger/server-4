@@ -10,22 +10,23 @@ from arguxserver.models import (
     TextSimpleTrigger,
     TextSimpleAlert,
     )
+
 # Map
-__trigger_class = {
+TRIGGER_CLASS = {
     "int" : IntSimpleTrigger,
     "float" : FloatSimpleTrigger,
     "text" : TextSimpleTrigger,
 }
 
 # Map
-__alert_class = {
+ALERT_CLASS = {
     "int" : IntSimpleAlert,
     "float" : FloatSimpleAlert,
     "text" : TextSimpleAlert,
 }
 
 # Map
-__value_class = {
+VALUE_CLASS = {
     "int" : IntValue,
     "float" : FloatValue,
     "text" : TextValue,

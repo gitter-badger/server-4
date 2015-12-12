@@ -1,8 +1,14 @@
-# Package
+"""
+ArguxServer Data Access Objects.
 
-from . import HostDAO
-from . import ItemDAO
-from . import ItemNameDAO
-from . import ItemTypeDAO
-from . import ItemCategoryDAO
-from . import NoteDAO
+"""
+
+from .HostDAO import HostDAO
+from .ItemDAO import ItemDAO
+from .NoteDAO import NoteDAO
+
+HOST_DAO = HostDAO()
+
+ITEM_DAO = ItemDAO()
+
+NOTE_DAO = NoteDAO()
