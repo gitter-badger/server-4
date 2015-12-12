@@ -43,8 +43,9 @@ class AbstractSimpleTrigger():
     def severity_id(cls):
         return Column(Integer, ForeignKey('trigger_severity.id'), nullable=False)
 
+    @declared_attr
     def severity(cls):
-        return relationship(TriggerSeverity);
+        return relationship("TriggerSeverity");
 
     @declared_attr
     def item_id(cls):
@@ -52,7 +53,7 @@ class AbstractSimpleTrigger():
 
     @declared_attr
     def item(cls):
-        return relationship(Item);
+        return relationship("Item");
 
     @staticmethod
     def validate_rule(rule):
