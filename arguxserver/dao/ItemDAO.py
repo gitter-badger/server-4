@@ -1,4 +1,4 @@
-""" Data Access Object class for handling Items.  """
+"""Data Access Object class for handling Items."""
 
 from arguxserver.models import (
     DB_SESSION,
@@ -22,26 +22,26 @@ from sqlalchemy.orm import (
 
 
 def get_items_from_host(host):
-    """ Get all items registered on a host. """
+    """Get all items registered on a host."""
     item = DB_SESSION.query(Item).filter(Item.host_id == host.id)
     return item
 
 
 def get_item_by_host_key(host, key):
-    """ Get item registered on a host. """
+    """Get item registered on a host."""
     item = DB_SESSION.query(Item).filter(Item.host_id == host.id).filter(Item.key == key).first()
     return item
 
 
 def create_item(host, key, name, category, itemtype):
-    """ Create new Item. """
+    """Create new Item."""
     item = Item(host_id=host.id, key=key, name=name, category=category, itemtype=itemtype)
     DB_SESSION.add(item)
     return item
 
 
 def create_trigger(item, name, rule, description="", severity="info"):
-    """ Create trigger. """
+    """Create trigger."""
     trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
 
     severity = DB_SESSION.query(TriggerSeverity).filter(TriggerSeverity.key == severity).first()
@@ -62,7 +62,7 @@ def create_trigger(item, name, rule, description="", severity="info"):
 
 
 def evaluate_trigger(trigger):
-    """ Evaluate Trigger """
+    """Evaluate Trigger."""
     item = trigger.item
 
     alert_klass = ALERT_CLASS.get(item.itemtype.name)
@@ -98,7 +98,7 @@ def evaluate_trigger(trigger):
 
 
 def get_triggers(item):
-    """ Return all triggers on an item. """
+    """Return all triggers on an item."""
     trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
     triggers = DB_SESSION.query(trigger_klass) \
             .filter(trigger_klass.item_id == item.id)
@@ -107,7 +107,7 @@ def get_triggers(item):
 
 
 def get_all_triggers():
-    """ Return all triggers. """
+    """Return all triggers."""
     triggers = []
     for name in TRIGGER_CLASS:
         klass = TRIGGER_CLASS[name]
@@ -117,7 +117,7 @@ def get_all_triggers():
 
 
 def push_value(item, timestamp, value):
-    """ Push new value to an item. """
+    """Push new value to an item."""
     value_klass = VALUE_CLASS.get(item.itemtype.name, None)
 
     val = value_klass(item_id = item.id, timestamp=timestamp, value=value)
@@ -126,14 +126,14 @@ def push_value(item, timestamp, value):
 
 
 def get_last_value(item):
-    """ Return last value published on an item. """
+    """Return last value published on an item."""
     klass = VALUE_CLASS.get(item.itemtype.name, lambda: "nothing")
     val = DB_SESSION.query(klass).filter(klass.item_id == item.id).order_by(klass.timestamp.desc()).first()
-    return val 
+    return val
 
 
 def get_values(item, start_time = None, end_time = None, count = -1):
-    """ Query values. """
+    """Query values."""
     klass = VALUE_CLASS.get(item.itemtype.name, "nothing")
 
     q = DB_SESSION.query(klass) \
@@ -152,6 +152,7 @@ def get_values(item, start_time = None, end_time = None, count = -1):
 
 
 def get_alerts(item, active=True, inactive=False):
+    """Query Alerts."""
     alert_klass = ALERT_CLASS.get(item.itemtype.name)
     alerts = []
     triggers = get_triggers(item)
@@ -166,14 +167,14 @@ def get_alerts(item, active=True, inactive=False):
 
 
 def get_itemname_by_name(name):
-    i = DB_SESSION.query(ItemName).filter(ItemName.name == name).first()
-    return i
+    item_name = DB_SESSION.query(ItemName).filter(ItemName.name == name).first()
+    return item_name
 
 
 def create_itemName(name, description):
-    i = ItemName(name=name, description=description)
-    DB_SESSION.add(i)
-    return i
+    item_name = ItemName(name=name, description=description)
+    DB_SESSION.add(item_name)
+    return item_name
 
 
 def get_itemcategory_by_name(name):
@@ -188,8 +189,8 @@ def create_itemCategory(name):
 
 
 def getItemTypeByName(name):
-    i = DB_SESSION.query(ItemType).filter(ItemType.name == name).first()
-    return i
+    item_type = DB_SESSION.query(ItemType).filter(ItemType.name == name).first()
+    return item_type
 
 
 def add_itemtype_detail(item_type,name,rule):
