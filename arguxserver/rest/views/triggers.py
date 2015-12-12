@@ -36,11 +36,11 @@ class RestTriggerViews(RestView):
         rule    = self.request.json_body.get('rule', None)
         description = self.request.json_body.get('description', None)
 
-        h = dao.HOST_DAO.get_host_by_name(host)
-        i = dao.ITEM_DAO.get_item_by_host_key(h, item)
+        h = dao.HostDAO.get_host_by_name(host)
+        i = dao.ItemDAO.get_item_by_host_key(h, item)
 
         try:
-            t = dao.ITEM_DAO.create_trigger(i, name, rule, description)
+            t = dao.ItemDAO.create_trigger(i, name, rule, description)
         except Exception as e:
             return Response(
                 status='400 Bad Request',
@@ -63,10 +63,10 @@ class RestTriggerViews(RestView):
 
         triggers = []
 
-        h = dao.HOST_DAO.get_host_by_name(host)
-        i = dao.ITEM_DAO.get_item_by_host_key(h, item)
+        h = dao.HostDAO.get_host_by_name(host)
+        i = dao.ItemDAO.get_item_by_host_key(h, item)
 
-        t = dao.ITEM_DAO.get_triggers(i)
+        t = dao.ItemDAO.get_triggers(i)
         for trigger in t:
             triggers.append( {
                 'id':   trigger.id,

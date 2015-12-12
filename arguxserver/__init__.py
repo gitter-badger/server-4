@@ -10,6 +10,9 @@ from .models import (
     )
 
 from arguxserver import dao
+from arguxserver.dao import HostDAO
+from arguxserver.dao import ItemDAO
+from arguxserver.dao import NoteDAO
 
 from arguxserver.trigger import TriggerWorker
 
