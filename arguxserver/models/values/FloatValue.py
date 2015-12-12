@@ -20,7 +20,8 @@ from ..Item import Item
 
 from .AbstractValue import (
     AbstractValue,
-    AbstractSimpleTrigger
+    AbstractSimpleTrigger,
+    AbstractSimpleAlert
 )
 
 from datetime import datetime
@@ -36,20 +37,8 @@ class FloatValue(AbstractValue, Base):
 
 Index('floatvalue_ts_index', FloatValue.timestamp, mysql_length=255)
 
-class FloatSimpleAlert(Base):
-    __tablename__ = 'simple_alert_float'
-    id = Column(Integer, primary_key=True)
-    trigger_id = Column(Integer, ForeignKey('simple_trigger_float.id'), nullable=False)
-    start_time = Column(DateTime, nullable=False)
-    end_time = Column(DateTime, nullable=True)
-
-Index('floatsimple_alert_start_ts', FloatSimpleAlert.start_time, mysql_length=255)
-Index('floatsimple_alert_end_ts', FloatSimpleAlert.end_time, mysql_length=255)
-
-
 class FloatSimpleTrigger(AbstractSimpleTrigger, Base):
     __tablename__ = 'simple_trigger_float'
-    AlertKlass    = FloatSimpleAlert
 
     def __handle_last(trigger, session, selector, operator, value):
         item = trigger.item
@@ -81,3 +70,12 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, Base):
     trigger_handlers = {
         "last": __handle_last
     }
+
+class FloatSimpleAlert(AbstractSimpleAlert, Base):
+    __tablename__ = 'simple_alert_float'
+    trigger_id = Column(Integer, ForeignKey('simple_trigger_float.id'), nullable=False)
+    trigger = relationship(FloatSimpleTrigger)
+
+Index('floatsimple_alert_start_ts', FloatSimpleAlert.start_time, mysql_length=255)
+Index('floatsimple_alert_end_ts', FloatSimpleAlert.end_time, mysql_length=255)
+

@@ -17,7 +17,8 @@ from .. import Base, DBSession
 
 from .AbstractValue import (
     AbstractValue,
-    AbstractSimpleTrigger
+    AbstractSimpleTrigger,
+    AbstractSimpleAlert
 )
 
 
@@ -26,18 +27,6 @@ class IntValue(AbstractValue, Base):
     value = Column(Integer, nullable=True)
 
 Index('intvalue_ts_index', IntValue.timestamp, mysql_length=255)
-
-def __handle_last(trigger, selector, operator, value):
-    item = trigger.item
-    val = DBSession.query(IntValue) \
-            .filter(IntValue.item_id == item.id) \
-            .order_by(IntValue.timestamp.desc()).first()
-
-    return False
-
-trigger_handlers = {
-    "last": __handle_last
-}
 
 class IntSimpleTrigger(AbstractSimpleTrigger, Base):
     __tablename__ = 'simple_trigger_int'
@@ -55,9 +44,19 @@ class IntSimpleTrigger(AbstractSimpleTrigger, Base):
         else:
             return False
 
-class IntSimpleAlert(Base):
+    def __handle_last(trigger, selector, operator, value):
+        item = trigger.item
+        val = DBSession.query(IntValue) \
+                .filter(IntValue.item_id == item.id) \
+                .order_by(IntValue.timestamp.desc()).first()
+
+        return False
+
+    trigger_handlers = {
+        "last": __handle_last
+    }
+
+class IntSimpleAlert(AbstractSimpleAlert, Base):
     __tablename__ = 'simple_alert_int'
-    id = Column(Integer, primary_key=True)
     trigger_id = Column(Integer, ForeignKey('simple_trigger_int.id'), nullable=False)
-    start_value = Column(Integer, ForeignKey('history_int.id'), nullable=False)
-    end_value = Column(Integer, ForeignKey('history_int.id'), nullable=True)
+    trigger = relationship(IntSimpleTrigger)

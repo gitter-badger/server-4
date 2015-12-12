@@ -15,8 +15,7 @@ class TriggerWorker(Thread):
             # Run once a minute.
             triggers = ItemDAO.getAllTriggers()
             for trigger in triggers:
-                print(trigger.evaluate_rule())
-
+                ItemDAO.evaluateTrigger(trigger)
             try:
                 time.sleep(60)
             except KeyboardInterrupt:

@@ -18,7 +18,8 @@ from sqlalchemy.orm import (
 from .. import Base
 from .AbstractValue import (
     AbstractValue,
-    AbstractSimpleTrigger
+    AbstractSimpleTrigger,
+    AbstractSimpleAlert
 )
 
 
@@ -28,17 +29,6 @@ class TextValue(AbstractValue, Base):
 
 Index('textvalue_ts_index', TextValue.timestamp, mysql_length=255)
 
-def __handle_last(trigger, selector, operator, value):
-    item = trigger.item
-    val = DBSession.query(TextValue) \
-            .filter(TextValue.item_id == item.id) \
-            .order_by(TextValue.timestamp.desc()).first()
-
-    return False
-
-trigger_handlers = {
-    "last": __handle_last
-}
 
 
 class TextSimpleTrigger(AbstractSimpleTrigger, Base):
@@ -57,9 +47,19 @@ class TextSimpleTrigger(AbstractSimpleTrigger, Base):
         else:
             return False
 
-class TextSimpleAlert(Base):
+    def __handle_last(trigger, selector, operator, value):
+        item = trigger.item
+        val = DBSession.query(TextValue) \
+                .filter(TextValue.item_id == item.id) \
+                .order_by(TextValue.timestamp.desc()).first()
+
+        return False
+
+    trigger_handlers = {
+        "last": __handle_last
+    }
+
+class TextSimpleAlert(AbstractSimpleAlert, Base):
     __tablename__ = 'simple_alert_text'
-    id = Column(Integer, primary_key=True)
     trigger_id = Column(Integer, ForeignKey('simple_trigger_text.id'), nullable=False)
-    start_value = Column(Integer, ForeignKey('history_text.id'), nullable=False)
-    end_value = Column(Integer, ForeignKey('history_text.id'), nullable=True)
+    trigger = relationship(TextSimpleTrigger)

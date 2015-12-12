@@ -15,6 +15,10 @@ from arguxserver.dao.util import (
     __alert_class
     )
 
+from sqlalchemy.orm import (
+    sessionmaker
+)
+
 def getItemsFromHost(host):
     i = DBSession.query(Item).filter(Item.host_id == host.id)
     return i
@@ -46,6 +50,41 @@ def createTrigger(item, name, rule, description="", severity="info"):
                             severity_id=severity.id)
     DBSession.add(trigger)
     return trigger
+
+
+def evaluateTrigger(trigger):
+    item = trigger.item
+
+    alert_klass = __alert_class.get(item.itemtype.name)
+
+    Session = sessionmaker()
+    session = Session()
+    i = trigger.validate_rule(trigger.rule)
+    if (i == None):
+        return False
+
+    handler = trigger.trigger_handlers.get(i[0], None)
+
+    if handler:
+        alert = session.query(alert_klass) \
+             .filter(alert_klass.trigger_id == trigger.id) \
+             .filter(alert_klass.end_time == None).first()
+
+        (is_active, time) = handler(trigger, session, i[1], i[2], i[3])
+
+        if is_active:
+            if not alert:
+                alert = alert_klass(trigger_id = trigger.id, start_time = time, end_time=None)
+                session.add(alert)
+                session.commit()
+        else:
+            if alert:
+                alert.end_time = time
+                session.commit()
+        session.close()
+    else:
+        session.close()
+        return False
 
 def getTriggers(item):
     trigger_klass = __trigger_class.get(item.itemtype.name)
