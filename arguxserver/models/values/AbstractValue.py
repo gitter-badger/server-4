@@ -1,35 +1,45 @@
+"""Abstract classes for Triggers and Values."""
+
 from sqlalchemy import (
     Column,
-    Index,
     Integer,
     Float,
     Text,
     DateTime,
     ForeignKey
-    )
+)
 
 from sqlalchemy.orm import (
     relationship
-    )
+)
 
 from sqlalchemy.ext.declarative import declared_attr
 
 import re
 
-from ..Item import Item
-from ..TriggerSeverity import TriggerSeverity
-
 trigger_expr = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
 
-class AbstractValue():
+class AbstractValue(object):
+    """
+    AbstractValue class.
+
+    All value types must be a subclass of the AbstractValue class.
+    """
     id = Column(Integer, primary_key=True)
     timestamp = Column(DateTime, nullable=False)
 
     @declared_attr
-    def item_id(cls):
+    def item_id(self):
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
-class AbstractSimpleTrigger():
+class AbstractSimpleTrigger(object):
+    """
+    AbstractSimpleTrigger class.
+
+    All simple-trigger types must be a subclass of
+    the AbstractSimpleTrigger class.
+
+    """
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False, default="")
@@ -38,19 +48,19 @@ class AbstractSimpleTrigger():
     trigger_handlers = {}
 
     @declared_attr
-    def severity_id(cls):
+    def severity_id(self):
         return Column(Integer, ForeignKey('trigger_severity.id'), nullable=False)
 
     @declared_attr
-    def severity(cls):
+    def severity(self):
         return relationship("TriggerSeverity");
 
     @declared_attr
-    def item_id(cls):
+    def item_id(self):
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
     @declared_attr
-    def item(cls):
+    def item(self):
         return relationship("Item");
 
     @staticmethod
@@ -63,7 +73,13 @@ class AbstractSimpleTrigger():
 
         return ret
 
-class AbstractSimpleAlert():
+class AbstractSimpleAlert(object):
+    """
+    AbstractSimpleAlert class.
+
+    All simple-alert types must be a subclass of
+    the AbstractSimpleAlert class.
+    """
     id = Column(Integer, primary_key=True)
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=True)

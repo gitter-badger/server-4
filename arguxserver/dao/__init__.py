@@ -1,4 +1,1 @@
-"""
-ArguxServer Data Access Objects.
-
-"""
+"""ArguxServer Data Access Objects."""
