@@ -17,7 +17,7 @@ from sqlalchemy.ext.declarative import declared_attr
 from arguxserver.util import TRIGGER_EXPR
 
 
-#pylint: disable=too-few-public-methods
+# pylint: disable=too-few-public-methods
 class AbstractValue(object):
 
     """
@@ -26,15 +26,16 @@ class AbstractValue(object):
     All value types must be a subclass of the AbstractValue class.
     """
 
-    id = Column(Integer, primary_key=True) #pylint: disable=invalid-name
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     timestamp = Column(DateTime, nullable=False)
 
+    # pylint: disable=no-self-use
     @declared_attr
     def item_id(self):
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
 
-#pylint: disable=too-few-public-methods
+# pylint: disable=too-few-public-methods
 class AbstractSimpleTrigger(object):
 
     """
@@ -45,35 +46,40 @@ class AbstractSimpleTrigger(object):
 
     """
 
-    id = Column(Integer, primary_key=True) #pylint: disable=invalid-name
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False, default="")
     rule = Column(Text, nullable=False)
 
     trigger_handlers = {}
 
+    # pylint: disable=no-self-use
     @declared_attr
     def severity_id(self):
         return Column(Integer, ForeignKey('trigger_severity.id'), nullable=False)
 
+    # pylint: disable=no-self-use
     @declared_attr
     def severity(self):
         return relationship("TriggerSeverity");
 
+    # pylint: disable=no-self-use
     @declared_attr
     def item_id(self):
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
+    # pylint: disable=no-self-use
     @declared_attr
     def item(self):
         return relationship("Item")
 
     @staticmethod
     def validate_rule(rule):
+        """Validate Trigger-Rule."""
 
         i = TRIGGER_EXPR.match(rule)
 
-        if i == None:
+        if i is None:
             return False
 
         ret = [i.group(2), i.group(2), i.group(3), i.group(4)]
@@ -81,7 +87,7 @@ class AbstractSimpleTrigger(object):
         return ret
 
 
-#pylint: disable=too-few-public-methods
+# pylint: disable=too-few-public-methods
 class AbstractSimpleAlert(object):
 
     """
@@ -91,6 +97,6 @@ class AbstractSimpleAlert(object):
     the AbstractSimpleAlert class.
     """
 
-    id = Column(Integer, primary_key=True) #pylint: disable=invalid-name
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=True)

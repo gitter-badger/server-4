@@ -1,4 +1,4 @@
-# package
+"""Trigger Module for Worker-Class."""
 
 from threading import Thread
 
@@ -10,8 +10,15 @@ from arguxserver.dao import ItemDAO
 
 class TriggerWorker(Thread):
 
+    """
+    TriggerWorker class.
+
+    Evaluates all triggers and creates alert objects.
+    """
+
     def run(self):
-        while(True):
+        """Thread body."""
+        while True:
             # Run once a minute.
             triggers = ItemDAO.get_all_triggers()
             for trigger in triggers:
@@ -19,6 +26,5 @@ class TriggerWorker(Thread):
             try:
                 time.sleep(60)
             except KeyboardInterrupt:
-                self.stop() 
-            print("THREAD")
+                self.stop()
 

@@ -51,8 +51,7 @@ def create_trigger(item, name, rule, description="", severity="info"):
     if trigger_klass.validate_rule(rule) == False:
         raise Exception()
 
-
-    trigger = trigger_klass(name = name,
+    trigger = trigger_klass(name=name,
                             rule=rule,
                             description=description,
                             item_id=item.id,

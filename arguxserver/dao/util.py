@@ -1,4 +1,8 @@
+"""
+DAO Utility module.
 
+Contains dictionaries for looking up the different Value types.
+"""
 from arguxserver.models import (
     IntValue,
     IntSimpleTrigger,
@@ -9,25 +13,22 @@ from arguxserver.models import (
     TextValue,
     TextSimpleTrigger,
     TextSimpleAlert,
-    )
+)
 
-# Map
 TRIGGER_CLASS = {
-    "int" : IntSimpleTrigger,
-    "float" : FloatSimpleTrigger,
-    "text" : TextSimpleTrigger,
+    "int": IntSimpleTrigger,
+    "float": FloatSimpleTrigger,
+    "text": TextSimpleTrigger,
 }
 
-# Map
 ALERT_CLASS = {
-    "int" : IntSimpleAlert,
-    "float" : FloatSimpleAlert,
-    "text" : TextSimpleAlert,
+    "int": IntSimpleAlert,
+    "float": FloatSimpleAlert,
+    "text": TextSimpleAlert,
 }
 
-# Map
 VALUE_CLASS = {
-    "int" : IntValue,
-    "float" : FloatValue,
-    "text" : TextValue,
+    "int": IntValue,
+    "float": FloatValue,
+    "text": TextValue,
 }
