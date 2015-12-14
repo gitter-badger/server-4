@@ -9,7 +9,7 @@ from pyramid.httpexceptions import HTTPNotFound
 
 from arguxserver import models
 
-from arguxserver.util import time_offset_expr
+from arguxserver.util import TIME_OFFSET_EXPR
 
 import dateutil.parser
 

@@ -1,12 +1,9 @@
 from pyramid.view import (
     view_config,
     view_defaults,
-    notfound_view_config
-    )
+)
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPNotFound
-
 
 import dateutil.parser
 
@@ -16,10 +13,12 @@ from . import RestView
 
 from arguxserver.util import TIME_OFFSET_EXPR
 
+
 @view_defaults(renderer='json')
 class RestItemViews(RestView):
-    """
-    
+
+    """ RestItemViews class.
+
     self.request:  set via parent constructor
     self.dao:      set via parent constructor
     """
@@ -29,18 +28,18 @@ class RestItemViews(RestView):
 
         # Fallback response
         ret = Response(
-            status='500 Internal Server Error',
+            status='400 Bad Request',
             content_type='application/json',
             charset='UTF-8',
-            body='{"error": "500 Internal Server Error", "message": "dunno"}')
+            body='{"error": "400 Bad Request", "message": "dunno"}')
 
         host = self.request.matchdict['host']
         item = self.request.matchdict['item']
 
-        if (self.request.method == "GET"):
+        if self.request.method == "GET":
             ret = self.item_1_view_read(host, item)
 
-        if (self.request.method == "POST"):
+        if self.request.method == "POST":
             ret = self.item_1_view_create(host, item)
 
         return ret
@@ -69,7 +68,7 @@ class RestItemViews(RestView):
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "type not specified"}')
 
-        if (_type == None):
+        if _type is None:
             return Response(
                 status='400 Bad Request',
                 content_type='application/json; charset=UTF-8',
@@ -81,12 +80,12 @@ class RestItemViews(RestView):
         h = dao.HostDAO.get_host_by_name(host)
         if (name != None and description != None):
             n = dao.ItemDAO.get_itemname_by_name(name)
-            if (n == None):
+            if n is None:
                 n = dao.ItemDAO.create_itemname(name, description)
 
-        if (category != None):
+        if not category is None:
             c = dao.ItemDAO.get_itemcategory_by_name(category)
-            if (c == None):
+            if c is None:
                 c = dao.ItemDAO.create_itemcategory(category)
 
         t = dao.ItemDAO.get_itemtype_by_name(_type)
@@ -96,21 +95,19 @@ class RestItemViews(RestView):
             status='201 Created',
             content_type='application/json; charset=UTF-8')
 
-    @view_config(
-            route_name='rest_item_values_1',
-            request_method='POST')
+    @view_config(route_name='rest_item_values_1',
+                 request_method='POST')
     def item_values_1_view(self):
         dao = self.dao
 
         host = self.request.matchdict['host']
         item = self.request.matchdict['item']
 
-
         try:
             value = self.request.json_body.get('value', None)
             ts = self.request.json_body.get('timestamp', None)
         except ValueError:
-            value= None
+            value = None
             return Response(
                 status='400 Bad Request',
                 content_type='application/json',
@@ -141,7 +138,7 @@ class RestItemViews(RestView):
         host = self.request.matchdict['host']
         item = self.request.matchdict['item']
 
-        if (self.request.method == "GET"):
+        if self.request.method == "GET":
             ret = self.item_details_1_view_read(host, item)
 
         return ret
@@ -158,19 +155,19 @@ class RestItemViews(RestView):
         get_alerts = self.request.params.get('get_alerts', 'false')
 
         i = self.ts_to_td(q_start)
-        if (i != None):
+        if not i is None:
              start_offset = i[0]*i[1]
 
-        if (q_end == 'now'):
+        if q_end == 'now':
             end = datetime.now()
             start = end + start_offset
-        elif (q_end == None):
+        elif q_end is None:
             end = datetime.now()
         else:
             end = dateutil.parser.parse(q_end)
             start = end - timedelta(minutes=30)
 
-        if (False):
+        if False:
             return Response(
                 status='400 Bad Request',
                 content_type='application/json',
@@ -212,19 +209,19 @@ class RestItemViews(RestView):
         ret_td = timedelta(minutes = 0)
 
         i = TIME_OFFSET_EXPR.match(ts)
-        if (i == None):
+        if i is None:
             return None
 
         # Check if it is a positive or negative return value
-        if (i.group(1) == '-'):
+        if i.group(1) == '-':
             ret_s = -1
 
         # minutes?
-        if (i.group(3) == 'm'):
+        if i.group(3) == 'm':
             ret_td = timedelta(minutes = int(i.group(2)))
 
         # hours?
-        if (i.group(3) == 'h'):
+        if i.group(3) == 'h':
             ret_td = timedelta(hours = int(i.group(2)))
 
         return (ret_s, ret_td)
