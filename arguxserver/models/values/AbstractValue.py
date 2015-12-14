@@ -17,6 +17,7 @@ from sqlalchemy.ext.declarative import declared_attr
 from arguxserver.util import TRIGGER_EXPR
 
 
+#pylint: disable=too-few-public-methods
 class AbstractValue(object):
 
     """
@@ -25,7 +26,7 @@ class AbstractValue(object):
     All value types must be a subclass of the AbstractValue class.
     """
 
-    id = Column(Integer, primary_key=True) #pylint: disable=C0103
+    id = Column(Integer, primary_key=True) #pylint: disable=invalid-name
     timestamp = Column(DateTime, nullable=False)
 
     @declared_attr
@@ -33,6 +34,7 @@ class AbstractValue(object):
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
 
+#pylint: disable=too-few-public-methods
 class AbstractSimpleTrigger(object):
 
     """
@@ -43,7 +45,7 @@ class AbstractSimpleTrigger(object):
 
     """
 
-    id = Column(Integer, primary_key=True) #pylint: disable=C0103
+    id = Column(Integer, primary_key=True) #pylint: disable=invalid-name
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False, default="")
     rule = Column(Text, nullable=False)
@@ -79,6 +81,7 @@ class AbstractSimpleTrigger(object):
         return ret
 
 
+#pylint: disable=too-few-public-methods
 class AbstractSimpleAlert(object):
 
     """
@@ -88,6 +91,6 @@ class AbstractSimpleAlert(object):
     the AbstractSimpleAlert class.
     """
 
-    id = Column(Integer, primary_key=True) #pylint: disable=C0103
+    id = Column(Integer, primary_key=True) #pylint: disable=invalid-name
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=True)
