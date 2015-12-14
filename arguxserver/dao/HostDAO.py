@@ -1,17 +1,27 @@
+"""Data Access Object class for handling Hosts."""
+
 from arguxserver.models import (
     DB_SESSION,
     Host
-    )
+)
+
 
 def get_host_by_name(name):
-    h = DB_SESSION.query(Host).filter(Host.name == name).first()
-    return h
+    """Return host-object based on name."""
+    host = DB_SESSION.query(Host).filter(Host.name == name).first()
+    return host
+
 
 def create_host(name, description=""):
-    h = Host(name=name, description=description)
-    DB_SESSION.add(h)
-    return h
+    """Create host."""
+    host = Host(name=name, description=description)
+
+    DB_SESSION.add(host)
+
+    return host
+
 
 def get_all_hosts():
-    h = DB_SESSION.query(Host)
-    return h
+    """Return all hosts."""
+    hosts = DB_SESSION.query(Host)
+    return hosts

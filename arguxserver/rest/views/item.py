@@ -82,14 +82,14 @@ class RestItemViews(RestView):
         if (name != None and description != None):
             n = dao.ItemDAO.get_itemname_by_name(name)
             if (n == None):
-                n = dao.ItemDAO.create_itemName(name, description)
+                n = dao.ItemDAO.create_itemname(name, description)
 
         if (category != None):
             c = dao.ItemDAO.get_itemcategory_by_name(category)
             if (c == None):
-                c = dao.ItemDAO.create_itemCategory(category)
+                c = dao.ItemDAO.create_itemcategory(category)
 
-        t = dao.ItemDAO.getItemTypeByName(_type)
+        t = dao.ItemDAO.get_itemtype_by_name(_type)
 
         i = dao.ItemDAO.create_item(h, item, n, c, t)
         return Response(

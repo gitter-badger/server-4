@@ -70,7 +70,7 @@ class RestHostViews(RestView):
                 body='{"error":"NOT FOUND"}')
 
         if (has_items == 'true'):
-            items = self._getItems(h)
+            items = self._get_items(h)
 
         if (has_details == 'true'):
             details = []
@@ -82,7 +82,7 @@ class RestHostViews(RestView):
             'details': details
             }
 
-    def _getItems(self, host):
+    def _get_items(self, host):
 
         i = self.dao.ItemDAO.get_items_from_host(host)
         if (i == None):

@@ -148,18 +148,18 @@ def get_values(item, start_time=None, end_time=None, count=-1):
     """Query values."""
     klass = VALUE_CLASS.get(item.itemtype.name, "nothing")
 
-    q = DB_SESSION.query(klass)\
+    query = DB_SESSION.query(klass)\
             .filter(klass.item_id == item.id)
 
     if start_time:
-        q = q.filter(
+        query = query.filter(
             klass.timestamp > start_time)
 
     if end_time:
-        q = q.filter(
+        query = query.filter(
             klass.timestamp < end_time)
 
-    values = q.order_by(klass.timestamp.asc()).all()
+    values = query.order_by(klass.timestamp.asc()).all()
 
     return values
 
@@ -169,12 +169,13 @@ def get_alerts(item, active=True, inactive=False):
     alert_klass = ALERT_CLASS.get(item.itemtype.name)
     alerts = []
     triggers = get_triggers(item)
-    for trigger in triggers:
-        a = DB_SESSION.query(alert_klass)\
-                .filter(alert_klass.trigger_id == trigger.id)\
-                .filter(alert_klass.end_time == None)
 
-        alerts.extend(a)
+    for trigger in triggers:
+        active_alert = DB_SESSION.query(alert_klass)\
+                .filter(alert_klass.trigger_id == trigger.id)\
+                .filter(alert_klass.end_time is None)
+
+        alerts.extend(active_alert)
 
     return alerts
 
@@ -184,7 +185,7 @@ def get_itemname_by_name(name):
     return item_name
 
 
-def create_itemName(name, description):
+def create_itemname(name, description):
     item_name = ItemName(name=name, description=description)
     DB_SESSION.add(item_name)
     return item_name
@@ -196,13 +197,13 @@ def get_itemcategory_by_name(name):
     return cat
 
 
-def create_itemCategory(name):
+def create_itemcategory(name):
     cat = ItemCategory(name=name)
     DB_SESSION.add(cat)
     return cat
 
 
-def getItemTypeByName(name):
+def get_itemtype_by_name(name):
     item_type = DB_SESSION.query(ItemType)\
         .filter(ItemType.name == name).first()
     return item_type
