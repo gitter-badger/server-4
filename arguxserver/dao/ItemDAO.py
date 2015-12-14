@@ -29,7 +29,9 @@ def get_items_from_host(host):
 
 def get_item_by_host_key(host, key):
     """Get item registered on a host."""
-    item = DB_SESSION.query(Item).filter(Item.host_id == host.id).filter(Item.key == key).first()
+    item = DB_SESSION.query(Item)\
+        .filter(Item.host_id == host.id)\
+        .filter(Item.key == key).first()
     return item
 
 
@@ -44,11 +46,13 @@ def create_trigger(item, name, rule, description="", severity="info"):
     """Create trigger."""
     trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
 
-    severity = DB_SESSION.query(TriggerSeverity).filter(TriggerSeverity.key == severity).first()
+    severity = DB_SESSION.query(TriggerSeverity)\
+        .filter(TriggerSeverity.key == severity).first()
+
     if not severity:
         raise Exception()
 
-    if trigger_klass.validate_rule(rule) == False:
+    if not trigger_klass.validate_rule(rule):
         raise Exception()
 
     trigger = trigger_klass(name=name,
@@ -68,22 +72,25 @@ def evaluate_trigger(trigger):
 
     Session = sessionmaker()
     session = Session()
+
     i = trigger.validate_rule(trigger.rule)
-    if (i == None):
+    if i is None:
         return False
 
     handler = trigger.trigger_handlers.get(i[0], None)
 
     if handler:
-        alert = session.query(alert_klass) \
-             .filter(alert_klass.trigger_id == trigger.id) \
-             .filter(alert_klass.end_time == None).first()
+        alert = session.query(alert_klass)\
+            .filter(alert_klass.trigger_id == trigger.id)\
+            .filter(alert_klass.end_time is None).first()
 
         (is_active, time) = handler(trigger, session, i[1], i[2], i[3])
 
         if is_active:
             if not alert:
-                alert = alert_klass(trigger_id = trigger.id, start_time = time, end_time=None)
+                alert = alert_klass(trigger_id=trigger.id,
+                                    start_time=time,
+                                    end_time=None)
                 session.add(alert)
                 session.commit()
         else:
@@ -99,8 +106,8 @@ def evaluate_trigger(trigger):
 def get_triggers(item):
     """Return all triggers on an item."""
     trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
-    triggers = DB_SESSION.query(trigger_klass) \
-            .filter(trigger_klass.item_id == item.id)
+    triggers = DB_SESSION.query(trigger_klass)\
+        .filter(trigger_klass.item_id == item.id)
 
     return triggers
 
@@ -119,7 +126,7 @@ def push_value(item, timestamp, value):
     """Push new value to an item."""
     value_klass = VALUE_CLASS.get(item.itemtype.name, None)
 
-    val = value_klass(item_id = item.id, timestamp=timestamp, value=value)
+    val = value_klass(item_id=item.id, timestamp=timestamp, value=value)
     DB_SESSION.add(val)
     return val
 
@@ -127,23 +134,30 @@ def push_value(item, timestamp, value):
 def get_last_value(item):
     """Return last value published on an item."""
     klass = VALUE_CLASS.get(item.itemtype.name, lambda: "nothing")
-    val = DB_SESSION.query(klass).filter(klass.item_id == item.id).order_by(klass.timestamp.desc()).first()
+
+    val = DB_SESSION.query(klass)\
+        .filter(klass.item_id == item.id)\
+        .order_by(klass.timestamp.desc())\
+        .first()
+
     return val
 
 
-def get_values(item, start_time = None, end_time = None, count = -1):
+# pylint: disable=unused-argument
+def get_values(item, start_time=None, end_time=None, count=-1):
     """Query values."""
     klass = VALUE_CLASS.get(item.itemtype.name, "nothing")
 
-    q = DB_SESSION.query(klass) \
+    q = DB_SESSION.query(klass)\
             .filter(klass.item_id == item.id)
 
-    if (start_time):
+    if start_time:
         q = q.filter(
-                klass.timestamp > start_time)
-    if (end_time):
+            klass.timestamp > start_time)
+
+    if end_time:
         q = q.filter(
-                klass.timestamp < end_time)
+            klass.timestamp < end_time)
 
     values = q.order_by(klass.timestamp.asc()).all()
 
@@ -156,8 +170,8 @@ def get_alerts(item, active=True, inactive=False):
     alerts = []
     triggers = get_triggers(item)
     for trigger in triggers:
-        a = DB_SESSION.query(alert_klass) \
-                .filter(alert_klass.trigger_id == trigger.id) \
+        a = DB_SESSION.query(alert_klass)\
+                .filter(alert_klass.trigger_id == trigger.id)\
                 .filter(alert_klass.end_time == None)
 
         alerts.extend(a)
@@ -177,7 +191,8 @@ def create_itemName(name, description):
 
 
 def get_itemcategory_by_name(name):
-    cat = DB_SESSION.query(ItemCategory).filter(ItemCategory.name == name).first()
+    cat = DB_SESSION.query(ItemCategory)\
+        .filter(ItemCategory.name == name).first()
     return cat
 
 
@@ -188,11 +203,12 @@ def create_itemCategory(name):
 
 
 def getItemTypeByName(name):
-    item_type = DB_SESSION.query(ItemType).filter(ItemType.name == name).first()
+    item_type = DB_SESSION.query(ItemType)\
+        .filter(ItemType.name == name).first()
     return item_type
 
 
-def add_itemtype_detail(item_type,name,rule):
+def add_itemtype_detail(item_type, name, rule):
     d = ItemTypeDetail(itemtype=item_type, name=name, rule=rule)
     DB_SESSION.add(d)
     return None
