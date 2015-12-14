@@ -3,7 +3,6 @@
 from sqlalchemy import (
     Column,
     Integer,
-    Float,
     Text,
     DateTime,
     ForeignKey
@@ -26,7 +25,7 @@ class AbstractValue(object):
     All value types must be a subclass of the AbstractValue class.
     """
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True) #pylint: disable=C0103
     timestamp = Column(DateTime, nullable=False)
 
     @declared_attr
@@ -44,7 +43,7 @@ class AbstractSimpleTrigger(object):
 
     """
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True) #pylint: disable=C0103
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False, default="")
     rule = Column(Text, nullable=False)
@@ -89,6 +88,6 @@ class AbstractSimpleAlert(object):
     the AbstractSimpleAlert class.
     """
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True) #pylint: disable=C0103
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=True)
