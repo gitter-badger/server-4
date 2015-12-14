@@ -15,15 +15,16 @@ from pyramid.scripts.common import parse_vars
 from ..models import (
     DB_SESSION,
     BASE,
-    Host,
     ItemName,
     ItemType,
     ItemCategory,
     TriggerSeverity
 )
 
+
 def usage(argv):
     """Print usage string."""
+
     cmd = os.path.basename(argv[0])
     print('usage: %s <config_uri> [var=value]\n'
           '(example: "%s development.ini")' % (cmd, cmd))
@@ -32,6 +33,7 @@ def usage(argv):
 
 def main():
     """Main function for Initialisation script."""
+
     if len(sys.argv) < 2:
         usage(sys.argv)
     config_uri = sys.argv[1]
