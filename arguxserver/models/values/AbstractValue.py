@@ -15,9 +15,7 @@ from sqlalchemy.orm import (
 
 from sqlalchemy.ext.declarative import declared_attr
 
-import re
-
-TRIGGER_EXPR = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
+from arguxserver.util import TRIGGER_EXPR
 
 
 class AbstractValue(object):

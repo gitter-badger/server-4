@@ -1,3 +1,8 @@
+"""
+Utility module containing regular expressions.
+"""
+
 import re
 
-time_offset_expr = re.compile(r"([-+])([0-9]+)([mh])")
+TIME_OFFSET_EXPR = re.compile(r"([-+])([0-9]+)([mh])")
+TRIGGER_EXPR = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")

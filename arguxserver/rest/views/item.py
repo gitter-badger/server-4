@@ -14,7 +14,7 @@ from datetime import datetime, timedelta
 
 from . import RestView
 
-from arguxserver.util import time_offset_expr
+from arguxserver.util import TIME_OFFSET_EXPR
 
 @view_defaults(renderer='json')
 class RestItemViews(RestView):
@@ -211,7 +211,7 @@ class RestItemViews(RestView):
         ret_s = 1
         ret_td = timedelta(minutes = 0)
 
-        i = time_offset_expr.match(ts)
+        i = TIME_OFFSET_EXPR.match(ts)
         if (i == None):
             return None
 
