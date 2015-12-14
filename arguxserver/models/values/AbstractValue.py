@@ -17,14 +17,17 @@ from sqlalchemy.ext.declarative import declared_attr
 
 import re
 
-trigger_expr = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
+TRIGGER_EXPR = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
+
 
 class AbstractValue(object):
+
     """
     AbstractValue class.
 
     All value types must be a subclass of the AbstractValue class.
     """
+
     id = Column(Integer, primary_key=True)
     timestamp = Column(DateTime, nullable=False)
 
@@ -32,7 +35,9 @@ class AbstractValue(object):
     def item_id(self):
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
+
 class AbstractSimpleTrigger(object):
+
     """
     AbstractSimpleTrigger class.
 
@@ -40,6 +45,7 @@ class AbstractSimpleTrigger(object):
     the AbstractSimpleTrigger class.
 
     """
+
     id = Column(Integer, primary_key=True)
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False, default="")
@@ -61,25 +67,30 @@ class AbstractSimpleTrigger(object):
 
     @declared_attr
     def item(self):
-        return relationship("Item");
+        return relationship("Item")
 
     @staticmethod
     def validate_rule(rule):
-        i = trigger_expr.match(rule)
-        if (i == None):
+
+        i = TRIGGER_EXPR.match(rule)
+
+        if i == None:
             return False
 
-        ret = [ i.group(1), i.group(2), i.group(3), i.group(4) ]
+        ret = [i.group(2), i.group(2), i.group(3), i.group(4)]
 
         return ret
 
+
 class AbstractSimpleAlert(object):
+
     """
     AbstractSimpleAlert class.
 
     All simple-alert types must be a subclass of
     the AbstractSimpleAlert class.
     """
+
     id = Column(Integer, primary_key=True)
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=True)
