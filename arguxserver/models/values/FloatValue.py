@@ -10,9 +10,7 @@ from sqlalchemy import (
     ForeignKey
     )
 
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
-    scoped_session,
     sessionmaker,
     relationship
     )
@@ -58,11 +56,11 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
                 .filter(FloatValue.item_id == item.id)\
                 .order_by(FloatValue.timestamp.desc()).first()
 
-        if ((operator == '>' and val.value > float(value)) or\
-            (operator == '<' and val.value < float(value)) or\
-            (operator == '>=' and val.value >= float(value)) or\
-            (operator == '<=' and val.value <= float(value)) or\
-            (operator == '==' and val.value == float(value)) or\
+        if ((operator == '>' and val.value > float(value)) or
+            (operator == '<' and val.value < float(value)) or
+            (operator == '>=' and val.value >= float(value)) or
+            (operator == '<=' and val.value <= float(value)) or
+            (operator == '==' and val.value == float(value)) or
             (operator == '!=' and val.value != float(value))
             ):
             print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
