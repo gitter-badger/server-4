@@ -32,6 +32,7 @@ class AbstractValue(object):
     # pylint: disable=no-self-use
     @declared_attr
     def item_id(self):
+        """Return Item-id integer related to this value."""
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
 
@@ -56,27 +57,30 @@ class AbstractSimpleTrigger(object):
     # pylint: disable=no-self-use
     @declared_attr
     def severity_id(self):
+        """Return TriggerSeverity-id integer related to this trigger."""
         return Column(Integer, ForeignKey('trigger_severity.id'), nullable=False)
 
     # pylint: disable=no-self-use
     @declared_attr
     def severity(self):
-        return relationship("TriggerSeverity");
+        """Return TriggerSeverity object related to this trigger."""
+        return relationship("TriggerSeverity")
 
     # pylint: disable=no-self-use
     @declared_attr
     def item_id(self):
+        """Return Item-id integer related to this trigger."""
         return Column(Integer, ForeignKey('item.id'), nullable=False)
 
     # pylint: disable=no-self-use
     @declared_attr
     def item(self):
+        """Return Item object related to this trigger."""
         return relationship("Item")
 
     @staticmethod
     def validate_rule(rule):
         """Validate Trigger-Rule."""
-
         i = TRIGGER_EXPR.match(rule)
 
         if i is None:

@@ -7,7 +7,6 @@ import time
 from arguxserver.dao import ItemDAO
 
 
-
 class TriggerWorker(Thread):
 
     """

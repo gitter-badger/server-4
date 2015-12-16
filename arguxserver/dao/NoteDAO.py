@@ -1,3 +1,5 @@
+"""Data Access Object class for handling Notes."""
+
 from arguxserver.models import (
     DB_SESSION,
     Note

@@ -16,6 +16,10 @@ class DAO(object):
     """
 
     def __init__(self):
+        """Constructor function.
+
+        Initialises public member DAO modules.
+        """
         self.host_dao = HostDAO
         self.item_dao = ItemDAO
         self.note_dao = NoteDAO
