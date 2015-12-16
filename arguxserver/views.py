@@ -83,14 +83,17 @@ class MainViews:
         item_key  = self.request.matchdict['item']
         action    = self.request.matchdict['action']
 
-        ts        = self.request.params.get('timespan', '30m')
+        ts = self.request.params.get('timespan', '30m')
 
-        details = [
-            {"name": "MAX", "ts": "1-1-1970", "value":"14" }
-            ]
+        details = []
 
-        host     = self.dao.HOST_DAO.get_host_by_name(host_name)
-        item     = self.dao.ITEM_DAO.get_item_by_host_key(host, item_key)
+        host = self.dao.HOST_DAO.get_host_by_name(host_name)
+        item = self.dao.ITEM_DAO.get_item_by_host_key(host, item_key)
+
+        if item.itemtype.name == 'float':
+            details = [
+                {"name": "MAX", "ts": "1-1-1970", "value":"14" }
+                ]
 
         a = self.dao.ITEM_DAO.get_alerts(item)
 
