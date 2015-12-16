@@ -16,7 +16,6 @@ from ..models import (
     DB_SESSION,
     BASE,
     ItemType,
-    ItemCategory,
     TriggerSeverity
 )
 
