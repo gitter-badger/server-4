@@ -86,7 +86,7 @@ class AbstractSimpleTrigger(object):
         if i is None:
             return False
 
-        ret = [i.group(2), i.group(2), i.group(3), i.group(4)]
+        ret = [i.group(1), i.group(2), i.group(3), i.group(4)]
 
         return ret
 
