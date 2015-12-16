@@ -2,18 +2,15 @@ from sqlalchemy import (
     Column,
     Index,
     Integer,
-    Float,
     Text,
     DateTime,
     ForeignKey
-    )
+)
 
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
     scoped_session,
-    sessionmaker,
     relationship
-    )
+)
 
 from .. import BASE
 from .AbstractValue import (
@@ -28,9 +25,9 @@ class TextValue(AbstractValue, BASE):
 
     """TextValue class.
 
-
     Subclass of AbstractValue and BASE.
     """
+
     __tablename__ = 'history_text'
     value = Column(Text, nullable=True)
 
@@ -42,24 +39,10 @@ class TextSimpleTrigger(AbstractSimpleTrigger, BASE):
 
     """TextSimpleTrigger class.
 
-
     Subclass of AbstractSimpleTrigger and BASE.
     """
 
     __tablename__ = 'simple_trigger_text'
-
-    def evaluate_rule(self):
-        i = trigger_expr.match(self.rule)
-        if (i == None):
-            return False
-
-        handler = trigger_handlers.get(i.group(1), None)
-
-        if handler:
-            handler(self, i.group(2), i.group(3), i.group(4))
-            return True
-        else:
-            return False
 
     def __handle_last(trigger, selector, operator, value):
         item = trigger.item
@@ -74,7 +57,6 @@ class TextSimpleTrigger(AbstractSimpleTrigger, BASE):
 class TextSimpleAlert(AbstractSimpleAlert, BASE):
 
     """TextSimpleAlert class.
-
 
     Subclass of AbstractSimpleAlert and BASE.
     """

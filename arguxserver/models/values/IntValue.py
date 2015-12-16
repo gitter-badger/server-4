@@ -41,24 +41,10 @@ class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
 
     """IntSimpleTrigger class.
 
-
     Subclass of AbstractSimpleTrigger and BASE.
     """
 
     __tablename__ = 'simple_trigger_int'
-
-    def evaluate_rule(self):
-        i = TRIGGER_EXPR.match(self.rule)
-        if (i == None):
-            return False
-
-        handler = trigger_handlers.get(i.group(1), None)
-
-        if handler:
-            handler(self, i.group(2), i.group(3), i.group(4))
-            return True
-        else:
-            return False
 
     def __handle_last(trigger, selector, operator, value):
         item = trigger.item
@@ -74,7 +60,6 @@ class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
 class IntSimpleAlert(AbstractSimpleAlert, BASE):
 
     """IntSimpleAlert class.
-
 
     Subclass of AbstractSimpleAlert and BASE.
     """
