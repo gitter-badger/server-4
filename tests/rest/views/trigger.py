@@ -23,7 +23,7 @@ class RestTriggerViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/rest/1.0/item')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao
+        r.registry.settings['dao'] = dao.DAO()
         v = RestItemViews(r)
         response = v.item_1_view()
 

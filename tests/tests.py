@@ -21,7 +21,7 @@ class ViewTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/a/b')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao
+        r.registry.settings['dao'] = dao.DAO()
         r.matchdict = {'host':'localhost','item':'NONE','action':'details'}
         v = MainViews(r)
         info = v.item_details()

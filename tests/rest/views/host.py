@@ -22,7 +22,7 @@ class RestHostViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/host')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao
+        r.registry.settings['dao'] = dao.DAO()
         v = RestHostViews(r)
         response = v.hosts()
 
@@ -41,7 +41,7 @@ class RestHostViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao
+        r.registry.settings['dao'] = dao.DAO()
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
         response = v.host_1_view_get()
@@ -68,7 +68,7 @@ class RestHostViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost?items=true')
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao
+        r.registry.settings['dao'] = dao.DAO()
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
         response = v.host_1_view_get()
@@ -101,7 +101,7 @@ class RestHostViewsTests(unittest.TestCase):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost', POST="TEST")
         r.registry = Registry()
         r.registry.settings = {}
-        r.registry.settings['dao'] = dao
+        r.registry.settings['dao'] = dao.DAO()
         r.matchdict = {'host':'localhost'}
         v = RestHostViews(r)
         response = v.host_1_view_post()
