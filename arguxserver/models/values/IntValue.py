@@ -4,16 +4,12 @@ from sqlalchemy import (
     Column,
     Index,
     Integer,
-    DateTime,
     ForeignKey
 )
 
 from sqlalchemy.orm import (
-    scoped_session,
     relationship
 )
-
-from arguxserver.util import TRIGGER_EXPR
 
 from .. import BASE
 
@@ -48,8 +44,9 @@ class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
 
     __tablename__ = 'simple_trigger_int'
 
-    def __handle_last(trigger, selector, operator, value):
-        item = trigger.item
+    # pylint: disable=unused-argument
+    def __handle_last(self, selector, operator, value):
+        item = self.item
 
         return False
 
