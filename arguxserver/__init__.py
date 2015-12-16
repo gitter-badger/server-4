@@ -7,16 +7,16 @@ from sqlalchemy import engine_from_config
 from .models import (
     DB_SESSION,
     BASE,
-    )
+)
 
 from arguxserver import dao
 
 from arguxserver.trigger import TriggerWorker
 
 
+# pylint: disable=unused-argument
 def main(global_config, **settings):
-    """ This function returns a Pyramid WSGI application.
-    """
+    """Returns a Pyramid WSGI application."""
     engine = engine_from_config(settings, 'sqlalchemy.')
     DB_SESSION.configure(bind=engine)
     BASE.metadata.bind = engine
@@ -25,42 +25,42 @@ def main(global_config, **settings):
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
 
-    config.add_route('home',         '/')
-    config.add_route('hosts',        '/host')
-    config.add_route('host',         '/host/{host}')
+    config.add_route('home', '/')
+    config.add_route('hosts', '/host')
+    config.add_route('host', '/host/{host}')
     config.add_route('host_details', '/host/{host}/{action}')
-    config.add_route('item',         '/host/{host}/item/{item}')
+    config.add_route('item', '/host/{host}/item/{item}')
     config.add_route('item_details', '/host/{host}/item/{item}/{action}')
 
-    config.add_route('dashboards',   '/dashboard')
+    config.add_route('dashboards', '/dashboard')
 
 
     # REST 1.0 API
     config.add_route('rest_hosts_1',
-            '/rest/1.0/host')
+                     '/rest/1.0/host')
     config.add_route('rest_host_1',
-            '/rest/1.0/host/{host}')
+                     '/rest/1.0/host/{host}')
     config.add_route('rest_host_details_1',
-            '/rest/1.0/host/{host}/details')
+                     '/rest/1.0/host/{host}/details')
 
     config.add_route('rest_item_1',
-            '/rest/1.0/host/{host}/item/{item}')
+                     '/rest/1.0/host/{host}/item/{item}')
     config.add_route('rest_item_details_1',
-            '/rest/1.0/host/{host}/item/{item}/details')
+                     '/rest/1.0/host/{host}/item/{item}/details')
     config.add_route('rest_item_values_1',
-            '/rest/1.0/host/{host}/item/{item}/values')
+                     '/rest/1.0/host/{host}/item/{item}/values')
     config.add_route('rest_triggers_1',
-            '/rest/1.0/host/{host}/item/{item}/trigger')
+                     '/rest/1.0/host/{host}/item/{item}/trigger')
     config.add_route('rest_trigger_1',
-            '/rest/1.0/host/{host}/item/{item}/trigger/{id}')
+                     '/rest/1.0/host/{host}/item/{item}/trigger/{id}')
 
     config.add_route('rest_note_1',
-            '/rest/1.0/note')
+                     '/rest/1.0/note')
 
     config.add_route('rest_itemtype_details_1',
-            '/rest/1.0/itemtype/{itemtype}/detail')
+                     '/rest/1.0/itemtype/{itemtype}/detail')
     config.add_route('rest_itemtype_detail_1',
-            '/rest/1.0/itemtype/{itemtype}/detail/{id}')
+                     '/rest/1.0/itemtype/{itemtype}/detail/{id}')
 
     # Pretty-print JSON, useful for development.
     if (settings['rest.pretty_json'] == 'true'):
