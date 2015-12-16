@@ -48,31 +48,19 @@ class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
     def __handle_last(self, selector, operator, value):
         item = self.item
         val = session.query(IntValue) \
-                .filter(IntValue.item_id == item.id) \
+                .filter(IntValue.item_id == item.id)\
                 .order_by(IntValue.timestamp.desc()).first()
-        if operator == '>':
-            print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
-            if val.value > float(value):
-                return (True, val.timestamp)
-            else:
-                return (False, val.timestamp)
-        if operator == '<':
-            if val.value < float(value):
-                return (True, val.timestamp)
-            else:
-                return (False, val.timestamp)
-        if operator == '>=':
-            if val.value >= float(value):
-                return (True, val.timestamp)
-            else:
-                return (False, val.timestamp)
-        if operator == '<=':
-            if val.value >= float(value):
-                return (True, val.timestamp)
-            else:
-                return (False, val.timestamp)
 
-        return False
+        if (operator == '>' and val.value > int(value)) or
+           (operator == '<' and val.value < int(value)) or
+           (operator == '>=' and val.value >= int(value)) or
+           (operator == '<=' and val.value <= int(value)) or
+           (operator == '==' and val.value == int(value)) or
+           (operator == '!=' and val.value != int(value)):
+            print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
+            return (True, val.timestamp)
+        else:
+            return (False, val.timestamp)
 
     trigger_handlers = {
         "last": __handle_last

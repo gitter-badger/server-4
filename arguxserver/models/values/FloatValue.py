@@ -55,29 +55,19 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
     def __handle_last(trigger, session, selector, operator, value):
         item = trigger.item
         val = session.query(FloatValue) \
-                .filter(FloatValue.item_id == item.id) \
+                .filter(FloatValue.item_id == item.id)\
                 .order_by(FloatValue.timestamp.desc()).first()
-        if operator == '>':
+
+        if (operator == '>' and val.value > float(value)) or
+           (operator == '<' and val.value < float(value)) or
+           (operator == '>=' and val.value >= float(value)) or
+           (operator == '<=' and val.value <= float(value)) or
+           (operator == '==' and val.value == float(value)) or
+           (operator == '!=' and val.value != float(value)):
             print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
-            if val.value > float(value):
-                return (True, val.timestamp)
-            else:
-                return (False, val.timestamp)
-        if operator == '<':
-            if val.value < float(value):
-                return (True, val.timestamp)
-            else:
-                return (False, val.timestamp)
-        if operator == '>=':
-            if val.value >= float(value):
-                return (True, val.timestamp)
-            else:
-                return (False, val.timestamp)
-        if operator == '<=':
-            if val.value >= float(value):
-                return (True, val.timestamp)
-            else:
-                return (False, val.timestamp)
+            return (True, val.timestamp)
+        else:
+            return (False, val.timestamp)
 
     trigger_handlers = {
         "last": __handle_last
