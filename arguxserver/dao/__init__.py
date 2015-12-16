@@ -6,10 +6,17 @@ from . import (
     NoteDAO
 )
 
+
+# pylint: disable=too-few-public-methods
 class DAO(object):
 
+    """Main DAO Class.
+
+    This Class loads all modules containg the other DAO functions.
+    """
+
     def __init__(self):
-        self.HOST_DAO = HostDAO
-        self.ITEM_DAO = ItemDAO
-        self.NOTE_DAO = NoteDAO
+        self.host_dao = HostDAO
+        self.item_dao = ItemDAO
+        self.note_dao = NoteDAO
 

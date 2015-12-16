@@ -77,20 +77,20 @@ class RestItemViews(RestView):
         n = None
         c = None 
 
-        h = dao.HOST_DAO.get_host_by_name(host)
+        h = dao.host_dao.get_host_by_name(host)
         if (name != None and description != None):
-            n = dao.ITEM_DAO.get_itemname_by_name(name)
+            n = dao.item_dao.get_itemname_by_name(name)
             if n is None:
-                n = dao.ITEM_DAO.create_itemname(name, description)
+                n = dao.item_dao.create_itemname(name, description)
 
         if not category is None:
-            c = dao.ITEM_DAO.get_itemcategory_by_name(category)
+            c = dao.item_dao.get_itemcategory_by_name(category)
             if c is None:
-                c = dao.ITEM_DAO.create_itemcategory(category)
+                c = dao.item_dao.create_itemcategory(category)
 
-        t = dao.ITEM_DAO.get_itemtype_by_name(_type)
+        t = dao.item_dao.get_itemtype_by_name(_type)
 
-        i = dao.ITEM_DAO.create_item(h, item, n, c, t)
+        i = dao.item_dao.create_item(h, item, n, c, t)
         return Response(
             status='201 Created',
             content_type='application/json; charset=UTF-8')
@@ -114,12 +114,12 @@ class RestItemViews(RestView):
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "value not specified"}')
 
-        h = dao.HOST_DAO.get_host_by_name(host)
-        i = dao.ITEM_DAO.get_item_by_host_key(h, item)
+        h = dao.host_dao.get_host_by_name(host)
+        i = dao.item_dao.get_item_by_host_key(h, item)
 
         t = dateutil.parser.parse(ts)
 
-        dao.ITEM_DAO.push_value(i, t, value)
+        dao.item_dao.push_value(i, t, value)
 
         return Response(
             status='201 Created',
@@ -176,18 +176,18 @@ class RestItemViews(RestView):
 
         date_fmt = "%Y-%m-%dT%H:%M:%S"
 
-        h = self.dao.HOST_DAO.get_host_by_name(host)
-        i = self.dao.ITEM_DAO.get_item_by_host_key(h, item)
+        h = self.dao.host_dao.get_host_by_name(host)
+        i = self.dao.item_dao.get_item_by_host_key(h, item)
 
         if get_values:
-            v = self.dao.ITEM_DAO.get_values(i, start_time = start, end_time = end)
+            v = self.dao.item_dao.get_values(i, start_time = start, end_time = end)
             for value in v:
                 values.append ( {
                 'ts': value.timestamp.strftime(date_fmt),
                 'value': value.value
                 } )
         if get_alerts:
-            a = self.dao.ITEM_DAO.get_alerts(i)
+            a = self.dao.item_dao.get_alerts(i)
 
             n_alerts = len(a)
             for alert in a:
