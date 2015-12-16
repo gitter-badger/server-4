@@ -1,3 +1,5 @@
+"""Concrete classes for Triggers and Values of Text items."""
+
 from sqlalchemy import (
     Column,
     Index,

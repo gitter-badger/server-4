@@ -1,3 +1,5 @@
+"""Concrete classes for Triggers and Values of Floating-point items."""
+
 from sqlalchemy import (
     Column,
     Index,
