@@ -56,12 +56,12 @@ class RestNoteViews(RestView):
         if (hostname == None):
             raise Exception()
 
-        host = dao.HostDAO.get_host_by_name(hostname)
+        host = dao.HOST_DAO.get_host_by_name(hostname)
 
         if (host == None):
             raise Exception()
 
-        note = dao.NoteDAO.create_hostNote(host, subject, msg, datetime.now())
+        note = dao.NOTE_DAO.create_hostNote(host, subject, msg, datetime.now())
 
         #except Exception:
         #    return Response(
@@ -75,8 +75,8 @@ class RestNoteViews(RestView):
 
         hostname = self.request.params.get('host', None)
 
-        host = self.dao.HostDAO.get_host_by_name(hostname)
-        n = self.dao.NoteDAO.get_notes_for_host(host)
+        host = self.dao.HOST_DAO.get_host_by_name(hostname)
+        n = self.dao.NOTE_DAO.get_notes_for_host(host)
 
         if (n):
             notes = []

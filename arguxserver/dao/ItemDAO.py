@@ -149,7 +149,7 @@ def get_values(item, start_time=None, end_time=None, count=-1):
     klass = VALUE_CLASS.get(item.itemtype.name, "nothing")
 
     query = DB_SESSION.query(klass)\
-            .filter(klass.item_id == item.id)
+        .filter(klass.item_id == item.id)
 
     if start_time:
         query = query.filter(
@@ -172,8 +172,8 @@ def get_alerts(item, active=True, inactive=False):
 
     for trigger in triggers:
         active_alert = DB_SESSION.query(alert_klass)\
-                .filter(alert_klass.trigger_id == trigger.id)\
-                .filter(alert_klass.end_time is None)
+            .filter(alert_klass.trigger_id == trigger.id)\
+            .filter(alert_klass.end_time is None)
 
         alerts.extend(active_alert)
 
@@ -181,7 +181,10 @@ def get_alerts(item, active=True, inactive=False):
 
 
 def get_itemname_by_name(name):
-    item_name = DB_SESSION.query(ItemName).filter(ItemName.name == name).first()
+    item_name = DB_SESSION.query(ItemName)\
+        .filter(ItemName.name == name)\
+        .first()
+
     return item_name
 
 
@@ -210,9 +213,11 @@ def get_itemtype_by_name(name):
 
 
 def add_itemtype_detail(item_type, name, rule):
-    d = ItemTypeDetail(itemtype=item_type, name=name, rule=rule)
-    DB_SESSION.add(d)
-    return None
+    detail = ItemTypeDetail(itemtype=item_type, name=name, rule=rule)
+
+    DB_SESSION.add(detail)
+
+    return detail
 
 
 def get_itemtype_details(item_type):

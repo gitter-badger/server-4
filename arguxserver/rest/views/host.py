@@ -21,7 +21,7 @@ class RestHostViews(RestView):
 
     @view_config(route_name='rest_hosts_1')
     def hosts(self):
-        h = self.dao.HostDAO.get_all_hosts()
+        h = self.dao.HOST_DAO.get_all_hosts()
 
         if (h == None):
             return HTTPNotFound()
@@ -44,7 +44,7 @@ class RestHostViews(RestView):
         except ValueError:
             description = None
 
-        self.dao.HostDAO.create_host(name=host, description=description)
+        self.dao.HOST_DAO.create_host(name=host, description=description)
         return Response(
             status='201 Created',
             content_type='application/json')
@@ -57,7 +57,7 @@ class RestHostViews(RestView):
         has_details = self.request.params.get('details', 'false')
         has_items   = self.request.params.get('items', 'false')
 
-        h = self.dao.HostDAO.get_host_by_name(host)
+        h = self.dao.HOST_DAO.get_host_by_name(host)
 
         items  = []
         details = []
@@ -84,7 +84,7 @@ class RestHostViews(RestView):
 
     def _get_items(self, host):
 
-        i = self.dao.ItemDAO.get_items_from_host(host)
+        i = self.dao.ITEM_DAO.get_items_from_host(host)
         if (i == None):
             return []
 
@@ -100,7 +100,7 @@ class RestHostViews(RestView):
             else:
                 category = None
 
-            v = self.dao.ItemDAO.get_last_value(a)
+            v = self.dao.ITEM_DAO.get_last_value(a)
 
             if (v):
                 items.append({

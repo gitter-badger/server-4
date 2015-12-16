@@ -10,9 +10,6 @@ from .models import (
     )
 
 from arguxserver import dao
-from arguxserver.dao import HostDAO
-from arguxserver.dao import ItemDAO
-from arguxserver.dao import NoteDAO
 
 from arguxserver.trigger import TriggerWorker
 
@@ -23,7 +20,7 @@ def main(global_config, **settings):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DB_SESSION.configure(bind=engine)
     BASE.metadata.bind = engine
-    settings['dao'] = dao
+    settings['dao'] = dao.DAO()
     config = Configurator(settings=settings)
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)

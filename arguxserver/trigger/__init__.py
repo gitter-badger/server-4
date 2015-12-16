@@ -20,6 +20,7 @@ class TriggerWorker(Thread):
         """Thread body."""
         while True:
             # Run once a minute.
+            print("run")
             triggers = ItemDAO.get_all_triggers()
             for trigger in triggers:
                 ItemDAO.evaluate_trigger(trigger)

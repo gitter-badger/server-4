@@ -23,15 +23,29 @@ from .AbstractValue import (
 )
 
 
+# pylint: disable=too-few-public-methods
 class TextValue(AbstractValue, BASE):
+
+    """TextValue class.
+
+
+    Subclass of AbstractValue and BASE.
+    """
     __tablename__ = 'history_text'
     value = Column(Text, nullable=True)
 
 Index('textvalue_ts_index', TextValue.timestamp, mysql_length=255)
 
 
-
+# pylint: disable=too-few-public-methods
 class TextSimpleTrigger(AbstractSimpleTrigger, BASE):
+
+    """TextSimpleTrigger class.
+
+
+    Subclass of AbstractSimpleTrigger and BASE.
+    """
+
     __tablename__ = 'simple_trigger_text'
 
     def evaluate_rule(self):
@@ -56,7 +70,15 @@ class TextSimpleTrigger(AbstractSimpleTrigger, BASE):
         "last": __handle_last
     }
 
+# pylint: disable=too-few-public-methods
 class TextSimpleAlert(AbstractSimpleAlert, BASE):
+
+    """TextSimpleAlert class.
+
+
+    Subclass of AbstractSimpleAlert and BASE.
+    """
+
     __tablename__ = 'simple_alert_text'
     trigger_id = Column(Integer, ForeignKey('simple_trigger_text.id'), nullable=False)
     trigger = relationship(TextSimpleTrigger)

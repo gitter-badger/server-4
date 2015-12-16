@@ -2,16 +2,16 @@ from sqlalchemy import (
     Column,
     Index,
     Integer,
-    Text, DateTime,
+    DateTime,
     ForeignKey
-    )
+)
 
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
     scoped_session,
-    sessionmaker,
     relationship
-    )
+)
+
+from arguxserver.util import TRIGGER_EXPR
 
 from .. import BASE
 
@@ -22,17 +22,33 @@ from .AbstractValue import (
 )
 
 
+# pylint: disable=too-few-public-methods
 class IntValue(AbstractValue, BASE):
+
+    """IntValue class.
+
+    Subclass of AbstractValue and BASE.
+    """
+
     __tablename__ = 'history_int'
     value = Column(Integer, nullable=True)
 
 Index('intvalue_ts_index', IntValue.timestamp, mysql_length=255)
 
+
+# pylint: disable=too-few-public-methods
 class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
+
+    """IntSimpleTrigger class.
+
+
+    Subclass of AbstractSimpleTrigger and BASE.
+    """
+
     __tablename__ = 'simple_trigger_int'
 
     def evaluate_rule(self):
-        i = trigger_expr.match(self.rule)
+        i = TRIGGER_EXPR.match(self.rule)
         if (i == None):
             return False
 
@@ -53,7 +69,18 @@ class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
         "last": __handle_last
     }
 
+
+# pylint: disable=too-few-public-methods
 class IntSimpleAlert(AbstractSimpleAlert, BASE):
+
+    """IntSimpleAlert class.
+
+
+    Subclass of AbstractSimpleAlert and BASE.
+    """
+
     __tablename__ = 'simple_alert_int'
-    trigger_id = Column(Integer, ForeignKey('simple_trigger_int.id'), nullable=False)
+    trigger_id = Column(Integer,
+                        ForeignKey('simple_trigger_int.id'),
+                        nullable=False)
     trigger = relationship(IntSimpleTrigger)
