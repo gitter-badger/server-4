@@ -47,6 +47,30 @@ class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
     # pylint: disable=unused-argument
     def __handle_last(self, selector, operator, value):
         item = self.item
+        val = session.query(IntValue) \
+                .filter(IntValue.item_id == item.id) \
+                .order_by(IntValue.timestamp.desc()).first()
+        if operator == '>':
+            print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
+            if val.value > float(value):
+                return (True, val.timestamp)
+            else:
+                return (False, val.timestamp)
+        if operator == '<':
+            if val.value < float(value):
+                return (True, val.timestamp)
+            else:
+                return (False, val.timestamp)
+        if operator == '>=':
+            if val.value >= float(value):
+                return (True, val.timestamp)
+            else:
+                return (False, val.timestamp)
+        if operator == '<=':
+            if val.value >= float(value):
+                return (True, val.timestamp)
+            else:
+                return (False, val.timestamp)
 
         return False
 
