@@ -3,5 +3,9 @@ test-warnings: no
 strictness: veryhigh
 max-line-length: 120
 
+python-targets:
+  - 3
+
 ignore-paths:
   - tests
+
