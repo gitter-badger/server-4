@@ -58,12 +58,13 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
                 .filter(FloatValue.item_id == item.id)\
                 .order_by(FloatValue.timestamp.desc()).first()
 
-        if (operator == '>' and val.value > float(value)) or
-           (operator == '<' and val.value < float(value)) or
-           (operator == '>=' and val.value >= float(value)) or
-           (operator == '<=' and val.value <= float(value)) or
-           (operator == '==' and val.value == float(value)) or
-           (operator == '!=' and val.value != float(value)):
+        if ((operator == '>' and val.value > float(value)) or\
+            (operator == '<' and val.value < float(value)) or\
+            (operator == '>=' and val.value >= float(value)) or\
+            (operator == '<=' and val.value <= float(value)) or\
+            (operator == '==' and val.value == float(value)) or\
+            (operator == '!=' and val.value != float(value))
+            ):
             print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
             return (True, val.timestamp)
         else:

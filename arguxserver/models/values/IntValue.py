@@ -51,12 +51,13 @@ class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
                 .filter(IntValue.item_id == item.id)\
                 .order_by(IntValue.timestamp.desc()).first()
 
-        if (operator == '>' and val.value > int(value)) or
-           (operator == '<' and val.value < int(value)) or
-           (operator == '>=' and val.value >= int(value)) or
-           (operator == '<=' and val.value <= int(value)) or
-           (operator == '==' and val.value == int(value)) or
-           (operator == '!=' and val.value != int(value)):
+        if ((operator == '>' and val.value > int(value)) or\
+            (operator == '<' and val.value < int(value)) or\
+            (operator == '>=' and val.value >= int(value)) or\
+            (operator == '<=' and val.value <= int(value)) or\
+            (operator == '==' and val.value == int(value)) or\
+            (operator == '!=' and val.value != int(value))
+            ):
             print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
             return (True, val.timestamp)
         else:
