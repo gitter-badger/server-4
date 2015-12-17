@@ -1,29 +1,32 @@
+"""ItemCategory module, containing ItemCategory model."""
+
 from sqlalchemy import (
     Column,
     Index,
     Integer,
     Text,
     ForeignKey
-    )
+)
 
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
     relationship
-    )
+)
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
 from . import BASE
 
 
-#
-# ItemCategory
-#
+# pylint: disable=too-few-public-methods
 class ItemCategory(BASE):
+
+    """ItemCategory class.
+
+    Organise items in categories to make them easier to identify.
+    """
+
     __tablename__ = 'item_category'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     name = Column(Text, nullable=False)
 
 Index('u_itemcategory_name', ItemCategory.name, unique=True, mysql_length=255)

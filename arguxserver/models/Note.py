@@ -5,23 +5,25 @@ from sqlalchemy import (
     Text,
     DateTime,
     ForeignKey
-    )
+)
 
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
     relationship
-    )
+)
 
 from . import BASE
 
-#
-# Note
-#
+
+# pylint: disable=too-few-public-methods
 class Note(BASE):
+
+    """Note Model
+
+    Model for storing Host Notes.
+    """
+
     __tablename__ = 'note'
-    id         = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     subject    = Column(Text, nullable=False)
     message    = Column(Text, nullable=False)
     timestamp  = Column(DateTime, nullable=False)

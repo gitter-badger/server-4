@@ -13,11 +13,27 @@ from sqlalchemy.orm import (
     relationship
 )
 
-from .ItemName import ItemName
 from .ItemType import ItemType
 from .ItemCategory import ItemCategory
 
 from . import BASE
+
+
+# pylint: disable=too-few-public-methods
+class ItemName(BASE):
+
+    """
+    ItemName class.
+
+    Model for names for Items.
+    """
+
+    __tablename__ = 'itemname'
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
+    name = Column(Text, nullable=False)
+    description = Column(Text, nullable=False)
+
+Index('u_itemname_name', ItemName.name, unique=True, mysql_length=255)
 
 
 # pylint: disable=too-few-public-methods

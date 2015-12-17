@@ -11,11 +11,9 @@ DB_SESSION = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 BASE = declarative_base()
 
 from .Host import Host
-from .Item import Item
+from .Item import Item, ItemName
 from .ItemType import ItemType
-from .ItemName import ItemName
 from .ItemCategory import ItemCategory
-from .ItemTypeDetail import ItemTypeDetail
 
 from .TriggerSeverity import TriggerSeverity
 from .Note import Note
@@ -24,14 +22,16 @@ from .values.IntValue import (
     IntValue,
     IntSimpleTrigger,
     IntSimpleAlert
-    )
+)
+
 from .values.FloatValue import (
     FloatValue,
     FloatSimpleTrigger,
     FloatSimpleAlert
-    )
+)
+
 from .values.TextValue import (
     TextValue,
     TextSimpleTrigger,
     TextSimpleAlert
-    )
+)

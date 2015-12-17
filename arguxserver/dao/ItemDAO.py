@@ -5,7 +5,6 @@ from arguxserver.models import (
     ItemCategory,
     ItemName,
     ItemType,
-    ItemTypeDetail,
     Item,
     TriggerSeverity
 )
