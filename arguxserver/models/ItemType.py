@@ -1,26 +1,25 @@
+"""ItemType model."""
+
 from sqlalchemy import (
     Column,
     Index,
     Integer,
     Text,
-    ForeignKey
-    )
-
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
-    relationship
-    )
+)
 
 from . import BASE
 
-#
-# ItemType
-#
+
+# pylint: disable=too-few-public-methods
 class ItemType(BASE):
+
+    """ItemType is a datatype of an Item.
+
+    For every ItemType there should be a Trigger and Value implementation.
+    """
+
     __tablename__ = 'itemtype'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False)
 

@@ -1,3 +1,5 @@
+"""Item Module, containing Item model."""
+
 from sqlalchemy import (
     Column,
     Index,
@@ -8,7 +10,6 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.orm import (
-    scoped_session,
     relationship
 )
 
@@ -17,6 +18,7 @@ from .ItemType import ItemType
 from .ItemCategory import ItemCategory
 
 from . import BASE
+
 
 # pylint: disable=too-few-public-methods
 class Item(BASE):
