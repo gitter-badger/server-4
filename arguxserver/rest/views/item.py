@@ -9,6 +9,8 @@ import dateutil.parser
 
 from datetime import datetime, timedelta
 
+import json
+
 from . import RestView
 
 from arguxserver.util import TIME_OFFSET_EXPR
@@ -17,7 +19,7 @@ from arguxserver.util import TIME_OFFSET_EXPR
 @view_defaults(renderer='json')
 class RestItemViews(RestView):
 
-    """ RestItemViews class.
+    """RestItemViews class.
 
     self.request:  set via parent constructor
     self.dao:      set via parent constructor
@@ -25,7 +27,11 @@ class RestItemViews(RestView):
 
     @view_config(route_name='rest_item_1')
     def item_1_view(self):
+        """Create Item or Return item.
 
+        POST creates an Item.
+        GET  returns Item Details.
+        """
         # Fallback response
         ret = Response(
             status='400 Bad Request',
@@ -33,67 +39,66 @@ class RestItemViews(RestView):
             charset='UTF-8',
             body='{"error": "400 Bad Request", "message": "dunno"}')
 
-        host = self.request.matchdict['host']
-        item = self.request.matchdict['item']
-
-        if self.request.method == "GET":
-            ret = self.item_1_view_read(host, item)
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
 
         if self.request.method == "POST":
-            ret = self.item_1_view_create(host, item)
+            ret = self.item_1_view_create(host_name, item_key)
+
+        if self.request.method == "GET":
+            ret = self.item_details_1_view_read(host_name, item_key)
 
         return ret
 
-    def item_1_view_read(self, host, item):
-        time = self.request.params.get('time', '60')
-        start_time = self.request.params.get('start_time', '-1')
-        end_time = self.request.params.get('end_time', '-1')
-        return {'fqdn': host, 'item': item, 'time': time}
-
-    def item_1_view_create(self, host, item):
+    def item_1_view_create(self, host_name, item_key):
         dao = self.dao
 
+        category = None
+
         try:
-            name = self.request.json_body.get('name', None)
-            description = self.request.json_body.get('description', None)
-            category = self.request.json_body.get('category', None)
-            _type = self.request.json_body.get('type', None)
+            item_name = self.request.json_body.get('name', None)
+            item_desc = self.request.json_body.get('description', None)
+            item_category = self.request.json_body.get('category', None)
+            item_type_key = self.request.json_body.get('type', None)
         except ValueError:
-            name = None
-            description = None
-            category = None
             return Response(
                 status='400 Bad Request',
                 content_type='application/json',
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "type not specified"}')
 
-        if _type is None:
+        if item_type_key is None:
             return Response(
                 status='400 Bad Request',
                 content_type='application/json; charset=UTF-8',
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "type not specified"}')
-        n = None
-        c = None 
 
-        h = dao.host_dao.get_host_by_name(host)
-        if (name != None and description != None):
-            n = dao.item_dao.get_itemname_by_name(name)
-            if n is None:
-                n = dao.item_dao.create_itemname(name, description)
+        host = dao.host_dao.get_host_by_name(host_name)
+        if (item_name != None and item_desc != None):
+            item_n = dao.item_dao.get_itemname_by_name(item_name)
+            if item_n is None:
+                item_n = dao.item_dao.create_itemname(item_name, item_desc)
 
-        if not category is None:
-            c = dao.item_dao.get_itemcategory_by_name(category)
-            if c is None:
-                c = dao.item_dao.create_itemcategory(category)
+        if not item_category is None:
+            category = dao.item_dao.get_itemcategory_by_name(item_category)
+            if category is None:
+                category = dao.item_dao.create_itemcategory(item_category)
 
-        t = dao.item_dao.get_itemtype_by_name(_type)
+        item_type = dao.item_dao.get_itemtype_by_name(item_type_key)
 
-        i = dao.item_dao.create_item(h, item, n, c, t)
+        item = dao.item_dao.create_item(
+            host,
+            item_key,
+            item_n,
+            category,
+            item_type)
+
         return Response(
             status='201 Created',
-            content_type='application/json; charset=UTF-8')
+            content_type='application/json',
+            charset='UTF-8',
+            body=json.dumps({'name': item.key}))
 
     @view_config(route_name='rest_item_values_1',
                  request_method='POST')
@@ -135,15 +140,15 @@ class RestItemViews(RestView):
             charset='UTF-8',
             body='{"error": "400 Bad Request", "message": "don\'t do that"}')
 
-        host = self.request.matchdict['host']
-        item = self.request.matchdict['item']
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
 
         if self.request.method == "GET":
-            ret = self.item_details_1_view_read(host, item)
+            ret = self.item_details_1_view_read(host_name, item_key)
 
         return ret
 
-    def item_details_1_view_read(self, host, item):
+    def item_details_1_view_read(self, host_name, item_key):
         values = []
         alerts = []
         n_alerts = 0
@@ -176,21 +181,49 @@ class RestItemViews(RestView):
 
         date_fmt = "%Y-%m-%dT%H:%M:%S"
 
-        h = self.dao.host_dao.get_host_by_name(host)
-        i = self.dao.item_dao.get_item_by_host_key(h, item)
+        host = self.dao.host_dao.get_host_by_name(host_name)
+        if host is None:
+            return Response(
+                status='404 Not Found',
+                content_type='application/json',
+                charset='UTF-8',
+                body=json.dumps(
+                    {
+                        'error': 'Not Found',
+                        'host': host_name
+                    }))
+                
+
+        item = self.dao.item_dao.get_item_by_host_key(host, item_key)
+        if item is None:
+            return Response(
+                status='404 Not Found',
+                content_type='application/json',
+                charset='UTF-8',
+                body=json.dumps(
+                    {
+                        'error': 'Not Found',
+                        'host': host_name,
+                        'item': item_key 
+                    }))
 
         if get_values:
-            v = self.dao.item_dao.get_values(i, start_time = start, end_time = end)
-            for value in v:
+            d_values = self.dao.item_dao.get_values(
+                item,
+                start_time = start,
+                end_time = end)
+
+            for value in d_values:
                 values.append ( {
                 'ts': value.timestamp.strftime(date_fmt),
                 'value': value.value
                 } )
-        if get_alerts:
-            a = self.dao.item_dao.get_alerts(i)
 
-            n_alerts = len(a)
-            for alert in a:
+        if get_alerts:
+            d_alerts = self.dao.item_dao.get_alerts(item)
+            n_alerts = len(d_alerts)
+
+            for alert in d_alerts:
                 alerts.append ( {
                 'start_time': alert.start_time.strftime(date_fmt),
                 'severity': alert.trigger.severity.key,
@@ -198,8 +231,8 @@ class RestItemViews(RestView):
                 } )
 
         return {
-                'host': host,
-                'item': item,
+                'host': host_name,
+                'item': item_key,
                 'active_alerts': n_alerts,
                 'values': values,
                 'alerts': alerts }
