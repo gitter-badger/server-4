@@ -20,6 +20,7 @@ from .AbstractValue import (
     AbstractSimpleAlert
 )
 
+
 # pylint: disable=too-few-public-methods
 class FloatValue(AbstractValue, BASE):
 
@@ -47,9 +48,9 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
     # pylint: disable=unused-argument
     def __handle_last(self, session, selector, operator, value):
         item = self.item
-        val = session.query(FloatValue) \
-                .filter(FloatValue.item_id == item.id)\
-                .order_by(FloatValue.timestamp.desc()).first()
+        val = session.query(FloatValue)\
+            .filter(FloatValue.item_id == item.id)\
+            .order_by(FloatValue.timestamp.desc()).first()
 
         if ((operator == '>' and val.value > float(value)) or
                 (operator == '<' and val.value < float(value)) or

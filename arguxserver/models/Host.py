@@ -1,26 +1,29 @@
+"""Host Model."""
+
 from sqlalchemy import (
     Column,
     Index,
     Integer,
     Text,
     ForeignKey
-    )
+)
 
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import (
-    scoped_session,
-    sessionmaker,
     relationship
-    )
+)
 
 from . import BASE
 
-#
-# Host
-#
+# pylint: disable=too-few-public-methods
 class Host(BASE):
+
+    """Host Class.
+
+    Base object for referencing Items, SimpleTriggers, and SimpleAlerts.
+    """
+
     __tablename__ = 'host'
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False, default="")
 
