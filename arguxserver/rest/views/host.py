@@ -1,19 +1,16 @@
 from pyramid.view import (
     view_config,
     view_defaults,
-    notfound_view_config
-    )
+)
 
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPNotFound
-
-from arguxserver import models
 
 from . import RestView
 
 @view_defaults(renderer='json')
 class RestHostViews(RestView):
-    """
+    """RestHosts View.
     
     self.request:  set via parent constructor
     self.dao:      set via parent constructor
@@ -21,14 +18,12 @@ class RestHostViews(RestView):
 
     @view_config(route_name='rest_hosts_1')
     def hosts(self):
-        h = self.dao.host_dao.get_all_hosts()
-
-        if (h == None):
-            return HTTPNotFound()
+        """Return array of all hosts."""
+        d_hosts = self.dao.host_dao.get_all_hosts()
 
         hosts = []
-        for a in h:
-            hosts.append({"name": a.name, "val": 0})
+        for host in d_hosts:
+            hosts.append({"name": host.name, "val": 0})
 
         return { 'hosts': hosts }
 
@@ -36,6 +31,7 @@ class RestHostViews(RestView):
             route_name='rest_host_1',
             request_method='POST')
     def host_1_view_post(self):
+        """Create new host."""
         host = self.request.matchdict['host']
 
         description=None
@@ -53,26 +49,26 @@ class RestHostViews(RestView):
             route_name='rest_host_1',
             request_method='GET')
     def host_1_view_get(self):
-        host = self.request.matchdict['host']
-        has_details = self.request.params.get('details', 'false')
-        has_items   = self.request.params.get('items', 'false')
+        host_name = self.request.matchdict['host']
+        host_get_details = self.request.params.get('details', 'false')
+        host_get_items = self.request.params.get('items', 'false')
 
-        h = self.dao.host_dao.get_host_by_name(host)
+        host = self.dao.host_dao.get_host_by_name(host_name)
 
         items  = []
         details = []
 
-        if (h == None):
+        if (host == None):
             return Response(
                 status="404 Not Found",
                 content_type='application/json',
                 charset='utf-8',
                 body='{"error":"NOT FOUND"}')
 
-        if (has_items == 'true'):
-            items = self._get_items(h)
+        if (host_get_items == 'true'):
+            items = self._get_items(host)
 
-        if (has_details == 'true'):
+        if (host_get_details == 'true'):
             details = []
 
 
@@ -83,36 +79,36 @@ class RestHostViews(RestView):
             }
 
     def _get_items(self, host):
-
-        i = self.dao.item_dao.get_items_from_host(host)
-        if (i == None):
+        """Get list of items for host."""
+        d_items = self.dao.item_dao.get_items_from_host(host)
+        if (d_items == None):
             return []
 
         items = []
-        for a in i:
-            if (a.name):
-                name = a.name.name
+        for item in d_items:
+            if (item.name):
+                name = item.name.name
             else:
                 name = None
 
-            if (a.category):
-                category = a.category.name
+            if (item.category):
+                category = item.category.name
             else:
                 category = None
 
-            v = self.dao.item_dao.get_last_value(a)
+            value = self.dao.item_dao.get_last_value(item)
 
-            if (v):
+            if (value):
                 items.append({
                     "category": category,
                     "name": name,
-                    "key": a.key,
-                    "last_val": v.value,
-                    "last_ts": v.timestamp.strftime("%Y-%m-%dT%H:%M:%S")})
+                    "key": item.key,
+                    "last_val": value.value,
+                    "last_ts": value.timestamp.strftime("%Y-%m-%dT%H:%M:%S")})
             else:
                 items.append({
                     "category": category,
                     "name": name,
-                    "key": a.key })
+                    "key": item.key })
         return items
 

@@ -24,4 +24,7 @@ def create_host(name, description=""):
 def get_all_hosts():
     """Return all hosts."""
     hosts = DB_SESSION.query(Host)
+    if hosts is None:
+        return []
+
     return hosts
