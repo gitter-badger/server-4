@@ -46,6 +46,8 @@ class RestTriggerViews(RestView):
         host = dao.host_dao.get_host_by_name(host_name)
         item = dao.item_dao.get_item_by_host_key(host, item_key)
 
+        trigger = None
+
         try:
             trigger = dao.item_dao.create_trigger(
                 item,
@@ -56,7 +58,12 @@ class RestTriggerViews(RestView):
             return Response(
                 status='400 Bad Request',
                 content_type='application/json; charset=UTF-8',
-                body=json.dumps({'error': error})
+                body=json.dumps({'error': error}))
+
+        if trigger is None:
+            return Response(
+                status='500 Internal Server Error',
+                content_type='application/json; charset=UTF-8')
 
         ret = {
             'name': trigger.name
