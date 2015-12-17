@@ -49,10 +49,10 @@ def create_trigger(item, name, rule, description="", severity="info"):
         .filter(TriggerSeverity.key == severity).first()
 
     if not severity:
-        raise Exception()
+        raise ValueError('Severity "'+severity+'" is invalid')
 
     if not trigger_klass.validate_rule(rule):
-        raise Exception()
+        raise ValueError('Rule "'+rule+'" can\'t be validated')
 
     trigger = trigger_klass(name=name,
                             rule=rule,

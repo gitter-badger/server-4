@@ -52,10 +52,11 @@ class RestTriggerViews(RestView):
                 name,
                 rule,
                 description)
-        except Exception:
+        except ValueError as error:
             return Response(
                 status='400 Bad Request',
-                content_type='application/json; charset=UTF-8')
+                content_type='application/json; charset=UTF-8',
+                body=json.dumps({'error': error})
 
         ret = {
             'name': trigger.name
@@ -82,13 +83,13 @@ class RestTriggerViews(RestView):
 
         item_triggers = dao.item_dao.get_triggers(item)
         for trigger in item_triggers:
-            triggers.append( {
-                'id':   trigger.id,
+            triggers.append({
+                'id': trigger.id,
                 'name': trigger.name,
                 'rule': trigger.rule
             })
 
         return {
-                'host':host_name,
-                'item':item_key,
-                'triggers': triggers }
+            'host': host_name,
+            'item': item_key,
+            'triggers': triggers}
