@@ -1,13 +1,13 @@
+"""TriggerSeverity Model."""
+
 from sqlalchemy import (
     Column,
     Index,
     Integer,
     Text,
-    ForeignKey,
 )
 
 from sqlalchemy.orm import (
-    scoped_session,
     relationship
 )
 

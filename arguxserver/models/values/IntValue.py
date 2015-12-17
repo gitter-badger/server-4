@@ -52,12 +52,11 @@ class IntSimpleTrigger(AbstractSimpleTrigger, BASE):
             .order_by(IntValue.timestamp.desc()).first()
 
         if ((operator == '>' and val.value > int(value)) or
-            (operator == '<' and val.value < int(value)) or
-            (operator == '>=' and val.value >= int(value)) or
-            (operator == '<=' and val.value <= int(value)) or
-            (operator == '==' and val.value == int(value)) or
-            (operator == '!=' and val.value != int(value))):
-
+                (operator == '<' and val.value < int(value)) or
+                (operator == '>=' and val.value >= int(value)) or
+                (operator == '<=' and val.value <= int(value)) or
+                (operator == '==' and val.value == int(value)) or
+                (operator == '!=' and val.value != int(value))):
             return (True, val.timestamp)
         else:
             return (False, val.timestamp)

@@ -5,18 +5,14 @@ from sqlalchemy import (
     Index,
     Integer,
     Float,
-    Text,
-    DateTime,
     ForeignKey
-    )
+)
 
 from sqlalchemy.orm import (
-    sessionmaker,
     relationship
-    )
+)
 
 from .. import BASE
-from ..Item import Item
 
 from .AbstractValue import (
     AbstractValue,
@@ -24,15 +20,14 @@ from .AbstractValue import (
     AbstractSimpleAlert
 )
 
-from datetime import datetime
-
-import re
-
-trigger_expr = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?([0-9]*[\.,][0-9]+|[0-9+]))")
-
-
 # pylint: disable=too-few-public-methods
 class FloatValue(AbstractValue, BASE):
+
+    """FloatValue class.
+
+    Subclass of AbstractValue and BASE.
+    """
+
     __tablename__ = 'history_float'
     value = Column(Float, nullable=True)
 
@@ -44,12 +39,12 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
 
     """FloatSimpleTrigger class.
 
-
     Subclass of AbstractSimpleTrigger and BASE.
     """
 
     __tablename__ = 'simple_trigger_float'
 
+    # pylint: disable=unused-argument
     def __handle_last(self, session, selector, operator, value):
         item = self.item
         val = session.query(FloatValue) \
@@ -57,12 +52,11 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
                 .order_by(FloatValue.timestamp.desc()).first()
 
         if ((operator == '>' and val.value > float(value)) or
-            (operator == '<' and val.value < float(value)) or
-            (operator == '>=' and val.value >= float(value)) or
-            (operator == '<=' and val.value <= float(value)) or
-            (operator == '==' and val.value == float(value)) or
-            (operator == '!=' and val.value != float(value))):
-
+                (operator == '<' and val.value < float(value)) or
+                (operator == '>=' and val.value >= float(value)) or
+                (operator == '<=' and val.value <= float(value)) or
+                (operator == '==' and val.value == float(value)) or
+                (operator == '!=' and val.value != float(value))):
             return (True, val.timestamp)
         else:
             return (False, val.timestamp)
@@ -76,7 +70,6 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
 class FloatSimpleAlert(AbstractSimpleAlert, BASE):
 
     """FloatSimpleAlert class.
-
 
     Subclass of AbstractSimpleAlert and BASE.
     """
