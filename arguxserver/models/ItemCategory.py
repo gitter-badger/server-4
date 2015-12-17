@@ -4,15 +4,8 @@ from sqlalchemy import (
     Column,
     Index,
     Integer,
-    Text,
-    ForeignKey
+    Text
 )
-
-from sqlalchemy.orm import (
-    relationship
-)
-
-from zope.sqlalchemy import ZopeTransactionExtension
 
 from . import BASE
 
