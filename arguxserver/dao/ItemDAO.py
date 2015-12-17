@@ -209,15 +209,3 @@ def get_itemtype_by_name(name):
     item_type = DB_SESSION.query(ItemType)\
         .filter(ItemType.name == name).first()
     return item_type
-
-
-def add_itemtype_detail(item_type, name, rule):
-    detail = ItemTypeDetail(itemtype=item_type, name=name, rule=rule)
-
-    DB_SESSION.add(detail)
-
-    return detail
-
-
-def get_itemtype_details(item_type):
-    return item_type.details
