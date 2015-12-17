@@ -57,13 +57,15 @@ class RestTriggerViews(RestView):
         except ValueError as error:
             return Response(
                 status='400 Bad Request',
-                content_type='application/json; charset=UTF-8',
-                body=json.dumps({'error': error}))
+                content_type='application/json',
+                charset='UTF-8',
+                body=json.dumps({'error': str(error)}))
 
         if trigger is None:
             return Response(
                 status='500 Internal Server Error',
-                content_type='application/json; charset=UTF-8')
+                content_type='application/json',
+                charset='UTF-8')
 
         ret = {
             'name': trigger.name
@@ -71,7 +73,8 @@ class RestTriggerViews(RestView):
 
         return Response(
             status='201 Created',
-            content_type='application/json; charset=UTF-8',
+            content_type='application/json',
+            charset='UTF-8',
             body=json.dumps(ret))
 
     @view_config(
