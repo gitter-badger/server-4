@@ -1,5 +1,7 @@
 """Abstract RestView class."""
 
+
+# pylint: disable=too-few-public-methods
 class RestView(object):
 
     """RestView class.
