@@ -14,7 +14,7 @@ from . import RestView
 class RestHostViews(RestView):
 
     """RestHosts View.
-    
+
     self.request:  set via parent constructor
     self.dao:      set via parent constructor
     """
@@ -28,7 +28,7 @@ class RestHostViews(RestView):
         for host in d_hosts:
             hosts.append({"name": host.name, "val": 0})
 
-        return { 'hosts': hosts }
+        return {'hosts': hosts}
 
     @view_config(route_name='rest_host_1')
     def host_1_view(self):
@@ -39,15 +39,23 @@ class RestHostViews(RestView):
         """
         host_name = self.request.matchdict['host']
 
+        ret = Response(
+            status='400 Bad Request',
+            content_type='application/json',
+            charset='UTF-8',
+            body='{"error": "400 Bad Request", "message": "dunno"}')
+
         if self.request.method == "POST":
             ret = self.host_1_view_post(host_name)
 
         if self.request.method == "GET":
             ret = self.host_1_view_get(host_name)
 
+        return ret
+
     def host_1_view_post(self, host_name):
         """Create new host."""
-        description=None
+        description = None
         try:
             description = self.request.json_body.get('description', None)
         except ValueError:
@@ -68,7 +76,7 @@ class RestHostViews(RestView):
 
         host = self.dao.host_dao.get_host_by_name(host_name)
 
-        items  = []
+        items = []
         details = []
 
         if host is None:
@@ -89,7 +97,7 @@ class RestHostViews(RestView):
             'name' : host.name,
             'items': items,
             'details': details
-            }
+        }
 
     def _get_items(self, host):
         """Get list of items for host."""
