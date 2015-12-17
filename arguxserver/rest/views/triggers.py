@@ -1,46 +1,54 @@
+"""Trigger REST Interface."""
+
 from pyramid.view import (
     view_config,
     view_defaults,
-    notfound_view_config
-    )
+)
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPNotFound
-
-from arguxserver import models
-
-from arguxserver.util import TIME_OFFSET_EXPR
-
-import dateutil.parser
-
-from datetime import datetime, timedelta
 
 from . import RestView
 
+
 @view_defaults(renderer='json')
 class RestTriggerViews(RestView):
-    """
-    
+
+    """Views for REST interface configuring Triggers.
+
     self.request:  set via parent constructor
     self.dao:      set via parent constructor
     """
 
     @view_config(
-            route_name='rest_triggers_1',
-            request_method='POST')
+        route_name='rest_triggers_1',
+        request_method='POST')
     def trigger_1_view_create(self):
-        dao     = self.dao
-        host    = self.request.matchdict['host']
-        item    = self.request.matchdict['item']
-        name    = self.request.json_body.get('name', None)
-        rule    = self.request.json_body.get('rule', None)
+        """Create Trigger.
+
+        Required Parameters:
+
+          - Host
+          - Item key
+          - Trigger Name
+          - Trigger Rule
+          - Description
+        """
+        dao = self.dao
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
+        name = self.request.json_body.get('name', None)
+        rule = self.request.json_body.get('rule', None)
         description = self.request.json_body.get('description', None)
 
-        h = dao.host_dao.get_host_by_name(host)
-        i = dao.item_dao.get_item_by_host_key(h, item)
+        host = dao.host_dao.get_host_by_name(host_name)
+        item = dao.item_dao.get_item_by_host_key(h, item_key)
 
         try:
-            t = dao.item_dao.create_trigger(i, name, rule, description)
+            trigger = dao.item_dao.create_trigger(
+                item,
+                name,
+                rule,
+                description)
         except Exception as e:
             return Response(
                 status='400 Bad Request',
@@ -50,24 +58,22 @@ class RestTriggerViews(RestView):
             status='201 Created',
             content_type='application/json; charset=UTF-8')
 
-    #
-    # Read Values
-    #
     @view_config(
-            route_name='rest_triggers_1',
-            request_method='GET')
+        route_name='rest_triggers_1',
+        request_method='GET')
     def trigger_1_view_read(self):
-        dao     = self.dao
-        host    = self.request.matchdict['host']
-        item    = self.request.matchdict['item']
+        """Get all triggers for an Item."""
+        dao = self.dao
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
 
         triggers = []
 
-        h = dao.host_dao.get_host_by_name(host)
-        i = dao.item_dao.get_item_by_host_key(h, item)
+        host = dao.host_dao.get_host_by_name(host_name)
+        item = dao.item_dao.get_item_by_host_key(host, item_key)
 
-        t = dao.item_dao.get_triggers(i)
-        for trigger in t:
+        item_triggers = dao.item_dao.get_triggers(item)
+        for trigger in item_triggers:
             triggers.append( {
                 'id':   trigger.id,
                 'name': trigger.name,
@@ -75,6 +81,6 @@ class RestTriggerViews(RestView):
             })
 
         return {
-                'host':host,
-                'item':item,
+                'host':host_name,
+                'item':item_key,
                 'triggers': triggers }
