@@ -5,14 +5,10 @@ from sqlalchemy import (
     Index,
     Integer,
     Text,
-    ForeignKey
-)
-
-from sqlalchemy.orm import (
-    relationship
 )
 
 from . import BASE
+
 
 # pylint: disable=too-few-public-methods
 class Host(BASE):
