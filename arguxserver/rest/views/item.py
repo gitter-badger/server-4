@@ -161,7 +161,7 @@ class RestItemViews(RestView):
 
         i = self.ts_to_td(q_start)
         if not i is None:
-             start_offset = i[0]*i[1]
+            start_offset = i[0] * i[1]
 
         if q_end == 'now':
             end = datetime.now()
