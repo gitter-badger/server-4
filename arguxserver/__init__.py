@@ -1,3 +1,5 @@
+"""ArguxServer Module."""
+
 from pyramid.config import Configurator
 
 from pyramid.renderers import JSON
@@ -16,7 +18,7 @@ from arguxserver.trigger import TriggerWorker
 
 # pylint: disable=unused-argument
 def main(global_config, **settings):
-    """Returns a Pyramid WSGI application."""
+    """Return a Pyramid WSGI application."""
     engine = engine_from_config(settings, 'sqlalchemy.')
     DB_SESSION.configure(bind=engine)
     BASE.metadata.bind = engine
@@ -33,7 +35,6 @@ def main(global_config, **settings):
     config.add_route('item_details', '/host/{host}/item/{item}/{action}')
 
     config.add_route('dashboards', '/dashboard')
-
 
     # REST 1.0 API
     config.add_route('rest_hosts_1',
@@ -63,13 +64,13 @@ def main(global_config, **settings):
                      '/rest/1.0/itemtype/{itemtype}/detail/{id}')
 
     # Pretty-print JSON, useful for development.
-    if (settings['rest.pretty_json'] == 'true'):
+    if settings['rest.pretty_json'] == 'true':
         config.add_renderer('json', JSON(indent=4))
 
     config.scan('.views')
     config.scan('.rest.views')
 
-    t = TriggerWorker()
-    t.start()
+    worker = TriggerWorker()
+    worker.start()
 
     return config.make_wsgi_app()
