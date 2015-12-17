@@ -20,6 +20,7 @@ REQUIRES = [
     'zope.sqlalchemy',
     'waitress',
     'python-dateutil == 2.4',
+    'json'
     ]
 
 setup(name='argux-server',

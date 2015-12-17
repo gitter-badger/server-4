@@ -7,7 +7,10 @@ from pyramid.view import (
 
 from pyramid.response import Response
 
+import json
+
 from . import RestView
+
 
 
 @view_defaults(renderer='json')
@@ -41,7 +44,7 @@ class RestTriggerViews(RestView):
         description = self.request.json_body.get('description', None)
 
         host = dao.host_dao.get_host_by_name(host_name)
-        item = dao.item_dao.get_item_by_host_key(h, item_key)
+        item = dao.item_dao.get_item_by_host_key(host, item_key)
 
         try:
             trigger = dao.item_dao.create_trigger(
@@ -49,14 +52,19 @@ class RestTriggerViews(RestView):
                 name,
                 rule,
                 description)
-        except Exception as e:
+        except Exception:
             return Response(
                 status='400 Bad Request',
                 content_type='application/json; charset=UTF-8')
 
+        ret = {
+            'name': trigger.name
+        }
+
         return Response(
             status='201 Created',
-            content_type='application/json; charset=UTF-8')
+            content_type='application/json; charset=UTF-8',
+            body=json.dumps(ret))
 
     @view_config(
         route_name='rest_triggers_1',
