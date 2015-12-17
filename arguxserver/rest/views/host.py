@@ -86,7 +86,7 @@ class RestHostViews(RestView):
 
 
         return {
-            'name' : h.name,
+            'name' : host.name,
             'items': items,
             'details': details
             }

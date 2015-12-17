@@ -24,7 +24,7 @@ class RestHostViewsTests(unittest.TestCase):
         r.registry.settings = {}
         r.registry.settings['dao'] = dao.DAO()
         v = RestHostViews(r)
-        response = v.hosts()
+        response = v.hosts_1_view()
 
         # Check if 'hosts' is part of the response
         self.assertEquals(('hosts' in response), True)
@@ -44,7 +44,7 @@ class RestHostViewsTests(unittest.TestCase):
         r.registry.settings['dao'] = dao.DAO()
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
-        response = v.host_1_view_get()
+        response = v.host_1_view_get('localhost')
 
         # Check if 'name' is part of the response
         self.assertEquals(('name' in response), True)
@@ -71,7 +71,7 @@ class RestHostViewsTests(unittest.TestCase):
         r.registry.settings['dao'] = dao.DAO()
         r.matchdict = {'host':'localhost','item':'NONE'}
         v = RestHostViews(r)
-        response = v.host_1_view_get()
+        response = v.host_1_view_get('localhost')
 
         # Check if 'name' is part of the response
         self.assertEquals(('name' in response), True)
@@ -104,6 +104,6 @@ class RestHostViewsTests(unittest.TestCase):
         r.registry.settings['dao'] = dao.DAO()
         r.matchdict = {'host':'localhost'}
         v = RestHostViews(r)
-        response = v.host_1_view_post()
+        response = v.host_1_view_post('localhost')
 
         self.assertEquals(response.status_int, 201)
