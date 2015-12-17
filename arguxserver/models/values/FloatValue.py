@@ -50,8 +50,8 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
 
     __tablename__ = 'simple_trigger_float'
 
-    def __handle_last(trigger, session, selector, operator, value):
-        item = trigger.item
+    def __handle_last(self, session, selector, operator, value):
+        item = self.item
         val = session.query(FloatValue) \
                 .filter(FloatValue.item_id == item.id)\
                 .order_by(FloatValue.timestamp.desc()).first()
@@ -61,9 +61,8 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
             (operator == '>=' and val.value >= float(value)) or
             (operator == '<=' and val.value <= float(value)) or
             (operator == '==' and val.value == float(value)) or
-            (operator == '!=' and val.value != float(value))
-            ):
-            print(val.timestamp.strftime("%Y-%m-%dT%H:%M:%S")+" "+str(val.value) +">"+str(value))
+            (operator == '!=' and val.value != float(value))):
+
             return (True, val.timestamp)
         else:
             return (False, val.timestamp)
