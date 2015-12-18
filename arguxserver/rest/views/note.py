@@ -37,6 +37,7 @@ class RestNoteViews(RestView):
             ret = self.note_1_view_read()
 
         if self.request.method == "POST":
+            raise Exception()
             ret = self.note_1_view_create()
 
         return ret

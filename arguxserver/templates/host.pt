@@ -68,11 +68,8 @@
         ${argux_host_desc}
         </div>
         </div>
-        <!--
-        <div class="alerts">
-            <div class="alert alert-info" role="alert"><p>Alerts are not yet implemented</p></div>
+        <div id="alerts">
         </div>
-        -->
         <ul class="nav nav-tabs">
           <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
               tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"

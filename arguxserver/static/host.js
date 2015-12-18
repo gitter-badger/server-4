@@ -174,7 +174,14 @@ $(function() {
                           '"host": "'+ARGUX_HOST+'",' +
                           '"message": '+JSON.stringify(message)+',' +
                           '"subject": '+JSON.stringify(subject)+
-                          '}'
+                          '}',
+                    error: function(json) {
+                        //$('#alerts').empty();
+                        $('#alerts').append(
+                            '<div class="alert alert-danger">'+
+                            'Creating new Note failed.'+
+                            '</div>');
+                    }
                 });
             }
         });
