@@ -77,12 +77,12 @@ class RestItemViews(RestView):
                 body='{"error": "400 Bad Request", "message": "type not specified"}')
 
         host = dao.host_dao.get_host_by_name(host_name)
-        if (item_name != None and item_desc != None):
+        if item_name is not None and item_desc is not None:
             item_n = dao.item_dao.get_itemname_by_name(item_name)
             if item_n is None:
                 item_n = dao.item_dao.create_itemname(item_name, item_desc)
 
-        if not item_category is None:
+        if item_category is not None:
             category = dao.item_dao.get_itemcategory_by_name(item_category)
             if category is None:
                 category = dao.item_dao.create_itemcategory(item_category)
@@ -162,7 +162,7 @@ class RestItemViews(RestView):
         get_alerts = self.request.params.get('get_alerts', 'false')
 
         i = self.ts_to_td(q_start)
-        if not i is None:
+        if i is not None:
             start_offset = i[0] * i[1]
 
         if q_end == 'now':
@@ -194,7 +194,6 @@ class RestItemViews(RestView):
                         'error': 'Not Found',
                         'host': host_name
                     }))
-                
 
         item = self.dao.item_dao.get_item_by_host_key(host, item_key)
         if item is None:
@@ -206,38 +205,39 @@ class RestItemViews(RestView):
                     {
                         'error': 'Not Found',
                         'host': host_name,
-                        'item': item_key 
+                        'item': item_key
                     }))
 
         if get_values:
             d_values = self.dao.item_dao.get_values(
                 item,
-                start_time = start,
-                end_time = end)
+                start_time=start,
+                end_time=end)
 
             for value in d_values:
-                values.append ( {
-                'ts': value.timestamp.strftime(date_fmt),
-                'value': value.value
-                } )
+                values.append({
+                    'ts': value.timestamp.strftime(date_fmt),
+                    'value': value.value
+                })
 
         if get_alerts:
             d_alerts = self.dao.item_dao.get_alerts(item)
             n_alerts = len(d_alerts)
 
             for alert in d_alerts:
-                alerts.append ( {
-                'start_time': alert.start_time.strftime(date_fmt),
-                'severity': alert.trigger.severity.key,
-                'name': alert.trigger.name
-                } )
+                alerts.append({
+                    'start_time': alert.start_time.strftime(date_fmt),
+                    'severity': alert.trigger.severity.key,
+                    'name': alert.trigger.name
+                })
 
         return {
-                'host': host_name,
-                'item': item_key,
-                'active_alerts': n_alerts,
-                'values': values,
-                'alerts': alerts }
+            'host': host_name,
+            'item': item_key,
+            'active_alerts': n_alerts,
+            'values': values,
+            'alerts': alerts
+        }
 
     def ts_to_td(self, ts):
         ret_s = 1

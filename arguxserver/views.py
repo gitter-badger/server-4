@@ -1,16 +1,14 @@
 from pyramid.view import (
     view_config,
     view_defaults,
-    notfound_view_config
-    )
+)
 
 from pyramid.response import Response
 from pyramid.httpexceptions import (
     HTTPNotFound,
     HTTPFound
-    )
+)
 
-from arguxserver import models
 
 @view_defaults(renderer='templates/home.pt')
 class MainViews:
@@ -19,15 +17,15 @@ class MainViews:
         self.request = request
         self.dao = request.registry.settings['dao']
 
-    # TODO
+    # pylint: disable=no-self-use
     @view_config(route_name='home')
     def home(self):
-        return {"project":"A"}
+        return {}
 
-    # TODO
+    # pylint: disable=no-self-use
     @view_config(route_name='hosts')
     def hosts(self):
-        return {"project":"A"}
+        return {}
 
 
     @view_config(route_name='host', renderer='templates/host.pt')
@@ -110,4 +108,4 @@ class MainViews:
 
     @view_config(route_name='dashboards', renderer='templates/dashboard.pt')
     def dashboard(self):
-        return {"project":"A"}
+        return {}
