@@ -1,98 +1,101 @@
+"""RestView for Notes."""
+
 from pyramid.view import (
     view_config,
     view_defaults,
-    notfound_view_config
-    )
+)
 
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPNotFound
-
-from arguxserver import models
 
 from datetime import datetime
 
 from . import RestView
 
+
 @view_defaults(renderer='json')
 class RestNoteViews(RestView):
-    """
-    
+
+    """RestNote views.
+
     self.request:  set via parent constructor
     self.dao:      set via parent constructor
     """
 
     @view_config(route_name='rest_note_1')
     def note_1_view(self):
-
+        """Return notes or create note."""
         # Fallback response
         ret = Response(
-            status='500 Internal Server Error',
+            status='400 Bad Request',
             content_type='application/json',
             charset='UTF-8',
-            body='{"error": "500 Internal Server Error", "message": "dunno"}')
+            body='{"error": "400 Bad Request", "message": "dunno"}')
 
-        if (self.request.method == "GET"):
+        if self.request.method == "GET":
             ret = self.note_1_view_read()
 
-        if (self.request.method == "POST"):
-           ret = self.note_1_view_create()
+        if self.request.method == "POST":
+            ret = self.note_1_view_create()
 
         return ret
 
     def note_1_view_create(self):
+        """Create new note."""
         dao = self.dao
         try:
-            hostname = self.request.json_body.get("host", None)
-            subject  = self.request.json_body.get("subject", None)
-            msg      = self.request.json_body.get("message", None)
+            host_name = self.request.json_body.get("host", None)
+            subject = self.request.json_body.get("subject", None)
+            msg = self.request.json_body.get("message", None)
         except ValueError:
             print(self.request.body)
             return "AA"
 
-        if (msg == None):
-            raise Exception()
-        if (subject == None):
-            raise Exception()
-        if (hostname == None):
-            raise Exception()
+        if msg is None:
+            raise ValueError("Message is missing.")
+        if subject is None:
+            raise ValueError("Subject is missing.")
+        if hostname is None:
+            raise ValueError("Hostname is missing.")
 
-        host = dao.host_dao.get_host_by_name(hostname)
+        host = dao.host_dao.get_host_by_name(host_name)
 
-        if (host == None):
-            raise Exception()
+        if host is None:
+            raise ValueError("Host is missing.")
 
-        note = dao.note_dao.create_hostNote(host, subject, msg, datetime.now())
+        note = dao.NoteDAO.create_note_for_host(
+            host,
+            subject,
+            msg,
+            datetime.now())
 
-        #except Exception:
-        #    return Response(
-        #        status='400 Bad Request',
-        #        content_type='application/json')
         return Response(
             status='201 Created',
             content_type='application/json')
 
     def note_1_view_read(self):
+        """Return list of notes for host"""
+        host_name = self.request.params.get('host', None)
+        if host_name is None:
+            raise ValueError("Hostname not provided.")
 
-        hostname = self.request.params.get('host', None)
+        host = self.dao.host_dao.get_host_by_name(host_name)
+        if host is None:
+            raise ValueError("Host does not exist.")
 
-        host = self.dao.host_dao.get_host_by_name(hostname)
-        n = self.dao.note_dao.get_notes_for_host(host)
+        d_notes = self.dao.note_dao.get_notes_for_host(host)
 
-        if (n):
-            notes = []
-            for a in n:
+        notes = []
+
+        if d_notes:
+            for d_note in d_notes:
                 notes.append({
-                    "subject": a.subject,
-                    "message": a.message,
-                    "timestamp": a.timestamp.strftime("%Y-%m-%dT%H:%M:%S")
+                    "subject": d_note.subject,
+                    "message": d_note.message,
+                    "timestamp": d_note\
+                        .timestamp.strftime("%Y-%m-%dT%H:%M:%S")
                 })
 
-            return {
-                'host': hostname,
-                'notes': notes
-            }
-
-        return Response(
-            status='404 not found',
-            content_type='application/json')
-
+        return {
+            'host': host_name,
+            'notes': notes
+        }
