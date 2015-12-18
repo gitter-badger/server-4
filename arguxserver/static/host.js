@@ -159,6 +159,8 @@ $(function() {
     if (ARGUX_HOST_ACTION==='notes') {
         $('#notes-form').submit(function(event) {
 
+            event.preventDefault();
+
             var subject = $('#note-subject').val();
             var message = $('#note-body').val();
 
@@ -174,7 +176,18 @@ $(function() {
                           '"host": "'+ARGUX_HOST+'",' +
                           '"message": '+JSON.stringify(message)+',' +
                           '"subject": '+JSON.stringify(subject)+
-                          '}'
+                          '}',
+                    error: function(json) {
+                        $('#alerts').empty();
+                        $('#alerts').append(
+                            '<div class="alert alert-danger alert-dismissible">'+
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                            '<strong>Problem:</strong> Creating new Note failed.'+
+                            '</div>');
+                    },
+                    complete: function(json) {
+                        $('#new-note-modal').modal('hide');
+                    }
                 });
             }
         });
