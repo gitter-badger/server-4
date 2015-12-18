@@ -12,7 +12,7 @@ def get_notes_for_host(host):
     return note
 
 
-def create_host_note(host, subject, message, timestamp):
+def create_note_for_host(host, subject, message, timestamp):
     """Create new note for host."""
     note = Note(host=host, subject=subject, message=message, timestamp=timestamp)
     DB_SESSION.add(note)

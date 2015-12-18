@@ -15,7 +15,10 @@ import json
 
 from . import RestView
 
-from arguxserver.util import TIME_OFFSET_EXPR
+from arguxserver.util import (
+    TIME_OFFSET_EXPR,
+    DATE_FMT
+)
 
 
 @view_defaults(renderer='json')
@@ -48,7 +51,25 @@ class RestItemViews(RestView):
             ret = self.item_1_view_create(host_name, item_key)
 
         if self.request.method == "GET":
-            ret = self.item_details_1_view_read(host_name, item_key)
+            ret = Response(
+                status='404 Not Found',
+                content_type='application/json',
+                charset='UTF-8',
+                body=json.dumps(
+                    {
+                        'error': 'Not Found',
+                        'host': host_name,
+                        'item': item_key
+                    }))
+
+            host = self.dao.host_dao.get_host_by_name(host_name)
+            if host is not None:
+                item = self.dao.item_dao.get_item_by_host_key(
+                    host,
+                    item_key)
+
+                if item is not None:
+                    ret = self.item_details_1_view_read(host, item)
 
         return ret
 
@@ -146,11 +167,29 @@ class RestItemViews(RestView):
         item_key = self.request.matchdict['item']
 
         if self.request.method == "GET":
-            ret = self.item_details_1_view_read(host_name, item_key)
+            ret = Response(
+                status='404 Not Found',
+                content_type='application/json',
+                charset='UTF-8',
+                body=json.dumps(
+                    {
+                        'error': 'Not Found',
+                        'host': host_name,
+                        'item': item_key
+                    }))
+
+            host = self.dao.host_dao.get_host_by_name(host_name)
+            if host is not None:
+                item = self.dao.item_dao.get_item_by_host_key(
+                    host,
+                    item_key)
+
+                if item is not None:
+                    ret = self.item_details_1_view_read(host, item)
 
         return ret
 
-    def item_details_1_view_read(self, host_name, item_key):
+    def item_details_1_view_read(self, host, item):
         values = []
         alerts = []
         n_alerts = 0
@@ -160,6 +199,7 @@ class RestItemViews(RestView):
 
         get_values = self.request.params.get('get_values', 'true')
         get_alerts = self.request.params.get('get_alerts', 'false')
+
 
         i = self.ts_to_td(q_start)
         if i is not None:
@@ -174,70 +214,53 @@ class RestItemViews(RestView):
             end = dateutil.parser.parse(q_end)
             start = end - timedelta(minutes=30)
 
-        if False:
-            return Response(
-                status='400 Bad Request',
-                content_type='application/json',
-                charset='UTF-8',
-                body='{"error": "400 Bad Request", "message": "query not specified"}')
-
-        date_fmt = "%Y-%m-%dT%H:%M:%S"
-
-        host = self.dao.host_dao.get_host_by_name(host_name)
-        if host is None:
-            return Response(
-                status='404 Not Found',
-                content_type='application/json',
-                charset='UTF-8',
-                body=json.dumps(
-                    {
-                        'error': 'Not Found',
-                        'host': host_name
-                    }))
-
-        item = self.dao.item_dao.get_item_by_host_key(host, item_key)
-        if item is None:
-            return Response(
-                status='404 Not Found',
-                content_type='application/json',
-                charset='UTF-8',
-                body=json.dumps(
-                    {
-                        'error': 'Not Found',
-                        'host': host_name,
-                        'item': item_key
-                    }))
-
         if get_values:
-            d_values = self.dao.item_dao.get_values(
-                item,
-                start_time=start,
-                end_time=end)
-
-            for value in d_values:
-                values.append({
-                    'ts': value.timestamp.strftime(date_fmt),
-                    'value': value.value
-                })
+            values = self.__get_values(item, start, end)
 
         if get_alerts:
-            d_alerts = self.dao.item_dao.get_alerts(item)
-            n_alerts = len(d_alerts)
-
-            for alert in d_alerts:
-                alerts.append({
-                    'start_time': alert.start_time.strftime(date_fmt),
-                    'severity': alert.trigger.severity.key,
-                    'name': alert.trigger.name
-                })
+            alerts = self.__get_active_alerts(item)
 
         return {
             'host': host_name,
             'item': item_key,
-            'active_alerts': n_alerts,
+            'active_alerts': len(alerts),
             'values': values,
             'alerts': alerts
         }
+
+    def __get_active_alerts(self, item):
+        """Return active alerts on an item."""
+        alerts = []
+        d_alerts = self.dao.item_dao.get_alerts(item)
+        n_alerts = len(d_alerts)
+
+        for alert in d_alerts:
+            alerts.append({
+                'start_time': alert.start_time.strftime(DATE_FMT),
+                'severity': alert.trigger.severity.key,
+                'name': alert.trigger.name
+            })
+
+        return alerts
+
+    def __get_values(self, item, start, end):
+        """Return array of timestamp+value objects within a timeframe.
+
+        timestamp is formatted according to arguxserver.util.DATE_FMT
+
+        This format should be in ISO8601 (YYYY/MM/DDTmm:hh:ssZ)
+        """
+        values = []
+        d_values = self.dao.item_dao.get_values(
+            item,
+            start_time=start,
+            end_time=end)
+
+        for value in d_values:
+            values.append({
+                'ts': value.timestamp.strftime(DATE_FMT),
+                'value': value.value
+            })
 
     def ts_to_td(self, ts):
         ret_s = 1

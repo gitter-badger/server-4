@@ -9,6 +9,8 @@ from pyramid.response import Response
 
 from datetime import datetime
 
+import json
+
 from . import RestView
 
 
@@ -54,7 +56,7 @@ class RestNoteViews(RestView):
             raise ValueError("Message is missing.")
         if subject is None:
             raise ValueError("Subject is missing.")
-        if hostname is None:
+        if host_name is None:
             raise ValueError("Hostname is missing.")
 
         host = dao.host_dao.get_host_by_name(host_name)
@@ -62,7 +64,7 @@ class RestNoteViews(RestView):
         if host is None:
             raise ValueError("Host is missing.")
 
-        note = dao.NoteDAO.create_note_for_host(
+        note = dao.note_dao.create_note_for_host(
             host,
             subject,
             msg,
@@ -70,7 +72,7 @@ class RestNoteViews(RestView):
 
         return Response(
             status='201 Created',
-            content_type='application/json')
+            content_type='application/json',
             body=json.dumps(
                 {
                     'subject': note.subject
