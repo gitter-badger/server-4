@@ -1,3 +1,5 @@
+"""RestView for Items."""
+
 from pyramid.view import (
     view_config,
     view_defaults,

@@ -71,6 +71,12 @@ class RestNoteViews(RestView):
         return Response(
             status='201 Created',
             content_type='application/json')
+            body=json.dumps(
+                {
+                    'subject': note.subject
+                }))
+
+
 
     def note_1_view_read(self):
         """Return list of notes for host"""
