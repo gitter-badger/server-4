@@ -47,10 +47,15 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
 
     # pylint: disable=unused-argument
     def __handle_last(self, session, selector, operator, value):
+
         item = self.item
         val = session.query(FloatValue)\
             .filter(FloatValue.item_id == item.id)\
             .order_by(FloatValue.timestamp.desc()).first()
+
+        # Should be custom error
+        if val is None:
+            raise ValueError("No Values")
 
         if ((operator == '>' and val.value > float(value)) or
                 (operator == '<' and val.value < float(value)) or
@@ -76,7 +81,10 @@ class FloatSimpleAlert(AbstractSimpleAlert, BASE):
     """
 
     __tablename__ = 'simple_alert_float'
-    trigger_id = Column(Integer, ForeignKey('simple_trigger_float.id'), nullable=False)
+    trigger_id = Column(
+        Integer,
+        ForeignKey('simple_trigger_float.id'),
+        nullable=False)
     trigger = relationship(FloatSimpleTrigger)
 
 Index('floatsimple_alert_start_ts', FloatSimpleAlert.start_time, mysql_length=255)

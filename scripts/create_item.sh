@@ -13,7 +13,7 @@ cmd="date -v-"$i"M +%FT%TZ"
 TS=`$cmd`
 RND=$(((RANDOM%100)))
 
-VAL=5.$RND
+VAL=0.$RND
 
 curl -X POST \
      -H "Content-Type: application/json" \
