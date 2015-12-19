@@ -81,7 +81,7 @@ def evaluate_trigger(trigger):
     if handler:
         alert = session.query(alert_klass)\
             .filter(alert_klass.trigger_id == trigger.id)\
-            .filter(alert_klass.end_time is None).first()
+            .filter(alert_klass.end_time.is_(None)).first()
 
         (is_active, time) = handler(trigger, session, i[1], i[2], i[3])
 
@@ -91,6 +91,7 @@ def evaluate_trigger(trigger):
                                     start_time=time,
                                     end_time=None)
                 session.add(alert)
+                session.flush()
                 session.commit()
         else:
             if alert:
@@ -98,6 +99,7 @@ def evaluate_trigger(trigger):
                 session.commit()
         session.close()
     else:
+        print("Handler not found")
         session.close()
         return False
 
@@ -172,7 +174,7 @@ def get_alerts(item, active=True, inactive=False):
     for trigger in triggers:
         active_alert = DB_SESSION.query(alert_klass)\
             .filter(alert_klass.trigger_id == trigger.id)\
-            .filter(alert_klass.end_time is None)
+            .filter(alert_klass.end_time.is_(None))
 
         alerts.extend(active_alert)
 
