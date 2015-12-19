@@ -13,12 +13,7 @@ var config = {
         datasets: [
             {
                 label: ARGUX_ITEM,
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(110,110,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
+                backgroundColor: "rgba(220,220,220,0.2)",
                 data: [{x:'0',y:'1'}]
             }
         ]
