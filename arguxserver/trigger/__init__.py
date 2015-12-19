@@ -24,7 +24,7 @@ class TriggerWorker(Thread):
             for trigger in triggers:
                 ItemDAO.evaluate_trigger(trigger)
             try:
-                time.sleep(60)
+                time.sleep(10)
             except KeyboardInterrupt:
                 self.stop()
 
