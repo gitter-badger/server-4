@@ -208,10 +208,10 @@ class RestItemViews(RestView):
         else:
             end = datetime.now()
 
-        if get_values:
+        if get_values == 'true':
             values = self.__get_values(item, start, end)
 
-        if get_alerts:
+        if get_alerts == 'true':
             active_alerts = self.__get_active_alerts(item)
 
         return {
