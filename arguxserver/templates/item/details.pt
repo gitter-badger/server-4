@@ -10,7 +10,8 @@
                 <div class="btn-toolbar pull-right">
                     <!-- Split button -->
                     <div class="btn-group">
-                      <a href="?timespan=24h&#timechart"
+                      <a tal:attributes="class 'btn btn-sm btn-primary' if timespan=='24h' else 'btn btn-sm btn-default'"
+                         href="?timespan=24h&#timechart"
                          type="button"
                          role="button"
                          class="btn btn-default btn-sm">24 hours</a>
@@ -23,20 +24,29 @@
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <ul class="dropdown-menu">
-                        <li><a href="?timespan=7d&#timechart">1 Week</a></li>
-                        <li><a href="?timespan=1M&#timechart">1 Month</a></li>
+                        <li>
+                            <a tal:attributes="class 'btn-primary' if timespan=='7d' else 'btn-default'"
+                              href="?timespan=7d&#timechart">1 Week</a>
+                        </li>
+                        <li>
+                            <a tal:attributes="class 'btn-primary' if timespan=='1M' else 'btn-default'"
+                               href="?timespan=1M&#timechart">1 Month</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="?timespan=all&#timechart">All time</a></li>
+                        <li>
+                            <a tal:attributes="class 'btn-primary' if timespan=='all' else 'btn-default'"
+                               href="?timespan=all&#timechart">All time</a></li>
                       </ul>
                     </div>
-                    <a href="?timespan=12h&#timechart"
+                    <a tal:attributes="class 'btn btn-sm btn-primary' if timespan=='12h' else 'btn btn-sm btn-default'"
+                       href="?timespan=12h&#timechart"
                        type="button"
                        role="button"
-                       class="btn btn-default btn-sm">12 hours</a>
-                    <a href="?timespan=30m&#timechart"
+                       class="btn btn-sm">12 hours</a>
+                    <a tal:attributes="class 'btn btn-sm btn-primary' if timespan=='30m' else 'btn btn-sm btn-default'"
+                       href="?timespan=30m&#timechart"
                        type="button"
                        role="button"
-                       class="btn btn-primary btn-sm">30 minutes (realtime)</a>
+                       class="btn btn-default btn-sm">30 minutes (realtime)</a>
                 </div>
                 <div>
                     <canvas id="item-timechart" class="item-timechart"></canvas>
