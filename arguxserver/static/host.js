@@ -37,6 +37,56 @@ function pollNotes() {
     });
 }
 
+function pollAlerts() {
+    $.ajax({
+        url: ARGUX_BASE+"/rest/1.0/host/"+ARGUX_HOST+"?alerts=true",
+        type: "GET",
+        dataType: "json",
+        success: function(json) {
+
+            $('#alerts').empty();
+
+            if (json.alerts) {
+                $.each(json.alerts, function(i, al) {
+                    if(al.severity === 'info') {
+                        icon = 'glyphicon-none';
+                    } else {
+                        icon = 'glyphicon-exclamation-sign';
+                    }
+
+                    if(al.acknowledgement === null) {
+                        ack = 'No (<a href="#">Acknowledge</a>)';
+                    } else {
+                        ack = 'Yes (<a href="#">Show Ack</a>)';
+                    }
+
+                    $('#alerts').append(
+                        '<tr class=""><td>' +
+                        '<span class="glyphicon '+icon+'"></span> ' +
+                        '<a href="#">' +
+                        al.item +
+                        '</a>' +
+                        '</td><td>' +
+                        '<a href="#">' +
+                        al.name +
+                        '</a>' +
+                        '</td><td>' +
+                        moment(al.start_time).fromNow(true) +
+                        '</td><td>' +
+                        ack +
+                        '</td></tr>'
+                    );
+                });
+            }
+            if(json.active_alerts > 0) {
+                $("#alert_count").text(json.active_alerts);
+            } else {
+                $("#alert_count").text('');
+            }
+        }
+    });
+}
+
 function pollMetrics() {
     $.ajax({
         url: ARGUX_BASE+"/rest/1.0/host/"+ARGUX_HOST+"?items=true",
@@ -197,6 +247,10 @@ $(function() {
 
     if (ARGUX_HOST_ACTION==='metrics') {
         pollMetrics();
+    }
+
+    if (ARGUX_HOST_ACTION==='alerts') {
+        pollAlerts();
     }
 });
 

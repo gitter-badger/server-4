@@ -9,6 +9,11 @@ from pyramid.response import Response
 
 from . import RestView
 
+from arguxserver.util import (
+    TIME_OFFSET_EXPR,
+    DATE_FMT
+)
+
 
 @view_defaults(renderer='json')
 class RestHostViews(RestView):
@@ -73,11 +78,13 @@ class RestHostViews(RestView):
         """Return host details."""
         host_get_details = self.request.params.get('details', 'false')
         host_get_items = self.request.params.get('items', 'false')
+        host_get_alerts = self.request.params.get('alerts', 'false')
 
         host = self.dao.host_dao.get_host_by_name(host_name)
 
         items = []
         details = []
+        active_alerts = []
 
         if host is None:
             return Response(
@@ -89,6 +96,9 @@ class RestHostViews(RestView):
         if host_get_items == 'true':
             items = self._get_items(host)
 
+        if host_get_alerts == 'true':
+            active_alerts = self.__get_active_alerts(host)
+
         if host_get_details == 'true':
             details = []
 
@@ -96,8 +106,29 @@ class RestHostViews(RestView):
         return {
             'name' : host.name,
             'items': items,
-            'details': details
+            'details': details,
+            'alerts': active_alerts,
+            'active_alerts': len(active_alerts),
         }
+
+    def __get_active_alerts(self, host):
+        d_items = self.dao.item_dao.get_items_from_host(host)
+        if (d_items == None):
+            return []
+
+        alerts = []
+        for item in d_items:
+            d_alerts = self.dao.item_dao.get_alerts(item)
+            for alert in d_alerts:
+                alerts.append({
+                    'start_time': alert.start_time.strftime(DATE_FMT),
+                    'severity': alert.trigger.severity.key,
+                    'acknowledgement': alert.acknowledgement,
+                    'name': alert.trigger.name,
+                    'item': alert.trigger.item.name.name
+                })
+
+        return alerts
 
     def _get_items(self, host):
         """Get list of items for host."""

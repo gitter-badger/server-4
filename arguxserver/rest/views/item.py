@@ -210,6 +210,7 @@ class RestItemViews(RestView):
 
         if get_values == 'true':
             values = self.__get_values(item, start, end)
+            active_alerts = self.__get_active_alerts(item)
 
         if get_alerts == 'true':
             active_alerts = self.__get_active_alerts(item)

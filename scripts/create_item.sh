@@ -13,7 +13,7 @@ cmd="date -v-"$i"M +%FT%TZ"
 TS=`$cmd`
 RND=$(((RANDOM%100)))
 
-VAL=0.$RND
+VAL=5.$RND
 
 curl -X POST \
      -H "Content-Type: application/json" \
@@ -21,5 +21,5 @@ curl -X POST \
         \"value\":\"$VAL\",
         \"timestamp\":\"$TS\"
         }" \
-    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[1\\\]/values
+    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[15\\\]/values
 done

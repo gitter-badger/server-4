@@ -13,7 +13,7 @@ curl -X POST \
         \"rule\":\"last() > 5\",
         \"description\":\"CPU Load > 5\"
         }" \
-    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[1\\\]/trigger
+    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[15\\\]/trigger
 
 exit 0
 
