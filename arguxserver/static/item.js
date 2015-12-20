@@ -9,13 +9,18 @@
 var chart_start_time = null;
 var chart_end_time = 'now';
 
+Chart.defaults.global.responsive = true;
+
 var config = {
     type: 'line',
     data: {
         datasets: [
             {
                 label: ARGUX_ITEM,
-                backgroundColor: "rgba(220,220,220,0.2)",
+                borderWidth: 1,
+                borderColor: "rgba(10,145,115,1)",
+                backgroundColor: "rgba(10,200,160,0.2)",
+                pointRadius: 0,
                 data: [{x:'0',y:'1'}]
             }
         ]
