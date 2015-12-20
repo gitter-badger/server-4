@@ -217,11 +217,11 @@ class RestItemViews(RestView):
         return {
             'host': host.name,
             'item': item.key,
-            'active_alerts': len(alerts),
+            'active_alerts': len(active_alerts),
             'start_time': start.strftime(DATE_FMT),
             'end_time': end.strftime(DATE_FMT),
             'values': values,
-            'alerts': alerts
+            'alerts': active_alerts
         }
 
     def __get_active_alerts(self, item):
@@ -233,6 +233,7 @@ class RestItemViews(RestView):
             alerts.append({
                 'start_time': alert.start_time.strftime(DATE_FMT),
                 'severity': alert.trigger.severity.key,
+                'acknowledgement': alert.acknowledgement,
                 'name': alert.trigger.name
             })
 

@@ -5,7 +5,7 @@ HOST_URI=host
 
 HOST_NAME=localhost
 
-for i in {1..59}
+for i in {1..5}
 do
 
 cmd="date -v-"$i"M +%FT%TZ"
@@ -13,7 +13,7 @@ cmd="date -v-"$i"M +%FT%TZ"
 TS=`$cmd`
 RND=$(((RANDOM%100)))
 
-VAL=0.$RND
+VAL=5.$RND
 
 curl -X POST \
      -H "Content-Type: application/json" \

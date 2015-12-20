@@ -212,6 +212,13 @@ function alerts_cb(json) {
             } else {
                 icon = 'glyphicon-exclamation-sign';
             }
+
+            if(al.acknowledgement === null) {
+                ack = 'No (<a href="#">Acknowledge</a>)';
+            } else {
+                ack = 'Yes (<a href="#">Show Ack</a>)';
+            }
+
             $('#alerts').append(
                 '<tr class=""><td>' +
                 '<span class="glyphicon '+icon+'"></span> ' +
@@ -220,6 +227,8 @@ function alerts_cb(json) {
                 '</a>' +
                 '</td><td>' +
                 moment(al.start_time).fromNow(true) +
+                '</td><td>' +
+                ack +
                 '</td></tr>'
             );
         });

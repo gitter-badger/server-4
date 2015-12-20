@@ -5,6 +5,7 @@ from sqlalchemy import (
     Integer,
     Text,
     DateTime,
+    Boolean,
     ForeignKey
 )
 
@@ -104,3 +105,4 @@ class AbstractSimpleAlert(object):
     id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     start_time = Column(DateTime, nullable=False)
     end_time = Column(DateTime, nullable=True, default=None)
+    acknowledgement = Column(Text, nullable=True, default=None)

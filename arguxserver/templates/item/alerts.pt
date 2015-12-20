@@ -7,7 +7,7 @@
         <table class="table table-condensed">
         <thead>
         <tr>
-            <th>Name</th><th>Duration</th>
+            <th>Name</th><th>Duration</th><th>Acknowledged</th>
         </tr>
         </thead>
         <tbody id="alerts">
@@ -22,7 +22,7 @@
          <table class="table table-condensed">
         <thead>
         <tr>
-            <th>Name</th><th>Start time</th><th>End time</th>
+            <th>Name</th><th>Start time</th><th>End time</th><th>Acknowledged</th>
         </tr>
         </thead>
         <tbody id="alerts-history">
