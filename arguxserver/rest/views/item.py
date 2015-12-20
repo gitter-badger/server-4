@@ -193,36 +193,33 @@ class RestItemViews(RestView):
         values = []
         alerts = []
 
-        q_start = self.request.params.get('start', '-30m')
+        q_start = self.request.params.get('start', None)
         q_end = self.request.params.get('end', 'now')
 
         get_values = self.request.params.get('get_values', 'true')
         get_alerts = self.request.params.get('get_alerts', 'false')
 
 
-        i = self.ts_to_td(q_start)
-        if i is not None:
-            start_offset = i[0] * i[1]
+        if (q_start != None):
+            start = dateutil.parser.parse(q_start)
 
-        if q_end == 'now':
-            end = datetime.now()
-            start = end + start_offset
-        elif q_end is None:
-            end = datetime.now()
-        else:
+        if q_end != 'now':
             end = dateutil.parser.parse(q_end)
-            start = end - timedelta(minutes=30)
+        else:
+            end = datetime.now()
 
         if get_values:
             values = self.__get_values(item, start, end)
 
         if get_alerts:
-            alerts = self.__get_active_alerts(item)
+            active_alerts = self.__get_active_alerts(item)
 
         return {
             'host': host.name,
             'item': item.key,
             'active_alerts': len(alerts),
+            'start_time': start.strftime(DATE_FMT),
+            'end_time': end.strftime(DATE_FMT),
             'values': values,
             'alerts': alerts
         }
@@ -231,7 +228,6 @@ class RestItemViews(RestView):
         """Return active alerts on an item."""
         alerts = []
         d_alerts = self.dao.item_dao.get_alerts(item)
-        n_alerts = len(d_alerts)
 
         for alert in d_alerts:
             alerts.append({
@@ -261,24 +257,4 @@ class RestItemViews(RestView):
                 'value': value.value
             })
 
-    def ts_to_td(self, ts):
-        ret_s = 1
-        ret_td = timedelta(minutes = 0)
-
-        i = TIME_OFFSET_EXPR.match(ts)
-        if i is None:
-            return None
-
-        # Check if it is a positive or negative return value
-        if i.group(1) == '-':
-            ret_s = -1
-
-        # minutes?
-        if i.group(3) == 'm':
-            ret_td = timedelta(minutes = int(i.group(2)))
-
-        # hours?
-        if i.group(3) == 'h':
-            ret_td = timedelta(hours = int(i.group(2)))
-
-        return (ret_s, ret_td)
+        return values

@@ -5,7 +5,7 @@ HOST_URI=host
 
 HOST_NAME=localhost
 
-for i in {1..5}
+for i in {1..59}
 do
 
 cmd="date -v-"$i"M +%FT%TZ"

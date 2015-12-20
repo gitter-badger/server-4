@@ -9,6 +9,10 @@ from pyramid.httpexceptions import (
     HTTPFound
 )
 
+from arguxserver.util import (
+    TIMESPAN_EXPR,
+)
+
 
 @view_defaults(renderer='templates/home.pt')
 class MainViews:
@@ -81,30 +85,31 @@ class MainViews:
         item_key  = self.request.matchdict['item']
         action    = self.request.matchdict['action']
 
-        ts = self.request.params.get('timespan', '30m')
+        timespan = self.request.params.get('timespan', '30m')
 
-        details = []
+        # Validate timespan input and default to 30 minutes
+        # if it fails.
+        i = TIMESPAN_EXPR.match(timespan)
+        if i is None:
+            timespan = '30m'
+        
+        has_details = False
 
         host = self.dao.host_dao.get_host_by_name(host_name)
         item = self.dao.item_dao.get_item_by_host_key(host, item_key)
 
         if item.itemtype.name == 'float':
-            details = [
-                {"name": "MAX", "ts": "1-1-1970", "value":"14" }
-                ]
+            has_details = True
 
-        a = self.dao.item_dao.get_alerts(item)
-
-        n_alerts = len(a)
+        alerts = self.dao.item_dao.get_alerts(item)
 
         return {
             "argux_host": host_name,
             "argux_item": item,
-            "timespan_start": "-40m",
-            "timespan_end": "now",
+            "timespan": timespan,
             "action": action,
-            'active_alerts': n_alerts,
-            "item_details": details}
+            'active_alerts': len(alerts),
+            "has_details": has_details}
 
     @view_config(route_name='dashboards', renderer='templates/dashboard.pt')
     def dashboard(self):

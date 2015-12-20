@@ -4,8 +4,10 @@
 /* globals ARGUX_ITEM: false */
 /* globals ARGUX_ITEM_ACTION: false */
 
-/* globals TIMESPAN_START: false */
-/* globals TIMESPAN_END: false */
+/* globals TIMESPAN: false */
+
+var chart_start_time = null;
+var chart_end_time = 'now';
 
 var config = {
     type: 'line',
@@ -58,6 +60,29 @@ var ctx;
 var chart;
 
 function pollItemValues(showValues, showAlerts, callback) {
+
+    start_time = moment().subtract(30, 'minutes');
+
+    if(chart_end_time === 'now') {
+        now = moment();
+        start_time = now.subtract(30, 'minutes');
+        if(TIMESPAN==='30m') {
+            start_time = now.subtract(30, 'minutes');
+        }
+        if(TIMESPAN==='12h') {
+            start_time = now.subtract(12, 'hours');
+        }
+        if(TIMESPAN==='24h') {
+            start_time = now.subtract(24, 'hours');
+        }
+        if(TIMESPAN==='7d') {
+            start_time = now.subtract(7, 'days');
+        }
+    } else {
+    }
+
+    chart_start_time = start_time.format('YYYY-MM-DDTHH:mm:ss');
+
     $.ajax({
         url: ARGUX_BASE+
              "/rest/1.0/host/"+
@@ -65,9 +90,9 @@ function pollItemValues(showValues, showAlerts, callback) {
              "/item/"+
              ARGUX_ITEM+
              "/details?start="+
-             TIMESPAN_START+
+             chart_start_time+
              "&end="+
-             TIMESPAN_END+
+             chart_end_time+
              "&get_values="+
              showValues+
              "&get_alerts="+
@@ -83,7 +108,12 @@ function pollItemValues(showValues, showAlerts, callback) {
             }
         },
         complete: function(json) {
-            setTimeout(pollItemValues, 3000, showValues, showAlerts, callback);
+            setTimeout(
+                pollItemValues,
+                3000,
+                showValues,
+                showAlerts,
+                callback);
         }
     });
 }
@@ -133,12 +163,11 @@ function pollTriggers() {
 function details_cb(json) {
     var datapoints = [];
 
-    start = moment().subtract(30, 'minute');
-    end   = moment();
-
     datapoints.push({
-            x: start.format('YYYY-MM-DDTHH:mm:ss'),
+            x: json.start_time,
             });
+
+    chart_start_time = json.start_time;
 
     if (json.values) {
         $.each(json.values, function(i, value) {
@@ -149,7 +178,7 @@ function details_cb(json) {
     }
 
     datapoints.push({
-            x: end.format('YYYY-MM-DDTHH:mm:ss'),
+            x: json.end_time,
             });
 
 

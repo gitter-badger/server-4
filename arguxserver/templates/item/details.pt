@@ -1,24 +1,6 @@
 <div class="section-body">
     <div class="col-md-6">
-        <div tal:condition="len(item_details) > 0"
-             class="panel panel-default">
-        <div class="panel-heading">Details</div>
-        <table class="table table-striped panel-body">
-        <thead>
-            <tr>
-                <td>Name</td>
-                <td>Timestamp</td>
-                <td>Value</td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr tal:repeat="detail item_details">
-                <td tal:content="detail.name"></td>
-                <td tal:content="detail.ts"></td>
-                <td tal:content="detail.value"></td>
-            </tr>
-        </tbody>
-        </table>
+        <div id="item-details">
         </div>
     </div>
     <div class="col-md-6">
@@ -28,7 +10,7 @@
                 <div class="btn-toolbar pull-right">
                     <!-- Split button -->
                     <div class="btn-group">
-                      <a href="?timeframe=1w&#timechart"
+                      <a href="?timespan=24h&#timechart"
                          type="button"
                          role="button"
                          class="btn btn-default btn-sm">24 hours</a>
@@ -41,17 +23,17 @@
                         <span class="sr-only">Toggle Dropdown</span>
                       </button>
                       <ul class="dropdown-menu">
-                        <li><a href="#">1 Week</a></li>
-                        <li><a href="#">1 Month</a></li>
+                        <li><a href="?timespan=7d&#timechart">1 Week</a></li>
+                        <li><a href="?timespan=1M&#timechart">1 Month</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">All time</a></li>
+                        <li><a href="?timespan=all&#timechart">All time</a></li>
                       </ul>
                     </div>
-                    <a href="?timeframe=1w&#timechart"
+                    <a href="?timespan=12h&#timechart"
                        type="button"
                        role="button"
                        class="btn btn-default btn-sm">12 hours</a>
-                    <a href="?timeframe=1w&#timechart"
+                    <a href="?timespan=30m&#timechart"
                        type="button"
                        role="button"
                        class="btn btn-primary btn-sm">30 minutes (realtime)</a>
