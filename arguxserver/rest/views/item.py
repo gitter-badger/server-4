@@ -191,7 +191,7 @@ class RestItemViews(RestView):
 
     def item_details_1_view_read(self, host, item):
         values = []
-        alerts = []
+        active_alerts = []
 
         q_start = self.request.params.get('start', None)
         q_end = self.request.params.get('end', 'now')
