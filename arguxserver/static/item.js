@@ -33,7 +33,16 @@ var config = {
                 display: true,
                 time: {
                     format: 'YYYY-MM-DDTHH:mm:SS',
-                    //round: 'min'
+                    displayFormats: {
+                        'millisecond': 'SSS [ms]',
+                        'second': 'HH:mm:ss', // 23:20:01
+                        'minute': 'MM/DD HH:mm', // 23:20:01
+                        'hour': 'YY/MM/DD HH:00', // 2015/12/22 23:00
+                        'day': 'YY/MM/DD', // 2015/12/22
+                        'month': 'MMM YYYY', // Sept 2015
+                        'quarter': '[Q]Q - YYYY', // Q3 - 2015
+                        'year': 'YYYY', // 2015
+                    },
                 },
                 scaleLabel: {
                     show: true,
