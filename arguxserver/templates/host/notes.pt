@@ -31,21 +31,6 @@
     </nav>
     <div id="items">
     </div>
-    <div>
-      <ul class="pagination">
-        <li>
-          <a href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li><a href="#">1</a></li>
-        <li>
-          <a href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </div>
     <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="new-note-modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -54,7 +39,7 @@
                 <form id="notes-form" action="">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">New Note for ..</h4>
+                    <h4 class="modal-title">New note for <strong>${argux_host}</strong></h4>
                 </div>
                 <div class="modal-body">
                     <!-- Nav tabs -->
