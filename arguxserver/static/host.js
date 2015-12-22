@@ -61,13 +61,13 @@ function pollAlerts() {
                     }
 
                     $('#alerts').append(
-                        '<tr class=""><td>' +
+                        '<tr class="'+al.severity+'"><td>' +
                         '<span class="glyphicon '+icon+'"></span> ' +
-                        '<a href="#">' +
-                        al.item +
+                        '<a href="/host/'+ARGUX_HOST+'/item/'+al.item.key+'">' +
+                        al.item.name +
                         '</a>' +
                         '</td><td>' +
-                        '<a href="#">' +
+                        '<a href="/host/'+ARGUX_HOST+'/item/'+al.item.key+'/alerts">' +
                         al.name +
                         '</a>' +
                         '</td><td>' +

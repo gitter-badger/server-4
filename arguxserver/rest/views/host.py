@@ -125,7 +125,10 @@ class RestHostViews(RestView):
                     'severity': alert.trigger.severity.key,
                     'acknowledgement': alert.acknowledgement,
                     'name': alert.trigger.name,
-                    'item': alert.trigger.item.name.name
+                    'item': {
+                        'key': alert.trigger.item.key,
+                        'name': alert.trigger.item.name.name
+                    }
                 })
 
         return alerts
