@@ -2,9 +2,14 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             Triggers
-            <a href="#" class="pull-right" data-target="tooltip" title="New Trigger">
-            <span class="glyphicon glyphicon-plus alert-default"></span>
-            </a>
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-default btn-xs"
+                        data-target=".bs-example-modal-lg"
+                        data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus alert-default"></span>
+                </button>
+            </div>
         </div>
         <div class="panel-body">
             <p>This table contains a list of triggers associated with <code>${argux_item.name.name}</code> on <strong>${argux_host}</strong></p>
@@ -18,5 +23,41 @@
         <tbody id="triggers">
         </tbody>
         </table>
+    </div>
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="new-note-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <!-- Add Trigger -->
+                <form id="trigger-form" action="">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">New trigger for <strong>${argux_item.name.name}</strong></h4>
+                </div>
+                <div class="modal-body">
+                     <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="edit">
+                            <label for="trigger-name">Name</label>
+                            <input type="text" class="form-control" id="trigger-rule"/>
+                            <label for="trigger-rule">Rule</label>
+                            <input type="text" class="form-control" id="trigger-rule"/>
+                            <label for="trigger-severity">Severity</label>
+                            <select class="form-control" id="trigger-severity">
+                                <option value="normal">Normal</option>
+                                <option value="warn">Warning</option>
+                                <option value="crit">Critical</option>
+                            </select>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="preview">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Add Trigger</button>
+                </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
