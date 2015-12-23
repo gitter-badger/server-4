@@ -103,3 +103,16 @@ class RestTriggerViews(RestView):
             'host': host_name,
             'item': item_key,
             'triggers': triggers}
+
+    @view_config(
+        route_name='rest_trigger_validate_1',
+        request_method='POST')
+    def trigger_1_validate(self):
+        dao = self.dao
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
+
+        host = dao.host_dao.get_host_by_name(host_name)
+        item = dao.item_dao.get_item_by_host_key(host, item_key)
+
+        return 'a'

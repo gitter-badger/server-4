@@ -52,6 +52,8 @@ def main(global_config, **settings):
                      '/rest/1.0/host/{host}/item/{item}/values')
     config.add_route('rest_triggers_1',
                      '/rest/1.0/host/{host}/item/{item}/trigger')
+    config.add_route('rest_trigger_validate_1',
+                     '/rest/1.0/host/{host}/item/{item}/trigger/validate')
     config.add_route('rest_trigger_1',
                      '/rest/1.0/host/{host}/item/{item}/trigger/{id}')
 
