@@ -122,6 +122,20 @@ def get_all_triggers():
 
     return triggers
 
+def get_last_alert_for_trigger(trigger):
+    """Return last alert for a trigger.
+
+    This function is used for every trigger individually...
+    It makes more sense if we could query it for all triggers at once.
+    """
+    alert_klass = ALERT_CLASS.get(trigger.item.itemtype.name)
+
+    alert = DB_SESSION.query(alert_klass)\
+        .filter(alert_klass.trigger_id == trigger.id)\
+        .order_by(alert_klass.start_time.desc())\
+        .first()
+
+    return alert
 
 def push_value(item, timestamp, value):
     """Push new value to an item."""

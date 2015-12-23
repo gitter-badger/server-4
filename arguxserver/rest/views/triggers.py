@@ -11,6 +11,10 @@ import json
 
 from . import RestView
 
+from arguxserver.util import (
+    DATE_FMT
+)
+
 
 
 @view_defaults(renderer='json')
@@ -93,10 +97,18 @@ class RestTriggerViews(RestView):
 
         item_triggers = dao.item_dao.get_triggers(item)
         for trigger in item_triggers:
+            alert = dao.item_dao.get_last_alert_for_trigger(trigger)
+
+            if alert:
+                time = alert.start_time.strftime(DATE_FMT)
+            else:
+                time = None
+
             triggers.append({
                 'id': trigger.id,
                 'name': trigger.name,
-                'rule': trigger.rule
+                'rule': trigger.rule,
+                'last_alert': time
             })
 
         return {

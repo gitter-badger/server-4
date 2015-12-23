@@ -145,6 +145,14 @@ function pollTriggers() {
         success: function(json) {
             $('#triggers').empty();
             $.each(json.triggers, function(i, trigger) {
+                if (trigger.last_alert == null) {
+                    last_alert = "-";
+                } else {
+                    last_alert = '<span data-toggle="tooltip" data-placement="bottom" ' +
+                    'title="'+trigger.last_alert+'">' +
+                    moment(trigger.last_alert).fromNow() +
+                    '</span>'
+                }
                 $('#triggers').append(
                     '<tr class=""><td>' +
                     '<span class="glyphicon glyphicon-none"></span> ' +
@@ -154,7 +162,7 @@ function pollTriggers() {
                     '</td><td>' +
                     trigger.rule +
                     '</td><td>' +
-                    '0' +
+                    last_alert +
                     '<a href="#" class="pull-right" data-toggle="tooltip" title="Remove Trigger">' +
                     '<span class="glyphicon glyphicon-remove"></span>' +
                     '</a>' +
