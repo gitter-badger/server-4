@@ -28,3 +28,7 @@ class RestTriggerViewsTests(unittest.TestCase):
         response = v.item_1_view()
 
         self.assertEquals(host['name'], "localhost")
+
+    @unittest.skip('not implemented')
+    def test_triggers(self):
+        return

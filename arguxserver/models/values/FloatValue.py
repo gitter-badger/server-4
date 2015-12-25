@@ -45,6 +45,20 @@ class FloatSimpleTrigger(AbstractSimpleTrigger, BASE):
 
     __tablename__ = 'simple_trigger_float'
 
+
+    @staticmethod
+    def validate_rule(rule):
+        """Validate FloatSimpleTriger rules."""
+        ret = AbstractSimpleTrigger.validate_rule(rule)
+        if ret is None:
+            return None
+
+        operators = ['!=', '==', '>', '<', '>=', '<=']
+        if ret[2] not in operators:
+            return None
+
+        return ret
+
     # pylint: disable=unused-argument
     def __handle_last(self, session, selector, operator, value):
 

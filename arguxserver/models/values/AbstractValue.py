@@ -85,7 +85,7 @@ class AbstractSimpleTrigger(object):
         i = TRIGGER_EXPR.match(rule)
 
         if i is None:
-            return False
+            return None
 
         ret = [i.group(1), i.group(2), i.group(3), i.group(4)]
 

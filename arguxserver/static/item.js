@@ -143,12 +143,16 @@ function pollTriggers() {
         type: "GET",
         dataType: "json",
         success: function(json) {
-
             $('#triggers').empty();
-
-/*                    '<tr class="alert alert-warning"><td>' + */
-/*                    '<span class="glyphicon glyphicon-exclamation-sign"></span> ' +*/
             $.each(json.triggers, function(i, trigger) {
+                if (trigger.last_alert == null) {
+                    last_alert = "-";
+                } else {
+                    last_alert = '<span data-toggle="tooltip" data-placement="bottom" ' +
+                    'title="'+trigger.last_alert+'">' +
+                    moment(trigger.last_alert).fromNow() +
+                    '</span>'
+                }
                 $('#triggers').append(
                     '<tr class=""><td>' +
                     '<span class="glyphicon glyphicon-none"></span> ' +
@@ -158,20 +162,118 @@ function pollTriggers() {
                     '</td><td>' +
                     trigger.rule +
                     '</td><td>' +
-                    '0' +
-                    '<a href="#" class="pull-right" data-toggle="tooltip" title="Remove Trigger">' +
+                    last_alert +
+                    '<button ' +
+                    ' class="pull-right trigger-del btn btn-xs borderless"' +
+                    ' data-toggle="tooltip"' +
+                    ' data-trigger-id="' + trigger.id + '"' +
+                    ' title="Remove Trigger">' +
                     '<span class="glyphicon glyphicon-remove"></span>' +
-                    '</a>' +
-                    '<a href="#" class="pull-right" data-toggle="tooltip" title="Edit Trigger">' +
-                    '<span class="glyphicon glyphicon-edit"></span>' +
-                    '</a>' +
+                    '</button>' +
                     '</td></tr>'
                 );
+            });
+            $(".trigger-del").on('click', function(evt) {
+                $.ajax({
+                    timeout: 5000,
+                    url: ARGUX_BASE+
+                         "/rest/1.0/host/"+
+                         ARGUX_HOST+
+                         "/item/"+
+                         ARGUX_ITEM+
+                         "/trigger/"+
+                         evt.target.getAttribute("data-trigger-id"),
+                    type: "DELETE",
+                    success: function(json) {
+                        //$('#create-trigger-modal').modal('hide');
+                        return true;
+                    },
+                    error: function(json) {
+                        $('#trigger-form-alerts').append(
+                            '<div class="alert alert-danger alert-dismissible">'+
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                            '<strong>Problem:</strong> Trigger rule could not be deleted.'+
+                            '</div>'
+                        );
+                    }
+                });
             });
             setTimeout(pollTriggers, 3000);
         }
     });
 
+}
+
+function validateTrigger(trigger) {
+    $.ajax({
+        url: ARGUX_BASE+
+             "/rest/1.0/host/"+
+             ARGUX_HOST+
+             "/item/"+
+             ARGUX_ITEM+
+             "/trigger/validate",
+        type: "POST",
+        dataType: "json",
+        data: '{'+
+              '"name": '+JSON.stringify(trigger.name)+',' +
+              '"rule": '+JSON.stringify(trigger.rule)+
+              '}',
+        success: function(json) {
+            if (json.valid == true) {
+                createTrigger(trigger);
+            } else {
+                $('#trigger-form-alerts').empty();
+                $('#trigger-form-alerts').append(
+                    '<div class="alert alert-danger alert-dismissible">'+
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                    '<strong>Problem:</strong> Trigger rule could not be validated:<br>'+
+                    json.error+
+                    '</div>'
+                );
+            }
+        },
+        error: function(json) {
+            $('#trigger-form-alerts').empty();
+            $('#trigger-form-alerts').append(
+                '<div class="alert alert-danger alert-dismissible">'+
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                '<strong>Problem:</strong> Trigger rule could not be validated:<br>'+
+                json.error+
+                '</div>'
+            );
+        }
+    });
+}
+
+function createTrigger(trigger) {
+    $.ajax({
+        url: ARGUX_BASE+
+             "/rest/1.0/host/"+
+             ARGUX_HOST+
+             "/item/"+
+             ARGUX_ITEM+
+             "/trigger",
+        type: "POST",
+        dataType: "json",
+        data: '{'+
+              '"name": '+JSON.stringify(trigger.name)+',' +
+              '"rule": '+JSON.stringify(trigger.rule)+',' +
+              '"description": '+JSON.stringify(trigger.description)+',' +
+              '"severity": '+JSON.stringify(trigger.severity) +
+              '}',
+        success: function(json) {
+            $('#create-trigger-modal').modal('hide');
+            return true;
+        },
+        error: function(json) {
+            $('#trigger-form-alerts').append(
+                '<div class="alert alert-danger alert-dismissible">'+
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                '<strong>Problem:</strong> Trigger rule could not be created.'+
+                '</div>'
+            );
+        }
+    });
 }
 
 function details_cb(json) {
@@ -246,6 +348,17 @@ $(function() {
         pollItemValues(false, true, alerts_cb);
     }
     if (ARGUX_ITEM_ACTION==="triggers") {
+
+        $('#trigger-form').submit(function(event) {
+            event.preventDefault();
+            trigger = {
+                'name': $('#trigger-name').val(),
+                'rule': $('#trigger-rule').val(),
+                'description': $('#trigger-desc').val(),
+                'severity': $('#trigger-severity').val()
+            };
+            validateTrigger(trigger);
+        });
         pollTriggers();
     }
 });

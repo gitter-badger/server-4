@@ -11,6 +11,10 @@ import json
 
 from . import RestView
 
+from arguxserver.util import (
+    DATE_FMT
+)
+
 
 
 @view_defaults(renderer='json')
@@ -93,13 +97,59 @@ class RestTriggerViews(RestView):
 
         item_triggers = dao.item_dao.get_triggers(item)
         for trigger in item_triggers:
+            alert = dao.item_dao.get_last_alert_for_trigger(trigger)
+
+            if alert:
+                time = alert.start_time.strftime(DATE_FMT)
+            else:
+                time = None
+
             triggers.append({
                 'id': trigger.id,
                 'name': trigger.name,
-                'rule': trigger.rule
+                'rule': trigger.rule,
+                'last_alert': time
             })
 
         return {
             'host': host_name,
             'item': item_key,
             'triggers': triggers}
+
+    @view_config(
+        route_name='rest_trigger_1',
+        request_method='DELETE')
+    def trigger_1_view_delete(self):
+        """Get all triggers for an Item."""
+        dao = self.dao
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
+        trigger_id = self.request.matchdict['id']
+
+        host = dao.host_dao.get_host_by_name(host_name)
+        item = dao.item_dao.get_item_by_host_key(host, item_key)
+
+        dao.item_dao.delete_trigger_by_id(item, trigger_id)
+        return
+
+    @view_config(
+        route_name='rest_trigger_validate_1',
+        request_method='POST')
+    def trigger_1_validate(self):
+        """Validate Trigger Rule."""
+        dao = self.dao
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
+
+        # trigger_name = self.request.json_body.get('name', None)
+        trigger_rule = self.request.json_body.get('rule', None)
+
+        host = dao.host_dao.get_host_by_name(host_name)
+        item = dao.item_dao.get_item_by_host_key(host, item_key)
+
+        ret = dao.item_dao.validate_trigger_rule(item, trigger_rule)
+
+        return {
+            'item': item.name.name,
+            'valid': ret
+        }

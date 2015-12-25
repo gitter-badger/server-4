@@ -24,7 +24,7 @@
         </tbody>
         </table>
     </div>
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="new-note-modal">
+    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="create-trigger-modal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
 
@@ -35,21 +35,20 @@
                     <h4 class="modal-title">New trigger for <strong>${argux_item.name.name}</strong></h4>
                 </div>
                 <div class="modal-body">
-                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="edit">
-                            <label for="trigger-name">Name</label>
-                            <input type="text" class="form-control" id="trigger-rule"/>
-                            <label for="trigger-rule">Rule</label>
-                            <input type="text" class="form-control" id="trigger-rule"/>
-                            <label for="trigger-severity">Severity</label>
-                            <select class="form-control" id="trigger-severity">
-                                <option value="normal">Normal</option>
-                                <option value="warn">Warning</option>
-                                <option value="crit">Critical</option>
-                            </select>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="preview">
-                        </div>
+                    <div role="tabpanel" class="tab-pane active" id="edit">
+                        <div id="trigger-form-alerts"></div>
+                        <label for="trigger-name">Name</label>
+                        <input type="text" class="form-control" id="trigger-name"/>
+                        <label for="trigger-rule">Rule</label>
+                        <input type="text" class="form-control" id="trigger-rule"/>
+                        <label for="trigger-desc">Description</label>
+                        <input type="text" class="form-control" id="trigger-desc"/>
+                        <label for="trigger-severity">Severity</label>
+                        <select class="form-control" id="trigger-severity">
+                            <option value="info">Information</option>
+                            <option value="warn">Warning</option>
+                            <option value="crit">Critical</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

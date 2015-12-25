@@ -103,6 +103,16 @@ def evaluate_trigger(trigger):
         session.close()
         return False
 
+def validate_trigger_rule(item, rule):
+    """Return True if Trigger-rule is valid."""
+    trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
+
+    ret = trigger_klass.validate_rule(rule)
+    if ret is None:
+        return False
+
+    return True
+
 
 def get_triggers(item):
     """Return all triggers on an item."""
@@ -121,6 +131,22 @@ def get_all_triggers():
         triggers.extend(DB_SESSION.query(klass).all())
 
     return triggers
+
+
+def get_last_alert_for_trigger(trigger):
+    """Return last alert for a trigger.
+
+    This function is used for every trigger individually...
+    It makes more sense if we could query it for all triggers at once.
+    """
+    alert_klass = ALERT_CLASS.get(trigger.item.itemtype.name)
+
+    alert = DB_SESSION.query(alert_klass)\
+        .filter(alert_klass.trigger_id == trigger.id)\
+        .order_by(alert_klass.start_time.desc())\
+        .first()
+
+    return alert
 
 
 def push_value(item, timestamp, value):
@@ -211,3 +237,23 @@ def get_itemtype_by_name(name):
     item_type = DB_SESSION.query(ItemType)\
         .filter(ItemType.name == name).first()
     return item_type
+
+
+def delete_trigger_by_id(item, trigger_id):
+    """Delete Trigger for Item."""
+    trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
+
+    trigger = DB_SESSION.query(trigger_klass)\
+        .filter(trigger_klass.id == trigger_id)\
+        .filter(trigger_klass.item_id == item.id)\
+        .first()
+
+    if trigger:
+        DB_SESSION.query(trigger_klass)\
+            .filter(trigger_klass.id == trigger_id)\
+            .filter(trigger_klass.item_id == item.id)\
+            .delete()
+    else:
+        raise ValueError("trigger_id not valid for item")
+
+    return
