@@ -122,6 +122,7 @@ def get_all_triggers():
 
     return triggers
 
+
 def get_last_alert_for_trigger(trigger):
     """Return last alert for a trigger.
 
@@ -136,6 +137,7 @@ def get_last_alert_for_trigger(trigger):
         .first()
 
     return alert
+
 
 def push_value(item, timestamp, value):
     """Push new value to an item."""
@@ -226,9 +228,22 @@ def get_itemtype_by_name(name):
         .filter(ItemType.name == name).first()
     return item_type
 
+
 def delete_trigger_by_id(item, trigger_id):
+    """Delete Trigger for Item."""
     trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
 
     trigger = DB_SESSION.query(trigger_klass)\
-        .filter(trigger_klass.id == trigger_id).delete()
+        .filter(trigger_klass.id == trigger_id)\
+        .filter(trigger_klass.item_id == item.id)\
+        .first()
+
+    if trigger:
+        DB_SESSION.query(trigger_klass)\
+            .filter(trigger_klass.id == trigger_id)\
+            .filter(trigger_klass.item_id == item.id)\
+            .delete()
+    else:
+        raise ValueError("trigger_id not valid for item")
+
     return
