@@ -163,14 +163,40 @@ function pollTriggers() {
                     trigger.rule +
                     '</td><td>' +
                     last_alert +
-                    '<a href="#" class="pull-right" data-toggle="tooltip" title="Remove Trigger">' +
+                    '<button ' +
+                    ' class="pull-right trigger-del btn btn-xs borderless"' +
+                    ' data-toggle="tooltip"' +
+                    ' data-trigger-id="' + trigger.id + '"' +
+                    ' title="Remove Trigger">' +
                     '<span class="glyphicon glyphicon-remove"></span>' +
-                    '</a>' +
-                    '<a href="#" class="pull-right" data-toggle="tooltip" title="Edit Trigger">' +
-                    '<span class="glyphicon glyphicon-edit"></span>' +
-                    '</a>' +
+                    '</button>' +
                     '</td></tr>'
                 );
+            });
+            $(".trigger-del").on('click', function(evt) {
+                $.ajax({
+                    timeout: 5000,
+                    url: ARGUX_BASE+
+                         "/rest/1.0/host/"+
+                         ARGUX_HOST+
+                         "/item/"+
+                         ARGUX_ITEM+
+                         "/trigger/"+
+                         evt.target.getAttribute("data-trigger-id"),
+                    type: "DELETE",
+                    success: function(json) {
+                        //$('#create-trigger-modal').modal('hide');
+                        return true;
+                    },
+                    error: function(json) {
+                        $('#trigger-form-alert').append(
+                            '<div class="alert alert-danger alert-dismissible">'+
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                            '<strong>Problem:</strong> Trigger rule could not be deleted.'+
+                            '</div>'
+                        );
+                    }
+                });
             });
             setTimeout(pollTriggers, 3000);
         }

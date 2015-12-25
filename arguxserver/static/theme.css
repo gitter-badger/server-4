@@ -38,3 +38,12 @@ div.notes-toolbar {
 div.panel-warning > div.panel-heading .glyphicon {
     color: #000;
 }
+
+.btn.borderless {
+    border-width: 0px;
+    background-color: inherit;
+}
+
+.btn.borderless:hover {
+    color: #f00;
+}

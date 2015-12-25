@@ -225,3 +225,10 @@ def get_itemtype_by_name(name):
     item_type = DB_SESSION.query(ItemType)\
         .filter(ItemType.name == name).first()
     return item_type
+
+def delete_trigger_by_id(item, trigger_id):
+    trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
+
+    trigger = DB_SESSION.query(trigger_klass)\
+        .filter(trigger_klass.id == trigger_id).delete()
+    return

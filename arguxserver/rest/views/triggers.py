@@ -117,6 +117,22 @@ class RestTriggerViews(RestView):
             'triggers': triggers}
 
     @view_config(
+        route_name='rest_trigger_1',
+        request_method='DELETE')
+    def trigger_1_view_delete(self):
+        """Get all triggers for an Item."""
+        dao = self.dao
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
+        trigger_id = self.request.matchdict['id']
+
+        host = dao.host_dao.get_host_by_name(host_name)
+        item = dao.item_dao.get_item_by_host_key(host, item_key)
+
+        dao.item_dao.delete_trigger_by_id(item, trigger_id)
+        return
+
+    @view_config(
         route_name='rest_trigger_validate_1',
         request_method='POST')
     def trigger_1_validate(self):
