@@ -8,6 +8,10 @@ from tests.mock import dao
 
 from arguxserver.rest.views.item import RestItemViews
 
+from arguxserver.util import (
+    TRIGGER_EXPR
+)
+
 class RestTriggerViewsTests(unittest.TestCase):
     def setUp(self):
         self.config = testing.setUp()
@@ -32,3 +36,25 @@ class RestTriggerViewsTests(unittest.TestCase):
     @unittest.skip('not implemented')
     def test_triggers(self):
         return
+
+    def test_trigger_regexp(self):
+        ret = TRIGGER_EXPR.match("last() > 0")
+        self.assertNotEqual(ret, None)
+        self.assertEqual(ret.group(1), "last")
+        self.assertEqual(ret.group(2), "")
+        self.assertEqual(ret.group(3), ">")
+        self.assertEqual(ret.group(4), "0")
+
+        ret = TRIGGER_EXPR.match("last() > 0.0")
+        self.assertNotEqual(ret, None)
+        self.assertEqual(ret.group(1), "last")
+        self.assertEqual(ret.group(2), "")
+        self.assertEqual(ret.group(3), ">")
+        self.assertEqual(ret.group(4), "0.0")
+
+        ret = TRIGGER_EXPR.match("last() > 10")
+        self.assertNotEqual(ret, None)
+        self.assertEqual(ret.group(1), "last")
+        self.assertEqual(ret.group(2), "")
+        self.assertEqual(ret.group(3), ">")
+        self.assertEqual(ret.group(4), "10")
