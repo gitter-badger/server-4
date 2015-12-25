@@ -29,5 +29,6 @@ class RestTriggerViewsTests(unittest.TestCase):
 
         self.assertEquals(host['name'], "localhost")
 
-    def test_triggers():
+    @unittest.skip('not implemented')
+    def test_triggers(self):
         return
