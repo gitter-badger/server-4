@@ -189,7 +189,7 @@ function pollTriggers() {
                         return true;
                     },
                     error: function(json) {
-                        $('#trigger-form-alert').append(
+                        $('#trigger-form-alerts').append(
                             '<div class="alert alert-danger alert-dismissible">'+
                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
                             '<strong>Problem:</strong> Trigger rule could not be deleted.'+
@@ -219,11 +219,22 @@ function validateTrigger(trigger) {
               '"rule": '+JSON.stringify(trigger.rule)+
               '}',
         success: function(json) {
-            createTrigger(trigger);
+            if (json.valid == true) {
+                createTrigger(trigger);
+            } else {
+                $('#trigger-form-alerts').empty();
+                $('#trigger-form-alerts').append(
+                    '<div class="alert alert-danger alert-dismissible">'+
+                    '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                    '<strong>Problem:</strong> Trigger rule could not be validated:<br>'+
+                    json.error+
+                    '</div>'
+                );
+            }
         },
         error: function(json) {
-            $('#trigger-form-alert').empty();
-            $('#trigger-form-alert').append(
+            $('#trigger-form-alerts').empty();
+            $('#trigger-form-alerts').append(
                 '<div class="alert alert-danger alert-dismissible">'+
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
                 '<strong>Problem:</strong> Trigger rule could not be validated:<br>'+
@@ -255,7 +266,7 @@ function createTrigger(trigger) {
             return true;
         },
         error: function(json) {
-            $('#trigger-form-alert').append(
+            $('#trigger-form-alerts').append(
                 '<div class="alert alert-danger alert-dismissible">'+
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
                 '<strong>Problem:</strong> Trigger rule could not be created.'+

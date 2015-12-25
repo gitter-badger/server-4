@@ -141,9 +141,15 @@ class RestTriggerViews(RestView):
         host_name = self.request.matchdict['host']
         item_key = self.request.matchdict['item']
 
+        trigger_name = self.request.json_body.get('name', None)
+        trigger_rule = self.request.json_body.get('rule', None)
+
         host = dao.host_dao.get_host_by_name(host_name)
         item = dao.item_dao.get_item_by_host_key(host, item_key)
 
+        ret = dao.item_dao.validate_trigger_rule(item, trigger_rule)
+
         return {
-            'valid': True
+            'item': item.name.name,
+            'valid': ret
         }

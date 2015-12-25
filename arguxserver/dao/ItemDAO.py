@@ -103,6 +103,16 @@ def evaluate_trigger(trigger):
         session.close()
         return False
 
+def validate_trigger_rule(item, rule):
+    """Return True if Trigger-rule is valid."""
+    trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
+
+    ret = trigger_klass.validate_rule(rule)
+    if ret is None:
+        return False
+
+    return True
+
 
 def get_triggers(item):
     """Return all triggers on an item."""

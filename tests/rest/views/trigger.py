@@ -28,3 +28,6 @@ class RestTriggerViewsTests(unittest.TestCase):
         response = v.item_1_view()
 
         self.assertEquals(host['name'], "localhost")
+
+    def test_triggers():
+        return
