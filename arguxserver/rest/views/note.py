@@ -105,5 +105,6 @@ class RestNoteViews(RestView):
 
         return {
             'host': host_name,
-            'notes': notes
+            'notes': notes,
+            'active_alerts': 0
         }

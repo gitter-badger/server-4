@@ -206,6 +206,20 @@ def get_alerts(item, active=True, inactive=False):
 
     return alerts
 
+def get_active_alert_count(item):
+    alert_klass = ALERT_CLASS.get(item.itemtype.name)
+    triggers = get_triggers(item)
+
+    n_alerts = 0
+
+    for trigger in triggers:
+        n_alerts += DB_SESSION.query(alert_klass)\
+            .filter(alert_klass.trigger_id == trigger.id)\
+            .filter(alert_klass.end_time.is_(None))\
+            .count()
+
+    return n_alerts
+
 
 def get_itemname_by_name(name):
     item_name = DB_SESSION.query(ItemName)\

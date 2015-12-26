@@ -74,8 +74,7 @@
               tal:attributes="class 'active' if item==action else nothing">
             <a tal:attributes="href request.application_url+'/host/'+argux_host+'/'+item">
                 <span tal:content="item_l[repeat.item.index]">
-                <span tal:condition="item=='alerts' and active_alerts > 0"
-                      tal:content="active_alerts"
+                <span tal:condition="item=='alerts'"
                       class="badge" id="alert_count"></span>
             </a>
             <span tal:condition="action==item">

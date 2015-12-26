@@ -96,6 +96,9 @@ class RestTriggerViews(RestView):
         item = dao.item_dao.get_item_by_host_key(host, item_key)
 
         item_triggers = dao.item_dao.get_triggers(item)
+
+        active_alert_count = dao.item_dao.get_active_alert_count(item)
+
         for trigger in item_triggers:
             alert = dao.item_dao.get_last_alert_for_trigger(trigger)
 
@@ -114,7 +117,9 @@ class RestTriggerViews(RestView):
         return {
             'host': host_name,
             'item': item_key,
-            'triggers': triggers}
+            'triggers': triggers,
+            'active_alerts': active_alert_count
+        }
 
     @view_config(
         route_name='rest_trigger_1',
