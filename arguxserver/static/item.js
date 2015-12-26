@@ -92,6 +92,9 @@ function pollItemValues(showValues, showAlerts, callback) {
         if(TIMESPAN==='7d') {
             start_time = now.subtract(7, 'days');
         }
+        if(TIMESPAN==='1M') {
+            start_time = now.subtract(1, 'months');
+        }
     } else {
     }
 
