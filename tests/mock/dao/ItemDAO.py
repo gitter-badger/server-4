@@ -46,3 +46,6 @@ def get_last_value(item):
 
 def get_values(item):
     return []
+
+def get_active_alert_count(item):
+    return 0
