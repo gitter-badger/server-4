@@ -147,6 +147,9 @@ function pollTriggers() {
             $.each(json.triggers, function(i, trigger) {
                 if (trigger.last_alert == null) {
                     last_alert = "-";
+                } else if (trigger.last_alert == 'now') {
+                    last_alert = '<span data-toggle="tooltip" data-placement="bottom" ' +
+                    'title="Still active">Now</span>'
                 } else {
                     last_alert = '<span data-toggle="tooltip" data-placement="bottom" ' +
                     'title="'+trigger.last_alert+'">' +

@@ -101,9 +101,13 @@ class RestTriggerViews(RestView):
 
         for trigger in item_triggers:
             alert = dao.item_dao.get_last_alert_for_trigger(trigger)
+            time = None
 
             if alert:
-                time = alert.start_time.strftime(DATE_FMT)
+                if alert.end_time is not None:
+                    time = alert.end_time.strftime(DATE_FMT)
+                else:
+                    time = 'now'
             else:
                 time = None
 
