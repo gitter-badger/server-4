@@ -169,7 +169,11 @@ function metrics_cb(json) {
         categories[category]+='<tr>' +
           '<td>' +
           '<a href="'+item_base_url+'">' +
+          '<span ' +
+          ' data-toggle="tooltip"' +
+          ' title="'+item.key+'">' +
           item_name +
+          '</span>' +
           '</a>' +
           '</td>' +
           '<td>' + item_value + '</td>' +
