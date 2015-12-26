@@ -31,7 +31,10 @@ class RestHostViews(RestView):
 
         hosts = []
         for host in d_hosts:
-            hosts.append({"name": host.name, "val": 0})
+            hosts.append({
+                "name": host.name,
+                "active_alerts": self.__get_active_alert_count(host)
+            })
 
         return {'hosts': hosts}
 

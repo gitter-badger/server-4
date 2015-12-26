@@ -49,8 +49,9 @@ $(function() {
                         '<a href="'+ARGUX_BASE+'/host/' + value.name + '">' +
                         value.name +
                         '</a></td><td>' +
-                        '0' +
-                        '</td></tr>'
+                        '<a href="'+ARGUX_BASE+'/host/' + value.name + '/alerts">' +
+                        value.active_alerts+
+                        '</a></td></tr>'
                     );
                 });
                 setTimeout(doPoll, 10000);
