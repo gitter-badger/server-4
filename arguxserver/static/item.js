@@ -1,4 +1,5 @@
 /* globals Chart: false */
+/* globals moment: false */
 /* globals ARGUX_BASE: false */
 /* globals ARGUX_HOST: false */
 /* globals ARGUX_ITEM: false */
@@ -75,7 +76,7 @@ var chart;
 
 function pollItemValues(showValues, showAlerts, callback) {
 
-    start_time = moment().subtract(30, 'minutes');
+    var start_time = moment().subtract(30, 'minutes');
 
     if(chart_end_time === 'now') {
         now = moment();
@@ -124,7 +125,7 @@ function pollItemValues(showValues, showAlerts, callback) {
                 $("#alert_count").text('');
             }
         },
-        complete: function(json) {
+        complete: function() {
             setTimeout(
                 pollItemValues,
                 3000,
@@ -148,16 +149,15 @@ function pollTriggers() {
         success: function(json) {
             $('#triggers').empty();
             $.each(json.triggers, function(i, trigger) {
-                if (trigger.last_alert == null) {
-                    last_alert = "-";
-                } else if (trigger.last_alert == 'now') {
+                var last_alert = '-'
+                if (trigger.last_alert === 'now') {
                     last_alert = '<span data-toggle="tooltip" data-placement="bottom" ' +
-                    'title="Still active">Now</span>'
-                } else {
+                    'title="Still active">Now</span>';
+                } else if (trigger.last_alert !== null) {
                     last_alert = '<span data-toggle="tooltip" data-placement="bottom" ' +
                     'title="'+trigger.last_alert+'">' +
                     moment(trigger.last_alert).fromNow() +
-                    '</span>'
+                    '</span>';
                 }
                 $('#triggers').append(
                     '<tr class=""><td>' +
@@ -190,11 +190,10 @@ function pollTriggers() {
                          "/trigger/"+
                          evt.target.getAttribute("data-trigger-id"),
                     type: "DELETE",
-                    success: function(json) {
-                        //$('#create-trigger-modal').modal('hide');
+                    success: function() {
                         return true;
                     },
-                    error: function(json) {
+                    error: function() {
                         $('#trigger-form-alerts').append(
                             '<div class="alert alert-danger alert-dismissible">'+
                             '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
@@ -210,7 +209,7 @@ function pollTriggers() {
                 $("#alert_count").text('');
             }
         },
-        complete: function(json) {
+        complete: function() {
             setTimeout(pollTriggers, 3000);
         }
     });
@@ -232,7 +231,7 @@ function validateTrigger(trigger) {
               '"rule": '+JSON.stringify(trigger.rule)+
               '}',
         success: function(json) {
-            if (json.valid == true) {
+            if (json.valid === true) {
                 createTrigger(trigger);
             } else {
                 $('#trigger-form-alerts').empty();
@@ -274,11 +273,11 @@ function createTrigger(trigger) {
               '"description": '+JSON.stringify(trigger.description)+',' +
               '"severity": '+JSON.stringify(trigger.severity) +
               '}',
-        success: function(json) {
+        success: function() {
             $('#create-trigger-modal').modal('hide');
             return true;
         },
-        error: function(json) {
+        error: function() {
             $('#trigger-form-alerts').append(
                 '<div class="alert alert-danger alert-dismissible">'+
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
@@ -322,16 +321,16 @@ function alerts_cb(json) {
 
     if (json.alerts) {
         $.each(json.alerts, function(i, al) {
-            if(al.severity === 'info') {
-                icon = 'glyphicon-none';
-                severity = 'info';
-            } else {
-                if (al.severity === "crit") {
-                    severity = "danger";
-                }
-                if (al.severity === "warn") {
-                    severity = "warning";
-                }
+            var icon = 'glyphicon-none';
+            var severity = 'info';
+            var ack;
+
+            if (al.severity === "crit") {
+                severity = "danger";
+                icon = 'glyphicon-exclamation-sign';
+            }
+            if (al.severity === "warn") {
+                severity = "warning";
                 icon = 'glyphicon-exclamation-sign';
             }
 
