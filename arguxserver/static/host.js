@@ -92,9 +92,18 @@ function alerts_cb(json) {
 
     if (json.alerts) {
         $.each(json.alerts, function(i, al) {
+            var severity = '';
+
             if(al.severity === 'info') {
                 icon = 'glyphicon-none';
+                severity = 'info';
             } else {
+                if (al.severity === "crit") {
+                    severity = "danger";
+                }
+                if (al.severity === "warn") {
+                    severity = "warning";
+                }
                 icon = 'glyphicon-exclamation-sign';
             }
 
@@ -105,7 +114,7 @@ function alerts_cb(json) {
             }
 
             $('#alerts').append(
-                '<tr class="'+al.severity+'"><td>' +
+                '<tr class="'+severity+'"><td>' +
                 '<span class="glyphicon '+icon+'"></span> ' +
                 '<a href="/host/'+ARGUX_HOST+'/item/'+al.item.key+'">' +
                 al.item.name +

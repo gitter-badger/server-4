@@ -46,6 +46,7 @@ class RestTriggerViews(RestView):
         name = self.request.json_body.get('name', None)
         rule = self.request.json_body.get('rule', None)
         description = self.request.json_body.get('description', None)
+        severity    = self.request.json_body.get('severity', None)
 
         host = dao.host_dao.get_host_by_name(host_name)
         item = dao.item_dao.get_item_by_host_key(host, item_key)
@@ -57,7 +58,8 @@ class RestTriggerViews(RestView):
                 item,
                 name,
                 rule,
-                description)
+                description,
+                severity)
         except ValueError as error:
             return Response(
                 status='400 Bad Request',

@@ -324,7 +324,14 @@ function alerts_cb(json) {
         $.each(json.alerts, function(i, al) {
             if(al.severity === 'info') {
                 icon = 'glyphicon-none';
+                severity = 'info';
             } else {
+                if (al.severity === "crit") {
+                    severity = "danger";
+                }
+                if (al.severity === "warn") {
+                    severity = "warning";
+                }
                 icon = 'glyphicon-exclamation-sign';
             }
 
@@ -335,7 +342,7 @@ function alerts_cb(json) {
             }
 
             $('#alerts').append(
-                '<tr class=""><td>' +
+                '<tr class="'+severity+'"><td>' +
                 '<span class="glyphicon '+icon+'"></span> ' +
                 '<a href="#">' +
                 al.name +
