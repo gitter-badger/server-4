@@ -1,3 +1,10 @@
+class TriggerSeverity:
+    key = 'crit'
+    name = 'Critical'
+
+    def __init__(self, key, name):
+        self.name = name
+        self.key = key
 
 class Host:
     name = "A"
@@ -16,3 +23,6 @@ def create_host(name, description=""):
 def get_all_hosts():
     h = Host('a')
     return [h]
+
+def get_host_severity(host):
+    return TriggerSeverity('crit', 'Critical')

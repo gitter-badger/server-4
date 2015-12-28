@@ -11,7 +11,8 @@ curl -X POST \
      -d "{
         \"name\":\"CPU Load > 5\",
         \"rule\":\"last() > 5\",
-        \"description\":\"CPU Load > 5\"
+        \"description\":\"CPU Load > 5\",
+        \"severity\":\"warn\"
         }" \
     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[15\\\]/trigger
 

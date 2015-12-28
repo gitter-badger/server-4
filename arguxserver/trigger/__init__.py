@@ -4,7 +4,11 @@ from threading import Thread
 
 import time
 
-from arguxserver.dao import ItemDAO
+from sqlalchemy.orm import (
+    sessionmaker
+)
+
+from arguxserver.dao import DAO
 
 
 class TriggerWorker(Thread):
@@ -16,14 +20,26 @@ class TriggerWorker(Thread):
     """
 
     def run(self):
+
+        Session = sessionmaker()
+        session = Session()
+
+        dao = DAO(session)
+
         """Thread body."""
         while True:
+
             # Run once a minute.
-            triggers = ItemDAO.get_all_triggers()
+            triggers = dao.item_dao.get_all_triggers()
             for trigger in triggers:
-                ItemDAO.evaluate_trigger(trigger)
+                dao.item_dao.evaluate_trigger(trigger)
+
+            session.flush()
+            session.commit()
             try:
                 time.sleep(10)
             except KeyboardInterrupt:
                 self.stop()
+
+        session.close()
 

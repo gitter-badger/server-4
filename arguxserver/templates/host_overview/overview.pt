@@ -1,0 +1,19 @@
+<div class="section-body">
+    <div class="col-sm-4 col-md-2">
+    <canvas id="overview"></canvas>
+    </div>
+    <div class="col-sm-7 col-md-6 pull-right">
+    <div class="panel panel-default" id="timechart">
+        <div class="panel-heading">Hosts</div>
+        <table class="table table-striped">
+        <thead>
+        <th>Hostname</th>
+        <th>Items</th>
+        <th>Alerts</th>
+        </thead>
+        <tbody id='hosts'>
+        </tbody>
+        </table>
+    </div>
+    </div>
+</div>

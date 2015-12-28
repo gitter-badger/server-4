@@ -52,6 +52,7 @@ class AbstractSimpleTrigger(object):
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False, default="")
     rule = Column(Text, nullable=False)
+    active_alert = Column(Boolean, nullable=False, default=False)
 
     trigger_handlers = {}
 

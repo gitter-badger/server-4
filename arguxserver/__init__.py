@@ -22,15 +22,16 @@ def main(global_config, **settings):
     engine = engine_from_config(settings, 'sqlalchemy.')
     DB_SESSION.configure(bind=engine)
     BASE.metadata.bind = engine
-    settings['dao'] = dao.DAO()
+    settings['dao'] = dao.DAO(DB_SESSION)
     config = Configurator(settings=settings)
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
 
     config.add_route('home', '/')
-    config.add_route('hosts', '/host')
-    config.add_route('host', '/host/{host}')
-    config.add_route('host_details', '/host/{host}/{action}')
+    config.add_route('host_overview_default', '/hosts')
+    config.add_route('host_overview', '/hosts/{action}')
+    config.add_route('host_default', '/host/{host}')
+    config.add_route('host', '/host/{host}/{action}')
     config.add_route('item', '/host/{host}/item/{item}')
     config.add_route('item_details', '/host/{host}/item/{item}/{action}')
 

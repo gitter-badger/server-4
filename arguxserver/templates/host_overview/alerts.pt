@@ -1,0 +1,17 @@
+<div class="alerts section-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">Alerts</div>
+        <div class="panel-body">
+        The following alerts are now active.
+        </div>
+        <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Host</th><th>Name</th><th>Duration</th><th>Acknowledged</th>
+        </tr>
+        </thead>
+        <tbody id="alerts">
+        </tbody>
+        </table>
+    </div>
+</div>

@@ -23,6 +23,7 @@
     <![endif]-->
     <script type="text/javascript">
         var ARGUX_BASE="${request.application_url}";
+        var ARGUX_ACTION="${action}";
     </script>
   </head>
 
@@ -56,28 +57,22 @@
             </ul>
           </li>
         </ol>
-        <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-3">
-                <canvas id="overview"></canvas>
-            </div>
-            <div class="col-xs-12 col-sm-8 col-md-9 container-fluid">
-                <ul class="nav nav-tabs">
-                  <li class="active"><a href="#">Overview</a></li>
-                  <li><a href="#">Alerts <span class="badge">2</span></a></li>
-                </ul>
-                <div id='hosts-page' class="host-items panel panel-default">
-                    <div class="panel-heading">Hosts</div>
-                    <div class="collapse in">
-                    <table class="table table-striped">
-                    <thead>
-                    <th>Hostname</th>
-                    <th>Alerts</th>
-                    </thead>
-                    <tbody id='hosts'>
-                    </tbody>
-                    </table>
-                    </div>
-                </div>
+        <ul class="nav nav-tabs">
+          <li tal:define="item_l ('Overview', 'Alerts')"
+              tal:repeat="item ('overview', 'alerts')"
+              tal:attributes="class 'active' if item==action else nothing">
+            <a tal:attributes="href request.application_url+'/hosts/'+item">
+                <span tal:content="item_l[repeat.item.index]">
+                <span tal:condition="item=='alerts'"
+                      class="badge" id="alert_count"></span>
+            </a>
+            <span tal:condition="action==item">
+                <span tal:define="global tmpl load: ./host_overview/${item}.pt"/>
+            </span>
+          </li>
+        </ul>
+        <div metal:extend-macro='tmpl'></div>
+        <!--
                 <div id='alert-page' class="alerts panel panel-default hidden">
                     <div class="panel-heading">Alerts</div>
                     <div class="collapse in">
@@ -91,8 +86,7 @@
                     </table>
                     </div>
                 </div>
-            </div>
-        </div>
+            -->
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -101,6 +95,7 @@
     <script src="${request.static_url('arguxserver:static/js/jquery.min.js')}"></script>
     <script src="${request.static_url('arguxserver:static/js/bootstrap.min.js')}"></script>
     <script src="${request.static_url('arguxserver:static/js/moment.min.js')}"></script>
+    <script src="${request.static_url('arguxserver:static/js/color.min.js')}"></script>
     <script src="${request.static_url('arguxserver:static/js/Chart.min.js')}"></script>
     <script src="${request.static_url('arguxserver:static/home.js')}"></script>
   </body>

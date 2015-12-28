@@ -49,3 +49,6 @@ def get_values(item):
 
 def get_active_alert_count(item):
     return 0
+
+def get_item_count_from_host(item):
+    return 0

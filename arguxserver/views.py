@@ -14,7 +14,7 @@ from arguxserver.util import (
 )
 
 
-@view_defaults(renderer='templates/home.pt')
+@view_defaults(renderer='templates/host_overview.pt')
 class MainViews:
 
     def __init__(self, request):
@@ -24,16 +24,24 @@ class MainViews:
     # pylint: disable=no-self-use
     @view_config(route_name='home')
     def home(self):
-        return {}
+        return self.hosts()
 
     # pylint: disable=no-self-use
-    @view_config(route_name='hosts')
-    def hosts(self):
-        return {}
+    @view_config(route_name='host_overview_default', renderer='templates/host_overview.pt')
+    def host_overview_default(self):
+        return {
+            "action": 'overview'}
+
+    # pylint: disable=no-self-use
+    @view_config(route_name='host_overview', renderer='templates/host_overview.pt')
+    def host_overview(self):
+        action = self.request.matchdict['action']
+        return {
+            "action": action}
 
 
-    @view_config(route_name='host', renderer='templates/host.pt')
-    def host(self):
+    @view_config(route_name='host_default', renderer='templates/host.pt')
+    def host_default(self):
         host = self.request.matchdict['host']
         host_desc = ''
         n_alerts = 0
@@ -55,8 +63,8 @@ class MainViews:
             "active_alerts": n_alerts,
             "action": action}
 
-    @view_config(route_name='host_details', renderer='templates/host.pt')
-    def host_details(self):
+    @view_config(route_name='host', renderer='templates/host.pt')
+    def host(self):
         host = self.request.matchdict['host']
         action = self.request.matchdict['action']
         n_alerts = 0
