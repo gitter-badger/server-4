@@ -24,7 +24,7 @@ class MainViews:
     # pylint: disable=no-self-use
     @view_config(route_name='home')
     def home(self):
-        return self.hosts()
+        return self.host_overview_default()
 
     # pylint: disable=no-self-use
     @view_config(route_name='host_overview_default', renderer='templates/host_overview.pt')
