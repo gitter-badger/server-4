@@ -49,7 +49,7 @@ class Item(BASE):
     id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     key = Column(Text, nullable=False)
     host_id = Column(Integer, ForeignKey('host.id'), nullable=False)
-    name_id = Column(Integer, ForeignKey('itemname.id'), nullable=True, default=None)
+    name_id = Column(Integer, ForeignKey('itemname.id'), nullable=False)
     name = relationship(ItemName, backref='item_name')
     category_id = Column(Integer, ForeignKey('item_category.id'), nullable=True, default=None)
     category = relationship(ItemCategory, backref='item_category')

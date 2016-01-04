@@ -110,12 +110,12 @@ class RestItemViews(RestView):
 
         item_type = dao.item_dao.get_itemtype_by_name(item_type_key)
 
-        item = dao.item_dao.create_item(
-            host,
-            item_key,
-            item_n,
-            category,
-            item_type)
+        item = dao.item_dao.create_item({
+            'host': host,
+            'name': item_n,
+            'key': item_key,
+            'category': category,
+            'itemtype': item_type})
 
         return Response(
             status='201 Created',

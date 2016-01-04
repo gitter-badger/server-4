@@ -14,6 +14,8 @@ from arguxserver.dao.util import (
     ALERT_CLASS
 )
 
+from sqlalchemy.orm import joinedload
+
 class ItemDAO:
 
     """
@@ -27,7 +29,9 @@ class ItemDAO:
 
     def get_items_from_host(self, host):
         """Get all items registered on a host."""
-        item = self.db_session.query(Item).filter(Item.host_id == host.id)
+        item = self.db_session.query(Item)\
+            .options(joinedload('name'))\
+            .filter(Item.host_id == host.id)
         return item
 
 
@@ -42,6 +46,7 @@ class ItemDAO:
     def get_item_by_host_key(self, host, key):
         """Get item registered on a host."""
         item = self.db_session.query(Item)\
+            .options(joinedload(Item.name))\
             .filter(Item.host_id == host.id)\
             .filter(Item.key == key).first()
         return item
@@ -51,6 +56,7 @@ class ItemDAO:
         """Create new Item."""
         item = Item(
             host_id=properties['host'].id,
+            name=properties['name'],
             key=properties['key'],
             category=properties['category'],
             itemtype=properties['itemtype'])
@@ -131,6 +137,7 @@ class ItemDAO:
         """Return all triggers on an item."""
         trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
         triggers = self.db_session.query(trigger_klass)\
+            .options(joinedload(trigger_klass.item).joinedload(Item.name))\
             .filter(trigger_klass.item_id == item.id)
 
         return triggers
