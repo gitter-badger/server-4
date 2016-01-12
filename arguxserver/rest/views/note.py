@@ -5,6 +5,10 @@ from pyramid.view import (
     view_defaults,
 )
 
+from pyramid.security import (
+    authenticated_userid
+)
+
 from pyramid.response import Response
 
 from datetime import datetime
@@ -23,7 +27,11 @@ class RestNoteViews(RestView):
     self.dao:      set via parent constructor
     """
 
-    @view_config(route_name='rest_note_1')
+    @view_config(
+        route_name='rest_note_1',
+        check_csrf=True,
+        permission='view'
+    )
     def note_1_view(self):
         """Return notes or create note."""
         # Fallback response

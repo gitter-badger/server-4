@@ -1,6 +1,8 @@
 """Trigger Module for Worker-Class."""
 
-from threading import Thread
+from threading import (
+    Thread
+)
 
 import time
 
@@ -18,6 +20,10 @@ class TriggerWorker(Thread):
 
     Evaluates all triggers and creates alert objects.
     """
+
+    def __init__(self):
+        super(TriggerWorker, self).__init__()
+        self.daemon = True
 
     def run(self):
 
@@ -42,4 +48,3 @@ class TriggerWorker(Thread):
                 self.stop()
 
         session.close()
-

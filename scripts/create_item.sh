@@ -5,6 +5,19 @@ HOST_URI=host
 
 HOST_NAME=localhost
 
+HEADER_FILE=`mktemp`
+COOKIE_FILE=`mktemp`
+
+curl -X POST \
+    -c $COOKIE_FILE \
+    -D $HEADER_FILE \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d "{\"username\":\"s\",\"password\":\"s\"}" \
+    $SERVER/login
+
+CSRF_TOKEN=`cat $HEADER_FILE | grep -i X-CSRF-TOKEN | awk -F : '{ print $2 }'`
+
 for i in {1..5}
 do
 
@@ -16,10 +29,15 @@ RND=$(((RANDOM%100)))
 VAL=5.$RND
 
 curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{
+    -b $COOKIE_FILE \
+    -H "Content-Type: application/json" \
+    -H "X-CSRF-Token: $CSRF_TOKEN" \
+    -d "{
         \"value\":\"$VAL\",
         \"timestamp\":\"$TS\"
         }" \
     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[15\\\]/values
 done
+
+unlink $COOKIE_FILE
+unlink $HEADER_FILE

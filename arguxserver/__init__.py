@@ -1,8 +1,20 @@
 """ArguxServer Module."""
 
+from pyramid.authentication import SessionAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
+
 from pyramid.config import Configurator
 
 from pyramid.renderers import JSON
+
+from pyramid.session import SignedCookieSessionFactory
+
+from pyramid.security import (
+    ALL_PERMISSIONS,
+    Everyone,
+    Authenticated, 
+    Allow
+)
 
 from sqlalchemy import engine_from_config
 
@@ -15,6 +27,16 @@ from arguxserver import dao
 
 from arguxserver.trigger import TriggerWorker
 
+### MAP GROUPS TO PERMISSIONS
+class RootFactory(object):
+    __acl__ = [
+        (Allow, 'g:admin', ALL_PERMISSIONS),
+        (Allow, Authenticated, 'view'),
+        (Allow, Everyone, 'koffie')
+    ]
+
+    def __init__(self, request):
+        self.request = request
 
 # pylint: disable=unused-argument
 def main(global_config, **settings):
@@ -23,7 +45,19 @@ def main(global_config, **settings):
     DB_SESSION.configure(bind=engine)
     BASE.metadata.bind = engine
     settings['dao'] = dao.DAO(DB_SESSION)
-    config = Configurator(settings=settings)
+
+    factory = SignedCookieSessionFactory('SEECREET')
+    authentication_policy = SessionAuthenticationPolicy()
+    authorization_policy = ACLAuthorizationPolicy()
+
+    config = Configurator(
+        settings=settings,
+        root_factory=RootFactory
+    )
+    config.set_session_factory(factory)
+    config.set_authentication_policy(authentication_policy)
+    config.set_authorization_policy(authorization_policy)
+
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
 
@@ -34,6 +68,8 @@ def main(global_config, **settings):
     config.add_route('host', '/host/{host}/{action}')
     config.add_route('item', '/host/{host}/item/{item}')
     config.add_route('item_details', '/host/{host}/item/{item}/{action}')
+    config.add_route('login', '/login')
+    config.add_route('logout', '/logout')
 
     config.add_route('dashboards', '/dashboard')
 

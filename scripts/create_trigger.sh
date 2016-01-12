@@ -17,31 +17,3 @@ curl -X POST \
     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[15\\\]/trigger
 
 exit 0
-
-curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{
-        \"name\":\"CPU Load > 5\",
-        \"rule\":\"last(0) >= 5.0\",
-        \"description\":\"CPU Load > 5\"
-        }" \
-    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[1\\\]/trigger
-
-curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{
-        \"name\":\"CPU Load > 5\",
-        \"rule\":\"last(0) >= -5.0\",
-        \"description\":\"CPU Load > 5\"
-        }" \
-    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[1\\\]/trigger
-
-
-curl -X POST \
-     -H "Content-Type: application/json" \
-     -d "{
-        \"name\":\"CPU Load > 5\",
-        \"rule\":\"last(0) >= -5\",
-        \"description\":\"CPU Load > 5\"
-        }" \
-    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[1\\\]/trigger

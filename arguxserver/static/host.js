@@ -1,6 +1,7 @@
 /* globals ARGUX_HOST: false */
 /* globals ARGUX_HOST_ACTION: false */
 /* globals ARGUX_BASE: false */
+/* globals CSRF_TOKEN: false */
 
 function pollHostDetails(callback, pollMetrics, pollAlerts) {
     if (pollMetrics || pollAlerts) {
@@ -11,6 +12,7 @@ function pollHostDetails(callback, pollMetrics, pollAlerts) {
                  "?alerts="+pollAlerts+
                  "&items="+pollMetrics,
             type: "GET",
+            headers: { 'X-CSRF-Token': CSRF_TOKEN },
             dataType: "json",
             success: function(json) {
                 if (callback) {
@@ -40,6 +42,7 @@ function pollNotes(callback) {
     $.ajax({
         url: ARGUX_BASE+"/rest/1.0/note?host="+ARGUX_HOST,
         type: "GET",
+        headers: { 'X-CSRF-Token': CSRF_TOKEN },
         dataType: "json",
         success: function(json) {
 
@@ -258,8 +261,9 @@ $(function() {
                 // Use JSON.stringify to properly escape the message and subject
                 // for use in a JSON message envelope
                 $.ajax({
-                    type: 'POST',
                     url:  ARGUX_BASE+'/rest/1.0/note',
+                    type: 'POST',
+                    headers: { 'X-CSRF-Token': CSRF_TOKEN },
                     dataType: 'json',
                     data: '{'+
                           '"host": "'+ARGUX_HOST+'",' +
