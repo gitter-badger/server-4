@@ -167,7 +167,6 @@ class MainViews:
     @view_config(
         route_name='login',
         renderer='templates/login.pt',
-        accept='text/html'
     )
     def login_html(self):
         session = self.request.session
@@ -188,38 +187,6 @@ class MainViews:
                 return response
             return {}
         return {}
-
-    @view_config(
-        route_name='login',
-        accept='application/json'
-    )
-    def login_json(self):
-        session = self.request.session
-        if self.request.method == "POST":
-            username = self.request.json_body.get('username', None)
-            password = self.request.json_body.get('password', None)
-
-            if username == password:
-                session['username'] = username
-
-                headers = remember(self.request, username)
-
-                response = Response(
-                    content_type="application/json",
-                    body=json.dumps(
-                        {
-                            'csrf_token': self.request.session.get_csrf_token()
-                        }))
-                response.headerlist.extend(headers)
-                response.headerlist.extend(
-                    [(
-                       'X-CSRF-Token',
-                        self.request.session.get_csrf_token()
-                    )])
-
-                return response
-
-        return HTTPNotFound()
 
     @view_config(
         route_name='logout'

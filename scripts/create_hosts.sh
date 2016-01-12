@@ -1,5 +1,5 @@
-
 SERVER=http://localhost:6543
+ARGUX_BASE=/
 REST_URI=rest/1.0
 HOST_URI=host
 
@@ -14,30 +14,23 @@ curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d "{\"username\":\"s\",\"password\":\"s\"}" \
-    $SERVER/login
+    $SERVER/$REST_URI/login
 
 CSRF_TOKEN=`cat $HEADER_FILE | grep -i X-CSRF-TOKEN | awk -F : '{ print $2 }'`
 
-for i in {1..5}
-do
+# Host
+curl -X POST \
+    -b $COOKIE_FILE \
+    -H "Content-Type: application/json" \
+    -H "X-CSRF-Token: $CSRF_TOKEN" \
+    $SERVER/$REST_URI/$HOST_URI/webserver
 
-cmd="date -v-"$i"M +%FT%TZ"
-
-TS=`$cmd`
-RND=$(((RANDOM%100)))
-
-VAL=5.$RND
-
+# Host
 curl -X POST \
     -b $COOKIE_FILE \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
     -d "{
-        \"value\":\"$VAL\",
-        \"timestamp\":\"$TS\"
-        }" \
-    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[15\\\]/values
-done
-
-unlink $COOKIE_FILE
-unlink $HEADER_FILE
+       \"description\": \"Argux DEMO System\"
+    }" \
+    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME

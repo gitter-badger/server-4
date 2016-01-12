@@ -1,6 +1,6 @@
 
 SERVER=http://localhost:6543
-REST_URI=argux/rest/1.0
+REST_URI=rest/1.0
 HOST_URI=host
 
 HOST_NAME=localhost
@@ -18,18 +18,26 @@ curl -X POST \
 
 CSRF_TOKEN=`cat $HEADER_FILE | grep -i X-CSRF-TOKEN | awk -F : '{ print $2 }'`
 
+for i in {1..5}
+do
+
+cmd="date -v-"$i"M +%FT%TZ"
+
+TS=`$cmd`
+RND=$(((RANDOM%100)))
+
+VAL=5.$RND
+
 curl -X POST \
     -b $COOKIE_FILE \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
     -d "{
-        \"message\":\"Lorem Ipsum\",
-        \"subject\":\"TESTS\",
-        \"host\": \"$HOST_NAME\"
+        \"value\":\"$VAL\",
+        \"timestamp\":\"$TS\"
         }" \
-    $SERVER/$REST_URI/note
+    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[15\\\]/values
+done
 
 unlink $COOKIE_FILE
 unlink $HEADER_FILE
-
-exit 0
