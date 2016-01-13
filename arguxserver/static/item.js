@@ -4,8 +4,8 @@
 /* globals ARGUX_HOST: false */
 /* globals ARGUX_ITEM: false */
 /* globals ARGUX_ITEM_ACTION: false */
-
 /* globals TIMESPAN: false */
+/* globals CSRF_TOKEN: false */
 
 var chart_start_time = null;
 var chart_end_time = 'now';
@@ -116,6 +116,7 @@ function pollItemValues(showValues, showAlerts, callback) {
              "&get_alerts="+
              showAlerts,
         type: "GET",
+        headers: { 'X-CSRF-Token': CSRF_TOKEN },
         dataType: "json",
         success: function(json) {
             callback(json);
@@ -145,6 +146,7 @@ function pollTriggers() {
              ARGUX_ITEM+
              "/trigger",
         type: "GET",
+        headers: { 'X-CSRF-Token': CSRF_TOKEN },
         dataType: "json",
         success: function(json) {
             $('#triggers').empty();
@@ -190,6 +192,7 @@ function pollTriggers() {
                          "/trigger/"+
                          evt.target.getAttribute("data-trigger-id"),
                     type: "DELETE",
+                    headers: { 'X-CSRF-Token': CSRF_TOKEN },
                     success: function() {
                         return true;
                     },
@@ -225,6 +228,7 @@ function validateTrigger(trigger) {
              ARGUX_ITEM+
              "/trigger/validate",
         type: "POST",
+        headers: { 'X-CSRF-Token': CSRF_TOKEN },
         dataType: "json",
         data: '{'+
               '"name": '+JSON.stringify(trigger.name)+',' +
@@ -266,6 +270,7 @@ function createTrigger(trigger) {
              ARGUX_ITEM+
              "/trigger",
         type: "POST",
+        headers: { 'X-CSRF-Token': CSRF_TOKEN },
         dataType: "json",
         data: '{'+
               '"name": '+JSON.stringify(trigger.name)+',' +

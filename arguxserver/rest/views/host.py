@@ -5,6 +5,7 @@ from pyramid.view import (
     view_defaults,
 )
 
+
 from pyramid.response import Response
 
 from . import RestView
@@ -24,7 +25,11 @@ class RestHostViews(RestView):
     self.dao:      set via parent constructor
     """
 
-    @view_config(route_name='rest_hosts_1')
+    @view_config(
+        route_name='rest_hosts_1',
+        check_csrf=True,
+        permission='view'
+    )
     def hosts_1_view(self):
         """Return array of all hosts."""
         d_hosts = self.dao.host_dao.get_all_hosts()
@@ -45,7 +50,11 @@ class RestHostViews(RestView):
 
         return {'hosts': hosts}
 
-    @view_config(route_name='rest_host_1')
+    @view_config(
+        route_name='rest_host_1',
+        check_csrf=True,
+        permission='view'
+    )
     def host_1_view(self):
         """Create host or return host.
 

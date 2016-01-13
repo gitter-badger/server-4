@@ -1,6 +1,6 @@
-
 SERVER=http://localhost:6543
-REST_URI=argux/rest/1.0
+ARGUX_BASE=/
+REST_URI=rest/1.0
 HOST_URI=host
 
 HOST_NAME=localhost
@@ -18,18 +18,19 @@ curl -X POST \
 
 CSRF_TOKEN=`cat $HEADER_FILE | grep -i X-CSRF-TOKEN | awk -F : '{ print $2 }'`
 
+# Host
+curl -X POST \
+    -b $COOKIE_FILE \
+    -H "Content-Type: application/json" \
+    -H "X-CSRF-Token: $CSRF_TOKEN" \
+    $SERVER/$REST_URI/$HOST_URI/webserver
+
+# Host
 curl -X POST \
     -b $COOKIE_FILE \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
     -d "{
-        \"message\":\"Lorem Ipsum\",
-        \"subject\":\"TESTS\",
-        \"host\": \"$HOST_NAME\"
-        }" \
-    $SERVER/$REST_URI/note
-
-unlink $COOKIE_FILE
-unlink $HEADER_FILE
-
-exit 0
+       \"description\": \"Argux DEMO System\"
+    }" \
+    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME

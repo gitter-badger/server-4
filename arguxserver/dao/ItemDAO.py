@@ -16,6 +16,7 @@ from arguxserver.dao.util import (
 
 from sqlalchemy.orm import joinedload
 
+
 class ItemDAO:
 
     """
@@ -26,14 +27,12 @@ class ItemDAO:
         """Initialise ItemDAO."""
         self.db_session = session
 
-
     def get_items_from_host(self, host):
         """Get all items registered on a host."""
         item = self.db_session.query(Item)\
             .options(joinedload('name'))\
             .filter(Item.host_id == host.id)
         return item
-
 
     def get_item_count_from_host(self, host):
         """Get number of items registered on a host."""
@@ -42,7 +41,6 @@ class ItemDAO:
             .count()
         return n_items
 
-
     def get_item_by_host_key(self, host, key):
         """Get item registered on a host."""
         item = self.db_session.query(Item)\
@@ -50,7 +48,6 @@ class ItemDAO:
             .filter(Item.host_id == host.id)\
             .filter(Item.key == key).first()
         return item
-
 
     def create_item(self, properties):
         """Create new Item."""
@@ -63,7 +60,6 @@ class ItemDAO:
 
         self.db_session.add(item)
         return item
-
 
     def create_trigger(self, item, name, rule, description="", severity="info"):
         """Create trigger."""
@@ -85,7 +81,6 @@ class ItemDAO:
                                 severity_id=severity.id)
         self.db_session.add(trigger)
         return trigger
-
 
     def evaluate_trigger(self, trigger):
         """Evaluate Trigger."""
@@ -121,7 +116,6 @@ class ItemDAO:
             print("Handler not found")
             return False
 
-
     def validate_trigger_rule(self, item, rule):
         """Return True if Trigger-rule is valid."""
         trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
@@ -132,7 +126,6 @@ class ItemDAO:
 
         return True
 
-
     def get_triggers(self, item):
         """Return all triggers on an item."""
         trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
@@ -142,7 +135,6 @@ class ItemDAO:
 
         return triggers
 
-
     def get_all_triggers(self):
         """Return all triggers."""
         triggers = []
@@ -151,7 +143,6 @@ class ItemDAO:
             triggers.extend(self.db_session.query(klass).all())
 
         return triggers
-
 
     def get_last_alert_for_trigger(self, trigger):
         """Return last alert for a trigger.
@@ -168,7 +159,6 @@ class ItemDAO:
 
         return alert
 
-
     def push_value(self, item, timestamp, value):
         """Push new value to an item."""
         value_klass = VALUE_CLASS.get(item.itemtype.name, None)
@@ -176,7 +166,6 @@ class ItemDAO:
         val = value_klass(item_id=item.id, timestamp=timestamp, value=value)
         self.db_session.add(val)
         return val
-
 
     def get_last_value(self, item):
         """Return last value published on an item."""
@@ -188,7 +177,6 @@ class ItemDAO:
             .first()
 
         return val
-
 
     # pylint: disable=unused-argument
     def get_values(self, item, start_time=None, end_time=None, count=-1):
@@ -210,7 +198,6 @@ class ItemDAO:
 
         return values
 
-
     def get_alerts(self, item, active=True, inactive=False):
         """Query Alerts."""
         alert_klass = ALERT_CLASS.get(item.itemtype.name)
@@ -225,7 +212,6 @@ class ItemDAO:
             alerts.extend(active_alert)
 
         return alerts
-
 
     def get_active_alert_count(self, item):
         """Get number of active alerts."""
@@ -242,7 +228,6 @@ class ItemDAO:
 
         return n_alerts
 
-
     def get_itemname_by_name(self, name):
         item_name = self.db_session.query(ItemName)\
             .filter(ItemName.name == name)\
@@ -250,30 +235,25 @@ class ItemDAO:
 
         return item_name
 
-
     def create_itemname(self, name, description):
         item_name = ItemName(name=name, description=description)
         self.db_session.add(item_name)
         return item_name
-
 
     def get_itemcategory_by_name(self, name):
         cat = self.db_session.query(ItemCategory)\
             .filter(ItemCategory.name == name).first()
         return cat
 
-
     def create_itemcategory(self, name):
         cat = ItemCategory(name=name)
         self.db_session.add(cat)
         return cat
 
-
     def get_itemtype_by_name(self, name):
         item_type = self.db_session.query(ItemType)\
             .filter(ItemType.name == name).first()
         return item_type
-
 
     def delete_trigger_by_id(self, item, trigger_id):
         """Delete Trigger for Item."""

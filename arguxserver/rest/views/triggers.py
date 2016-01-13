@@ -16,7 +16,6 @@ from arguxserver.util import (
 )
 
 
-
 @view_defaults(renderer='json')
 class RestTriggerViews(RestView):
 
@@ -28,7 +27,10 @@ class RestTriggerViews(RestView):
 
     @view_config(
         route_name='rest_triggers_1',
-        request_method='POST')
+        request_method='POST',
+        check_csrf=True,
+        permission='view'
+    )
     def trigger_1_view_create(self):
         """Create Trigger.
 
@@ -85,7 +87,10 @@ class RestTriggerViews(RestView):
 
     @view_config(
         route_name='rest_triggers_1',
-        request_method='GET')
+        request_method='GET',
+        check_csrf=True,
+        permission='view'
+    )
     def trigger_1_view_read(self):
         """Get all triggers for an Item."""
         dao = self.dao
@@ -129,7 +134,10 @@ class RestTriggerViews(RestView):
 
     @view_config(
         route_name='rest_trigger_1',
-        request_method='DELETE')
+        request_method='DELETE',
+        check_csrf=True,
+        permission='view'
+    )
     def trigger_1_view_delete(self):
         """Get all triggers for an Item."""
         dao = self.dao
@@ -145,7 +153,10 @@ class RestTriggerViews(RestView):
 
     @view_config(
         route_name='rest_trigger_validate_1',
-        request_method='POST')
+        request_method='POST',
+        check_csrf=True,
+        permission='view'
+    )
     def trigger_1_validate(self):
         """Validate Trigger Rule."""
         dao = self.dao

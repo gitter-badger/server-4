@@ -30,7 +30,11 @@ class RestItemViews(RestView):
     self.dao:      set via parent constructor
     """
 
-    @view_config(route_name='rest_item_1')
+    @view_config(
+        route_name='rest_item_1',
+        check_csrf=True,
+        permission='view'
+    )
     def item_1_view(self):
         """Create Item or Return item.
 
@@ -123,9 +127,14 @@ class RestItemViews(RestView):
             charset='UTF-8',
             body=json.dumps({'name': item.key}))
 
-    @view_config(route_name='rest_item_values_1',
-                 request_method='POST')
+    @view_config(
+        route_name='rest_item_values_1',
+        request_method='POST',
+        check_csrf=True,
+        permission='view'
+    )
     def item_values_1_view(self):
+        """Return values for an item."""
         dao = self.dao
 
         host = self.request.matchdict['host']
@@ -153,8 +162,13 @@ class RestItemViews(RestView):
             status='201 Created',
             content_type='application/json; charset=UTF-8')
 
-    @view_config(route_name='rest_item_details_1')
+    @view_config(
+        route_name='rest_item_details_1',
+        check_csrf=True,
+        permission='view'
+    )
     def item_details_1_view(self):
+        """Return details (summary) for an item."""
 
         # Fallback response
         ret = Response(

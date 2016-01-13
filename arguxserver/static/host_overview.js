@@ -39,6 +39,7 @@ function pollOverview() {
     $.ajax({
         url: ARGUX_BASE+"/rest/1.0/host",
         type: "GET",
+        headers: { 'X-CSRF-Token': CSRF_TOKEN },
         dataType: "json",
         success: function(json) {
             var total_active_alerts = 0;
