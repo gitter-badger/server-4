@@ -56,12 +56,13 @@ class RestTriggerViews(RestView):
         trigger = None
 
         try:
-            trigger = dao.item_dao.create_trigger(
-                item,
-                name,
-                rule,
-                description,
-                severity)
+            trigger = dao.trigger_dao.create_trigger({
+                'item': item,
+                'name': name,
+                'rule': rule,
+                'description': description,
+                'severity': severity
+            })
         except ValueError as error:
             return Response(
                 status='400 Bad Request',
@@ -102,12 +103,12 @@ class RestTriggerViews(RestView):
         host = dao.host_dao.get_host_by_name(host_name)
         item = dao.item_dao.get_item_by_host_key(host, item_key)
 
-        item_triggers = dao.item_dao.get_triggers(item)
+        item_triggers = dao.trigger_dao.get_triggers(item)
 
         active_alert_count = dao.item_dao.get_active_alert_count(item)
 
         for trigger in item_triggers:
-            alert = dao.item_dao.get_last_alert_for_trigger(trigger)
+            alert = dao.trigger_dao.get_last_alert_for_trigger(trigger)
             time = None
 
             if alert:
@@ -148,7 +149,7 @@ class RestTriggerViews(RestView):
         host = dao.host_dao.get_host_by_name(host_name)
         item = dao.item_dao.get_item_by_host_key(host, item_key)
 
-        dao.item_dao.delete_trigger_by_id(item, trigger_id)
+        dao.trigger_dao.delete_trigger_by_id(item, trigger_id)
         return
 
     @view_config(
@@ -163,13 +164,12 @@ class RestTriggerViews(RestView):
         host_name = self.request.matchdict['host']
         item_key = self.request.matchdict['item']
 
-        # trigger_name = self.request.json_body.get('name', None)
         trigger_rule = self.request.json_body.get('rule', None)
 
         host = dao.host_dao.get_host_by_name(host_name)
         item = dao.item_dao.get_item_by_host_key(host, item_key)
 
-        ret = dao.item_dao.validate_trigger_rule(item, trigger_rule)
+        ret = dao.trigger_dao.validate_trigger_rule(item, trigger_rule)
 
         return {
             'item': item.name.name,

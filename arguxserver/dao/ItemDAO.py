@@ -61,104 +61,6 @@ class ItemDAO:
         self.db_session.add(item)
         return item
 
-    def create_trigger(self, item, name, rule, description="", severity="info"):
-        """Create trigger."""
-        trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
-
-        severity = self.db_session.query(TriggerSeverity)\
-            .filter(TriggerSeverity.key == severity).first()
-
-        if not severity:
-            raise ValueError('Severity "'+severity+'" is invalid')
-
-        if not trigger_klass.validate_rule(rule):
-            raise ValueError('Rule "'+rule+'" can\'t be validated')
-
-        trigger = trigger_klass(name=name,
-                                rule=rule,
-                                description=description,
-                                item_id=item.id,
-                                severity_id=severity.id)
-        self.db_session.add(trigger)
-        return trigger
-
-    def evaluate_trigger(self, trigger):
-        """Evaluate Trigger."""
-        item = trigger.item
-
-        alert_klass = ALERT_CLASS.get(item.itemtype.name)
-
-        i = trigger.validate_rule(trigger.rule)
-        if i is None:
-            return False
-
-        handler = trigger.trigger_handlers.get(i[0], None)
-
-        if handler:
-            alert = self.db_session.query(alert_klass)\
-                .filter(alert_klass.trigger_id == trigger.id)\
-                .filter(alert_klass.end_time.is_(None)).first()
-
-            (is_active, time) = handler(trigger, self.db_session, i[1], i[2], i[3])
-
-            if is_active:
-                if not alert:
-                    trigger.active_alert = True
-                    alert = alert_klass(trigger_id=trigger.id,
-                                        start_time=time,
-                                        end_time=None)
-                    self.db_session.add(alert)
-            else:
-                if alert:
-                    trigger.active_alert = False
-                    alert.end_time = time
-        else:
-            print("Handler not found")
-            return False
-
-    def validate_trigger_rule(self, item, rule):
-        """Return True if Trigger-rule is valid."""
-        trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
-
-        ret = trigger_klass.validate_rule(rule)
-        if ret is None:
-            return False
-
-        return True
-
-    def get_triggers(self, item):
-        """Return all triggers on an item."""
-        trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
-        triggers = self.db_session.query(trigger_klass)\
-            .options(joinedload(trigger_klass.item).joinedload(Item.name))\
-            .filter(trigger_klass.item_id == item.id)
-
-        return triggers
-
-    def get_all_triggers(self):
-        """Return all triggers."""
-        triggers = []
-        for name in TRIGGER_CLASS:
-            klass = TRIGGER_CLASS[name]
-            triggers.extend(self.db_session.query(klass).all())
-
-        return triggers
-
-    def get_last_alert_for_trigger(self, trigger):
-        """Return last alert for a trigger.
-
-        This function is used for every trigger individually...
-        It makes more sense if we could query it for all triggers at once.
-        """
-        alert_klass = ALERT_CLASS.get(trigger.item.itemtype.name)
-
-        alert = self.db_session.query(alert_klass)\
-            .filter(alert_klass.trigger_id == trigger.id)\
-            .order_by(alert_klass.start_time.desc())\
-            .first()
-
-        return alert
-
     def push_value(self, item, timestamp, value):
         """Push new value to an item."""
         value_klass = VALUE_CLASS.get(item.itemtype.name, None)
@@ -228,48 +130,12 @@ class ItemDAO:
 
         return n_alerts
 
-    def get_itemname_by_name(self, name):
-        item_name = self.db_session.query(ItemName)\
-            .filter(ItemName.name == name)\
-            .first()
-
-        return item_name
-
-    def create_itemname(self, name, description):
-        item_name = ItemName(name=name, description=description)
-        self.db_session.add(item_name)
-        return item_name
-
-    def get_itemcategory_by_name(self, name):
-        cat = self.db_session.query(ItemCategory)\
-            .filter(ItemCategory.name == name).first()
-        return cat
-
-    def create_itemcategory(self, name):
-        cat = ItemCategory(name=name)
-        self.db_session.add(cat)
-        return cat
-
-    def get_itemtype_by_name(self, name):
-        item_type = self.db_session.query(ItemType)\
-            .filter(ItemType.name == name).first()
-        return item_type
-
-    def delete_trigger_by_id(self, item, trigger_id):
-        """Delete Trigger for Item."""
+    def get_triggers(self, item):
+        """Return all triggers on an item."""
         trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
+        triggers = self.db_session.query(trigger_klass)\
+            .options(joinedload(trigger_klass.item).joinedload(Item.name))\
+            .filter(trigger_klass.item_id == item.id)
 
-        trigger = self.db_session.query(trigger_klass)\
-            .filter(trigger_klass.id == trigger_id)\
-            .filter(trigger_klass.item_id == item.id)\
-            .first()
+        return triggers
 
-        if trigger:
-            self.db_session.query(trigger_klass)\
-                .filter(trigger_klass.id == trigger_id)\
-                .filter(trigger_klass.item_id == item.id)\
-                .delete()
-        else:
-            raise ValueError("trigger_id not valid for item")
-
-        return

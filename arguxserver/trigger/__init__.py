@@ -36,9 +36,9 @@ class TriggerWorker(Thread):
         while True:
 
             # Run once a minute.
-            triggers = dao.item_dao.get_all_triggers()
+            triggers = dao.trigger_dao.get_all_triggers()
             for trigger in triggers:
-                dao.item_dao.evaluate_trigger(trigger)
+                dao.trigger_dao.evaluate_trigger(trigger)
 
             session.flush()
             session.commit()
