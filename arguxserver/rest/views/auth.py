@@ -25,6 +25,12 @@ from . import RestView
 @view_defaults(renderer='json')
 class RestAuthenticationViews(RestView):
 
+    """AuthenticationViews, login/logout...
+
+    self.request:  set via parent constructor
+    self.dao:      set via parent constructor
+    """
+
     @view_config(
         route_name='rest_login_1',
         request_method='POST',

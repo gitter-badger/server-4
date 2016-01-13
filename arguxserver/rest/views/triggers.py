@@ -16,7 +16,6 @@ from arguxserver.util import (
 )
 
 
-
 @view_defaults(renderer='json')
 class RestTriggerViews(RestView):
 

@@ -11,6 +11,7 @@ from arguxserver.dao.util import (
     ALERT_CLASS
 )
 
+
 class HostDAO:
 
     """
@@ -28,7 +29,6 @@ class HostDAO:
             .first()
         return host
 
-
     def create_host(self, name, description=""):
         """Create host."""
         host = Host(name=name, description=description)
@@ -36,7 +36,6 @@ class HostDAO:
         self.db_session.add(host)
 
         return host
-
 
     def get_all_hosts(self):
         """Return all hosts."""
@@ -47,21 +46,23 @@ class HostDAO:
         return hosts
 
     def get_host_severity(self, host):
+        """Return highest severity of active triggers for this host."""
         float_trigger_klass = TRIGGER_CLASS.get('float')
         float_alert_klass = ALERT_CLASS.get('float')
 
         severity = self.db_session.query(TriggerSeverity)\
-            .filter(TriggerSeverity.id.in_(\
+            .filter(TriggerSeverity.id.in_(
                 self.db_session.query(float_trigger_klass.severity_id)\
-                    .filter(float_trigger_klass.item_id.in_(\
-                        self.db_session.query(Item.id)\
+                    .filter(float_trigger_klass.item_id.in_(
+                        self.db_session.query(Item.id)
                             .filter(Item.host_id == host.id)
                     ))\
-                    .filter(float_trigger_klass.id.in_(\
-                        self.db_session.query(float_alert_klass.trigger_id)\
+                    .filter(float_trigger_klass.id.in_(
+                        self.db_session.query(float_alert_klass.trigger_id)
                             .filter(float_alert_klass.end_time.is_(None))
                     ))
-            ))\
+                )
+            )\
             .order_by(TriggerSeverity.level.desc())\
             .first()
 
