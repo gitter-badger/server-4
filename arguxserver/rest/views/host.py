@@ -15,6 +15,7 @@ from arguxserver.util import (
     DATE_FMT
 )
 
+
 @view_defaults(renderer='json')
 class RestHostViews(RestView):
 

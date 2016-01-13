@@ -134,6 +134,7 @@ class RestItemViews(RestView):
         permission='view'
     )
     def item_values_1_view(self):
+        """Return values for an item."""
         dao = self.dao
 
         host = self.request.matchdict['host']
@@ -167,6 +168,7 @@ class RestItemViews(RestView):
         permission='view'
     )
     def item_details_1_view(self):
+        """Return details (summary) for an item."""
 
         # Fallback response
         ret = Response(

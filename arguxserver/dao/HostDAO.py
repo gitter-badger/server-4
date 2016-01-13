@@ -61,8 +61,7 @@ class HostDAO:
                         self.db_session.query(float_alert_klass.trigger_id)
                             .filter(float_alert_klass.end_time.is_(None))
                     ))
-                )
-            )\
+                ))\
             .order_by(TriggerSeverity.level.desc())\
             .first()
 

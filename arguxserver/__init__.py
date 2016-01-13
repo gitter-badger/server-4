@@ -12,7 +12,7 @@ from pyramid.session import SignedCookieSessionFactory
 from pyramid.security import (
     ALL_PERMISSIONS,
     Everyone,
-    Authenticated, 
+    Authenticated,
     Allow
 )
 
@@ -27,8 +27,15 @@ from arguxserver import dao
 
 from arguxserver.trigger import TriggerWorker
 
-### MAP GROUPS TO PERMISSIONS
+
+# MAP GROUPS TO PERMISSIONS
 class RootFactory(object):
+
+    """ RootFactory: 
+
+    __acl__: base ACL
+    """
+
     __acl__ = [
         (Allow, 'g:admin', ALL_PERMISSIONS),
         (Allow, Authenticated, 'view'),
@@ -36,7 +43,9 @@ class RootFactory(object):
     ]
 
     def __init__(self, request):
+        """Initialize RootFactory."""
         self.request = request
+
 
 # pylint: disable=unused-argument
 def main(global_config, **settings):
