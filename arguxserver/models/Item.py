@@ -58,4 +58,6 @@ class Item(BASE):
     bookmark = Column(Boolean, default=False, nullable=False)
     bookmark_label = Column(Text, nullable=True)
 
-Index('u_item_host_id_index', Item.key, Item.host_id, unique=True, mysql_length=255)
+Index('u_item_key_host_id_index', Item.key, Item.host_id, unique=True)
+Index('i_item_host_id_index', Item.host_id)
+Index('i_item_category_id_index', Item.category_id)
