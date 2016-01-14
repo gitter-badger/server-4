@@ -48,7 +48,7 @@
                        role="button"
                        class="btn btn-default btn-sm">30 minutes (realtime)</a>
                 </div>
-                <div>
+                <div style="padding-top: 10px;">
                     <canvas id="item-timechart" class="item-timechart"></canvas>
                 </div>
             </div>

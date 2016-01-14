@@ -1,26 +1,23 @@
-"""Data Access Object class for handling Items."""
+"""Data Access Object class for handling Triggers."""
 
 from arguxserver.models import (
     ItemCategory,
     ItemName,
-    ItemType,
     Item,
     TriggerSeverity
 )
 
 from arguxserver.dao.util import (
-    VALUE_CLASS,
     TRIGGER_CLASS,
     ALERT_CLASS
 )
 
-from sqlalchemy.orm import joinedload
-
 
 class TriggerDAO:
 
-    """
-    Trigger DAO.
+    """Trigger DAO.
+
+    Data Access Object for handling Triggers.
     """
 
     def __init__(self, session):
@@ -28,13 +25,11 @@ class TriggerDAO:
         self.db_session = session
 
     def create_trigger(self, properties):
-        item = params['item']
-        name = params['name'] 
-        descrip
+        """Create trigger."""
 
         severity_key = properties.get('severity', 'info')
-        
-        """Create trigger."""
+        rule = properties['rule']
+
         trigger_klass = TRIGGER_CLASS.get(properties['item'].itemtype.name)
 
         severity = self.db_session.query(TriggerSeverity)\
@@ -109,6 +104,7 @@ class TriggerDAO:
             print("Handler not found")
             return False
 
+    # pylint: disable=no-self-use
     def validate_trigger_rule(self, item, rule):
         """Return True if Trigger-rule is valid."""
         trigger_klass = TRIGGER_CLASS.get(item.itemtype.name)
