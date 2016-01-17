@@ -81,6 +81,11 @@
         </ul>
         <div metal:extend-macro='tmpl'></div>
     </div>
+    <footer class="footer">
+        <div class="container-fluid">
+        <p class="text-muted">${userid}</p>
+        </div>
+    </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

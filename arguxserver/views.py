@@ -46,6 +46,7 @@ class MainViews:
     )
     def host_overview_default(self):
         return {
+            "userid": authenticated_userid(self.request),
             "action": 'overview'}
 
     # pylint: disable=no-self-use
@@ -57,6 +58,7 @@ class MainViews:
     def host_overview(self):
         action = self.request.matchdict['action']
         return {
+            "userid": authenticated_userid(self.request),
             "action": action}
 
     @view_config(
@@ -83,6 +85,7 @@ class MainViews:
         return {
             "argux_host": host,
             "argux_host_desc": host_desc,
+            "userid": authenticated_userid(self.request),
             "active_alerts": n_alerts,
             "action": action}
 
@@ -105,6 +108,7 @@ class MainViews:
         return {
             "argux_host": host,
             "argux_host_desc": host_desc,
+            "userid": authenticated_userid(self.request),
             "active_alerts": n_alerts,
             "action": action}
 
@@ -149,6 +153,7 @@ class MainViews:
         return {
             "argux_host": host_name,
             "argux_item": item,
+            "userid": authenticated_userid(self.request),
             "timespan": timespan,
             "action": action,
             'active_alerts': len(alerts),

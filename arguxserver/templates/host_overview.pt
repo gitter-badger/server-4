@@ -2,8 +2,7 @@
 <html lang="${request.locale_name}">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Argux Server monitoring application">
     <link rel="shortcut icon" href="${request.static_url('arguxserver:static/pyramid-16x16.png')}">
 
@@ -72,22 +71,12 @@
           </li>
         </ul>
         <div metal:extend-macro='tmpl'></div>
-        <!--
-                <div id='alert-page' class="alerts panel panel-default hidden">
-                    <div class="panel-heading">Alerts</div>
-                    <div class="collapse in">
-                    <table class="table table-striped">
-                    <thead>
-                    <th>Alert</th>
-                    <th>Host(s)</th>
-                    </thead>
-                    <tbody id='alerts'>
-                    </tbody>
-                    </table>
-                    </div>
-                </div>
-            -->
     </div>
+    <footer class="footer">
+        <div class="container-fluid">
+        <p class="text-muted">${userid}</p>
+        </div>
+    </footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
