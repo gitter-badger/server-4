@@ -11,6 +11,7 @@ from sqlalchemy import (
 
 from . import BASE
 
+
 # pylint: disable=too-few-public-methods
 class User(BASE):
 
@@ -27,14 +28,16 @@ class User(BASE):
 
 Index('u_user_name', ItemName.name, unique=True)
 
+
+# pylint: disable=too-few-public-methods
 class HashMethod(BASE):
 
     """Hashmethod object.
 
     The hashmethod can be 'allowed' or 'disallowed'. If it is disallowed,
-    the user must be forced to change his password after login. This way it is
-    possible to force an update of the encryption algorithm used when this is
-    appropriate.
+    the user must be forced to change his password after login. This way
+    it is possible to force an update of the encryption algorithm used
+    when this is appropriate.
     """
 
     __tablename__ = 'hashmethod'

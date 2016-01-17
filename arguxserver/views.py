@@ -192,6 +192,8 @@ class MainViews:
         route_name='logout'
     )
     def logout(self):
+        self.request.session.invalidate()
+
         headers = forget(self.request)
         url = self.request.route_url('home')
 

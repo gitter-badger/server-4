@@ -85,6 +85,8 @@ def main(global_config, **settings):
     # REST 1.0 API
     config.add_route('rest_login_1',
                      '/rest/1.0/login')
+    config.add_route('rest_logout_1',
+                     '/rest/1.0/logout')
     config.add_route('rest_hosts_1',
                      '/rest/1.0/host')
     config.add_route('rest_host_1',

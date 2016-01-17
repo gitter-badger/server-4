@@ -60,3 +60,24 @@ class RestAuthenticationViews(RestView):
             return response
 
         return HTTPBadRequest()
+
+    @view_config(
+        route_name='rest_logout_1',
+        request_method='POST',
+        check_csrf=True,
+        permission='logout'
+    )
+    def logout_1_view(self):
+        self.request.session.invalidate()
+
+        headers = forget(self.request)
+
+        response = Response(
+            content_type="application/json",
+            body=json.dumps(
+                {
+                    'status': 'success'
+                }))
+        response.headerlist.extend(headers)
+
+        return response

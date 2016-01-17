@@ -1,5 +1,6 @@
 # package
 
+from tests.auth import AuthenticationTests
 
 from tests.rest.views.host import RestHostViewsTests
 from tests.rest.views.item import RestItemViewsTests

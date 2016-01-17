@@ -20,6 +20,7 @@ REQUIRES = [
     'zope.sqlalchemy',
     'waitress',
     'python-dateutil == 2.4',
+    'bcrypt == 2.0',
     ]
 
 setup(name='argux-server',
@@ -33,7 +34,7 @@ setup(name='argux-server',
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         ],
       author='Stephan Arts',
-      author_email='',
+      author_email='stephan@xfce.org',
       url='',
       keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
