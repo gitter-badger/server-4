@@ -103,7 +103,7 @@ class RestTriggerViews(RestView):
         host = dao.host_dao.get_host_by_name(host_name)
         item = dao.item_dao.get_item_by_host_key(host, item_key)
 
-        item_triggers = dao.trigger_dao.get_triggers(item)
+        item_triggers = dao.item_dao.get_triggers(item)
 
         active_alert_count = dao.item_dao.get_active_alert_count(item)
 
