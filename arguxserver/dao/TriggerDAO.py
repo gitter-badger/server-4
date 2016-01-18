@@ -1,9 +1,6 @@
 """Data Access Object class for handling Triggers."""
 
 from arguxserver.models import (
-    ItemCategory,
-    ItemName,
-    Item,
     TriggerSeverity
 )
 

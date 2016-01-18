@@ -7,6 +7,11 @@ from arguxserver.models import (
 
 class NoteDAO():
 
+    """Note DAO.
+
+    Data Access Object for handling Notes.
+    """
+
     def __init__(self, session):
         self.db_session = session
 

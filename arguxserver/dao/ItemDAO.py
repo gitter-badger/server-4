@@ -1,11 +1,9 @@
 """Data Access Object class for handling Items."""
 
+from sqlalchemy.orm import joinedload
+
 from arguxserver.models import (
-    ItemCategory,
-    ItemName,
-    ItemType,
     Item,
-    TriggerSeverity
 )
 
 from arguxserver.dao.util import (
@@ -13,8 +11,6 @@ from arguxserver.dao.util import (
     TRIGGER_CLASS,
     ALERT_CLASS
 )
-
-from sqlalchemy.orm import joinedload
 
 
 class ItemDAO:
