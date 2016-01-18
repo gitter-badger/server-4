@@ -27,10 +27,11 @@
         var ARGUX_HOST="${argux_host}";
         var ARGUX_HOST_ACTION="${action}";
         var CSRF_TOKEN="${request.session.get_csrf_token()}";
+        var FULLSCREEN="${fs}";
     </script>
   </head>
 
-  <body>
+  <body tal:attributes="class 'fs' if fs==True else nothing">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -62,12 +63,24 @@
           <li class="active">${argux_host}</li>
         </ol>
         <div class="page-header">
-        <h1>${argux_host}<a tal:condition="argux_host_desc!=''" href="#" id="host_detail_btn" class="btn"><span class="glyphicon glyphicon-chevron-up"></span></a></h1>
-        <div tal:condition="argux_host_desc!=''" class="hidden" id="host_detail">
-        ${argux_host_desc}
+            <div class="pull-right">
+                <button type="button"
+                        id="toggle-fullscreen"
+                        class="btn btn-default btn-sm">
+                    <span tal:attributes="class 'glyphicon glyphicon-resize-small' if fs==True else 'glyphicon glyphicon-fullscreen'">
+                    </span>
+                </button>
+            </div>
+            <h1>${argux_host}
+                <a tal:condition="argux_host_desc!=''" href="#" id="host_detail_btn" class="btn">
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                </a>
+            </h1>
+            <div tal:condition="argux_host_desc!=''" class="hidden" id="host_detail">
+            ${argux_host_desc}
+            </div>
         </div>
-        </div>
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs nav-xs">
           <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
               tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
               tal:attributes="class 'active' if item==action else nothing">
@@ -95,6 +108,7 @@
     <script src="${request.static_url('arguxserver:static/js/jquery.min.js')}"></script>
     <script src="${request.static_url('arguxserver:static/js/bootstrap.min.js')}"></script>
     <script src="${request.static_url('arguxserver:static/js/moment.min.js')}"></script>
+    <script src="${request.static_url('arguxserver:static/argux.js')}"></script>
     <script src="${request.static_url('arguxserver:static/host.js')}"></script>
   </body>
 </html>

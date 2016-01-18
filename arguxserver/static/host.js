@@ -211,7 +211,7 @@ function metrics_cb(json) {
         if (categories.hasOwnProperty(key)) {
             $('#items').append(
                 '<div class="panel panel-default">' +
-                '<div class="panel-heading">' +
+                '<div class="panel-heading metric-category">' +
                 '<a data-toggle="collapse" data-target="#table-items-'+key+'">' +
                 key +
                 ' <span class="badge">'+alerts[key]+'</span>' +

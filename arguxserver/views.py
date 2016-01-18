@@ -23,12 +23,14 @@ from arguxserver.util import (
 
 import json
 
+
 @view_defaults(renderer='templates/host_overview.pt')
 class MainViews:
 
     def __init__(self, request):
         self.request = request
         self.dao = request.registry.settings['dao']
+
 
     # pylint: disable=no-self-use
     @view_config(
@@ -42,11 +44,12 @@ class MainViews:
     @view_config(
         route_name='host_overview_default',
         renderer='templates/host_overview.pt',
-        permission='view'
+        permission='view',
     )
     def host_overview_default(self):
         return {
             "userid": authenticated_userid(self.request),
+            "fs": False,
             "action": 'overview'}
 
     # pylint: disable=no-self-use
@@ -59,6 +62,7 @@ class MainViews:
         action = self.request.matchdict['action']
         return {
             "userid": authenticated_userid(self.request),
+            "fs": False,
             "action": action}
 
     @view_config(
@@ -86,6 +90,7 @@ class MainViews:
             "argux_host": host,
             "argux_host_desc": host_desc,
             "userid": authenticated_userid(self.request),
+            "fs": False,
             "active_alerts": n_alerts,
             "action": action}
 
@@ -109,6 +114,7 @@ class MainViews:
             "argux_host": host,
             "argux_host_desc": host_desc,
             "userid": authenticated_userid(self.request),
+            "fs": False,
             "active_alerts": n_alerts,
             "action": action}
 
@@ -156,6 +162,7 @@ class MainViews:
             "userid": authenticated_userid(self.request),
             "timespan": timespan,
             "action": action,
+            "fs": False,
             'active_alerts': len(alerts),
             "has_details": has_details}
 
