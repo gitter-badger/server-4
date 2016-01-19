@@ -2,31 +2,31 @@
 
 import inspect
 
-_auth_methods = {}
-_passwd_methods = {}
+__AUTH_METHODS = {}
+__PASSWD_METHODS = {}
 
-def _validate_function(func):
-    argspec = inspect.getargspec(func)
-    if len(argspec.args) != 2:
+def __validate_function(func):
+    sig = inspect.signature(func)
+    if len(sig.parameters) != 2:
         raise ValueError(
             "Function has {} arguments, expected 2"\
-            .format(len(argspec.args)))
-    if not "username" in argspec.args:
+            .format(len(sig.parameters)))
+    if "username" not in sig.parameters:
         raise ValueError("Function has no 'username' argument")
-    if not "password" in argspec.args:
+    if "password" not in sig.parameters:
         raise ValueError("Function has no 'password' argument")
 
     return
 
 def register_auth_functions(name, auth_func, passwd_func):
     """Register auth and passwd func."""
-    _validate_function(auth_func)
-    _validate_function(passwd_func)
+    __validate_function(auth_func)
+    __validate_function(passwd_func)
 
-    if name in _auth_methods:
+    if name in __AUTH_METHODS:
         raise ValueError(
             "Function name '{}' already exists"\
             .format(name))
 
-    _auth_methods[name] = auth_func
-    _passwd_methods[name] = passwd_func
+    __AUTH_METHODS[name] = auth_func
+    __PASSWD_METHODS[name] = passwd_func
