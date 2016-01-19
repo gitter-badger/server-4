@@ -13,23 +13,6 @@ from . import BASE
 
 
 # pylint: disable=too-few-public-methods
-class User(BASE):
-
-    """User class.
-
-    Store user (and it's credentials) in the database.
-    """
-
-    __tablename__ = 'user'
-    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
-    name = Column(Text, nullable=False)
-    passwd_hash = Column(Text, default=None, nullable=True)
-    hash_method_id = Column(Integer, ForeignKey('hash_method.id'), nullable=False)
-
-Index('u_user_name', ItemName.name, unique=True)
-
-
-# pylint: disable=too-few-public-methods
 class HashMethod(BASE):
 
     """Hashmethod object.
@@ -41,7 +24,25 @@ class HashMethod(BASE):
     """
 
     __tablename__ = 'hashmethod'
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     name = Column(Text, nullable=False)
     allowed = Column(Boolean, default=True, nullable=False)
 
-Index('u_hashmethod_name', ItemName.name, unique=True)
+Index('u_hashmethod_name', HashMethod.name, unique=True)
+
+
+# pylint: disable=too-few-public-methods
+class User(BASE):
+
+    """User class.
+
+    Store user (and it's credentials) in the database.
+    """
+
+    __tablename__ = 'user'
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
+    name = Column(Text, nullable=False)
+    passwd_hash = Column(Text, default=None, nullable=True)
+    hashmethod_id = Column(Integer, ForeignKey('hashmethod.id'), nullable=False)
+
+Index('u_user_name', User.name, unique=True)
