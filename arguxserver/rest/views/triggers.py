@@ -172,6 +172,6 @@ class RestTriggerViews(RestView):
         ret = dao.trigger_dao.validate_trigger_rule(item, trigger_rule)
 
         return {
-            'item': item.name.name,
+            'item': item.name,
             'valid': ret
         }

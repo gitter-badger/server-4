@@ -31,7 +31,7 @@ from arguxserver.trigger import TriggerWorker
 # MAP GROUPS TO PERMISSIONS
 class RootFactory(object):
 
-    """ RootFactory: 
+    """ RootFactory:
 
     __acl__: base ACL
     """

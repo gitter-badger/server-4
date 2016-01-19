@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="panel-body">
-            <p>This table contains a list of triggers associated with <code>${argux_item.name.name}</code> on <strong>${argux_host}</strong></p>
+            <p>This table contains a list of triggers associated with <code>${argux_item.name}</code> on <strong>${argux_host}</strong></p>
         </div>
         <table class="table table-condensed">
         <thead>
@@ -32,7 +32,7 @@
                 <form id="trigger-form" action="">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">New trigger for <strong>${argux_item.name.name}</strong></h4>
+                    <h4 class="modal-title">New trigger for <strong>${argux_item.name}</strong></h4>
                 </div>
                 <div class="modal-body">
                     <div role="tabpanel" class="tab-pane active" id="edit">

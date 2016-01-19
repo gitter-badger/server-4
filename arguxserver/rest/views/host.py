@@ -166,7 +166,7 @@ class RestHostViews(RestView):
                     'name': alert.trigger.name,
                     'item': {
                         'key': alert.trigger.item.key,
-                        'name': alert.trigger.item.name.name
+                        'name': alert.trigger.item.name
                     }
                 })
 
@@ -181,7 +181,7 @@ class RestHostViews(RestView):
         items = []
         for item in d_items:
             if item.name:
-                name = item.name.name
+                name = item.name
             else:
                 name = None
 

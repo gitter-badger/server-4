@@ -23,4 +23,3 @@ class DAO(object):
         self.item_dao = ItemDAO(db_session)
         self.note_dao = NoteDAO(db_session)
         self.trigger_dao = TriggerDAO(db_session)
-

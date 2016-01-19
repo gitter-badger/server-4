@@ -61,7 +61,7 @@
             </ul>
           </li>
           <li><a href="${request.application_url}/host/${argux_host}">${argux_host}</a></li>
-          <li class="active">${argux_item.name.name}</li>
+          <li class="active">${argux_item.name}</li>
         </ol>
         <div class="page-header">
             <div class="pull-right">
@@ -74,7 +74,7 @@
             </div>
             <h1>
                 <a href="${request.application_url}/host/${argux_host}">${argux_host}</a>
-                <small>${argux_item.name.name}</small>
+                <small>${argux_item.name}</small>
             </h1>
         </div>
         <ul class="nav nav-tabs nav-xs">

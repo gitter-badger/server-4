@@ -20,23 +20,6 @@ from . import BASE
 
 
 # pylint: disable=too-few-public-methods
-class ItemName(BASE):
-
-    """
-    ItemName class.
-
-    Model for names for Items.
-    """
-
-    __tablename__ = 'itemname'
-    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
-    name = Column(Text, nullable=False)
-    description = Column(Text, nullable=False)
-
-Index('u_itemname_name', ItemName.name, unique=True, mysql_length=255)
-
-
-# pylint: disable=too-few-public-methods
 class Item(BASE):
 
     """
@@ -49,8 +32,8 @@ class Item(BASE):
     id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     key = Column(Text, nullable=False)
     host_id = Column(Integer, ForeignKey('host.id'), nullable=False)
-    name_id = Column(Integer, ForeignKey('itemname.id'), nullable=False)
-    name = relationship(ItemName, backref='item_name')
+    name = Column(Text, nullable=False)
+    description = Column(Text, nullable=False, default='')
     category_id = Column(Integer, ForeignKey('item_category.id'), nullable=True, default=None)
     category = relationship(ItemCategory, backref='item_category')
     itemtype_id = Column(Integer, ForeignKey('itemtype.id'), nullable=False)

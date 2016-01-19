@@ -150,7 +150,8 @@ function metrics_cb(json) {
         var item_time = '-';
 
         // Pick a category
-        if (item.category !== null) { category = item.category;
+        if (item.category !== null) {
+            category = item.category;
         }
 
         // If name exists, don't use the key.

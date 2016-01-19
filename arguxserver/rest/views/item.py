@@ -102,23 +102,14 @@ class RestItemViews(RestView):
                 body='{"error": "400 Bad Request", "message": "type not specified"}')
 
         host = dao.host_dao.get_host_by_name(host_name)
-        if item_name is not None and item_desc is not None:
-            item_n = dao.item_dao.get_itemname_by_name(item_name)
-            if item_n is None:
-                item_n = dao.item_dao.create_itemname(item_name, item_desc)
-
-        if item_category is not None:
-            category = dao.item_dao.get_itemcategory_by_name(item_category)
-            if category is None:
-                category = dao.item_dao.create_itemcategory(item_category)
 
         item_type = dao.item_dao.get_itemtype_by_name(item_type_key)
 
         item = dao.item_dao.create_item({
-            'host': host,
-            'name': item_n,
             'key': item_key,
-            'category': category,
+            'host': host,
+            'name': item_name,
+            'category': item_category,
             'itemtype': item_type})
 
         return Response(
@@ -137,8 +128,8 @@ class RestItemViews(RestView):
         """Return values for an item."""
         dao = self.dao
 
-        host = self.request.matchdict['host']
-        item = self.request.matchdict['item']
+        host_name = self.request.matchdict['host']
+        item_key = self.request.matchdict['item']
 
         try:
             value = self.request.json_body.get('value', None)
@@ -151,12 +142,12 @@ class RestItemViews(RestView):
                 charset='UTF-8',
                 body='{"error": "400 Bad Request", "message": "value not specified"}')
 
-        h = dao.host_dao.get_host_by_name(host)
-        i = dao.item_dao.get_item_by_host_key(h, item)
+        host = dao.host_dao.get_host_by_name(host_name)
+        item = dao.item_dao.get_item_by_host_key(host, item_key)
 
         t = dateutil.parser.parse(ts)
 
-        dao.item_dao.push_value(i, t, value)
+        dao.item_dao.push_value(item, t, value)
 
         return Response(
             status='201 Created',
