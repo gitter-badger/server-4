@@ -53,7 +53,7 @@ class RestAuthenticationViews(RestView):
             response.headerlist.extend(headers)
             response.headerlist.extend(
                 [(
-                   'X-CSRF-Token',
+                    'X-CSRF-Token',
                     self.request.session.get_csrf_token()
                 )])
 
