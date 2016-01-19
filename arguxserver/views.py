@@ -71,23 +71,23 @@ class MainViews:
         permission='view'
     )
     def host_default(self):
-        host = self.request.matchdict['host']
+        host_name = self.request.matchdict['host']
         host_desc = ''
         n_alerts = 0
-        h = self.dao.host_dao.get_host_by_name(host)
+        host = self.dao.host_dao.get_host_by_name(host_name)
 
-        if (h):
-            host_desc = h.description
+        if host:
+            host_desc = host.description
 
         has_summary = False
 
-        if (has_summary == True):
+        if has_summary is True:
             action = 'summary'
         else:
             action = 'metrics'
 
         return {
-            "argux_host": host,
+            "argux_host": host_name,
             "argux_host_desc": host_desc,
             "userid": authenticated_userid(self.request),
             "fs": False,
@@ -107,7 +107,7 @@ class MainViews:
         host_desc = ''
         h = self.dao.host_dao.get_host_by_name(host)
 
-        if (h):
+        if h:
             host_desc = h.description
 
         return {
@@ -135,8 +135,8 @@ class MainViews:
     )
     def item_details(self):
         host_name = self.request.matchdict['host']
-        item_key  = self.request.matchdict['item']
-        action    = self.request.matchdict['action']
+        item_key = self.request.matchdict['item']
+        action = self.request.matchdict['action']
 
         timespan = self.request.params.get('timespan', '30m')
 
