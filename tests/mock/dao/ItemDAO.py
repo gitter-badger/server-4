@@ -1,7 +1,5 @@
 from datetime import datetime, timedelta
 
-from .ItemNameDAO import ItemName
-
 class MockValue():
     def __init__(self, value, timestamp, item_id):
         self.value = value
@@ -24,7 +22,7 @@ class Item:
         self.itemtype = itemtype
 
 _items = {}
-_items['localhost'] = [Item('localhost', 'cpu.load.avg[1]', ItemName('CPU Load Average'), None, 'int')]
+_items['localhost'] = [Item('localhost', 'cpu.load.avg[1]', 'CPU Load Average', None, 'int')]
 
 def get_items_from_host(host):
     if (host.name == 'localhost'):
