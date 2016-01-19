@@ -6,7 +6,13 @@ TIME_OFFSET_EXPR = re.compile(r"([-+])([0-9]+)([mhd])")
 
 TIMESPAN_EXPR = re.compile(r"([0-9]+)([mhdM])")
 
-TRIGGER_EXPR = re.compile(r"([a-z]+)\(([0-9]*)\)[ ]*(>|<|>=|<=|==|!=)[ ]*([-]?(?:[0-9]+(?:[\.,][0-9]+)?))")
+TRIGGER_EXPR = re.compile(
+    r"([a-z]+)"
+     "\(([0-9]*)\)"
+     "[ ]*"
+     "(>|<|>=|<=|==|!=)"
+     "[ ]*"
+     "([-]?(?:[0-9]+(?:[\.,][0-9]+)?))")
 
 DATE_FMT = "%Y-%m-%dT%H:%M:%S"
 
