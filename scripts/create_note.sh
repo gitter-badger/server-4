@@ -1,6 +1,7 @@
 
 SERVER=http://localhost:6543
-REST_URI=argux/rest/1.0
+ARGUX_BASE=/
+REST_URI=rest/1.0
 HOST_URI=host
 
 HOST_NAME=localhost
