@@ -17,7 +17,7 @@ from pyramid.security import (
     authenticated_userid
 )
 
-from arguxserver.util import (
+from argux_server.util import (
     TIMESPAN_EXPR,
 )
 

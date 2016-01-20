@@ -1,7 +1,7 @@
 import unittest
 
 
-from arguxserver.auth import register_auth_functions
+from argux_server.auth import register_auth_functions
 
 def valid_func(username, password):
     return

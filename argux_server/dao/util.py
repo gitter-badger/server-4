@@ -3,7 +3,7 @@ DAO Utility module.
 
 Contains dictionaries for looking up the different Value types.
 """
-from arguxserver.models import (
+from argux_server.models import (
     IntValue,
     IntSimpleTrigger,
     IntSimpleAlert,

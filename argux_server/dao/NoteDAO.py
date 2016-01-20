@@ -1,6 +1,6 @@
 """Data Access Object class for handling Notes."""
 
-from arguxserver.models import (
+from argux_server.models import (
     Note
 )
 

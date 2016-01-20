@@ -15,7 +15,7 @@ import json
 
 from . import RestView
 
-from arguxserver.util import (
+from argux_server.util import (
     TIME_OFFSET_EXPR,
     DATE_FMT
 )
@@ -248,7 +248,7 @@ class RestItemViews(RestView):
     def __get_values(self, item, start, end):
         """Return array of timestamp+value objects within a timeframe.
 
-        timestamp is formatted according to arguxserver.util.DATE_FMT
+        timestamp is formatted according to argux_server.util.DATE_FMT
 
         This format should be in ISO8601 (YYYY/MM/DDTmm:hh:ssZ)
         """

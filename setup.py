@@ -11,7 +11,7 @@ with open(os.path.join(HERE, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 REQUIRES = [
-    'pyramid == 1.5.7',
+    'pyramid == 1.6.0',
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
     'pyramid_tm',
@@ -45,8 +45,8 @@ setup(name='argux-server',
       test_suite="tests",
       entry_points="""\
       [paste.app_factory]
-      main = arguxserver:main
+      main = argux_server:main
       [console_scripts]
-      initialise_argux-server_db = arguxserver.scripts.initializedb:main
+      initialise_argux-server_db = argux_server.scripts.initializedb:main
       """,
       )

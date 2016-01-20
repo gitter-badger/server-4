@@ -6,7 +6,7 @@ from pyramid.registry import Registry
 
 from tests.mock import dao
 
-from arguxserver.rest.views.item import RestItemViews
+from argux_server.rest.views.item import RestItemViews
 
 class RestValuesViewsTests(unittest.TestCase):
     def setUp(self):

@@ -10,7 +10,7 @@ from pyramid.response import Response
 
 from . import RestView
 
-from arguxserver.util import (
+from argux_server.util import (
     TIME_OFFSET_EXPR,
     DATE_FMT
 )

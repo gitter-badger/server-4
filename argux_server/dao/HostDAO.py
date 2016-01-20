@@ -1,12 +1,12 @@
 """Data Access Object class for handling Hosts."""
 
-from arguxserver.models import (
+from argux_server.models import (
     Host,
     Item,
     TriggerSeverity
 )
 
-from arguxserver.dao.util import (
+from argux_server.dao.util import (
     TRIGGER_CLASS,
     ALERT_CLASS
 )

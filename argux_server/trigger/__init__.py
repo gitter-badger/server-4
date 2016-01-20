@@ -10,7 +10,7 @@ from sqlalchemy.orm import (
     sessionmaker
 )
 
-from arguxserver.dao import DAO
+from argux_server.dao import DAO
 
 
 class TriggerWorker(Thread):

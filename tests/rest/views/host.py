@@ -6,7 +6,7 @@ from pyramid.registry import Registry
 
 from tests.mock import dao
 
-from arguxserver.rest.views.host import RestHostViews
+from argux_server.rest.views.host import RestHostViews
 
 class RestHostViewsTests(unittest.TestCase):
     def setUp(self):

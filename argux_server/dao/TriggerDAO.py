@@ -1,10 +1,10 @@
 """Data Access Object class for handling Triggers."""
 
-from arguxserver.models import (
+from argux_server.models import (
     TriggerSeverity
 )
 
-from arguxserver.dao.util import (
+from argux_server.dao.util import (
     TRIGGER_CLASS,
     ALERT_CLASS
 )

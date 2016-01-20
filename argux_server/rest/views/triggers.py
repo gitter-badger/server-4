@@ -11,7 +11,7 @@ import json
 
 from . import RestView
 
-from arguxserver.util import (
+from argux_server.util import (
     DATE_FMT
 )
 

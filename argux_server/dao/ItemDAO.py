@@ -2,13 +2,13 @@
 
 from sqlalchemy.orm import joinedload
 
-from arguxserver.models import (
+from argux_server.models import (
     Item,
     ItemType,
     ItemCategory,
 )
 
-from arguxserver.dao.util import (
+from argux_server.dao.util import (
     VALUE_CLASS,
     TRIGGER_CLASS,
     ALERT_CLASS

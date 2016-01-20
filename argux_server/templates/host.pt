@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="${request.locale_name}">
+<html lang="${request.locale_name}"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Argux Server monitoring application">
-    <link rel="shortcut icon" href="${request.static_url('arguxserver:static/pyramid-16x16.png')}">
+    <link rel="shortcut icon" href="${request.static_url('argux_server:static/pyramid-16x16.png')}">
 
     <title>Argux</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="${request.static_url('arguxserver:static/css/bootstrap.min.css')}" rel="stylesheet">
+    <link href="${request.static_url('argux_server:static/css/bootstrap.min.css')}" rel="stylesheet">
 
-    <!-- Custom styles for this scaffold -->
-    <link href="${request.static_url('arguxserver:static/theme.css')}" rel="stylesheet">
+    <link href="${request.static_url('argux_server:static/theme.css')}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -21,12 +24,14 @@
     <![endif]-->
     <script type="text/javascript">
         var ARGUX_BASE="${request.application_url}";
-        var ARGUX_ACTION="${action}";
+        var ARGUX_HOST="${argux_host}";
+        var ARGUX_HOST_ACTION="${action}";
         var CSRF_TOKEN="${request.session.get_csrf_token()}";
+        var FULLSCREEN="${fs}";
     </script>
   </head>
 
-  <body>
+  <body tal:attributes="class 'fs' if fs==True else nothing">
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -47,7 +52,7 @@
     </nav>
     <div class="body container-fluid">
         <ol class="breadcrumb">
-          <li class="active dropdown">Hosts
+          <li class="dropdown"><a href="/hosts">Hosts</a>
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <span class="caret"/>
             </a>
@@ -55,18 +60,37 @@
               <li><a href="/dashboard">Dashboards</a></li>
             </ul>
           </li>
+          <li class="active">${argux_host}</li>
         </ol>
-        <ul class="nav nav-tabs">
-          <li tal:define="item_l ('Overview', 'Alerts')"
-              tal:repeat="item ('overview', 'alerts')"
+        <div class="page-header">
+            <div class="pull-right">
+                <button type="button"
+                        id="toggle-fullscreen"
+                        class="btn btn-default btn-sm">
+                    <span tal:attributes="class 'glyphicon glyphicon-resize-small' if fs==True else 'glyphicon glyphicon-fullscreen'">
+                    </span>
+                </button>
+            </div>
+            <h1>${argux_host}
+                <a tal:condition="argux_host_desc!=''" href="#" id="host_detail_btn" class="btn">
+                    <span class="glyphicon glyphicon-chevron-up"></span>
+                </a>
+            </h1>
+            <div tal:condition="argux_host_desc!=''" class="hidden" id="host_detail">
+            ${argux_host_desc}
+            </div>
+        </div>
+        <ul class="nav nav-tabs nav-xs">
+          <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
+              tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
               tal:attributes="class 'active' if item==action else nothing">
-            <a tal:attributes="href request.application_url+'/hosts/'+item">
+            <a tal:attributes="href request.application_url+'/host/'+argux_host+'/'+item">
                 <span tal:content="item_l[repeat.item.index]">
                 <span tal:condition="item=='alerts'"
                       class="badge" id="alert_count"></span>
             </a>
             <span tal:condition="action==item">
-                <span tal:define="global tmpl load: ./host_overview/${item}.pt"/>
+                <span tal:define="global tmpl load: ./host/${item}.pt"/>
             </span>
           </li>
         </ul>
@@ -81,11 +105,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="${request.static_url('arguxserver:static/js/jquery.min.js')}"></script>
-    <script src="${request.static_url('arguxserver:static/js/bootstrap.min.js')}"></script>
-    <script src="${request.static_url('arguxserver:static/js/moment.min.js')}"></script>
-    <script src="${request.static_url('arguxserver:static/js/color.min.js')}"></script>
-    <script src="${request.static_url('arguxserver:static/js/Chart.min.js')}"></script>
-    <script src="${request.static_url('arguxserver:static/host_overview.js')}"></script>
+    <script src="${request.static_url('argux_server:static/js/jquery.min.js')}"></script>
+    <script src="${request.static_url('argux_server:static/js/bootstrap.min.js')}"></script>
+    <script src="${request.static_url('argux_server:static/js/moment.min.js')}"></script>
+    <script src="${request.static_url('argux_server:static/argux.js')}"></script>
+    <script src="${request.static_url('argux_server:static/host.js')}"></script>
   </body>
 </html>
