@@ -3,9 +3,9 @@
 [![Code Climate](https://codeclimate.com/github/argux/server/badges/gpa.svg)](https://codeclimate.com/github/argux/server)
 [![Code Health](https://landscape.io/github/argux/server/master/landscape.svg?style=flat)](https://landscape.io/github/argux/server/master)
 
-## Install development version in virtualenv ##
+## Install Argux Server ##
 
->  python setup.py develop
+>  python setup.py install
 
 ## Initialize the database
 >  initialize_argux-server_db development.py
@@ -13,6 +13,7 @@
 # Dependencies
 Argux depends the following software
 
- - pyramid 1.5.7 
+ - pyramid 1.6.0
  - bootstrap 3.3.5 (http://getbootstrap.com)
  - chartjs (http://chartjs.org)
+ - bcrypt 2.0.0
