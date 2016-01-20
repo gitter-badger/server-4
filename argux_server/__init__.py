@@ -23,9 +23,9 @@ from .models import (
     BASE,
 )
 
-from arguxserver import dao
+from argux_server import dao
 
-from arguxserver.trigger import TriggerWorker
+from argux_server.trigger import TriggerWorker
 
 
 # MAP GROUPS TO PERMISSIONS
