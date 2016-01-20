@@ -47,6 +47,6 @@ setup(name='argux-server',
       [paste.app_factory]
       main = argux_server:main
       [console_scripts]
-      initialise_argux-server_db = argux_server.scripts.initializedb:main
+      initialize_argux-server_db = argux_server.scripts.initializedb:main
       """,
       )
