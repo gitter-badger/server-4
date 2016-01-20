@@ -55,7 +55,11 @@ def main(global_config, **settings):
     BASE.metadata.bind = engine
     settings['dao'] = dao.DAO(DB_SESSION)
 
-    factory = SignedCookieSessionFactory('SEECREET')
+    factory = SignedCookieSessionFactory(
+        'SEECREET',
+        cookie_name='argux_server',
+        secure=True,
+        httponly=True)
     authentication_policy = SessionAuthenticationPolicy()
     authorization_policy = ACLAuthorizationPolicy()
 

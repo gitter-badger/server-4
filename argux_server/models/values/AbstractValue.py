@@ -15,7 +15,7 @@ from sqlalchemy.orm import (
 
 from sqlalchemy.ext.declarative import declared_attr
 
-from arguxserver.util import TRIGGER_EXPR
+from argux_server.util import TRIGGER_EXPR
 
 
 # pylint: disable=too-few-public-methods
