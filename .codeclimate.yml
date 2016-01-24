@@ -1,6 +1,23 @@
-languages:
-  Python: true
-  JavaScript: true
+engines:
+  csslint:
+    enabled: true
+  pep8:
+    enabled: true
+  eslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        python:
+          mass_threshold: 40
+        javascript:
+          mass_threshold: 40
+
+ratings:
+  paths:
+  - argux_server/**
 
 exclude_paths:
   - "tests/**"
+  - "argux_server/static/css/**.min.css"
