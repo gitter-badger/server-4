@@ -2,6 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/argux/server/badge.svg?branch=master&service=github)](https://coveralls.io/github/argux/server?branch=master)
 [![Code Climate](https://codeclimate.com/github/argux/server/badges/gpa.svg)](https://codeclimate.com/github/argux/server)
 [![Code Health](https://landscape.io/github/argux/server/master/landscape.svg?style=flat)](https://landscape.io/github/argux/server/master)
+[![Documentation Status](https://readthedocs.org/projects/argux-server/badge/?version=latest)](http://argux-server.readthedocs.org/en/latest/?badge=latest)
 
 ## Install Argux Server ##
 
