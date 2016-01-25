@@ -12,16 +12,17 @@ web. It is designed with the following aspects in mind.
    is a release)
 
 **Decentralisation**
-   In short, I am not interested in ping times from my monitoring host
-   to server X. I am interested in ping times from the offices in
-   Paris and Madrid to the server in Berlin.
+   In short, most of the time you are not interested in ping times 
+   from your monitoring host to server X.
+   You are interested in ping times from the offices in Paris and
+   Madrid to the server in Berlin.
 
 **REST API**
    It is impossible to prepare for any scenario of hosts or services that
    require monitoring. Therefor it is important that the interface to
-   Argux is clear and easy to use.
-
-   If all else fails, you could store your metrics with ``CURL``
+   Argux is clear and easy to use. It will have client API's in several
+   programming languages, but if all else fails you could control it
+   with ``CURL``.
 
 **Encryption**
    Since Argux is using basic HTTP requests, you can simply configure
@@ -40,3 +41,10 @@ web. It is designed with the following aspects in mind.
    Example 2:
       An agent running on server X is not able to save metrics about
       server Y, unless is is explicitly allowed.
+
+   Example 3:
+      An installation of the `argux-net-monitor` application is
+      running on a machine in a management network. It polls network
+      equipment that can't be reached by the Argux Server directly.
+      The `argux-net-monitor` can be authorized to store metrics for
+      switches and other network equipment.
