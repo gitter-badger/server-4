@@ -35,7 +35,7 @@ setup(name='argux-server',
         ],
       author='Stephan Arts',
       author_email='stephan@xfce.org',
-      url='',
+      url='http://github.org/argux',
       keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
       include_package_data=True,
@@ -47,6 +47,7 @@ setup(name='argux-server',
       [paste.app_factory]
       main = argux_server:main
       [console_scripts]
-      initialize_argux-server_db = argux_server.scripts.initializedb:main
+      argux-server_initdb = argux_server.scripts.initializedb:main
+      argux-server_genconfig = argux_server.scripts.initializeconfig:main
       """,
       )
