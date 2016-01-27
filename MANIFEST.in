@@ -1,2 +1,2 @@
 include *.txt *.ini *.cfg *.rst
-recursive-include argux_server *.ico *.png *.css *.gif *.jpg *.pt *.txt *.mak *.mako *.js *.html *.xml
+recursive-include argux_server *.eot *.ico *.png *.css *.gif *.jpg *.pt *.svg *.ttf *.txt *.mak *.mako *.js *.html *.woff *.woff2 *.xml
