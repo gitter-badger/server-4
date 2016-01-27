@@ -45,16 +45,25 @@ def main():
         'Enable debugging?',
         default='n')
     if enable_debug:
-        config['app:main']['session.pretty_json'] = 'true'
+        config['app:main']['rest.pretty_json'] = 'true'
         config['app:main']['pyramid.reload_templates'] = 'true'
     else:
-        config['app:main']['session.pretty_json'] = 'false'
+        config['app:main']['rest.pretty_json'] = 'false'
         config['app:main']['pyramid.reload_templates'] = 'false'
         
     wsgi = cli.option_question(
         'WSGI Server?',
         ['pserve','uwsgi'],
         default='pserve')
+    if wsgi == 'pserve':
+        config['server:main'] = {}
+        config['server:main']['use'] = 'egg:waitress#main'
+        config['server:main']['host'] = '0.0.0.0'
+        config['server:main']['port'] = '7000'
+
+    if wsgi == 'uwsgi':
+        config['uwsgi'] = {}
+        config['uwsgi']['http'] = '0.0.0.0:7000'
 
     with open(filename, 'w') as configfile:
         config.write(configfile)

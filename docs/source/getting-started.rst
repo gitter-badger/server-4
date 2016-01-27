@@ -40,6 +40,20 @@ Do you want to enable debugging? (useful for development or troubleshooting)::
 
    Enable debugging? ['y', 'n'] (Default: n): 
 
+WSGI Server
+~~~~~~~~~~~
+Pick the wsgi server::
+
+   WSGI Server? ['pserve','uwsgi'] (Default: pserve):
+
+If you've picked pserve, you start argux-server like this::
+
+   pserve argux-server.ini
+
+If you've picked uwsgi, it will start as followed::
+
+   uwsgi --ini-paste argux-server.ini
+
 Database Configuration
 ~~~~~~~~~~~~~~~~~~~~~~
 
