@@ -65,6 +65,19 @@ def main():
         config['uwsgi'] = {}
         config['uwsgi']['http'] = '0.0.0.0:7000'
 
+    database_engine = cli.option_question(
+        'Choose Database Engine',
+        ['mysql', 'pgsql', 'sqlite'])
+
+    if database_engine == 'sqlite':
+        database_path = input(
+            'database path: (/var/lib/argux-server/argux.sqlite)')
+        if database_path == '':
+            datapase_path = '/var/lib/argux-server/argux.sqlite'
+
+        config['app:main']['sqlalchemy.url'] = \
+            'sqlite:///'+datapase_path
+
     with open(filename, 'w') as configfile:
         config.write(configfile)
 

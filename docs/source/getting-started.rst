@@ -4,7 +4,7 @@ Getting Started
 
 Generate a config file
 ----------------------
-Use `initialize_argux-server_config` to generate a configuration-file.
+Use `argux-server_genconfig` to generate a configuration-file.
 This command asks you a number of questions about the preferred
 configuration before generating the configuration-file::
 
@@ -56,7 +56,20 @@ If you've picked uwsgi, it will start as followed::
 
 Database Configuration
 ~~~~~~~~~~~~~~~~~~~~~~
+Choose the database engine::
 
+    Choose Database Engine (mysql, pgsql, sqlite):
+
+.. NOTE::
+    Only sqlite is implemented in this wizard at the moment. Other engines
+    should work (like mysql and postgresql), but you'd have to modify the
+    configuration-file manually to do so.
+
+Sqlite3
+.......
+Select the sqlite3 db-path::
+
+   'database path: (/var/lib/argux-server/argux.sqlite)')
 
 
 Initialize database
