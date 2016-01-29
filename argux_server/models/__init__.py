@@ -18,6 +18,8 @@ from .ItemCategory import ItemCategory
 from .TriggerSeverity import TriggerSeverity
 from .Note import Note
 
+from .User import User, HashMethod
+
 from .values.IntValue import (
     IntValue,
     IntSimpleTrigger,

@@ -186,7 +186,7 @@ class MainViews:
             username = self.request.params['username']
             password = self.request.params['password']
 
-            if username == password:
+            if self.dao.user_dao.validate_user(username, password):
                 session['username'] = username
 
                 headers = remember(self.request, username)

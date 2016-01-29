@@ -3,6 +3,7 @@
 from .ItemDAO import ItemDAO
 from .HostDAO import HostDAO
 from .NoteDAO import NoteDAO
+from .UserDAO import UserDAO
 from .TriggerDAO import TriggerDAO
 
 
@@ -22,4 +23,5 @@ class DAO(object):
         self.host_dao = HostDAO(db_session)
         self.item_dao = ItemDAO(db_session)
         self.note_dao = NoteDAO(db_session)
+        self.user_dao = UserDAO(db_session)
         self.trigger_dao = TriggerDAO(db_session)

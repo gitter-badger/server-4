@@ -49,5 +49,6 @@ setup(name='argux-server',
       [console_scripts]
       argux-server_initdb = argux_server.scripts.initializedb:main
       argux-server_genconfig = argux_server.scripts.genconfig:main
+      argux-server_adduser = argux_server.scripts.adduser:main
       """,
       )

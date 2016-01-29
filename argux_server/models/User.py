@@ -9,6 +9,10 @@ from sqlalchemy import (
     Boolean
 )
 
+from sqlalchemy.orm import (
+    relationship
+)
+
 from . import BASE
 
 
@@ -44,5 +48,7 @@ class User(BASE):
     name = Column(Text, nullable=False)
     passwd_hash = Column(Text, default=None, nullable=True)
     hashmethod_id = Column(Integer, ForeignKey('hashmethod.id'), nullable=False)
+    hashmethod = relationship(HashMethod, backref='users')
 
 Index('u_user_name', User.name, unique=True)
+Index('i_user_hashmethod_id', User.hashmethod_id)

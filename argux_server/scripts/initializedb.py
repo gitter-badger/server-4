@@ -16,8 +16,11 @@ from ..models import (
     DB_SESSION,
     BASE,
     ItemType,
-    TriggerSeverity
+    TriggerSeverity,
+    HashMethod
 )
+
+from ..dao.UserDAO import UserDAO
 
 
 def usage(argv):
@@ -53,3 +56,9 @@ def main():
         DB_SESSION.add(model)
         model = TriggerSeverity(level=3, key="crit", name="Critical")
         DB_SESSION.add(model)
+
+        model = HashMethod(name='bcrypt', allowed=True)
+        DB_SESSION.add(model)
+
+        user_dao = UserDAO(DB_SESSION)
+        user_dao.create_user('', 'admin', 'admin', hash_method='bcrypt')

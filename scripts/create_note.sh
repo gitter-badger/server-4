@@ -6,6 +6,9 @@ HOST_URI=host
 
 HOST_NAME=localhost
 
+ARGUX_USERNAME=admin
+ARGUX_PASSWORD=admin
+
 HEADER_FILE=`mktemp`
 COOKIE_FILE=`mktemp`
 
@@ -14,7 +17,7 @@ curl -X POST \
     -D $HEADER_FILE \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d "{\"username\":\"s\",\"password\":\"s\"}" \
+    -d "{\"username\":\"$ARGUX_USERNAME\",\"password\":\"$ARGUX_PASSWORD\"}" \
     $SERVER/$REST_URI/login
 
 CSRF_TOKEN=`cat $HEADER_FILE | grep -i X-CSRF-TOKEN | awk -F : '{ print $2 }'`
