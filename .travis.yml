@@ -5,7 +5,7 @@ install:
   - pip install nose
   - pip install coveralls
   - python setup.py install
-  - argux-server_initdb development.ini
+  - argux-server_initdb tests/test.ini
 
 # command to run tests, e.g. python setup.py test
 script:
