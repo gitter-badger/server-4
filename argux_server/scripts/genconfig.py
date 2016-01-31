@@ -25,14 +25,14 @@ def main():
 
     filename = input('Config file location [./argux-server.ini]: ')
     if filename == '':
-        filename= './argux-server.ini'
+        filename = './argux-server.ini'
 
     # Check if the file exists, if so... ask if it should be overwriten.
     if os.path.exists(filename):
         overwrite = cli.yesno_question('\nFile \''+filename+'\' exists, overwrite?')
-        if overwrite == False:
+        if overwrite is False:
             exit(0)
-    
+
     secure_cookie = cli.yesno_question(
         'Use secure cookies? (Enforce HTTPS)',
         default='y')
@@ -47,13 +47,15 @@ def main():
     if enable_debug:
         config['app:main']['rest.pretty_json'] = 'true'
         config['app:main']['pyramid.reload_templates'] = 'true'
+        config['app:main']['pyramid.includes'] = \
+            'pyramid_debugtoolbar pyramid_tm'
     else:
         config['app:main']['rest.pretty_json'] = 'false'
         config['app:main']['pyramid.reload_templates'] = 'false'
-        
+
     wsgi = cli.option_question(
         'WSGI Server?',
-        ['pserve','uwsgi'],
+        ['pserve', 'uwsgi'],
         default='pserve')
     if wsgi == 'pserve':
         config['server:main'] = {}

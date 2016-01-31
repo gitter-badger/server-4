@@ -1,0 +1,18 @@
+<div class="section-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">Users</div>
+        <div class="panel-body">
+        ...
+        </div>
+        <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Username</th><th>Locked</th>
+        </tr>
+        </thead>
+        <tbody id="users">
+        </tbody>
+        </table>
+    </div>
+
+</div>

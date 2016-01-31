@@ -72,11 +72,11 @@
                     </span>
                 </button>
             </div>
-            <h1>${argux_host}
+            <h2>${argux_host}
                 <a tal:condition="argux_host_desc!=''" href="#" id="host_detail_btn" class="btn">
                     <span class="glyphicon glyphicon-chevron-up"></span>
                 </a>
-            </h1>
+            </h2>
             <div tal:condition="argux_host_desc!=''" class="hidden" id="host_detail">
             ${argux_host_desc}
             </div>

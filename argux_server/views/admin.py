@@ -35,7 +35,9 @@ class AdminViews(BaseView):
         permission='view'
     )
     def admin(self):
-        return self.host_overview_default()
+        return {
+            "userid": authenticated_userid(self.request),
+            "action": 'users'}
 
     # pylint: disable=no-self-use
     @view_config(
@@ -46,5 +48,4 @@ class AdminViews(BaseView):
     def admin_users(self):
         return {
             "userid": authenticated_userid(self.request),
-            "fs": False,
-            "action": 'overview'}
+            "action": 'users'}
