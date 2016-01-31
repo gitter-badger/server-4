@@ -79,17 +79,34 @@ def main(global_config, **settings):
     config.include('pyramid_chameleon')
     config.add_static_view('static', 'static', cache_max_age=3600)
 
-    config.add_route('home', '/')
-    config.add_route('host_overview_default', '/hosts')
-    config.add_route('host_overview', '/hosts/{action}')
-    config.add_route('host_default', '/host/{host}')
-    config.add_route('host', '/host/{host}/{action}')
-    config.add_route('item', '/host/{host}/item/{item}')
-    config.add_route('item_details', '/host/{host}/item/{item}/{action}')
-    config.add_route('login', '/login')
-    config.add_route('logout', '/logout')
+    config.add_route('home',
+                     '/')
+    config.add_route('host_overview_default',
+                     '/hosts')
+    config.add_route('host_overview',
+                     '/hosts/{action}')
+    config.add_route('host_default',
+                     '/host/{host}')
+    config.add_route('host',
+                     '/host/{host}/{action}')
+    config.add_route('item',
+                     '/host/{host}/item/{item}')
+    config.add_route('item_details',
+                     '/host/{host}/item/{item}/{action}')
+    config.add_route('login',
+                     '/login')
+    config.add_route('logout',
+                     '/logout')
+    config.add_route('profile',
+                     '/profile')
 
-    config.add_route('dashboards', '/dashboard')
+    config.add_route('admin',
+                     '/admin')
+    config.add_route('admin_users',
+                     '/admin/users')
+
+    config.add_route('dashboards',
+                     '/dashboard')
 
     # REST 1.0 API
     config.add_route('rest_login_1',

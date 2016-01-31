@@ -73,10 +73,10 @@ def main():
         database_path = input(
             'database path: (/var/lib/argux-server/argux.sqlite)')
         if database_path == '':
-            datapase_path = '/var/lib/argux-server/argux.sqlite'
+            database_path = '/var/lib/argux-server/argux.sqlite'
 
         config['app:main']['sqlalchemy.url'] = \
-            'sqlite:///'+datapase_path
+            'sqlite:///'+database_path
 
     with open(filename, 'w') as configfile:
         config.write(configfile)
