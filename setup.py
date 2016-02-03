@@ -23,6 +23,11 @@ REQUIRES = [
     'bcrypt == 2.0',
     ]
 
+TEST_REQUIRES = [
+    'WebTest == 2.0.20',
+    'nose',
+    ]
+
 setup(name='argux-server',
       version='0.0.1',
       description='argux-server',
@@ -41,8 +46,8 @@ setup(name='argux-server',
       include_package_data=True,
       zip_safe=False,
       install_requires=REQUIRES,
-      tests_require=REQUIRES,
-      test_suite="tests",
+      tests_require=TEST_REQUIRES,
+      test_suite="nose.collector",
       entry_points="""\
       [paste.app_factory]
       main = argux_server:main

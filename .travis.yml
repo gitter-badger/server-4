@@ -9,7 +9,7 @@ install:
 
 # command to run tests, e.g. python setup.py test
 script:
-  nosetests --with-coverage --cover-package argux_server
+  python setup.py nosetests
 
 after_success:
   coveralls

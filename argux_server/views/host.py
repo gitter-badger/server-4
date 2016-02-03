@@ -10,10 +10,6 @@ from pyramid.httpexceptions import (
     HTTPFound
 )
 
-from pyramid.security import (
-    authenticated_userid
-)
-
 from argux_server.util import (
     TIMESPAN_EXPR,
 )
@@ -42,7 +38,7 @@ class MainViews(BaseView):
     )
     def host_overview_default(self):
         return {
-            "userid": authenticated_userid(self.request),
+            "userid": self.request.authenticated_userid,
             "fs": False,
             "action": 'overview'}
 
@@ -55,7 +51,7 @@ class MainViews(BaseView):
     def host_overview(self):
         action = self.request.matchdict['action']
         return {
-            "userid": authenticated_userid(self.request),
+            "userid": self.request.authenticated_userid,
             "fs": False,
             "action": action}
 
@@ -83,7 +79,7 @@ class MainViews(BaseView):
         return {
             "argux_host": host_name,
             "argux_host_desc": host_desc,
-            "userid": authenticated_userid(self.request),
+            "userid": self.request.authenticated_userid,
             "fs": False,
             "active_alerts": n_alerts,
             "action": action}
@@ -107,7 +103,7 @@ class MainViews(BaseView):
         return {
             "argux_host": host,
             "argux_host_desc": host_desc,
-            "userid": authenticated_userid(self.request),
+            "userid": self.request.authenticated_userid,
             "fs": False,
             "active_alerts": n_alerts,
             "action": action}

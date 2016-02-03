@@ -5,10 +5,6 @@ from pyramid.view import (
     view_defaults,
 )
 
-from pyramid.security import (
-    authenticated_userid
-)
-
 from pyramid.response import Response
 
 from datetime import datetime

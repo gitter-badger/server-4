@@ -8,7 +8,6 @@ from pyramid.view import (
 from pyramid.security import (
     remember,
     forget,
-    authenticated_userid
 )
 
 from pyramid.response import Response

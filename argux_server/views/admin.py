@@ -14,7 +14,6 @@ from pyramid.httpexceptions import (
 from pyramid.security import (
     remember,
     forget,
-    authenticated_userid
 )
 
 from argux_server.util import (
@@ -36,7 +35,7 @@ class AdminViews(BaseView):
     )
     def admin(self):
         return {
-            "userid": authenticated_userid(self.request),
+            "userid": self.request.authenticated_userid,
             "action": 'users'}
 
     # pylint: disable=no-self-use
@@ -47,5 +46,5 @@ class AdminViews(BaseView):
     )
     def admin_users(self):
         return {
-            "userid": authenticated_userid(self.request),
+            "userid": self.request.authenticated_userid,
             "action": 'users'}

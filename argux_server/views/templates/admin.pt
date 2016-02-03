@@ -44,7 +44,6 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="${request.route_url('admin')}">Admin</a></li>
                     <li><a href="${request.route_url('logout')}">Logout</a></li>
                 </ul>
             </div>

@@ -14,7 +14,6 @@ from pyramid.httpexceptions import (
 from pyramid.security import (
     remember,
     forget,
-    authenticated_userid
 )
 
 from argux_server.util import (
@@ -68,7 +67,7 @@ class ItemViews(BaseView):
         return {
             "argux_host": host_name,
             "argux_item": item,
-            "userid": authenticated_userid(self.request),
+            "userid": self.request.authenticated_userid,
             "timespan": timespan,
             "action": action,
             "fs": False,

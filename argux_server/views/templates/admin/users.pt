@@ -1,6 +1,16 @@
 <div class="section-body">
     <div class="panel panel-default">
-        <div class="panel-heading">Users</div>
+        <div class="panel-heading">
+            Users
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-default btn-xs"
+                        data-target=".bs-example-modal-lg"
+                        data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus alert-default"></span>
+                </button>
+            </div>
+        </div>
         <div class="panel-body">
         ...
         </div>

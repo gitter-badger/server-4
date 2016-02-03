@@ -14,7 +14,6 @@ from pyramid.httpexceptions import (
 from pyramid.security import (
     remember,
     forget,
-    authenticated_userid
 )
 
 from argux_server.util import (
@@ -30,7 +29,7 @@ class MainViews(BaseView):
 
     @forbidden_view_config()
     def forbidden_view(self):
-        if authenticated_userid(self.request):
+        if self.request.authenticated_userid:
             return HTTPForbidden()
 
         url = self.request.route_url(
@@ -83,5 +82,5 @@ class MainViews(BaseView):
     )
     def profile(self):
         return {
-            "userid": authenticated_userid(self.request),
+            "userid": self.request.authenticated_userid,
             }
