@@ -25,4 +25,7 @@ class AuthBcryptTests(unittest.TestCase):
         hashed = bcrypt.hashpw(
             'test_password'.encode('utf-8'),
             bcrypt.gensalt(15))
+
         self.assertTrue(validate('test_password', hashed))
+
+        self.assertFalse(validate('test_password_no', hashed))
