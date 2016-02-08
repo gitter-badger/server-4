@@ -66,3 +66,12 @@ class HostDAO:
             .first()
 
         return severity
+
+    def delete_host(self, name):
+        """Delete host."""
+
+        host = self.get_host_by_name(name=name)
+
+        self.db_session.delete(host)
+
+        return

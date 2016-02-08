@@ -69,6 +69,9 @@ class RestHostViews(RestView):
             charset='UTF-8',
             body='{"error": "400 Bad Request", "message": "dunno"}')
 
+        if self.request.method == "DELETE":
+            ret = self.host_1_view_delete(host_name)
+
         if self.request.method == "POST":
             ret = self.host_1_view_post(host_name)
 
@@ -91,6 +94,16 @@ class RestHostViews(RestView):
 
         return Response(
             status='201 Created',
+            content_type='application/json')
+
+    def host_1_view_delete(self, host_name):
+        """Delete a host."""
+
+        self.dao.host_dao.delete_host(
+            name=host_name)
+
+        return Response(
+            status='200 Ok',
             content_type='application/json')
 
     def host_1_view_get(self, host_name):

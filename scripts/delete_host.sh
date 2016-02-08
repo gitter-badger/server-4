@@ -21,30 +21,8 @@ curl -X POST \
 
 CSRF_TOKEN=`cat $HEADER_FILE | grep -i X-CSRF-TOKEN | awk -F : '{ print $2 }'`
 
-# Host
-curl -X POST \
-    -b $COOKIE_FILE \
-    -H "Content-Type: application/json" \
-    -H "X-CSRF-Token: $CSRF_TOKEN" \
-    -d "{
-       \"description\": \"Test adding new system\"
-    }" \
-    $SERVER/$REST_URI/$HOST_URI/ruby
-
-# Host
-curl -X POST \
+curl -X DELETE \
     -b $COOKIE_FILE \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
     $SERVER/$REST_URI/$HOST_URI/webserver
-
-# Host
-curl -X POST \
-    -b $COOKIE_FILE \
-    -H "Content-Type: application/json" \
-    -H "X-CSRF-Token: $CSRF_TOKEN" \
-    -d "{
-       \"description\": \"Argux DEMO System\"
-    }" \
-    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME
-
