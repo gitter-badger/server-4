@@ -21,12 +21,12 @@ REQUIRES = [
     'waitress',
     'python-dateutil == 2.4',
     'bcrypt == 2.0',
-    ]
+]
 
 TEST_REQUIRES = [
     'WebTest == 2.0.20',
     'nose',
-    ]
+]
 
 setup(name='argux-server',
       version='0.0.1',
