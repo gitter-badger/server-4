@@ -14,7 +14,11 @@ Contents:
    intro
    getting-started
    rest/index
-
+   monitor/index
+   monitor/icmp
+   monitor/snmp
+   monitor/dns
+   monitor/jmx
 
 Indices and tables
 ==================
