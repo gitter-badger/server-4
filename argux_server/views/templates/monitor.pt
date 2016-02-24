@@ -7,10 +7,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Argux Server monitoring application">
+    <meta name="description" content="Argux Net Monitor">
     <link rel="shortcut icon" href="${request.static_url('argux_server:static/pyramid-16x16.png')}">
 
-    <title>Argux</title>
+    <title>Net Monitor</title>
 
     <!-- Bootstrap core CSS -->
     <link href="${request.static_url('argux_server:static/css/bootstrap.min.css')}" rel="stylesheet">
@@ -24,14 +24,11 @@
     <![endif]-->
     <script type="text/javascript">
         var ARGUX_BASE="${request.application_url}";
-        var ARGUX_HOST="${argux_host}";
-        var ARGUX_HOST_ACTION="${action}";
         var CSRF_TOKEN="${request.session.get_csrf_token()}";
-        var FULLSCREEN="${fs}";
     </script>
   </head>
 
-  <body tal:attributes="class 'fs' if fs==True else nothing">
+  <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -41,11 +38,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="${request.route_url('home')}">Argux</a>
+                <a class="navbar-brand" href="#">Argux Net Monitor</a>
             </div>
             <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="${request.route_url('admin')}">Admin</a></li>
                     <li><a href="${request.route_url('logout')}">Logout</a></li>
                 </ul>
             </div>
@@ -53,46 +49,25 @@
     </nav>
     <div class="body container-fluid">
         <ol class="breadcrumb">
-          <li class="dropdown"><a href="/hosts">Hosts</a>
+          <li class="active dropdown">Monitors
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <span class="caret"/>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="/monitor">Monitors</a></li>
+              <li><a href="/hosts">Hosts</a></li>
               <li><a href="/dashboard">Dashboards</a></li>
             </ul>
           </li>
-          <li class="active">${argux_host}</li>
         </ol>
-        <div class="page-header">
-            <div class="pull-right">
-                <button type="button"
-                        id="toggle-fullscreen"
-                        class="btn btn-default btn-sm">
-                    <span tal:attributes="class 'glyphicon glyphicon-resize-small' if fs==True else 'glyphicon glyphicon-fullscreen'">
-                    </span>
-                </button>
-            </div>
-            <h2>${argux_host}
-                <a tal:condition="argux_host_desc!=''" href="#" id="host_detail_btn" class="btn">
-                    <span class="glyphicon glyphicon-chevron-up"></span>
-                </a>
-            </h2>
-            <div tal:condition="argux_host_desc!=''" class="hidden" id="host_detail">
-            ${argux_host_desc}
-            </div>
-        </div>
-        <ul class="nav nav-tabs nav-xs">
-          <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
-              tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
+        <ul class="nav nav-tabs">
+          <li tal:define="item_l ('ICMP', 'DNS', 'SNMP', 'JMX')"
+              tal:repeat="item ('icmp', 'dns', 'snmp', 'jmx')"
               tal:attributes="class 'active' if item==action else nothing">
-            <a tal:attributes="href request.application_url+'/host/'+argux_host+'/'+item">
+            <a tal:attributes="href request.application_url+'/monitor/'+item">
                 <span tal:content="item_l[repeat.item.index]">
-                <span tal:condition="item=='alerts'"
-                      class="badge" id="alert_count"></span>
             </a>
             <span tal:condition="action==item">
-                <span tal:define="global tmpl load: ./host/${item}.pt"/>
+                <span tal:define="global tmpl load: ./monitor/${item}.pt"/>
             </span>
           </li>
         </ul>
@@ -100,7 +75,6 @@
     </div>
     <footer class="footer">
         <div class="container-fluid">
-        <p class="text-muted"><a href="${request.route_url('profile')}">${userid}</a></p>
         </div>
     </footer>
 
@@ -109,8 +83,5 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="${request.static_url('argux_server:static/js/jquery.min.js')}"></script>
     <script src="${request.static_url('argux_server:static/js/bootstrap.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/js/moment.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/argux.js')}"></script>
-    <script src="${request.static_url('argux_server:static/host.js')}"></script>
   </body>
 </html>

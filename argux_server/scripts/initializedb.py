@@ -17,7 +17,8 @@ from ..models import (
     BASE,
     ItemType,
     TriggerSeverity,
-    HashMethod
+    HashMethod,
+    MonitorType,
 )
 
 from ..dao.UserDAO import UserDAO
@@ -58,6 +59,9 @@ def main():
         DB_SESSION.add(model)
 
         model = HashMethod(name='bcrypt', allowed=True)
+        DB_SESSION.add(model)
+
+        model = MonitorType(name='ICMP')
         DB_SESSION.add(model)
 
         user_dao = UserDAO(DB_SESSION)

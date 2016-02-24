@@ -14,16 +14,14 @@ from argux_server.dao.util import (
     ALERT_CLASS
 )
 
+from .BaseDAO import BaseDAO
 
-class ItemDAO:
+
+class ItemDAO(BaseDAO):
 
     """
     Item DAO.
     """
-
-    def __init__(self, session):
-        """Initialise ItemDAO."""
-        self.db_session = session
 
     def get_items_from_host(self, host):
         """Get all items registered on a host."""

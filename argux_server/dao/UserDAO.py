@@ -7,13 +7,12 @@ from argux_server.models import (
 
 import argux_server.auth
 
-class UserDAO:
+from .BaseDAO import BaseDAO
+
+
+class UserDAO(BaseDAO):
 
     """UserDAO Class."""
-
-    def __init__(self, session):
-        """Initialise UserDAO."""
-        self.db_session = session
 
     def create_user(self, namespace, name, password, hash_method=None):
         if hash_method:

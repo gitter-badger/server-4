@@ -20,6 +20,10 @@ from .Note import Note
 
 from .User import User, HashMethod
 
+from .Monitor import Monitor
+from .MonitorOption import MonitorOption
+from .MonitorType import MonitorType
+
 from .values.IntValue import (
     IntValue,
     IntSimpleTrigger,

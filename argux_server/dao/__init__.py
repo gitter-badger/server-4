@@ -5,6 +5,7 @@ from .HostDAO import HostDAO
 from .NoteDAO import NoteDAO
 from .UserDAO import UserDAO
 from .TriggerDAO import TriggerDAO
+from .MonitorDAO import MonitorDAO
 
 
 # pylint: disable=too-few-public-methods
@@ -25,3 +26,4 @@ class DAO(object):
         self.note_dao = NoteDAO(db_session)
         self.user_dao = UserDAO(db_session)
         self.trigger_dao = TriggerDAO(db_session)
+        self.monitor_dao = MonitorDAO(db_session)

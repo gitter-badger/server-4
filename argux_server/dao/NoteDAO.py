@@ -4,16 +4,15 @@ from argux_server.models import (
     Note
 )
 
+from .BaseDAO import BaseDAO
 
-class NoteDAO():
+
+class NoteDAO(BaseDAO):
 
     """Note DAO.
 
     Data Access Object for handling Notes.
     """
-
-    def __init__(self, session):
-        self.db_session = session
 
     def get_notes_for_host(self, host):
         """Get notes for host."""

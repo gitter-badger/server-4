@@ -1,5 +1,5 @@
 
-SERVER=http://localhost:6543
+SERVER=http://localhost:7000
 REST_URI=rest/1.0
 HOST_URI=host
 

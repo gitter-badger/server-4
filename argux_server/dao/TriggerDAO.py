@@ -9,17 +9,15 @@ from argux_server.dao.util import (
     ALERT_CLASS
 )
 
+from .BaseDAO import BaseDAO
 
-class TriggerDAO:
+
+class TriggerDAO(BaseDAO): 
 
     """Trigger DAO.
 
     Data Access Object for handling Triggers.
     """
-
-    def __init__(self, session):
-        """Initialise ItemDAO."""
-        self.db_session = session
 
     def create_trigger(self, properties):
         """Create trigger."""

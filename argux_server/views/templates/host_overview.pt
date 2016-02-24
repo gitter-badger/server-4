@@ -53,6 +53,7 @@
               <span class="caret"/>
             </a>
             <ul class="dropdown-menu">
+              <li><a href="/monitor">Monitors</a></li>
               <li><a href="/dashboard">Dashboards</a></li>
             </ul>
           </li>

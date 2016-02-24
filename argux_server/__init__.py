@@ -27,6 +27,10 @@ from argux_server import dao
 
 from argux_server.trigger import TriggerWorker
 
+from argux_server.monitors import (
+    start_monitors
+)
+
 
 # MAP GROUPS TO PERMISSIONS
 class RootFactory(object):
@@ -93,6 +97,10 @@ def main(global_config, **settings):
                      '/host/{host}/item/{item}')
     config.add_route('item_details',
                      '/host/{host}/item/{item}/{action}')
+    config.add_route('monitor_default',
+                     '/monitor')
+    config.add_route('monitor',
+                     '/monitor/{action}')
     config.add_route('login',
                      '/login')
     config.add_route('logout',
@@ -147,6 +155,8 @@ def main(global_config, **settings):
 
     config.scan('.views')
     config.scan('.rest.views')
+
+    start_monitors()
 
     worker = TriggerWorker()
     worker.start()
