@@ -58,9 +58,16 @@
         </div>
     </div>
     <footer class="footer">
-        <div class="container-fluid">
-        <p class="text-muted">${userid}</p>
-        </div>
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+          <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a href="${request.route_url('profile')}">Logged in as ${userid}</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="https://argux-server.readthedocs.org">Docs</a></li>
+            </ul>
+          </div>
+        </nav>
     </footer>
 
     <!-- Bootstrap core JavaScript
