@@ -48,7 +48,7 @@
                         aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">Add ICMP Monitor<h4>
+                <h4 class="modal-title">Add DNS Monitor<h4>
             </div>
             <div class="modal-body">
                 <div role="tabpanel" class="tab-pane active" id="edit">
@@ -59,23 +59,25 @@
                                 tal:content="host.name">
                         </option>
                     </select>
-                    <label for="monitor-address">Address</label>
-                    <div class="input-group" id='monitor-address'>
+                    <label for="monitor-address">Domain</label>
+                    <div class="input-group" id='monitor-domain'>
                       <input type="text" class="form-control" aria-label="...">
                       <div class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-pencil"></span></button>
                         <ul class="dropdown-menu dropdown-menu-right">
-                          <li><a href="#">127.0.0.1</a></li>
+                          <!--<li><a href="#"></a></li>-->
                         </ul>
                       </div><!-- /btn-group -->
                     </div><!-- /input-group -->
-                    <label for="monitor-interval">Interval</label>
-                    <select class="form-control" id="monitor-interval">
-                        <option val='15s'>15 seconds</option>
-                        <option val='30s'>30 seconds</option>
-                        <option val='1m'>1 minute</option>
-                        <option val='5m'>5 minutes</option>
-                    </select>
+                    <div class="input-group">
+                    <label for="monitor-domain-A"><input type="checkbox"/> A record</label>
+                    </div>
+                    <div class="input-group">
+                    <label for="monitor-domain-AAAA"><input type="checkbox"/> AAAA record</label>
+                    </div>
+                    <div class="input-group">
+                    <label for="monitor-domain-MX"><input type="checkbox"/> MX record</label>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
