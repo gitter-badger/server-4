@@ -18,7 +18,7 @@ class AbstractMonitor(Thread):
     Abstract Monitor class for all monitor threads.
     """
 
-    def __init__(self):
+    def __init__(self, settings):
         """Initialise AbstractMonitor.
 
         This constructor builds a DAO and a Session object.

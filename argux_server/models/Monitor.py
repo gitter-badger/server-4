@@ -33,3 +33,10 @@ class Monitor(BASE):
     host_address = relationship(HostAddress, backref='monitor_host_address')
     monitor_type_id = Column(Integer, ForeignKey('monitor_type.id'), nullable=False)
     monitor_type = relationship(MonitorType, backref='monitors')
+
+
+Index(
+    'u_monitor_host_a_monitor_t_id',
+    Monitor.monitor_type_id,
+    Monitor.host_address_id,
+    unique=True)

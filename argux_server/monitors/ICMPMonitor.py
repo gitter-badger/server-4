@@ -6,6 +6,8 @@ import platform
 import re
 import subprocess
 
+from datetime import datetime
+
 from .AbstractMonitor import AbstractMonitor
 
 def parse_freebsd(monitor, output):
@@ -18,10 +20,12 @@ def parse_freebsd(monitor, output):
     1 packets transmitted, 1 packets received, 0.0% packet loss
     round-trip min/avg/max/stddev = 0.079/0.079/0.079/0.000 ms
     """
+    ret_val = None
     for row in output.split('\n'):
         m = re.search('^round-trip min/avg/max/stddev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            print(m.group(1))
+            ret_val = m.group(1)
+    return ret_val
 
 def parse_linux(monitor, output):
     """Parse Linux PING output.
@@ -33,10 +37,12 @@ def parse_linux(monitor, output):
     1 packets transmitted, 1 received, 0% packet loss, time 0ms
     rtt min/avg/max/mdev = 0.042/0.042/0.042/0.000 ms
     """
+    ret_val = None
     for row in output.split('\n'):
         m = re.search('^rtt min/avg/max/mdev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            print(m.group(1))
+            ret_val = m.group(1)
+    return ret_val
 
 def parse_sunos(monitor, output):
     """Parse Solaris PING output.
@@ -49,10 +55,12 @@ def parse_sunos(monitor, output):
     1 packets transmitted, 1 packets received, 0% packet loss
     round-trip (ms)  min/avg/max/stddev = 0.300/0.300/0.300/NaN
     """
+    ret_val = None
     for row in output.split('\n'):
         m = re.search('^round-trip \(ms\)  min/avg/max/stddev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            print(m.group(1))
+            ret_val = m.group(1)
+    return ret_val
 
 PING = {
     'FreeBSD': 'ping -c 1 -q {address}',
@@ -95,8 +103,36 @@ class ICMPMonitor(AbstractMonitor):
 
                 output = subprocess.check_output(ping_cmd, shell=True, universal_newlines=True)
 
-                PARSE[system_name](monitor, output)
+                val = PARSE[system_name](monitor, output)
 
+                item_key = 'icmpping[env=local,addr='+address+']'
+                item = self.dao.item_dao\
+                    .get_item_by_host_key(
+                        monitor.host_address.host,
+                        item_key
+                    )
+                if item is None:
+                    item_type = self.dao.item_dao\
+                        .get_itemtype_by_name(name='float')
+
+                    item = self.dao.item_dao\
+                        .create_item(
+                            {
+                                'host': monitor.host_address.host,
+                                'key': item_key,
+                                'name': 'Ping response from '+address+' to (local)',
+                                'itemtype': item_type,
+                                'category': 'Network'
+                            }
+                        )
+                    print('create item')
+
+                timestamp = datetime.now()
+
+                self.dao.item_dao.push_value(item, timestamp, val)
+
+            self.session.commit()
+            self.session.flush()
             try:
                 time.sleep(60)
             except KeyboardInterrupt:

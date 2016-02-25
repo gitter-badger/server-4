@@ -20,6 +20,7 @@ from .Note import Note
 
 from .User import User, HashMethod
 
+from .HostAddress import HostAddress
 from .Monitor import Monitor
 from .MonitorOption import MonitorOption
 from .MonitorType import MonitorType

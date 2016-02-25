@@ -2,6 +2,7 @@
 
 from argux_server.models import (
     Host,
+    HostAddress,
     Item,
     TriggerSeverity
 )
@@ -74,3 +75,25 @@ class HostDAO(BaseDAO):
         self.db_session.delete(host)
 
         return
+
+    def add_address(self, host, address):
+        """Add address."""
+        d_address = HostAddress(host=host, name=address)
+        self.db_session.add(d_address)
+        self.db_session.flush()
+        self.db_session.commit()
+        return
+
+    def get_address(self, host, address):
+        d_address = self.db_session.query(HostAddress)\
+            .filter(HostAddress.host == host)\
+            .filter(HostAddress.name == address)\
+            .first()
+        return d_address
+
+    def get_addresses(self, host):
+        """Return associated addresses."""
+        d_addresses = self.db_session.query(HostAddress)\
+            .filter(HostAddress.host == host)\
+            .all()
+        return d_addresses

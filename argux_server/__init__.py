@@ -140,6 +140,10 @@ def main(global_config, **settings):
                      '/rest/1.0/host/{host}/item/{item}/trigger/validate')
     config.add_route('rest_trigger_1',
                      '/rest/1.0/host/{host}/item/{item}/trigger/{id}')
+    config.add_route('rest_host_addresses_1',
+                     '/rest/1.0/host/{host}/addr')
+    config.add_route('rest_host_address_1',
+                     '/rest/1.0/host/{host}/addr/{address}')
 
     config.add_route('rest_note_1',
                      '/rest/1.0/note')
@@ -149,6 +153,9 @@ def main(global_config, **settings):
     config.add_route('rest_itemtype_detail_1',
                      '/rest/1.0/itemtype/{itemtype}/detail/{id}')
 
+    config.add_route('rest_monitor_1',
+                     '/rest/1.0/monitor/{type}/{host}/{address}')
+
     # Pretty-print JSON, useful for development.
     if settings['rest.pretty_json'] == 'true':
         config.add_renderer('json', JSON(indent=4))
@@ -156,7 +163,7 @@ def main(global_config, **settings):
     config.scan('.views')
     config.scan('.rest.views')
 
-    start_monitors()
+    start_monitors(settings=settings)
 
     worker = TriggerWorker()
     worker.start()

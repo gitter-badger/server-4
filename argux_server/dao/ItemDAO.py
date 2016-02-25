@@ -45,17 +45,19 @@ class ItemDAO(BaseDAO):
 
     def create_item(self, properties):
         """Create new Item."""
-        category_id = self.db_session.query(ItemCategory.id)\
+        category = self.db_session.query(ItemCategory)\
             .filter(ItemCategory.name == properties['category'])\
             .first()
-        if category_id is None and 'category' in properties:
+        if category is None and 'category' in properties:
             if properties['category'] is not None:
                 category = ItemCategory(name=properties['category'])
 
                 self.db_session.add(category)
                 self.db_session.flush()
-                category_id = category.id
 
+        category_id = None
+        if category is not None:
+            category_id = category.id
 
         item = Item(
             host_id=properties['host'].id,
@@ -65,6 +67,7 @@ class ItemDAO(BaseDAO):
             itemtype=properties['itemtype'])
 
         self.db_session.add(item)
+        self.db_session.flush()
         return item
 
     def push_value(self, item, timestamp, value):
