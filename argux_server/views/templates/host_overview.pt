@@ -81,7 +81,7 @@
                 <li><a href="${request.route_url('profile')}">Logged in as ${userid}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://argux-server.readthedocs.org">Docs</a></li>
+                <li><a target="_blank" href="https://argux-server.readthedocs.org">Docs</a></li>
             </ul>
           </div>
         </nav>
