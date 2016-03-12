@@ -28,6 +28,9 @@ var config = {
     },
     options: {
         responsive: true,
+        legend: {
+            display: false,
+        }
     }
 };
 
