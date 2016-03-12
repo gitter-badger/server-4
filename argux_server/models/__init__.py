@@ -42,3 +42,9 @@ from .values.TextValue import (
     TextSimpleTrigger,
     TextSimpleAlert
 )
+
+from .values.BooleanValue import (
+    BooleanValue,
+    BooleanSimpleTrigger,
+    BooleanSimpleAlert
+)
