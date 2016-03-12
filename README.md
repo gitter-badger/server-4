@@ -8,6 +8,9 @@
 
 >  python setup.py install
 
+## Generate config-file
+> argux-server_genconfig
+
 ## Initialize the database
 >  initialize_argux-server_db development.py
 
