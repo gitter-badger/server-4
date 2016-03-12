@@ -21,7 +21,7 @@ var config = {
                 borderWidth: 1,
                 borderColor: "rgba(10,145,115,1)",
                 backgroundColor: "rgba(10,200,160,0.2)",
-                pointRadius: 0,
+                pointHoverRadius: 4,
                 data: [{x:'0',y:'1'}]
             }
         ]
@@ -66,6 +66,9 @@ var config = {
         elements: {
             line: {
                 tension: 0.0
+            },
+            point: {
+                radius: 1
             }
         },
     }
