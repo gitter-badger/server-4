@@ -13,6 +13,8 @@ from datetime import datetime, timedelta
 
 import json
 
+import math
+
 from . import RestView
 
 from argux_server.util import (
@@ -204,6 +206,11 @@ class RestItemViews(RestView):
         get_values = self.request.params.get('get_values', 'true')
         get_alerts = self.request.params.get('get_alerts', 'false')
 
+        try:
+            interval = int(self.request.params.get('interval', '60'))
+        except ValueError:
+            interval = 60
+
 
         if (q_start != None):
             start = dateutil.parser.parse(q_start)
@@ -214,7 +221,7 @@ class RestItemViews(RestView):
             end = datetime.now()
 
         if get_values == 'true':
-            values = self.__get_values(item, start, end)
+            values = self.__get_values(item, start, end, interval)
             active_alerts = self.__get_active_alerts(item)
 
         if get_alerts == 'true':
@@ -245,7 +252,7 @@ class RestItemViews(RestView):
 
         return alerts
 
-    def __get_values(self, item, start, end):
+    def __get_values(self, item, start, end, interval=60):
         """Return array of timestamp+value objects within a timeframe.
 
         timestamp is formatted according to argux_server.util.DATE_FMT
@@ -253,15 +260,38 @@ class RestItemViews(RestView):
         This format should be in ISO8601 (YYYY/MM/DDTmm:hh:ssZ)
         """
         values = []
+        max_values = []
+        min_values = []
         d_values = self.dao.item_dao.get_values(
             item,
             start_time=start,
             end_time=end)
 
-        for value in d_values:
+        old_value = None
+
+        for index, value in enumerate(d_values):
+            # Fill in the gaps between values.
+            # This section of the code assumes 1 minute gaps, which is silly.
+            # The interval should be known somehow (maybe configurable in the item?).
+            # Also, it should calculate min/max/avg values.
+            if old_value:
+                tdelta = value.timestamp - old_value.timestamp
+                if tdelta.seconds > interval:
+                    for a in range(0, int(tdelta.seconds/interval)):
+                        values.append({
+                            'ts': (old_value.timestamp + timedelta(minutes=a)).strftime(DATE_FMT),
+                            'value': None
+                        })
+
             values.append({
                 'ts': value.timestamp.strftime(DATE_FMT),
                 'value': value.value
             })
 
-        return values
+            old_value = value
+
+        return {
+            'avg': values,
+            'max': max_values,
+            'min': min_values
+        }

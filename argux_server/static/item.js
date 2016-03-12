@@ -303,7 +303,7 @@ function details_cb(json) {
     chart_start_time = json.start_time;
 
     if (json.values) {
-        $.each(json.values, function(i, value) {
+        $.each(json.values.avg, function(i, value) {
             datapoints.push({
                 x: value.ts,
                 y: value.value});
