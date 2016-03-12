@@ -105,7 +105,9 @@ class ICMPMonitor(AbstractMonitor):
 
                 val = PARSE[system_name](monitor, output)
 
-                item_key = 'icmpping[env=local,addr='+address+']'
+                timestamp = datetime.now()
+
+                item_key = 'icmpping[env=local,addr='+address+',responsetime]'
                 item = self.dao.item_dao\
                     .get_item_by_host_key(
                         monitor.host_address.host,
@@ -120,16 +122,40 @@ class ICMPMonitor(AbstractMonitor):
                             {
                                 'host': monitor.host_address.host,
                                 'key': item_key,
-                                'name': 'Ping response from '+address+' to (local)',
+                                'name': 'Ping response-time from '+address+' to (local)',
                                 'itemtype': item_type,
                                 'category': 'Network'
                             }
                         )
                     print('create item')
 
-                timestamp = datetime.now()
+                if val is not None:
+                    self.dao.item_dao.push_value(item, timestamp, val)
 
-                self.dao.item_dao.push_value(item, timestamp, val)
+                item_key = 'icmpping[env=local,addr='+address+',alive]'
+                item = self.dao.item_dao\
+                    .get_item_by_host_key(
+                        monitor.host_address.host,
+                        item_key
+                    )
+                if item is None:
+                    item_type = self.dao.item_dao\
+                        .get_itemtype_by_name(name='boolean')
+
+                    item = self.dao.item_dao\
+                        .create_item(
+                            {
+                                'host': monitor.host_address.host,
+                                'key': item_key,
+                                'name': 'Ping response from '+address+' to (local)',
+                                'itemtype': item_type,
+                                'category': 'Network'
+                            }
+                        )
+                if val is not None:
+                    self.dao.item_dao.push_value(item, timestamp, True)
+                else:
+                    self.dao.item_dao.push_value(item, timestamp, False)
 
             self.session.commit()
             self.session.flush()

@@ -11,7 +11,7 @@ from argux_server.models import (
 from argux_server.dao.util import (
     VALUE_CLASS,
     TRIGGER_CLASS,
-    ALERT_CLASS
+    ALERT_CLASS,
 )
 
 from .BaseDAO import BaseDAO

@@ -50,6 +50,8 @@ def main():
         DB_SESSION.add(model)
         model = ItemType(name='text', description='Text')
         DB_SESSION.add(model)
+        model = ItemType(name='boolean', description='Boolean')
+        DB_SESSION.add(model)
 
         model = TriggerSeverity(level=1, key="info", name="Information")
         DB_SESSION.add(model)
