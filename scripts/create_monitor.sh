@@ -34,11 +34,6 @@ curl -X POST \
     -b $COOKIE_FILE \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
-    -d "{
-        \"options\":{
-            \"interval\":\"15s\"
-            }
-        }" \
     $SERVER/$REST_URI/host/localhost/addr/127.0.0.1
 
 curl -X POST \
