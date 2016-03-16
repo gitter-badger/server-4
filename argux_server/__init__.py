@@ -155,6 +155,8 @@ def main(global_config, **settings):
     config.add_route('rest_itemtype_detail_1',
                      '/rest/1.0/itemtype/{itemtype}/detail/{id}')
 
+    config.add_route('rest_monitors_1',
+                     '/rest/1.0/monitor/{type}')
     config.add_route('rest_monitor_1',
                      '/rest/1.0/monitor/{type}/{host}/{address}')
 

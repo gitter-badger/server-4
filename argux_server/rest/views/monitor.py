@@ -28,6 +28,42 @@ class RestMonitorViews(RestView):
     """
 
     @view_config(
+        route_name='rest_monitors_1',
+        request_method='GET',
+        check_csrf=True,
+        permission='view'
+    )
+    def monitors_1_view_read(self):
+        monitor_type = self.request.matchdict['type'].upper()
+        monitors = []
+
+        if not monitor_type in MONITORS:
+            raise HTTPBadRequest(
+                body=json.dumps({
+                    'error': '400 Bad Request',
+                    'message': 'invalid type'
+                }))
+
+        d_monitors = self.dao.monitor_dao.get_all_monitors_for_type(
+            monitor_type)
+
+        for d_monitor in d_monitors:
+            options = {}
+
+            for d_option in d_monitor.options:
+                options[d_option.key] = d_option.value
+
+            monitors.append({
+                'address': d_monitor.host_address.name,
+                'host': d_monitor.host_address.host.name,
+                'options': options
+            })
+
+        return {
+            'monitors':monitors
+        }
+
+    @view_config(
         route_name='rest_monitor_1',
         request_method='POST',
         check_csrf=True,

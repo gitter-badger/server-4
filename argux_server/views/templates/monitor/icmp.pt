@@ -18,10 +18,8 @@
         <table class="table table-striped">
             <thead>
             <th>Host</th>
-            <th>Response-Time</th>
-            <th>Last Check</th>
-            <th>Interval</th>
-            <th>Enabled</th>
+            <th>Address</th>
+            <th>Options</th>
             <th></th>
             </thead>
             <tbody id='monitors'>
@@ -52,7 +50,7 @@
             </div>
             <div class="modal-body">
                 <div role="tabpanel" class="tab-pane active" id="edit">
-                    <div id="trigger-form-alerts"></div>
+                    <div id="monitor-form-alerts"></div>
                     <label for="monitor-host">Host</label>
                     <select class="form-control" id="monitor-host">
                         <option tal:repeat="host hosts"
@@ -60,15 +58,7 @@
                         </option>
                     </select>
                     <label for="monitor-address">Address</label>
-                    <div class="input-group" id='monitor-address'>
-                      <input type="text" class="form-control" aria-label="...">
-                      <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-pencil"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                          <li><a href="#">127.0.0.1</a></li>
-                        </ul>
-                      </div><!-- /btn-group -->
-                    </div><!-- /input-group -->
+                    <input type="text" class="form-control" id="monitor-address">
                     <label for="monitor-interval">Interval</label>
                     <select class="form-control" id="monitor-interval">
                         <option val='15s'>15 seconds</option>
