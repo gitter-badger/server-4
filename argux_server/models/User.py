@@ -6,7 +6,8 @@ from sqlalchemy import (
     Integer,
     Text,
     ForeignKey,
-    Boolean
+    Boolean,
+    Binary
 )
 
 from sqlalchemy.orm import (
@@ -43,10 +44,10 @@ class User(BASE):
     Store user (and it's credentials) in the database.
     """
 
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     name = Column(Text, nullable=False)
-    passwd_hash = Column(Text, default=None, nullable=True)
+    passwd_hash = Column(Binary, default=None, nullable=True)
     hashmethod_id = Column(Integer, ForeignKey('hashmethod.id'), nullable=False)
     hashmethod = relationship(HashMethod, backref='users')
 
