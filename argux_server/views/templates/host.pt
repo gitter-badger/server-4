@@ -95,6 +95,14 @@
                 <span tal:define="global tmpl load: ./host/${item}.pt"/>
             </span>
           </li>
+          <li tal:attributes="class 'active pull-right' if 'config'==action else 'pull-right'">
+            <a href="${request.application_url}/host/${argux_host}/config">
+                <span>Config</span>
+            </a>
+            <span tal:condition="'config'==action">
+                <span tal:define="global tmpl load: ./host/config.pt"/>
+            </span>
+          </li>
         </ul>
         <div metal:extend-macro='tmpl'></div>
     </div>
