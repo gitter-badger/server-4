@@ -81,6 +81,8 @@ def main(global_config, **settings):
     config.set_authorization_policy(authorization_policy)
 
     config.include('pyramid_chameleon')
+    config.include('pyramid_tm')
+
     config.add_static_view('static', 'static', cache_max_age=3600)
 
     config.add_route('home',
