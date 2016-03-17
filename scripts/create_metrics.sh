@@ -8,9 +8,16 @@ HOST_NAME=localhost
 ARGUX_USERNAME=admin
 ARGUX_PASSWORD=admin
 
+UNAMESTR=`uname`
 
-HEADER_FILE=`mktemp`
-COOKIE_FILE=`mktemp`
+if [[ "$UNAMESTR" == "Darwin" ]]; then
+MKTEMP='mktemp -t argux'
+else
+MKTEMP='mktemp'
+fi
+
+HEADER_FILE=`$MKTEMP`
+COOKIE_FILE=`$MKTEMP`
 
 curl -X POST \
     -c $COOKIE_FILE \

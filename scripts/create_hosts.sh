@@ -8,8 +8,16 @@ HOST_NAME=localhost
 ARGUX_USERNAME=admin
 ARGUX_PASSWORD=admin
 
-HEADER_FILE=`mktemp`
-COOKIE_FILE=`mktemp`
+UNAMESTR=`uname`
+
+if [[ "$UNAMESTR" == "Darwin" ]]; then
+MKTEMP='mktemp -t argux'
+else
+MKTEMP='mktemp'
+fi
+
+HEADER_FILE=`$MKTEMP`
+COOKIE_FILE=`$MKTEMP`
 
 curl -X POST \
     -c $COOKIE_FILE \
@@ -37,6 +45,8 @@ curl -X POST \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
     $SERVER/$REST_URI/$HOST_URI/webserver
+
+exit 0
 
 # Host
 curl -X POST \

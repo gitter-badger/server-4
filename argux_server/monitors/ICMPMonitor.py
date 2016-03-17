@@ -64,12 +64,14 @@ def parse_sunos(monitor, output):
 
 PING = {
     'FreeBSD': 'ping -c 1 -q {address}',
+    'Darwin': 'ping -c 1 -q {address}',
     'SunOS': 'ping -s {address} 56 1',
     'Linux': 'ping -c 1 -w 10 -q {address}'
 }
 
 PARSE = {
     'FreeBSD': parse_freebsd,
+    'Darwin': parse_freebsd,
     'SunOS': parse_sunos,
     'Linux': parse_linux
 }
