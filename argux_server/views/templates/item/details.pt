@@ -1,5 +1,6 @@
 <div class="section-body">
-    <div class="col-md-6">
+    <div tal:condition="has_details==True"
+         class="col-md-6">
         <div id="item-details">
         </div>
     </div>
