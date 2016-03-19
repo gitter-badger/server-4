@@ -97,17 +97,12 @@ class ICMPMonitor(AbstractMonitor):
 
             mons = self.dao.monitor_dao.get_all_monitors_for_type('ICMP')
             for monitor in mons:
+                val = None
                 address = monitor.host_address.name
                 for o in monitor.options:
                     print(o.key)
 
                 ping_cmd = PING[system_name].format(address=address)
-
-                output = subprocess.check_output(ping_cmd, shell=True, universal_newlines=True)
-
-                val = PARSE[system_name](monitor, output)
-
-                timestamp = datetime.now()
 
                 item_key = 'icmpping[env=local,addr='+address+',responsetime]'
                 item = self.dao.item_dao\
@@ -129,10 +124,20 @@ class ICMPMonitor(AbstractMonitor):
                                 'category': 'Network'
                             }
                         )
-                    print('create item')
 
-                if val is not None:
-                    self.dao.item_dao.push_value(item, timestamp, val)
+                timestamp = datetime.now()
+
+                try:
+                    output = subprocess.check_output(ping_cmd, shell=True, universal_newlines=True)
+
+                    val = PARSE[system_name](monitor, output)
+
+                    if val is not None:
+                        self.dao.item_dao.push_value(item, timestamp, val)
+
+                except CalledProcessError:
+                    val = None
+
 
                 item_key = 'icmpping[env=local,addr='+address+',alive]'
                 item = self.dao.item_dao\
