@@ -1,3 +1,45 @@
 <div class="section-body">
-    <div class="alert alert-info" role="alert"><p>There is no config available</p></div>
+<div class="col-sm-6">
+    <div class="panel panel-default" id="timechart">
+        <div class="panel-heading">Details</div>
+        <table class="table table-condensed">
+        <tbody id="details">
+        <tr>
+            <td>Name:</td><td>${argux_host}</td>
+        </tr>
+        <tr>
+            <td>Description:</td><td>${argux_host_desc}</td>
+        </tr>
+        <tr>
+            <td>Tags</td>
+            <td>
+            <span class="label label-default">argux <span class="glyphicon glyphicon-remove"></span></span>
+            <span class="label label-default">webserver <span class="glyphicon glyphicon-remove"></span></span>
+            <span class="label label-default">production <span class="glyphicon glyphicon-remove"></span></span>
+            <span class="label label-default">CAS <span class="glyphicon glyphicon-remove"></span></span>
+            <span class="label label-default">RHEL 6 <span class="glyphicon glyphicon-remove"></span></span>
+            <span class="label label-default">Apache 2.2 <span class="glyphicon glyphicon-remove"></span></span>
+            </td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+<div class="col-sm-6">
+    <div class="panel panel-default" id="timechart">
+        <div class="panel-heading">Host Addresses</div>
+        <div class="panel-body">
+        Host addresses are network-addresses associated with a host, these can be used to configure monitors.
+        </div>
+        <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Address</th><th>Description</th>
+        </tr>
+        </thead>
+        <tbody id="addresses">
+        </tbody>
+        </table>
+    </div>
+</div>
 </div>

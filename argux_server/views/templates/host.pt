@@ -58,8 +58,8 @@
               <span class="caret"/>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="/monitor">Monitors</a></li>
-              <li><a href="/dashboard">Dashboards</a></li>
+              <li><a href="${request.application_url}/monitor">Monitors</a></li>
+              <li><a href="${request.application_url}/dashboard">Dashboards</a></li>
             </ul>
           </li>
           <li class="active">${argux_host}</li>
