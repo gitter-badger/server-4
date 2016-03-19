@@ -29,7 +29,7 @@ def option_question(question, options, default=None, print_options=True):
         question = question + ' ' + str(options)
 
     if default is not None:
-        question = question + ' (Default: '+default+')'
+        question = question + ' (Default: '+default+') '
         # Default must be one of the existing answers.
         if default in options:
             _options.append('')

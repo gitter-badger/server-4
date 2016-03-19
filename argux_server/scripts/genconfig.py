@@ -80,6 +80,26 @@ def main():
         config['app:main']['sqlalchemy.url'] = \
             'sqlite:///'+database_path
 
+    if database_engine == 'pgsql':
+        db_server = input(
+            'database server: (localhost) ')
+        if db_server == '':
+            db_server = 'localhost'
+
+        db_name = input(
+            'database name: (argux) ')
+        if db_name == '':
+            db_name = 'argux'
+
+        db_user = input(
+            'database user: ')
+
+        db_password = input(
+            'database password: ')
+
+        config['app:main']['sqlalchemy.url'] = \
+            'postgresql+psycopg2://'+db_user+':'+db_password+'@'+db_server+'/'+db_name
+
     with open(filename, 'w') as configfile:
         config.write(configfile)
 
