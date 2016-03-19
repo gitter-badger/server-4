@@ -11,8 +11,21 @@
 ## Generate config-file
 > argux-server_genconfig
 
+> ###########################################
+> ###                                     ###
+> ### Argux Server configuration wizard.  ###
+> ###                                     ###
+> ###########################################
+> 
+> Config file location [./argux-server.ini]: ./argux.ini
+> Use secure cookies? (Enforce HTTPS) ['y', 'n'] (Default: y)n
+> Enable debugging? ['y', 'n'] (Default: n)
+> WSGI Server? ['pserve', 'uwsgi'] (Default: pserve)
+> Choose Database Engine ['mysql', 'pgsql', 'sqlite'] sqlite
+> database path: (/var/lib/argux-server/argux.sqlite)
+
 ## Initialize the database
->  initialize_argux-server_db development.py
+>  argux-server_initdb argux-server.ini
 
 # Dependencies
 Argux depends the following software
