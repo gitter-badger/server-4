@@ -53,8 +53,8 @@
               <span class="caret"/>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="/monitor">Monitors</a></li>
-              <li><a href="/dashboard">Dashboards</a></li>
+              <li><a href="${request.route_url('monitor_default')}">Monitors</a></li>
+              <li><a href="${request.route_url('dashboards')}">Dashboards</a></li>
             </ul>
           </li>
         </ol>

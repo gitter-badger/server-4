@@ -59,7 +59,8 @@
               <span class="caret"/>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="${request.application_url}/dashboard">Dashboards</a></li>
+              <li><a href="${request.route_url('monitor_default')}">Monitors</a></li>
+              <li><a href="${request.route_url('dashboards')}">Dashboards</a></li>
             </ul>
           </li>
           <li><a href="${request.application_url}/host/${argux_host}">${argux_host}</a></li>
