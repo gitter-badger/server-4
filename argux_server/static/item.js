@@ -122,10 +122,11 @@ function pollItemValues(showValues, showAlerts, callback) {
         if(TIMESPAN==='1M') {
             start_time = now.subtract(1, 'months');
         }
+
+        chart_start_time = start_time.format('YYYY-MM-DDTHH:mm:ss');
     } else {
     }
 
-    chart_start_time = start_time.format('YYYY-MM-DDTHH:mm:ss');
 
     $.ajax({
         url: ARGUX_BASE+
@@ -328,6 +329,9 @@ function details_cb(json) {
 
     chart_start_time = json.start_time;
 
+    $('#datetimepicker1').data('DateTimePicker').date(chart_start_time);
+    $('#datetimepicker2').data('DateTimePicker').date(chart_end_time);
+
     if (json.values) {
         $.each(json.values.avg, function(i, value) {
             datapoints.push({
@@ -392,6 +396,24 @@ $(function() {
         // Get the context of the canvas element we want to select
         ctx = document.getElementById("item-timechart").getContext("2d");
         chart = new Chart(ctx, config);
+        $('#datetimepicker1').datetimepicker({
+            date: moment().subtract(30, 'minutes'),
+            useCurrent: false //Important! See issue #1075
+        });
+        $('#datetimepicker2').datetimepicker({
+            date: moment(),
+            useCurrent: false //Important! See issue #1075
+        });
+        $("#datetimepicker1").on("dp.change", function (e) {
+            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
+            chart_start_time = e.date.format('YYYY-MM-DDTHH:mm:ss');
+            TIMESPAN='';
+        });
+        $("#datetimepicker2").on("dp.change", function (e) {
+            $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+            chart_end_time = e.date.format('YYYY-MM-DDTHH:mm:ss');
+            TIMESPAN='';
+        });
         pollItemValues(true, false, details_cb);
     }
     if (ARGUX_ITEM_ACTION==="alerts") {

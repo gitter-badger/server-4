@@ -8,6 +8,24 @@
         <div class="panel panel-default" id="timechart">
             <div class="panel-heading">Timechart</div>
             <div class="panel-body">
+                <div class="navbar-left pull-left">
+                    <div class="form-group form-horizontal">
+                        <label for='datetimepicker1'>Start:</label>
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        <label for='datetimepicker2'>End:</label>
+                        <div class='input-group date' id='datetimepicker2'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <div class="btn-toolbar pull-right">
                     <!-- Split button -->
                     <div class="btn-group">
