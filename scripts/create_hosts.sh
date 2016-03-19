@@ -46,8 +46,6 @@ curl -X POST \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
     $SERVER/$REST_URI/$HOST_URI/webserver
 
-exit 0
-
 # Host
 curl -X POST \
     -b $COOKIE_FILE \
