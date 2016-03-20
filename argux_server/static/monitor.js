@@ -20,7 +20,9 @@ function pollMonitors() {
                 $('#monitors').append(
                     '<tr class=""><td>' +
                     '<span class="glyphicon glyphicon-down-arrow"></span>' +
+                    '<a href="'+ARGUX_BASE+'/host/'+monitor.host+'">' +
                     monitor.host +
+                    '</a>' +
                     '</td><td>' +
                     monitor.address +
                     '</td><td>' +
