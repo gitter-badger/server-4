@@ -35,18 +35,34 @@ Chart.controllers.line_category = Chart.DatasetController.extend({
 
 Chart.defaults.global.responsive = true;
 
+var dataset_avg = {
+    label: 'Average',
+    borderWidth: 1,
+    borderColor: "rgba(10,145,115,1)",
+    backgroundColor: "rgba(10,200,160,0.2)",
+    pointHoverRadius: 4,
+    data: [{'x': '0', 'y': '1'}]
+};
+var dataset_min = {
+    label: 'Min',
+    borderWidth: 1,
+    borderColor: "rgba(145,115,10,1)",
+    backgroundColor: "rgba(200,200,10,0.2)",
+    pointHoverRadius: 4,
+};
+var dataset_max = {
+    label: 'Max',
+    borderWidth: 1,
+    borderColor: "rgba(145,10,115,1)",
+    backgroundColor: "rgba(200,10,200,0.2)",
+    pointHoverRadius: 4,
+};
+
 var config = {
     type: 'line',
     data: {
         datasets: [
-            {
-                label: ARGUX_ITEM,
-                borderWidth: 1,
-                borderColor: "rgba(10,145,115,1)",
-                backgroundColor: "rgba(10,200,160,0.2)",
-                pointHoverRadius: 4,
-                data: [{x:'0',y:'1'}]
-            }
+            dataset_avg,
         ]
     },
     options: {
@@ -338,14 +354,13 @@ function details_cb(json) {
                 x: value.ts,
                 y: value.value});
         });
+        datapoints.push({
+                x: json.end_time,
+                });
+
+        dataset_avg.data = datapoints;
     }
 
-    datapoints.push({
-            x: json.end_time,
-            });
-
-
-    config.data.datasets[0].data = datapoints;
 
     chart.update();
 }
