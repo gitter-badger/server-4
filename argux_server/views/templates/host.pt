@@ -27,11 +27,10 @@
         var ARGUX_HOST="${argux_host}";
         var ARGUX_HOST_ACTION="${action}";
         var CSRF_TOKEN="${request.session.get_csrf_token()}";
-        var FULLSCREEN="${fs}";
     </script>
   </head>
 
-  <body tal:attributes="class 'fs' if fs==True else nothing">
+  <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -65,14 +64,6 @@
           <li class="active">${argux_host}</li>
         </ol>
         <div class="page-header">
-            <div class="pull-right">
-                <button type="button"
-                        id="toggle-fullscreen"
-                        class="btn btn-default btn-sm">
-                    <span tal:attributes="class 'glyphicon glyphicon-resize-small' if fs==True else 'glyphicon glyphicon-fullscreen'">
-                    </span>
-                </button>
-            </div>
             <h2>${argux_host}
                 <a tal:condition="argux_host_desc!=''" href="#" id="host_detail_btn" class="btn">
                     <span class="glyphicon glyphicon-chevron-up"></span>
@@ -109,12 +100,20 @@
     <footer class="footer">
         <nav class="navbar navbar-default navbar-fixed-bottom">
           <div class="container-fluid">
-            <ul class="nav navbar-nav">
-                <li><a href="${request.route_url('profile')}">Logged in as ${userid}</a></li>
-            </ul>
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" aria-controls="navbar" aria-expanded="false" data-target="#navbar-footer" data-toggle="collapse" type="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-footer-brand" href="${request.route_url('profile')}">Logged in as ${userid}</a>
+            </div>
+            <div id="navbar-footer" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
             <ul class="nav navbar-nav navbar-right">
                 <li><a target="_blank" href="https://argux-server.readthedocs.org">Docs</a></li>
             </ul>
+            </div>
           </div>
         </nav>
     </footer>

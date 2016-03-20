@@ -24,18 +24,17 @@ body {
     margin-bottom: 10px;
 }
 
-body.fs {
-    margin-top: 0px;
+div.body {
+    margin-top: 60px;
+    margin-bottom: 60px;
 }
 
-body.fs nav.navbar-fixed-top {
-    display: none;
+a.navbar-footer-brand {
+    font-size: 12px;
+    line-height: 20px;
+    padding: 10px;
+    height: 50px;
 }
-
-body.fs .breadcrumb {
-    display: none;
-}
-
 div.section-body {
     margin-top: 10px;
 }
@@ -74,17 +73,6 @@ div.panel-warning > div.panel-heading .glyphicon {
     background-color: #f5f5f5;
 }
 
-body.fs h1 {
-    margin: 5px 0;
-}
-
-body.fs .metric-category {
-    padding: 3px 5px;
-}
-
-body.fs .nav-tabs.nav-xs > li > a {
-    padding: 2px 5px;
-}
 h1 > a {
     text-decoration: none;
     color: #000;

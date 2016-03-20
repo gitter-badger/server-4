@@ -28,11 +28,10 @@
         var ARGUX_ITEM_ACTION="${action}";
         var TIMESPAN="${timespan}";
         var CSRF_TOKEN="${request.session.get_csrf_token()}";
-        var FULLSCREEN="${fs}";
     </script>
   </head>
 
-  <body tal:attributes="class 'fs' if fs==True else nothing">
+  <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -67,14 +66,6 @@
           <li class="active">${argux_item.name}</li>
         </ol>
         <div class="page-header">
-            <div class="pull-right">
-                <button type="button"
-                        id="toggle-fullscreen"
-                        class="btn btn-default btn-sm">
-                    <span tal:attributes="class 'glyphicon glyphicon-resize-small' if fs==True else 'glyphicon glyphicon-fullscreen'">
-                    </span>
-                </button>
-            </div>
             <h1>
                 <a href="${request.application_url}/host/${argux_host}">${argux_host}</a>
                 <small>${argux_item.name}</small>

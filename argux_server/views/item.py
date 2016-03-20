@@ -70,6 +70,5 @@ class ItemViews(BaseView):
             "userid": self.request.authenticated_userid,
             "timespan": timespan,
             "action": action,
-            "fs": False,
             'active_alerts': len(alerts),
             "has_details": has_details}
