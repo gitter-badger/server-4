@@ -27,9 +27,20 @@
 </div>
 <div class="col-sm-6">
     <div class="panel panel-default" id="timechart">
-        <div class="panel-heading">Host Addresses</div>
+        <div class="panel-heading">
+            Host Addresses
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-default btn-xs"
+                        data-target=".bs-hostaddr-modal-lg"
+                        data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus alert-default"></span>
+                </button>
+            </div>
+        </div>
         <div class="panel-body">
-        Host addresses are network-addresses associated with a host, these can be used to configure monitors.
+        Host addresses are network-addresses associated with a host,
+        these can be used to configure monitors.
         </div>
         <table class="table table-condensed">
         <thead>
@@ -42,4 +53,30 @@
         </table>
     </div>
 </div>
+</div>
+<div class="modal fade bs-hostaddr-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="create-trigger-modal">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <!-- Add Trigger -->
+            <form id="trigger-form" action="">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">New Address for <strong>${argux_host}</strong></h4>
+            </div>
+            <div class="modal-body">
+                <div role="tabpanel" class="tab-pane active" id="edit">
+                    <div id="trigger-form-alerts"></div>
+                    <label for="trigger-name">Address</label>
+                    <input type="text" class="form-control" id="trigger-name"/>
+                    <label for="trigger-rule">Description</label>
+                    <input type="text" class="form-control" id="trigger-rule"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add Address</button>
+            </div>
+            </form>
+        </div>
+    </div>
 </div>
