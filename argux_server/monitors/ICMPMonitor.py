@@ -99,8 +99,6 @@ class ICMPMonitor(AbstractMonitor):
             for monitor in mons:
                 val = None
                 address = monitor.host_address.name
-                for o in monitor.options:
-                    print(o.key)
 
                 ping_cmd = PING[system_name].format(address=address)
 
