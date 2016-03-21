@@ -90,16 +90,19 @@ class MainViews(BaseView):
         host = self.request.matchdict['host']
         action = self.request.matchdict['action']
         n_alerts = 0
+        addresses = []
 
         host_desc = ''
         h = self.dao.host_dao.get_host_by_name(host)
 
         if h:
             host_desc = h.description
+            addresses = h.addresses
 
         return {
             "argux_host": host,
             "argux_host_desc": host_desc,
+            "addresses": addresses,
             "userid": self.request.authenticated_userid,
             "active_alerts": n_alerts,
             "action": action}

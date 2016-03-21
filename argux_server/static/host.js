@@ -295,6 +295,44 @@ $(function() {
     if (ARGUX_HOST_ACTION==='alerts') {
         pollHostDetails(alerts_cb, false, true);
     }
+
+    if (ARGUX_HOST_ACTION==='config') {
+        $('#address-form').submit(function(event) {
+
+            event.preventDefault();
+
+            var address= $('#address-name').val();
+            var description = $('#address-desc').val();
+
+            alert(address);
+
+            if ( address !== "") {
+                // Use JSON.stringify to properly escape the message and subject
+                // for use in a JSON message envelope
+                $.ajax({
+                    url:  ARGUX_BASE+'/rest/1.0/host/'+ARGUX_HOST+'/addr/'+address,
+                    type: 'POST',
+                    headers: { 'X-CSRF-Token': CSRF_TOKEN },
+                    dataType: 'json',
+                    data: '{'+
+                          '"description": '+JSON.stringify(description)+
+                          '}',
+                    error: function(json) {
+                        $('#alerts').empty();
+                        $('#alerts').append(
+                            '<div class="alert alert-danger alert-dismissible">'+
+                            '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
+                            '<strong>Problem:</strong> Creating new Address failed.'+
+                            '</div>');
+                    },
+                    complete: function(json) {
+                        $('#create-hostaddr-modal').modal('hide');
+                    }
+                });
+            }
+        });
+
+    }
 });
 
 // Show/hide details below host header.

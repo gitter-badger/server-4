@@ -49,16 +49,19 @@
         </tr>
         </thead>
         <tbody id="addresses">
+        <tr tal:repeat="address addresses">
+            <td>${address.name}</td><td>${address.description}</td>
+        </tr>
         </tbody>
         </table>
     </div>
 </div>
 </div>
-<div class="modal fade bs-hostaddr-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="create-trigger-modal">
+<div class="modal fade bs-hostaddr-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="create-hostaddr-modal">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
-            <!-- Add Trigger -->
-            <form id="trigger-form" action="">
+            <!-- Add Address -->
+            <form id="address-form" action="">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">New Address for <strong>${argux_host}</strong></h4>
@@ -66,10 +69,10 @@
             <div class="modal-body">
                 <div role="tabpanel" class="tab-pane active" id="edit">
                     <div id="trigger-form-alerts"></div>
-                    <label for="trigger-name">Address</label>
-                    <input type="text" class="form-control" id="trigger-name"/>
-                    <label for="trigger-rule">Description</label>
-                    <input type="text" class="form-control" id="trigger-rule"/>
+                    <label for="address-name">Address</label>
+                    <input type="text" class="form-control" id="address-name"/>
+                    <label for="address-desc">Description</label>
+                    <input type="text" class="form-control" id="address-desc"/>
                 </div>
             </div>
             <div class="modal-footer">
