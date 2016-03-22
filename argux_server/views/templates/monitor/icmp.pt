@@ -58,13 +58,14 @@
                         </option>
                     </select>
                     <label for="monitor-address">Address</label>
-                    <input type="text" class="form-control" id="monitor-address">
+                    <select class="form-control" id="monitor-address">
+                    </select>
                     <label for="monitor-interval">Interval</label>
                     <select class="form-control" id="monitor-interval">
-                        <option val='15s'>15 seconds</option>
-                        <option val='30s'>30 seconds</option>
-                        <option val='1m'>1 minute</option>
-                        <option val='5m'>5 minutes</option>
+                        <option value='15s'>15 seconds</option>
+                        <option value='30s'>30 seconds</option>
+                        <option value='1m'>1 minute</option>
+                        <option value='5m'>5 minutes</option>
                     </select>
                 </div>
             </div>

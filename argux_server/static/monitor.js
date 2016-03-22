@@ -12,8 +12,7 @@ function pollMonitors() {
         dataType: "json",
         success: function(json) {
             $('#monitors').empty();
-            $.each(json.monitors, function(i, monitor) {
-                options = '';
+            $.each(json.monitors, function(i, monitor) { options = '';
                 $.each(monitor.options, function(key, value) {
                     options+= '<li><span style="font-weight: bold">'+key+':</span> '+value+'</li>';
                 });
@@ -79,21 +78,56 @@ function createMonitor(monitor) {
         }
         
     });
+}
 
+function getAddresses(host) {
+    $.ajax({
+        url: ARGUX_BASE+
+             "/rest/1.0/host/"+
+             host +
+             "/addr",
+        type: "GET",
+        headers: { 'X-CSRF-Token': CSRF_TOKEN },
+        dataType: "json",
+        success: function(json) {
+            $('#monitor-address').empty();
+            if(json.addresses.length == 0) {
+                $('#monitor-address').append(
+                    '<option disabled>No addresses</option>');
+            } else {
+                $.each(json.addresses, function(i, address) {
+                    $('#monitor-address').append(
+                        '<option>'+address.name+'</option');
+                });
+            }
+            return true;
+        },
+        error: function() {
+        }
+        
+    });
 }
 
 $(function() {
     monitor = {};
 
     if (ARGUX_MONITOR_TYPE==="icmp") {
-        monitor = {
-            'hostname': $('#monitor-host').val(),
-            'address': $('#monitor-address').val(),
-            'interval': $('#monitor-interval').val(),
-        };
+        var hostname = $('#monitor-host').val();
+        getAddresses(hostname);
     }
 
+    $('#monitor-host').on('change', function(e) {
+        getAddresses(this.value);
+    });
+
     $('#monitor-form').submit(function(event) {
+        if (ARGUX_MONITOR_TYPE==="icmp") {
+            monitor = {
+                'hostname': $('#monitor-host').val(),
+                'address': $('#monitor-address').val(),
+                'interval': $('#monitor-interval').val(),
+            };
+        }
         event.preventDefault();
         createMonitor(monitor);
     });

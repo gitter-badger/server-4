@@ -9,7 +9,8 @@ from sqlalchemy import (
 )
 
 from sqlalchemy.orm import (
-    relationship
+    relationship,
+    backref
 )
 
 from . import BASE
@@ -30,7 +31,7 @@ class MonitorOption(BASE):
     key = Column(Text, nullable=False)
     value = Column(Text, nullable=False)
     monitor_id = Column(Integer, ForeignKey('monitor.id'), nullable=False)
-    monitor = relationship(Monitor, backref='options')
+    monitor = relationship(Monitor, backref=backref('options', cascade='save-update, merge, delete'))
 
 Index('u_monitor_option_key_monitor_id_index', MonitorOption.key, MonitorOption.monitor_id, unique=True)
 

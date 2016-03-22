@@ -46,10 +46,14 @@ class RestHostAddressViews(RestView):
         permission='view'
     )
     def host_addresses_1_view_get(self):
+        host_name = self.request.matchdict['host']
         addresses = []
-        d_addr = self.dao.host_dao.get_addresses(
-            self.request.matchdict['host'])
 
+        host = self.dao.host_dao.get_host_by_name(name=host_name)
+        if host is None:
+            return 'host-not-found'
+
+        d_addr = self.dao.host_dao.get_addresses(host)
         for addr in d_addr:
             addresses.append({'name': addr.name})
 
