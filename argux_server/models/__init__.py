@@ -14,6 +14,8 @@ from .Host import Host
 from .Item import Item
 from .ItemType import ItemType
 from .ItemCategory import ItemCategory
+from .Unit import Unit
+from .MetricPrefix import MetricPrefix
 
 from .TriggerSeverity import TriggerSeverity
 from .Note import Note

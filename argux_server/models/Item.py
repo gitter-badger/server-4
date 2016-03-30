@@ -15,6 +15,7 @@ from sqlalchemy.orm import (
 
 from .ItemType import ItemType
 from .ItemCategory import ItemCategory
+from .Unit import Unit
 
 from . import BASE
 
@@ -38,8 +39,8 @@ class Item(BASE):
     category = relationship(ItemCategory, backref='item_category')
     itemtype_id = Column(Integer, ForeignKey('itemtype.id'), nullable=False)
     itemtype = relationship(ItemType, backref='items')
-    bookmark = Column(Boolean, default=False, nullable=False)
-    bookmark_label = Column(Text, nullable=True)
+    unit_id = Column(Integer, ForeignKey('unit.id'))
+    unit = relationship(Unit)
 
 Index('u_item_key_host_id_index', Item.key, Item.host_id, unique=True)
 Index('i_item_host_id_index', Item.host_id)
