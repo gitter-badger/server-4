@@ -47,17 +47,15 @@
         </div>
     </nav>
     <div class="body container-fluid">
-        <ol class="breadcrumb">
-          <li class="active dropdown">Hosts
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="caret"/>
+        <ul class="nav nav-pills">
+          <li tal:define="item_l ('Hosts', 'Monitors')"
+              tal:repeat="item ('hosts', 'monitor')"
+              tal:attributes="class 'active' if item=='hosts' else nothing">
+            <a tal:attributes="href request.application_url+'/'+item">
+                <span tal:content="item_l[repeat.item.index]">
             </a>
-            <ul class="dropdown-menu">
-              <li><a href="${request.route_url('monitor_default')}">Monitors</a></li>
-              <li><a href="${request.route_url('dashboards')}">Dashboards</a></li>
-            </ul>
           </li>
-        </ol>
+        </ul>
         <ul class="nav nav-tabs">
           <li tal:define="item_l ('Overview', 'Alerts')"
               tal:repeat="item ('overview', 'alerts')"
