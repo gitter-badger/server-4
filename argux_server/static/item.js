@@ -58,6 +58,8 @@ var dataset_max = {
     pointHoverRadius: 4,
 };
 
+var unit = {};
+
 var config = {
     type: 'line',
     data: {
@@ -95,6 +97,13 @@ var config = {
                     beginAtZero: true,
                     suggestedMin: 0.0,
                     suggestedMax: 1.0,
+                    callback: function(value) {
+                        if(unit.symbol){
+                            return ''+Math.round(value*10)/10+' '+unit.symbol;
+                        } else {
+                            return ''+Math.round(value*10)/10;
+                        }
+                    }
                 },
                 scaleLabel: {
                     show: true,
@@ -348,6 +357,9 @@ function details_cb(json) {
     $('#datetimepicker1').data('DateTimePicker').date(chart_start_time);
     $('#datetimepicker2').data('DateTimePicker').date(chart_end_time);
 
+    if (json.unit) {
+        unit = json.unit;
+    }
     if (json.values) {
         $.each(json.values.avg, function(i, value) {
             datapoints.push({

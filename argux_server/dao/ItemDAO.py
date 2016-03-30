@@ -6,6 +6,7 @@ from argux_server.models import (
     Item,
     ItemType,
     ItemCategory,
+    Unit
 )
 
 from argux_server.dao.util import (
@@ -59,12 +60,20 @@ class ItemDAO(BaseDAO):
         if category is not None:
             category_id = category.id
 
+        unit = None
+        if 'unit' in properties:
+            if properties['unit'] is not None:
+                unit = self.db_session.query(Unit)\
+                    .filter(Unit.name == properties['unit'])\
+                    .first()
+
         item = Item(
             host_id=properties['host'].id,
             name=properties['name'],
             key=properties['key'],
             category_id=category_id,
-            itemtype=properties['itemtype'])
+            itemtype=properties['itemtype'],
+            unit=unit)
 
         self.db_session.add(item)
         self.db_session.flush()

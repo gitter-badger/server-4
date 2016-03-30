@@ -4,7 +4,17 @@
     </div>
     <div class="col-xs-12 col-sm-8 col-md-9 pull-right">
     <div class="panel panel-default" id="timechart">
-        <div class="panel-heading">Hosts</div>
+        <div class="panel-heading">
+            Hosts
+            <div class="pull-right">
+                <button type="button"
+                        class="btn btn-default btn-xs"
+                        data-target=".bs-example-modal-lg"
+                        data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus alert-default"></span>
+                </button>
+            </div>
+        </div>
         <table class="table table-striped">
         <thead>
         <th>Hostname</th>

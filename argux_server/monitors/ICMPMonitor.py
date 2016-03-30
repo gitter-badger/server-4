@@ -24,7 +24,7 @@ def parse_freebsd(monitor, output):
     for row in output.split('\n'):
         m = re.search('^round-trip min/avg/max/stddev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            ret_val = m.group(1)
+            ret_val = str(float(m.group(1))/1000)
     return ret_val
 
 def parse_linux(monitor, output):
@@ -41,7 +41,7 @@ def parse_linux(monitor, output):
     for row in output.split('\n'):
         m = re.search('^rtt min/avg/max/mdev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            ret_val = m.group(1)
+            ret_val = str(float(m.group(1))/1000)
     return ret_val
 
 def parse_sunos(monitor, output):
@@ -59,7 +59,7 @@ def parse_sunos(monitor, output):
     for row in output.split('\n'):
         m = re.search('^round-trip \(ms\)  min/avg/max/stddev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            ret_val = m.group(1)
+            ret_val = str(float(m.group(1))/1000)
     return ret_val
 
 PING = {
@@ -119,7 +119,8 @@ class ICMPMonitor(AbstractMonitor):
                                 'key': item_key,
                                 'name': 'Ping response-time from '+address+' to (local)',
                                 'itemtype': item_type,
-                                'category': 'Network'
+                                'category': 'Network',
+                                'unit': 'Seconds'
                             }
                         )
 

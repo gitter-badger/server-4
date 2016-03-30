@@ -19,6 +19,8 @@ from ..models import (
     TriggerSeverity,
     HashMethod,
     MonitorType,
+    Unit,
+    MetricPrefix
 )
 
 from ..dao.UserDAO import UserDAO
@@ -30,6 +32,46 @@ def usage(argv):
     print('usage: %s <config_uri> [var=value]\n'
           '(example: "%s development.ini")' % (cmd, cmd))
     sys.exit(1)
+
+def initialise_itemtypes():
+    model = ItemType(name='int', description='Integer field')
+    DB_SESSION.add(model)
+    model = ItemType(name='float', description='Floating point')
+    DB_SESSION.add(model)
+    model = ItemType(name='text', description='Text')
+    DB_SESSION.add(model)
+    model = ItemType(name='boolean', description='Boolean')
+    DB_SESSION.add(model)
+
+def initialise_triggerseverity():
+    model = TriggerSeverity(level=1, key="info", name="Information")
+    DB_SESSION.add(model)
+    model = TriggerSeverity(level=2, key="warn", name="Warning")
+    DB_SESSION.add(model)
+    model = TriggerSeverity(level=3, key="crit", name="Critical")
+    DB_SESSION.add(model)
+
+def initialise_hashmethods():
+    model = HashMethod(name='bcrypt', allowed=True)
+    DB_SESSION.add(model)
+
+def initialise_monitortypes():
+    model = MonitorType(name='ICMP')
+    DB_SESSION.add(model)
+
+def initialise_units():
+    prefix = MetricPrefix(milli=True,micro=True,nano=True)
+    DB_SESSION.add(prefix)
+    model = Unit(name='Seconds', symbol='s', metric_prefix=prefix)
+    DB_SESSION.add(model)
+    prefix = MetricPrefix(kilo=True,mega=True,giga=True,tera=True,peta=True,exa=True)
+    DB_SESSION.add(prefix)
+    model = Unit(name='Bytes', symbol='B', metric_prefix=prefix)
+    DB_SESSION.add(model)
+    prefix = MetricPrefix(kilo=True,mega=True,giga=True,tera=True,peta=True,exa=True)
+    DB_SESSION.add(prefix)
+    model = Unit(name='Bits', symbol='b', metric_prefix=prefix)
+    DB_SESSION.add(model)
 
 
 def main():
@@ -44,27 +86,11 @@ def main():
     DB_SESSION.configure(bind=engine)
     BASE.metadata.create_all(engine)
     with transaction.manager:
-        model = ItemType(name='int', description='Integer field')
-        DB_SESSION.add(model)
-        model = ItemType(name='float', description='Floating point')
-        DB_SESSION.add(model)
-        model = ItemType(name='text', description='Text')
-        DB_SESSION.add(model)
-        model = ItemType(name='boolean', description='Boolean')
-        DB_SESSION.add(model)
-
-        model = TriggerSeverity(level=1, key="info", name="Information")
-        DB_SESSION.add(model)
-        model = TriggerSeverity(level=2, key="warn", name="Warning")
-        DB_SESSION.add(model)
-        model = TriggerSeverity(level=3, key="crit", name="Critical")
-        DB_SESSION.add(model)
-
-        model = HashMethod(name='bcrypt', allowed=True)
-        DB_SESSION.add(model)
-
-        model = MonitorType(name='ICMP')
-        DB_SESSION.add(model)
+        initialise_itemtypes()
+        initialise_triggerseverity()
+        initialise_hashmethods()
+        initialise_monitortypes()
+        initialise_units()
 
         user_dao = UserDAO(DB_SESSION)
         user_dao.create_user('', 'admin', 'admin', hash_method='bcrypt')

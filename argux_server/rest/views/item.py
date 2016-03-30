@@ -89,6 +89,7 @@ class RestItemViews(RestView):
             item_desc = self.request.json_body.get('description', None)
             item_category = self.request.json_body.get('category', None)
             item_type_key = self.request.json_body.get('type', None)
+            item_unit = self.request.json_body.get('unit', None)
         except ValueError:
             return Response(
                 status='400 Bad Request',
@@ -112,7 +113,8 @@ class RestItemViews(RestView):
             'host': host,
             'name': item_name,
             'category': item_category,
-            'itemtype': item_type})
+            'itemtype': item_type,
+            'unit': item_unit})
 
         return Response(
             status='201 Created',
@@ -227,18 +229,27 @@ class RestItemViews(RestView):
         if get_alerts == 'true':
             active_alerts = self.__get_active_alerts(item)
 
+        unit = None
+        if item.unit_id:
+            unit = {
+                'name': item.unit.name,
+                'symbol': item.unit.symbol,
+            }
+
         return {
             'host': host.name,
             'item': item.key,
             'active_alerts': len(active_alerts),
             'start_time': start.strftime(DATE_FMT),
             'end_time': end.strftime(DATE_FMT),
+            'unit': unit,
             'values': values,
             'alerts': active_alerts
         }
 
     def __get_active_alerts(self, item):
-        """Return active alerts on an item."""
+        """Return active alermetric_prefix:
+                unit['metric]ts on an item."""
         alerts = []
         d_alerts = self.dao.item_dao.get_alerts(item)
 
