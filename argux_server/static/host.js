@@ -148,6 +148,8 @@ function metrics_cb(json) {
         var item_name = item.key;
         var item_value = 'unknown';
         var item_time = '-';
+        var item_unit = '';
+        var item_unit_prefix = '';
 
         // Pick a category
         if (item.category !== null) {
@@ -159,6 +161,11 @@ function metrics_cb(json) {
             item_name = item.name;
         }
 
+        // Get the unit
+        if (item.unit !== null) {
+            item_unit = item.unit.symbol
+        }
+
         //
         if (item.last_ts !== undefined) {
             item_time = item.last_ts;
@@ -166,6 +173,33 @@ function metrics_cb(json) {
 
         if (item.last_val !== undefined) {
             item_value = item.last_val;
+            if (item_unit !== '') {
+                if (item_value < 0.1) {
+                    item_unit_prefix = 'm';
+                }
+                if (item_value < 0.0001) {
+                    item_unit_prefix = '&micro;';
+                }
+                if (item_value > 100) {
+                    item_unit_prefix = 'k';
+                }
+                if (item_value > 100000) {
+                    item_unit_prefix = 'M';
+                }
+                if (item_value > 100000000) {
+                    item_unit_prefix = 'G';
+                }
+
+                switch (item_unit_prefix) {
+                    case '&micro;':
+                        item_value = (item_value*1000000);
+                        break;
+                    case 'm':
+                        item_value = (item_value*1000);
+                        break;
+                }
+                item_value = Math.round(item_value*100)/100;
+            }
         }
 
         /* Initialise alerts to '' */
@@ -189,7 +223,7 @@ function metrics_cb(json) {
           '</span>' +
           '</a>' +
           '</td>' +
-          '<td>' + item_value + '</td>' +
+          '<td>' + item_value + ' ' + item_unit_prefix + item_unit + '</td>' +
           '<td class="hidden-xs">' + item_time +'</td>' +
           '<td class="item-details">' +
           '<a href="'+item_base_url+'/bookmark" aria-label="Bookmark">' +

@@ -203,6 +203,13 @@ class RestHostViews(RestView):
             else:
                 category = None
 
+            unit = None
+            if item.unit_id:
+                unit = {
+                    'name': item.unit.name,
+                    'symbol': item.unit.symbol,
+                }
+
             value = self.dao.item_dao.get_last_value(item)
 
             if value:
@@ -210,12 +217,14 @@ class RestHostViews(RestView):
                     "category": category,
                     "name": name,
                     "key": item.key,
-                    "last_val": value.value,
+                    "unit": unit,
+                    "last_val": str(value.value),
                     "last_ts": value.timestamp.strftime("%Y-%m-%dT%H:%M:%S")})
             else:
                 items.append({
                     "category": category,
                     "name": name,
+                    "unit": unit,
                     "key": item.key})
         return items
 

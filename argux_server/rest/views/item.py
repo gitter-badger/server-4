@@ -296,7 +296,7 @@ class RestItemViews(RestView):
 
             values.append({
                 'ts': value.timestamp.strftime(DATE_FMT),
-                'value': value.value
+                'value': str(value.value)
             })
 
             old_value = value

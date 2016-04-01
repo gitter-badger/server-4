@@ -42,6 +42,8 @@ def initialise_itemtypes():
     DB_SESSION.add(model)
     model = ItemType(name='boolean', description='Boolean')
     DB_SESSION.add(model)
+    model = ItemType(name='decimal', description='Decimal')
+    DB_SESSION.add(model)
 
 def initialise_triggerseverity():
     model = TriggerSeverity(level=1, key="info", name="Information")
