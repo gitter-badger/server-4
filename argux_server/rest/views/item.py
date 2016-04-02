@@ -200,6 +200,8 @@ class RestItemViews(RestView):
 
     def item_details_1_view_read(self, host, item):
         values = []
+        max_val = None
+        min_val = None
         active_alerts = []
 
         q_start = self.request.params.get('start', None)
@@ -223,7 +225,7 @@ class RestItemViews(RestView):
             end = datetime.now()
 
         if get_values == 'true':
-            values = self.__get_values(item, start, end, interval)
+            (values, max_val, min_val) = self.__get_values(item, start, end, interval)
             active_alerts = self.__get_active_alerts(item)
 
         if get_alerts == 'true':
@@ -244,6 +246,8 @@ class RestItemViews(RestView):
             'end_time': end.strftime(DATE_FMT),
             'unit': unit,
             'values': values,
+            'max_value': max_val,
+            'min_value': min_val,
             'alerts': active_alerts
         }
 
@@ -273,6 +277,8 @@ class RestItemViews(RestView):
         values = []
         max_values = []
         min_values = []
+        max_value = None
+        min_value = None
         d_values = self.dao.item_dao.get_values(
             item,
             start_time=start,
@@ -294,6 +300,16 @@ class RestItemViews(RestView):
                             'value': None
                         })
 
+            if max_value is None:
+                max_value = value.value
+                min_value = value.value
+
+            if value.value < min_value:
+                min_value = value.value
+
+            if value.value > max_value:
+                max_value = value.value
+
             values.append({
                 'ts': value.timestamp.strftime(DATE_FMT),
                 'value': str(value.value)
@@ -301,8 +317,12 @@ class RestItemViews(RestView):
 
             old_value = value
 
-        return {
-            'avg': values,
-            'max': max_values,
-            'min': min_values
-        }
+        return (
+            {
+                'avg': values,
+                'max': max_values,
+                'min': min_values
+            },
+            max_value,
+            min_value
+        )

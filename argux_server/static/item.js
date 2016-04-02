@@ -59,6 +59,7 @@ var dataset_max = {
 };
 
 var unit = {};
+var item_unit_prefix='';
 
 var config = {
     type: 'line',
@@ -99,7 +100,7 @@ var config = {
                     suggestedMax: 1.0,
                     callback: function(value) {
                         if(unit.symbol){
-                            return ''+Math.round(value*10)/10+' '+unit.symbol;
+                            return ''+Math.round(value*10)/10+' '+item_unit_prefix+unit.symbol;
                         } else {
                             return ''+Math.round(value*10)/10;
                         }
@@ -359,12 +360,40 @@ function details_cb(json) {
 
     if (json.unit) {
         unit = json.unit;
+        //config.options.scales.yAxes[0].ticks.suggestedMax = 100;
+        if (json.max_value < 0.1 && json.min_value > -0.1) {
+            item_unit_prefix = 'm';
+        }
+        if (json.max_value < 0.0001 && json.min_value > -0.0001) {
+            item_unit_prefix = '\u{00B5}';
+        }
+        if (json.max_value > 100 && json.min_value < -100) {
+            item_unit_prefix = 'k';
+        }
+        if (json.max_value > 1000000 && json.min_value < -100000) {
+            item_unit_prefix = 'M';
+        }
+        if (json.max_value > 1000000000 && json.min_value < -100000000) {
+            item_unit_prefix = 'G';
+        }
     }
     if (json.values) {
         $.each(json.values.avg, function(i, value) {
+            switch (item_unit_prefix) {
+                case '\u{00B5}':
+                    item_value = (value.value*1000000);
+                    break;
+                case 'm':
+                    item_value = (value.value*1000);
+                    break;
+                default:
+                    item_value = value.value
+            }
+            item_value = Math.round(item_value*100)/100;
+
             datapoints.push({
                 x: value.ts,
-                y: value.value});
+                y: item_value});
         });
         datapoints.push({
                 x: json.end_time,

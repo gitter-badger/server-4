@@ -39,12 +39,6 @@ from .values.FloatValue import (
     FloatSimpleAlert
 )
 
-from .values.DecimalValue import (
-    DecimalValue,
-    DecimalSimpleTrigger,
-    DecimalSimpleAlert
-)
-
 from .values.TextValue import (
     TextValue,
     TextSimpleTrigger,

@@ -10,9 +10,6 @@ from argux_server.models import (
     FloatValue,
     FloatSimpleTrigger,
     FloatSimpleAlert,
-    DecimalValue,
-    DecimalSimpleTrigger,
-    DecimalSimpleAlert,
     TextValue,
     TextSimpleTrigger,
     TextSimpleAlert,
@@ -26,7 +23,6 @@ TRIGGER_CLASS = {
     "float": FloatSimpleTrigger,
     "text": TextSimpleTrigger,
     "boolean": BooleanSimpleTrigger,
-    "decimal": DecimalSimpleTrigger,
 }
 
 ALERT_CLASS = {
@@ -34,7 +30,6 @@ ALERT_CLASS = {
     "float": FloatSimpleAlert,
     "text": TextSimpleAlert,
     "boolean": BooleanSimpleAlert,
-    "decimal": DecimalSimpleAlert,
 }
 
 VALUE_CLASS = {
@@ -42,5 +37,4 @@ VALUE_CLASS = {
     "float": FloatValue,
     "text": TextValue,
     "boolean": BooleanValue,
-    "decimal": DecimalValue,
 }

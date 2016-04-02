@@ -6,8 +6,6 @@ import platform
 import re
 import subprocess
 
-from decimal import Decimal
-
 from datetime import datetime
 
 from .AbstractMonitor import AbstractMonitor
@@ -26,7 +24,7 @@ def parse_freebsd(monitor, output):
     for row in output.split('\n'):
         m = re.search('^round-trip min/avg/max/stddev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            ret_val = str(Decimal(m.group(1))/1000)
+            ret_val = str(float(m.group(1))/1000)
     return ret_val
 
 def parse_linux(monitor, output):
@@ -43,7 +41,7 @@ def parse_linux(monitor, output):
     for row in output.split('\n'):
         m = re.search('^rtt min/avg/max/mdev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            ret_val = str(Decimal(m.group(1))/1000)
+            ret_val = str(float(m.group(1))/1000)
     return ret_val
 
 def parse_sunos(monitor, output):
@@ -61,7 +59,7 @@ def parse_sunos(monitor, output):
     for row in output.split('\n'):
         m = re.search('^round-trip \(ms\)  min/avg/max/stddev = (?P<min>[0-9]+(?:\.[0-9]+)?).*', row)
         if (m):
-            ret_val = str(Decimal(m.group(1))/1000)
+            ret_val = str(float(m.group(1))/1000)
     return ret_val
 
 PING = {
@@ -112,7 +110,7 @@ class ICMPMonitor(AbstractMonitor):
                     )
                 if item is None:
                     item_type = self.dao.item_dao\
-                        .get_itemtype_by_name(name='decimal')
+                        .get_itemtype_by_name(name='float')
 
                     item = self.dao.item_dao\
                         .create_item(

@@ -20,6 +20,7 @@ class Item:
         self.name = name
         self.category = category
         self.itemtype = itemtype
+        self.unit_id = 0
 
 _items = {}
 _items['localhost'] = [Item('localhost', 'cpu.load.avg[1]', 'CPU Load Average', None, 'int')]
