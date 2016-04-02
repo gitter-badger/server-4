@@ -109,6 +109,8 @@ def main(global_config, **settings):
                      '/logout')
     config.add_route('profile',
                      '/profile')
+    config.add_route('reports_default',
+                     '/reports')
 
     config.add_route('admin',
                      '/admin')

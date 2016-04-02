@@ -1,131 +1,47 @@
 <!DOCTYPE html>
-<html lang="${request.locale_name}"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Argux Server monitoring application">
-    <link rel="shortcut icon" href="${request.static_url('argux_server:static/pyramid-16x16.png')}">
+<html metal:use-macro="load: main.pt"
+    tal:define="global argux_parent_route 'host_overview_default'">
 
-    <title>Argux</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="${request.static_url('argux_server:static/css/bootstrap.min.css')}" rel="stylesheet">
-
-    <link href="${request.static_url('argux_server:static/theme.css')}" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
+<div metal:fill-slot="head">
     <script type="text/javascript">
         var ARGUX_BASE="${request.application_url}";
-        var ARGUX_HOST="${argux_host}";
         var ARGUX_HOST_ACTION="${action}";
         var CSRF_TOKEN="${request.session.get_csrf_token()}";
+        var ARGUX_HOST="${argux_host}";
     </script>
-  </head>
+</div>
 
-  <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="${request.route_url('home')}">Argux</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="${request.route_url('admin')}">Admin</a></li>
-                    <li><a href="${request.route_url('logout')}">Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="body container-fluid">
-        <ul class="nav nav-pills">
-          <li tal:define="item_l ('Hosts', 'Monitors')"
-              tal:repeat="item ('hosts', 'monitor')"
-              tal:attributes="class 'active' if item=='hosts' else nothing">
-            <a tal:attributes="href request.application_url+'/'+item">
-                <span tal:content="item_l[repeat.item.index]">
-            </a>
-          </li>
-        </ul>
-        <ol class="breadcrumb">
-          <li class="dropdown"><a href="/hosts">Hosts</a></li>
-          <li class="active">${argux_host}</li>
-        </ol>
-        <div class="page-header">
-            <h2>${argux_host}
-                <a tal:condition="argux_host_desc!=''" href="#" id="host_detail_btn" class="btn">
-                    <span class="glyphicon glyphicon-chevron-up"></span>
-                </a>
-            </h2>
-            <div tal:condition="argux_host_desc!=''" class="hidden" id="host_detail">
-            ${argux_host_desc}
-            </div>
-        </div>
-        <ul class="nav nav-tabs nav-xs">
-          <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
-              tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
-              tal:attributes="class 'active' if item==action else nothing">
-            <a tal:attributes="href request.application_url+'/host/'+argux_host+'/'+item">
-                <span tal:content="item_l[repeat.item.index]">
-                <span tal:condition="item=='alerts'"
-                      class="badge" id="alert_count"></span>
-            </a>
-            <span tal:condition="action==item">
-                <span tal:define="global tmpl load: ./host/${item}.pt"/>
-            </span>
-          </li>
-          <li tal:attributes="class 'active pull-right' if 'config'==action else 'pull-right'">
-            <a href="${request.application_url}/host/${argux_host}/config">
-                <span>Config</span>
-            </a>
-            <span tal:condition="'config'==action">
-                <span tal:define="global tmpl load: ./host/config.pt"/>
-            </span>
-          </li>
-        </ul>
-        <div metal:extend-macro='tmpl'></div>
-    </div>
-    <footer class="footer">
-        <nav class="navbar navbar-default navbar-fixed-bottom">
-          <div class="container-fluid">
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" aria-controls="navbar" aria-expanded="false" data-target="#navbar-footer" data-toggle="collapse" type="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-footer-brand" href="${request.route_url('profile')}">Logged in as ${userid}</a>
-            </div>
-            <div id="navbar-footer" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a target="_blank" href="https://argux-server.readthedocs.org">Docs</a></li>
-            </ul>
-            </div>
-          </div>
-        </nav>
-    </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="${request.static_url('argux_server:static/js/jquery.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/js/bootstrap.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/js/moment.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/argux.js')}"></script>
+<div metal:fill-slot="custom-js">
     <script src="${request.static_url('argux_server:static/host.js')}"></script>
-  </body>
+</div>
+
+<div metal:fill-slot="content">
+    <ol class="breadcrumb">
+      <li class="dropdown"><a href="/hosts"><span class="glyphicon glyphicon-home"></span></a></li>
+      <li class="active">${argux_host}</li>
+    </ol>
+    <ul class="nav nav-tabs nav-xs">
+      <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
+          tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
+          tal:attributes="class 'active' if item==action else nothing">
+        <a tal:attributes="href request.application_url+'/host/'+argux_host+'/'+item">
+            <span tal:content="item_l[repeat.item.index]">
+            <span tal:condition="item=='alerts'"
+                  class="badge" id="alert_count"></span>
+        </a>
+        <span tal:condition="action==item">
+            <span tal:define="global tmpl load: ./host/${item}.pt"/>
+        </span>
+      </li>
+      <li tal:attributes="class 'active pull-right' if 'config'==action else 'pull-right'">
+        <a href="${request.application_url}/host/${argux_host}/config">
+            <span>Config</span>
+        </a>
+        <span tal:condition="'config'==action">
+            <span tal:define="global tmpl load: ./host/config.pt"/>
+        </span>
+      </li>
+    </ul>
+    <div metal:extend-macro='tmpl'></div>
+</div>
 </html>
