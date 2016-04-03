@@ -95,7 +95,7 @@ class RestHostViewsTests(unittest.TestCase):
         items = response['items']
         self.assertEqual(items[0]['name'], 'CPU Load Average')
         self.assertEqual(items[0]['key'], 'cpu.load.avg[1]')
-        self.assertEqual(items[0]['last_val'], 42)
+        self.assertEqual(items[0]['last_val'], '42')
 
     def test_create_host(self):
         r = request.Request.blank(path='/argux/rest/1.0/host/localhost', POST="TEST")
