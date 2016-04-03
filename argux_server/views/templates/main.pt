@@ -39,7 +39,6 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="${request.route_url('admin')}">Admin</a></li>
                     <li><a href="${request.route_url('logout')}">Logout</a></li>
                 </ul>
             </div>
@@ -53,18 +52,20 @@
         <nav class="navbar navbar-default navbar-fixed-bottom">
           <div class="container-fluid">
             <div class="navbar-header">
-                <button class="navbar-toggle collapsed" aria-controls="navbar" aria-expanded="false" data-target="#navbar-footer" data-toggle="collapse" type="button">
+                <button class="navbar-toggle collapsed" aria-controls="navbar-footer" aria-expanded="false" data-target="#navbar-footer" data-toggle="collapse" type="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-footer-brand" href="${request.route_url('profile')}">Logged in as ${request.authenticated_userid}</a>
+                <a class="navbar-btn btn" href="${request.route_url('profile')}">
+                <span class="glyphicon glyphicon-user"></span> ${request.authenticated_userid}
+                </a>
             </div>
             <div id="navbar-footer" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a target="_blank" href="https://argux-server.readthedocs.org">Docs</a></li>
-            </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a target="_blank" href="https://argux-server.readthedocs.org">Docs</a></li>
+                </ul>
             </div>
           </div>
         </nav>
