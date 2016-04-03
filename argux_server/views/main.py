@@ -52,7 +52,9 @@ class MainViews(BaseView):
 
                 headers = remember(self.request, username)
 
-                url = self.request.route_url('home')
+                url = self.request.params.get('next', None)
+                if url is None:
+                    url = self.request.route_url('home')
 
                 response = HTTPFound(location=url)
                 response.headerlist.extend(headers)
