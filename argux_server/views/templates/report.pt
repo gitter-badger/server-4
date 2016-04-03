@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html metal:use-macro="load: main.pt"
+    tal:define="global argux_parent_route 'reports_default'">
+
+<div metal:fill-slot="head">
+    <script type="text/javascript">
+        var ARGUX_BASE="${request.application_url}";
+        var CSRF_TOKEN="${request.session.get_csrf_token()}";
+    </script>
+</div>
+
+<div metal:fill-slot="content">
+    <ol class="breadcrumb">
+      <li class="dropdown"><a href="/reports"><span class="glyphicon glyphicon-list"></span></a></li>
+    </ol>
+</div>
+</html>

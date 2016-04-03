@@ -2,8 +2,8 @@
   <div tal:condition="not: exists: argux_parent_route">
     <div tal:define="global argux_parent_route ''"></div>
   </div>
-  <li tal:define="item_l ('Hosts', 'Monitors', 'Reports')"
-      tal:repeat="item ('host_overview_default', 'monitor_default', 'reports_default')"
+  <li tal:define="item_l ('Dashboards', 'Hosts', 'Monitors', 'Reports')"
+      tal:repeat="item ('dashboards', 'host_overview_default', 'monitor_default', 'reports_default')"
       tal:attributes="class 'active' if item==argux_parent_route else nothing">
     <a tal:attributes="href request.route_url(item)">
         <span tal:content="item_l[repeat.item.index]">

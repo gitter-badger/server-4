@@ -1,82 +1,32 @@
 <!DOCTYPE html>
-<html lang="${request.locale_name}">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Argux Server monitoring application">
-    <link rel="shortcut icon" href="${request.static_url('argux_server:static/pyramid-16x16.png')}">
+<html metal:use-macro="load: main.pt"
+    tal:define="global argux_parent_route 'dashboards'">
 
-    <title>Argux</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="${request.static_url('argux_server:static/css/bootstrap.min.css')}" rel="stylesheet">
-
-    <!-- Custom styles for this scaffold -->
-    <link href="${request.static_url('argux_server:static/theme.css')}" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="//oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="//oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
+<div metal:fill-slot="head">
     <script type="text/javascript">
+        var ARGUX_BASE="${request.application_url}";
+        var ARGUX_HOST_ACTION="${action}";
+        var CSRF_TOKEN="${request.session.get_csrf_token()}";
+        var ARGUX_HOST="${argux_host}";
     </script>
-  </head>
+</div>
 
-  <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" type="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Argux</a>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href='#'>A</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <div class="body container-fluid">
-        <ol class="breadcrumb">
-          <li class="active dropdown">Dashboards
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <span class="caret"/>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="/hosts">Hosts</a></li>
-            </ul>
-          </li>
-        </ol>
-        <div class="row">
-        </div>
-    </div>
-    <footer class="footer">
-        <nav class="navbar navbar-default navbar-fixed-bottom">
-          <div class="container-fluid">
-            <ul class="nav navbar-nav">
-                <li><a href="${request.route_url('profile')}">Logged in as ${userid}</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a target="_blank" href="https://argux-server.readthedocs.org">Docs</a></li>
-            </ul>
-          </div>
-        </nav>
-    </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="${request.static_url('argux_server:static/js/jquery.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/js/bootstrap.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/js/moment.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/js/Chart.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/home.js')}"></script>
-  </body>
+<div metal:fill-slot="content">
+    <ul class="nav nav-tabs nav-xs">
+      <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
+          tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
+          tal:attributes="class 'active' if item==action else nothing">
+        <a tal:attributes="href request.application_url+'/host/'+argux_host+'/'+item">
+            <span tal:content="item_l[repeat.item.index]">
+            <span tal:condition="item=='alerts'"
+                  class="badge" id="alert_count"></span>
+        </a>
+      </li>
+      <li tal:attributes="class 'active pull-right' if 'config'==action else 'pull-right'">
+        <a href="${request.application_url}/host/${argux_host}/config">
+            <span class="glyphicon glyphicon-plus"></span>
+        </a>
+      </li>
+    </ul>
+</div>
 </html>
