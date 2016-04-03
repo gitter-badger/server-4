@@ -5,28 +5,11 @@
 <div metal:fill-slot="head">
     <script type="text/javascript">
         var ARGUX_BASE="${request.application_url}";
-        var ARGUX_HOST_ACTION="${action}";
         var CSRF_TOKEN="${request.session.get_csrf_token()}";
-        var ARGUX_HOST="${argux_host}";
     </script>
 </div>
 
 <div metal:fill-slot="content">
-    <ul class="nav nav-tabs nav-xs">
-      <li tal:define="item_l ('Summary', 'Metrics', 'Alerts', 'Notes')"
-          tal:repeat="item ('summary', 'metrics', 'alerts', 'notes')"
-          tal:attributes="class 'active' if item==action else nothing">
-        <a tal:attributes="href request.application_url+'/host/'+argux_host+'/'+item">
-            <span tal:content="item_l[repeat.item.index]">
-            <span tal:condition="item=='alerts'"
-                  class="badge" id="alert_count"></span>
-        </a>
-      </li>
-      <li tal:attributes="class 'active pull-right' if 'config'==action else 'pull-right'">
-        <a href="${request.application_url}/host/${argux_host}/config">
-            <span class="glyphicon glyphicon-plus"></span>
-        </a>
-      </li>
-    </ul>
 </div>
+
 </html>
