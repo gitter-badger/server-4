@@ -10,6 +10,8 @@ from datetime import datetime
 
 from .AbstractMonitor import AbstractMonitor
 
+import transaction
+
 def parse_freebsd(monitor, output):
     """Parse FreeBSD PING output.
 
@@ -90,81 +92,13 @@ class ICMPMonitor(AbstractMonitor):
         Ignores the 'interval' option at the moment.
         ICMP checks are executed at 60second intervals.
         """
-        system_name = platform.system()
-
         # Thread body.
         while True:
 
             mons = self.dao.monitor_dao.get_all_monitors_for_type('ICMP')
             for monitor in mons:
-                val = None
-                address = monitor.host_address.name
+                ICMPMonitor.monitor_once(self.dao, monitor)
 
-                ping_cmd = PING[system_name].format(address=address)
-
-                item_key = 'icmpping[env=local,addr='+address+',responsetime]'
-                item = self.dao.item_dao\
-                    .get_item_by_host_key(
-                        monitor.host_address.host,
-                        item_key
-                    )
-                if item is None:
-                    item_type = self.dao.item_dao\
-                        .get_itemtype_by_name(name='float')
-
-                    item = self.dao.item_dao\
-                        .create_item(
-                            {
-                                'host': monitor.host_address.host,
-                                'key': item_key,
-                                'name': 'Ping response-time from '+address+' to (local)',
-                                'itemtype': item_type,
-                                'category': 'Network',
-                                'unit': 'Seconds'
-                            }
-                        )
-
-                timestamp = datetime.now()
-
-                try:
-                    output = subprocess.check_output(ping_cmd, shell=True, universal_newlines=True)
-
-                    val = PARSE[system_name](monitor, output)
-
-                    if val is not None:
-                        self.dao.item_dao.push_value(item, timestamp, val)
-
-                except CalledProcessError:
-                    val = None
-
-
-                item_key = 'icmpping[env=local,addr='+address+',alive]'
-                item = self.dao.item_dao\
-                    .get_item_by_host_key(
-                        monitor.host_address.host,
-                        item_key
-                    )
-                if item is None:
-                    item_type = self.dao.item_dao\
-                        .get_itemtype_by_name(name='boolean')
-
-                    item = self.dao.item_dao\
-                        .create_item(
-                            {
-                                'host': monitor.host_address.host,
-                                'key': item_key,
-                                'name': 'Ping response from '+address+' to (local)',
-                                'itemtype': item_type,
-                                'category': 'Network'
-                            }
-                        )
-                if val is not None:
-                    self.dao.item_dao.push_value(item, timestamp, True)
-                else:
-                    self.dao.item_dao.push_value(item, timestamp, False)
-
-            self.session.commit()
-            self.session.flush()
             try:
                 time.sleep(60)
             except KeyboardInterrupt:
@@ -178,3 +112,90 @@ class ICMPMonitor(AbstractMonitor):
             raise KeyError
 
         return True
+
+    @staticmethod
+    def monitor_once(dao, monitor):
+        """
+        Monitor once.
+        """
+        system_name = platform.system()
+
+        items = {}
+        val = None
+        address = monitor.host_address.name
+
+        item_key = 'icmpping[env=local,addr='+address+',responsetime]'
+        items[item_key] = dao.item_dao\
+            .get_item_by_host_key(
+                monitor.host_address.host,
+                item_key
+            )
+        if items[item_key] is None:
+            item_type = dao.item_dao\
+                .get_itemtype_by_name(name='float')
+
+            items[item_key] = dao.item_dao\
+                .create_item(
+                    {
+                        'host': monitor.host_address.host,
+                        'key': item_key,
+                        'name': 'Ping response-time from '+address+' to (local)',
+                        'itemtype': item_type,
+                        'category': 'Network',
+                        'unit': 'Seconds'
+                    }
+                )
+
+        item_key = 'icmpping[env=local,addr='+address+',alive]'
+        items[item_key] = dao.item_dao\
+            .get_item_by_host_key(
+                monitor.host_address.host,
+                item_key
+            )
+        if items[item_key] is None:
+            item_type = dao.item_dao\
+                .get_itemtype_by_name(name='boolean')
+
+            items[item_key] = dao.item_dao\
+                .create_item(
+                    {
+                        'host': monitor.host_address.host,
+                        'key': item_key,
+                        'name': 'Ping response from '+address+' to (local)',
+                        'itemtype': item_type,
+                        'category': 'Network'
+                    }
+                )
+
+        ping_cmd = PING[system_name].format(address=address)
+
+        timestamp = datetime.now()
+
+        try:
+            output = subprocess.check_output(ping_cmd, shell=True, universal_newlines=True)
+
+            val = PARSE[system_name](monitor, output)
+
+            if val is not None:
+                dao.item_dao.push_value(
+                    items['icmpping[env=local,addr='+address+',responsetime]'],
+                    timestamp,
+                    val)
+
+        except subprocess.CalledProcessError:
+            val = None
+
+        if val is not None:
+            dao.item_dao.push_value(
+                items['icmpping[env=local,addr='+address+',alive]'],
+                timestamp,
+                True)
+        else:
+            dao.item_dao.push_value(
+                items['icmpping[env=local,addr='+address+',alive]'],
+                timestamp,
+                False)
+
+        transaction.commit()
+
+        return

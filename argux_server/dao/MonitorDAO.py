@@ -4,6 +4,8 @@ from argux_server.models.Monitor import Monitor
 from argux_server.models.MonitorType import MonitorType
 from argux_server.models.MonitorOption import MonitorOption
 
+import transaction
+
 from .BaseDAO import BaseDAO
 
 
@@ -30,7 +32,16 @@ class MonitorDAO(BaseDAO):
         for key, value in options.items():
             option = MonitorOption(key=key, value=value, monitor=monitor)
             self.db_session.add(option)
-        return
+
+
+        self.db_session.flush()
+
+        try:
+            transaction.commit()
+        except:
+            transaction.rollback()
+
+        return monitor
 
     def add_monitor_type(self, name):
         """Add a new monitor-type if it does not already exist."""

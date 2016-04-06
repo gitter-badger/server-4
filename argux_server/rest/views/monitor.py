@@ -118,9 +118,12 @@ class RestMonitorViews(RestView):
                     'message': 'missing address'
                 }))
 
-        self.dao.monitor_dao.create_monitor(
+        monitor = self.dao.monitor_dao.create_monitor(
             monitor_type,
             d_address,
             options)
+
+        # FIXME: run monitor once to create the items.
+        #MONITORS[monitor_type].monitor_once(self.dao, monitor)
 
         return {'ok':'ok'}
