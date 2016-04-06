@@ -14,11 +14,10 @@
     <script src="${request.static_url('argux_server:static/js/Chart.min.js')}"></script>
     <script src="${request.static_url('argux_server:static/host_overview.js')}"></script>
 </div>
-
 <div metal:fill-slot="content">
     <ul class="nav nav-tabs">
-      <li tal:define="item_l ('Overview', 'Alerts')"
-          tal:repeat="item ('overview', 'alerts')"
+      <li tal:define="item_l ('Overview', 'Groups', 'Alerts')"
+          tal:repeat="item ('overview', 'groups', 'alerts')"
           tal:attributes="class 'active' if item==action else nothing">
         <a tal:attributes="href request.application_url+'/hosts/'+item">
             <span tal:content="item_l[repeat.item.index]">

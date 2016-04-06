@@ -1,0 +1,34 @@
+<div class="section-body">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Hostgroups
+      <div class="pull-right">
+        <button type="button"
+                class="btn btn-default btn-xs"
+                data-target=".bs-example-modal-lg"
+                data-toggle="modal">
+          <span class="glyphicon glyphicon-plus alert-default"></span>
+        </button>
+      </div>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <th>Name</th>
+        <th>Hosts</th>
+      </thead>
+      <tbody id='hostgroups'>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!--
+<tr>
+ <td>All</td>
+ <td>
+  <ul class="list-inline">
+   <li><a href="">localhost</a></li>
+  </ul>
+ </td>
+</tr>
+-->
