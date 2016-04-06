@@ -75,13 +75,14 @@ function pollOverview() {
             });
 
             config.data.datasets[0].data = graph_data;
-            overviewChart.update();
 
             if (total_active_alerts > 0) {
                 $("#alert_count").text(total_active_alerts);
             } else {
                 $("#alert_count").text('');
             }
+
+            overviewChart.update();
 
             setTimeout(pollOverview, 10000);
         }
