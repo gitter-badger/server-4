@@ -338,8 +338,6 @@ $(function() {
             var address= $('#address-name').val();
             var description = $('#address-desc').val();
 
-            alert(address);
-
             if ( address !== "") {
                 // Use JSON.stringify to properly escape the message and subject
                 // for use in a JSON message envelope
