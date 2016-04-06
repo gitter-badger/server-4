@@ -5,10 +5,10 @@ from pyramid.view import (
     view_defaults,
 )
 
-
 from pyramid.response import Response
 
 from . import RestView
+
 
 @view_defaults(renderer='json')
 class RestHostAddressViews(RestView):
@@ -29,15 +29,21 @@ class RestHostAddressViews(RestView):
         host_name = self.request.matchdict['host']
         address = self.request.matchdict['address']
 
+        description = ""
+        try:
+            description = self.request.json_body.get('description', '')
+        except ValueError:
+            description = ""
+
         host = self.dao.host_dao.get_host_by_name(name=host_name)
         if host is None:
             return 'host-not-found'
 
         try:
-            self.dao.host_dao.add_address(host, address)
+            self.dao.host_dao.add_address(host, address, description)
             return {}
-        except:
-            return 'failure'
+        except Exception as e:
+            return str(e)
 
     @view_config(
         route_name='rest_host_addresses_1',

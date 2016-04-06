@@ -1,5 +1,7 @@
 """Data Access Object class for handling Hosts."""
 
+import transaction
+
 from argux_server.models import (
     Host,
     HostAddress,
@@ -76,12 +78,14 @@ class HostDAO(BaseDAO):
 
         return
 
-    def add_address(self, host, address):
+    def add_address(self, host, address, description=''):
         """Add address."""
-        d_address = HostAddress(host=host, name=address)
+        d_address = HostAddress(
+            host=host,
+            name=address,
+            description=description)
         self.db_session.add(d_address)
-        self.db_session.flush()
-        self.db_session.commit()
+        transaction.commit()
         return
 
     def get_address(self, host, address):
