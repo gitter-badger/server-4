@@ -61,15 +61,33 @@ Choose the database engine::
     Choose Database Engine (mysql, pgsql, sqlite):
 
 .. NOTE::
-    Only sqlite is implemented in this wizard at the moment. Other engines
-    should work (like mysql and postgresql), but you'd have to modify the
+    Only sqlite and pgsql are implemented in this wizard at the moment.
+    Other engines should work (like mysql), but you'd have to modify the
     configuration-file manually to do so.
 
 Sqlite3
 .......
 Select the sqlite3 db-path::
 
-   'database path: (/var/lib/argux-server/argux.sqlite)')
+   'database path: (/var/lib/argux-server/argux.sqlite)'
+
+Postgresql
+..........
+Enter database server::
+
+   'database server: (localhost)'
+
+Provide a database name::
+
+   'database name: (argux)'
+
+Provide a database user::
+
+   'database user:'
+
+Enter the password::
+
+   'database password:'
 
 
 Initialize database

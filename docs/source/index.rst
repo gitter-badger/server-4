@@ -16,8 +16,8 @@ Contents:
    rest/index
    monitor/index
    monitor/icmp
-   monitor/snmp
    monitor/dns
+   monitor/snmp
    monitor/jmx
 
 Indices and tables

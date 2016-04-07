@@ -41,10 +41,3 @@ web. It is designed with the following aspects in mind.
    Example 2:
       An agent running on server X is not able to save metrics about
       server Y, unless is is explicitly allowed.
-
-   Example 3:
-      An installation of the `argux-net-monitor` application is
-      running on a machine in a management network. It polls network
-      equipment that can't be reached by the Argux Server directly.
-      The `argux-net-monitor` can be authorized to store metrics for
-      switches and other network equipment.
