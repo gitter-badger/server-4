@@ -111,7 +111,7 @@ function getAddresses(host) {
 $(function() {
     monitor = {};
 
-    if (ARGUX_MONITOR_TYPE==="icmp") {
+    if ((ARGUX_MONITOR_TYPE==="icmp") || (ARGUX_MONITOR_TYPE==="dns")) {
         var hostname = $('#monitor-host').val();
         getAddresses(hostname);
     }

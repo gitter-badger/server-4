@@ -59,6 +59,9 @@
                                 tal:content="host.name">
                         </option>
                     </select>
+                    <label for="monitor-address">Address</label>
+                    <select class="form-control" id="monitor-address">
+                    </select>
                     <label for="monitor-address">Domain</label>
                     <div class="input-group" id='monitor-domain'>
                       <input type="text" class="form-control" aria-label="...">
