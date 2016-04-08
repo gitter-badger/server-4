@@ -4,7 +4,7 @@
         <strong>Warning:</strong> No hosts configured, unable to configure monitors.
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">Monitors
+        <div class="panel-heading">ICMP Monitors
             <div class="pull-right">
                 <button tal:condition="len(hosts) > 0"
                         type="button"
