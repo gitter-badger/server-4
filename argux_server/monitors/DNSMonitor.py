@@ -96,22 +96,27 @@ class DNSMonitor(AbstractMonitor):
         domain = None
 
         address = monitor.host_address.name
-        for option in monitor.options:
-            if option.key == 'type':
-                _type = option.value
-            if option.key == 'domain':
-                domain = option.value
+        for domain in monitor.domains:
+            print(domain.domain)
+            if domain.record_a:
+                check_dns(address, 'A', domain.domain)
+            if domain.record_aaaa:
+                check_dns(address, 'AAAA', domain.domain)
+            if domain.record_mx:
+                check_dns(address, 'MX', domain.domain)
 
-        if _type is None or domain is None:
-            print("type and domain are missing")
-            return
+
+        transaction.commit()
+
+        return
+
+    def check_dns(address, _type, domain):
+        timestamp = datetime.now()
 
         dig_cmd = DIG.format(
             address=address,
             _type=_type,
             domain=domain)
-
-        timestamp = datetime.now()
 
         try:
             output = subprocess.check_output(
@@ -149,7 +154,3 @@ class DNSMonitor(AbstractMonitor):
 
         except Exception as e:
             print('error '+str(e))
-
-        transaction.commit()
-
-        return
