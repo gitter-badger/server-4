@@ -5,6 +5,7 @@ from pyramid.view import (
     view_defaults,
 )
 
+import transaction
 
 from pyramid.response import Response
 
@@ -83,14 +84,47 @@ class RestHostViews(RestView):
     def host_1_view_post(self, host_name):
         """Create new host."""
         description = None
-        try:
-            description = self.request.json_body.get('description', None)
-        except ValueError:
-            description = None
+        addresses = []
 
-        self.dao.host_dao.create_host(
+        if len(self.request.body) > 0:
+            try:
+                json_body = self.request.json_body
+            except ValueError as e:
+                return Response(
+                    status='400 Bad Request',
+                    content_type='application/json')
+
+            # Optional (Description)
+            try:
+                description = json_body.get('description', None)
+            except ValueError:
+                description = None
+
+            # Optional (Host-Addresses)
+            try:
+                addresses = json_body.get('address', [])
+            except ValueError:
+                addresses = []
+
+        host = self.dao.host_dao.create_host(
             name=host_name,
             description=description)
+
+        for address in addresses:
+            address_description = ""
+            if 'description' in address:
+                address_description = address['description']
+            if 'address' in address:
+                try:
+                    self.dao.host_dao.add_address(
+                        host,
+                        address['address'],
+                        address_description)
+                except Exception as e:
+                    transaction.rollback()
+                    return str(e)
+
+        transaction.commit()
 
         return Response(
             status='201 Created',
@@ -117,8 +151,7 @@ class RestHostViews(RestView):
         items = []
         details = []
         active_alerts = []
-        active_alert_count = 0
-
+        active_alert_count = 0 
         if host is None:
             return Response(
                 status="404 Not Found",

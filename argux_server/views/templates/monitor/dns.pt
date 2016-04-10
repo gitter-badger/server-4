@@ -67,22 +67,6 @@
                         <option value='1m'>1 minute</option>
                         <option value='5m'>5 minutes</option>
                     </select>
-                    <label for="monitor-domain-grp">Domain</label>
-                    <div class="input-group" id='monitor-domain-grp'>
-                      <input type="text" class="form-control" aria-label="..." id='monitor-domain'>
-                      <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-pencil"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                          <!--<li><a href="#"></a></li>-->
-                        </ul>
-                      </div><!-- /btn-group -->
-                    </div><!-- /input-group -->
-                    <label for="monitor-tyoe">Type</label>
-                    <select class="form-control" id="monitor-type">
-                        <option>A</option>
-                        <option>AAAA</option>
-                        <option>MX</option>
-                    </select>
                 </div>
             </div>
             <div class="modal-footer">

@@ -61,7 +61,7 @@ class RestHostAddressViews(RestView):
 
         d_addr = self.dao.host_dao.get_addresses(host)
         for addr in d_addr:
-            addresses.append({'name': addr.name})
+            addresses.append({'name': addr.name, 'description': addr.description})
 
         return {
             "addresses": addresses

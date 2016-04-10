@@ -52,7 +52,38 @@ curl -X POST \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
     -d "{
+       \"description\": \"Test adding new system\",
+       \"address\": [
+            {
+            \"address\": \"10.0.0.1\",
+            \"description\": \"okay\"
+            },
+            {
+            \"address\": \"10.0.0.2\"
+            }
+       ]
+    }" \
+    $SERVER/$REST_URI/$HOST_URI/perl
+
+# Host
+curl -X POST \
+    -b $COOKIE_FILE \
+    -H "Content-Type: application/json" \
+    -H "X-CSRF-Token: $CSRF_TOKEN" \
+    -d "{
        \"description\": \"Argux DEMO System\"
     }" \
     $SERVER/$REST_URI/$HOST_URI/$HOST_NAME
+
+
+# Host
+curl -X POST \
+    -b $COOKIE_FILE \
+    -H "Content-Type: application/json" \
+    -H "X-CSRF-Token: $CSRF_TOKEN" \
+    -d "{
+       \"description\": \"Argux DEMO System\"
+       \"AAAAAAAAA\":\'A\'
+    }" \
+    $SERVER/$REST_URI/$HOST_URI/broken
 

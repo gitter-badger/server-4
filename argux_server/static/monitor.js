@@ -100,8 +100,17 @@ function getAddresses(host) {
                     '<option disabled>No addresses</option>');
             } else {
                 $.each(json.addresses, function(i, address) {
-                    $('#monitor-address').append(
-                        '<option>'+address.name+'</option');
+                    if (address.description != '') {
+                        $('#monitor-address').append(
+                            '<option value="'+address.name+'">'+
+                            address.name+' ('+address.description+')'+
+                            '</option>');
+                    } else {
+                        $('#monitor-address').append(
+                            '<option value="'+address.name+'">'+
+                            address.name +
+                            '</option>');
+                    }
                 });
             }
             return true;
