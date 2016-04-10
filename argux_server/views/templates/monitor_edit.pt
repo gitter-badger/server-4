@@ -30,8 +30,8 @@
     </div>
     <div>
     <ol class="breadcrumb">
-      <li class="dropdown"><a href="/hosts"><span class="glyphicon glyphicon-list"></span></a></li>
-      <li class="active">a</li>
+      <li class="dropdown"><a href="/monitor/${action}"><span class="glyphicon glyphicon-list"></span></a></li>
+      <li class="active">...</li>
     </ol>
     </div>
     <span tal:define="global tmpl load: ./monitor_edit/${action}.pt"/>
