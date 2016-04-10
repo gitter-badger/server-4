@@ -4,7 +4,7 @@
         <strong>Warning:</strong> No hosts configured, unable to configure monitors.
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">Monitors
+        <div class="panel-heading">DNS Monitors
             <div class="pull-right">
                 <button tal:condition="len(hosts) > 0"
                         type="button"
@@ -18,10 +18,8 @@
         <table class="table table-striped">
             <thead>
             <th>Host</th>
-            <th>Response-Time</th>
-            <th>Last Check</th>
-            <th>Interval</th>
-            <th>Enabled</th>
+            <th>Address</th>
+            <th>Options</th>
             <th></th>
             </thead>
             <tbody id='monitors'>
@@ -62,9 +60,16 @@
                     <label for="monitor-address">Address</label>
                     <select class="form-control" id="monitor-address">
                     </select>
-                    <label for="monitor-address">Domain</label>
-                    <div class="input-group" id='monitor-domain'>
-                      <input type="text" class="form-control" aria-label="...">
+                    <label for="monitor-interval">Interval</label>
+                    <select class="form-control" id="monitor-interval">
+                        <option value='15s'>15 seconds</option>
+                        <option value='30s'>30 seconds</option>
+                        <option value='1m'>1 minute</option>
+                        <option value='5m'>5 minutes</option>
+                    </select>
+                    <label for="monitor-domain-grp">Domain</label>
+                    <div class="input-group" id='monitor-domain-grp'>
+                      <input type="text" class="form-control" aria-label="..." id='monitor-domain'>
                       <div class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-pencil"></span></button>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -72,15 +77,12 @@
                         </ul>
                       </div><!-- /btn-group -->
                     </div><!-- /input-group -->
-                    <div class="input-group">
-                    <label for="monitor-domain-A"><input type="checkbox"/> A record</label>
-                    </div>
-                    <div class="input-group">
-                    <label for="monitor-domain-AAAA"><input type="checkbox"/> AAAA record</label>
-                    </div>
-                    <div class="input-group">
-                    <label for="monitor-domain-MX"><input type="checkbox"/> MX record</label>
-                    </div>
+                    <label for="monitor-tyoe">Type</label>
+                    <select class="form-control" id="monitor-type">
+                        <option>A</option>
+                        <option>AAAA</option>
+                        <option>MX</option>
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">

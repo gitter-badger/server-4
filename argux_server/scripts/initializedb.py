@@ -60,6 +60,8 @@ def initialise_hashmethods():
 def initialise_monitortypes():
     model = MonitorType(name='ICMP')
     DB_SESSION.add(model)
+    model = MonitorType(name='DNS')
+    DB_SESSION.add(model)
 
 def initialise_units():
     prefix = MetricPrefix(milli=True,micro=True,nano=True)

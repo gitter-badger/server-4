@@ -1,0 +1,141 @@
+<div class="section-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">Domains
+            <div class="pull-right">
+                <button tal:condition="len(hosts) > 0"
+                        type="button"
+                        class="btn btn-default btn-xs"
+                        data-target="#create-monitor-modal"
+                        data-toggle="modal">
+                    <span class="glyphicon glyphicon-plus alert-default"></span>
+                </button>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <th>Domain</th>
+            <th>TYPE</th>
+            <th>Last Check</th>
+            <th></th>
+            </thead>
+            <tbody id='monitors'>
+            <tr class="">
+                <td><span class="glyphicon glyphicon-globe"></span> example.com</td>
+                <td>
+                    <a href="#" data-toggle="tooltip" title="A">
+                        <span class="glyphicon glyphicon-check"></span>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="AAAA">
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="MX">
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                    </a>
+                </td>
+                <td>-
+                </td>
+                <td>
+                    <a href="#" data-toggle="tooltip" title="Edit">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
+            </tr>
+            <tr class="alert-danger">
+                <td><span class="glyphicon glyphicon-globe"></span> www.example.com</td>
+                <td>
+                    <a href="#" data-toggle="tooltip" title="A">
+                        <span class="glyphicon glyphicon-check"></span>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="AAAA">
+                        <span class="alert-danger glyphicon glyphicon-check"></span>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="MX">
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                    </a>
+                </td>
+                <td>-
+                </td>
+                <td>
+                    <a href="#" data-toggle="tooltip" title="Edit">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
+            </tr>
+            <tr class="alert-danger">
+                <td><span class="glyphicon glyphicon-globe"></span> www2.example.com</td>
+                <td>
+                    <a href="#" data-toggle="tooltip" title="A">
+                        <span class="glyphicon glyphicon-check"></span>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="AAAA">
+                        <span class="alert-danger glyphicon glyphicon-check"></span>
+                    </a>
+                    <a href="#" data-toggle="tooltip" title="MX">
+                        <span class="glyphicon glyphicon-unchecked"></span>
+                    </a>
+                </td>
+                <td>-
+                </td>
+                <td>
+                    <a href="#" data-toggle="tooltip" title="Edit">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="myLargeModalLabel"
+     id="create-monitor-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <!-- Add Trigger -->
+            <form id="monitor-form" action="">
+            <div class="modal-header">
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Domain<h4>
+            </div>
+            <div class="modal-body">
+                <div role="tabpanel" class="tab-pane active" id="edit">
+                    <label for="monitor-domain-grp">Domain</label>
+                    <div class="input-group" id='monitor-domain-grp'>
+                      <input type="text" class="form-control" aria-label="..." id='monitor-domain'>
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <!--<li><a href="#"></a></li>-->
+                        </ul>
+                      </div><!-- /btn-group -->
+                    </div><!-- /input-group -->
+                </div>
+                <div role="tabpanel" class="tab-pane active" id="1edit">
+                    <div class="input-group">
+                    <label for="monitor-domain-A"><input type="checkbox"/> A record</label>
+                    </div>
+                    <div class="input-group">
+                    <label for="monitor-domain-AAAA"><input type="checkbox"/> AAAA record</label>
+                    </div>
+                    <div class="input-group">
+                    <label for="monitor-domain-MX"><input type="checkbox"/> MX record</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add Domain</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+

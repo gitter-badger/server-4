@@ -48,5 +48,22 @@ class MonitorViews(BaseView):
 
         return {
             "hosts": hosts,
-            "userid": self.request.authenticated_userid,
+            "action": action}
+
+    @view_config(
+        route_name='monitor_edit',
+        renderer='templates/monitor_edit.pt',
+        permission='view'
+    )
+    def monitor_edit(self):
+        action = self.request.matchdict['action']
+        hosts = []
+
+        d_hosts = self.dao.host_dao.get_all_hosts()
+
+        for host in d_hosts:
+            hosts.append({'name': host.name})
+
+        return {
+            "hosts": hosts,
             "action": action}

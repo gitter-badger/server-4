@@ -29,7 +29,14 @@ function pollMonitors() {
                     options + 
                     '</ul>' +
                     '</td><td>' +
-                    '&nbsp;' +
+                    '<div class="push-right">' +
+                    '<a href="#">' +
+                    '<span class="glyphicon glyphicon-list"></span>' +
+                    '</a>' +
+                    '<a href="'+ARGUX_BASE+'/monitor/'+ARGUX_MONITOR_TYPE+'/edit">' +
+                    '<span class="glyphicon glyphicon-edit"></span>' +
+                    '</a>' +
+                    '</div>' +
                     '</td></tr>'
                 );
             });
@@ -59,10 +66,7 @@ function createMonitor(monitor) {
         headers: { 'X-CSRF-Token': CSRF_TOKEN },
         dataType: "json",
         data: '{'+
-              '"options":'+
-                  '{'+
-                  '"interval":'+JSON.stringify(monitor.interval)+
-                  '}'+
+              '"options":'+JSON.stringify(monitor.options)+
               '}',
         success: function() {
             $('#create-monitor-modal').modal('hide');
@@ -72,7 +76,7 @@ function createMonitor(monitor) {
             $('#trigger-form-alerts').append(
                 '<div class="alert alert-danger alert-dismissible">'+
                 '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
-                '<strong>Problem:</strong> Trigger rule could not be created.'+
+                '<strong>Problem:</strong> Monitor could not be created.'+
                 '</div>'
             );
         }
@@ -104,7 +108,6 @@ function getAddresses(host) {
         },
         error: function() {
         }
-        
     });
 }
 
@@ -121,13 +124,16 @@ $(function() {
     });
 
     $('#monitor-form').submit(function(event) {
-        if (ARGUX_MONITOR_TYPE==="icmp") {
+        if ((ARGUX_MONITOR_TYPE==="icmp") || (ARGUX_MONITOR_TYPE==="dns")) {
             monitor = {
                 'hostname': $('#monitor-host').val(),
                 'address': $('#monitor-address').val(),
-                'interval': $('#monitor-interval').val(),
+                'options' : {
+                    'interval': $('#monitor-interval').val(),
+                }
             };
         }
+
         event.preventDefault();
         createMonitor(monitor);
     });

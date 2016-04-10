@@ -31,6 +31,8 @@ from .Monitor import Monitor
 from .MonitorOption import MonitorOption
 from .MonitorType import MonitorType
 
+from .DNSMonitorDomain import DNSMonitorDomain
+
 from .values.IntValue import (
     IntValue,
     IntSimpleTrigger,

@@ -103,6 +103,8 @@ def main(global_config, **settings):
                      '/monitor')
     config.add_route('monitor',
                      '/monitor/{action}')
+    config.add_route('monitor_edit',
+                     '/monitor/{action}/edit')
     config.add_route('login',
                      '/login')
     config.add_route('logout',

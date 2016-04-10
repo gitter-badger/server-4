@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html metal:use-macro="load: main.pt"
+    tal:define="global argux_parent_route 'monitor_default'">
+
+<div metal:fill-slot="head">
+    <script type="text/javascript">
+        var ARGUX_BASE="${request.application_url}";
+        var CSRF_TOKEN="${request.session.get_csrf_token()}";
+        var ARGUX_MONITOR_TYPE="${action}";
+    </script>
+</div>
+
+<div metal:fill-slot="custom-js">
+</div>
+
+<div metal:fill-slot="content">
+    <div>
+        <ul class="nav nav-tabs">
+          <li tal:define="item_l ('ICMP', 'DNS', 'SNMP', 'JMX')"
+              tal:repeat="item ('icmp', 'dns', 'snmp', 'jmx')"
+              tal:attributes="class 'active' if item==action else nothing">
+            <a tal:attributes="href request.application_url+'/monitor/'+item">
+                <span tal:content="item_l[repeat.item.index]">
+            </a>
+            <span tal:condition="action==item">
+                <span tal:define="global tmpl load: ./monitor/${item}.pt"/>
+            </span>
+          </li>
+        </ul>
+    </div>
+    <div>
+    <ol class="breadcrumb">
+      <li class="dropdown"><a href="/hosts"><span class="glyphicon glyphicon-list"></span></a></li>
+      <li class="active">a</li>
+    </ol>
+    </div>
+    <span tal:define="global tmpl load: ./monitor_edit/${action}.pt"/>
+    <div metal:extend-macro='tmpl'></div>
+</div>
+
+</html>
