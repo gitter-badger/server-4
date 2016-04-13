@@ -30,9 +30,9 @@ class Monitor(BASE):
     __tablename__ = 'monitor'
     id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     host_address_id = Column(Integer, ForeignKey('host_address.id'), nullable=False)
-    host_address = relationship(HostAddress, backref='monitor_host_address')
+    host_address = relationship('HostAddress', backref='monitors')
     monitor_type_id = Column(Integer, ForeignKey('monitor_type.id'), nullable=False)
-    monitor_type = relationship(MonitorType, backref='monitors')
+    monitor_type = relationship('MonitorType', backref='monitors')
     active = Column(Boolean, nullable=False, default=True)
 
 

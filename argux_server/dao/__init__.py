@@ -21,6 +21,8 @@ class DAO(object):
 
         Initialises public member DAO modules.
         """
+        self.db_session = db_session
+
         self.host_dao = HostDAO(db_session)
         self.item_dao = ItemDAO(db_session)
         self.note_dao = NoteDAO(db_session)

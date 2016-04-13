@@ -9,6 +9,8 @@ import subprocess
 import shutil
 import os
 
+import sqlalchemy
+
 from datetime import datetime
 
 from .AbstractMonitor import AbstractMonitor
@@ -61,7 +63,6 @@ class DNSMonitor(AbstractMonitor):
         """
         # Thread body.
         while True:
-
             cmd = shutil.which('dig', mode=os.X_OK)
             if cmd is not None:
                 mons = self.dao\
@@ -96,6 +97,7 @@ class DNSMonitor(AbstractMonitor):
         domain = None
 
         address = monitor.host_address.name
+
         for domain in monitor.domains:
             print(domain.domain)
             if domain.record_a:

@@ -9,7 +9,7 @@ from sqlalchemy.orm import (
 )
 
 from argux_server.dao import DAO
-from argux_server.models import Session
+from argux_server.models import DB_SESSION
 
 
 class AbstractMonitor(Thread):
@@ -29,7 +29,7 @@ class AbstractMonitor(Thread):
         super(AbstractMonitor, self).__init__()
         self.daemon = True
 
-        self.session = Session()
+        self.session = DB_SESSION
 
         self.dao = DAO(self.session)
 

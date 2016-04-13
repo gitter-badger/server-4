@@ -62,6 +62,8 @@ def initialise_monitortypes():
     DB_SESSION.add(model)
     model = MonitorType(name='DNS')
     DB_SESSION.add(model)
+    model = MonitorType(name='SNMP')
+    DB_SESSION.add(model)
 
 def initialise_units():
     prefix = MetricPrefix(milli=True,micro=True,nano=True)

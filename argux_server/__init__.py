@@ -171,9 +171,9 @@ def main(global_config, **settings):
     config.scan('.views')
     config.scan('.rest.views')
 
-    start_monitors(settings=settings)
-
     worker = TriggerWorker()
     worker.start()
+
+    start_monitors(settings=settings)
 
     return config.make_wsgi_app()

@@ -94,7 +94,6 @@ class ICMPMonitor(AbstractMonitor):
         """
         # Thread body.
         while True:
-
             mons = self.dao.monitor_dao.get_all_monitors_for_type('ICMP')
             for monitor in mons:
                 ICMPMonitor.monitor_once(self.dao, monitor)
