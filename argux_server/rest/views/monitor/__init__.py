@@ -14,7 +14,7 @@ from pyramid.response import Response
 
 import json
 
-from . import RestView
+from .. import RestView
 
 from argux_server.monitors import MONITORS
 
@@ -56,6 +56,7 @@ class RestMonitorViews(RestView):
             monitors.append({
                 'address': d_monitor.host_address.name,
                 'host': d_monitor.host_address.host.name,
+                'active': d_monitor.active,
                 'options': options
             })
 

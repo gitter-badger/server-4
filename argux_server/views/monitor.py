@@ -57,13 +57,22 @@ class MonitorViews(BaseView):
     )
     def monitor_edit(self):
         action = self.request.matchdict['action']
+        host_name = self.request.matchdict['host']
+        address = self.request.matchdict['address']
+
+        domains = []
         hosts = []
 
-        d_hosts = self.dao.host_dao.get_all_hosts()
+        d_host = self.dao.host_dao.get_host_by_name(host_name)
+        d_address = self.dao.host_dao.get_address(d_host, address)
 
-        for host in d_hosts:
-            hosts.append({'name': host.name})
+        for monitor in d_address.monitors:
+            for domain in monitor.domains:
+                domains.append({"domain": domain.domain})
 
         return {
-            "hosts": hosts,
-            "action": action}
+            "host": host_name,
+            "address": address,
+            "action": action,
+            "domains": domains
+        }

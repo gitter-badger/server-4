@@ -104,7 +104,7 @@ def main(global_config, **settings):
     config.add_route('monitor',
                      '/monitor/{action}')
     config.add_route('monitor_edit',
-                     '/monitor/{action}/edit')
+                     '/monitor/{action}/{host}/{address}/edit')
     config.add_route('login',
                      '/login')
     config.add_route('logout',
@@ -163,6 +163,8 @@ def main(global_config, **settings):
                      '/rest/1.0/monitor/{type}')
     config.add_route('rest_monitor_1',
                      '/rest/1.0/monitor/{type}/{host}/{address}')
+    config.add_route('rest_dns_monitor_domain_1',
+                     '/rest/1.0/monitor/dns/{host}/{address}/domain/{domain}')
 
     # Pretty-print JSON, useful for development.
     if settings['rest.pretty_json'] == 'true':

@@ -16,27 +16,28 @@ function pollMonitors() {
                 $.each(monitor.options, function(key, value) {
                     options+= '<li><span style="font-weight: bold">'+key+':</span> '+value+'</li>';
                 });
+                if (monitor.active) {
+                    button = 
+                    '<a href="#">' +
+                    '<span class="glyphicon glyphicon-pause"></span>' +
+                    '</a> ';
+                } else {
+                    button =
+                    '<a href="#">' +
+                    '<span class="glyphicon glyphicon-play"></span>' +
+                    '</a> ';
+                }
                 $('#monitors').append(
                     '<tr class=""><td>' +
-                    '<span class="glyphicon glyphicon-down-arrow"></span>' +
-                    '<a href="'+ARGUX_BASE+'/host/'+monitor.host+'">' +
+                    button +
+                    '<a href="'+ARGUX_BASE+'/monitor/'+ARGUX_MONITOR_TYPE+'/'+monitor.host+'/'+monitor.address+'/edit">' +
                     monitor.host +
+                    ' (' + monitor.address + ')' +
                     '</a>' +
-                    '</td><td>' +
-                    monitor.address +
                     '</td><td>' +
                     '<ul>' +
                     options + 
                     '</ul>' +
-                    '</td><td>' +
-                    '<div class="push-right">' +
-                    '<a href="#">' +
-                    '<span class="glyphicon glyphicon-list"></span>' +
-                    '</a>' +
-                    '<a href="'+ARGUX_BASE+'/monitor/'+ARGUX_MONITOR_TYPE+'/edit">' +
-                    '<span class="glyphicon glyphicon-edit"></span>' +
-                    '</a>' +
-                    '</div>' +
                     '</td></tr>'
                 );
             });

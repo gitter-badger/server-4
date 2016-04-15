@@ -101,18 +101,19 @@ class DNSMonitor(AbstractMonitor):
         for domain in monitor.domains:
             print(domain.domain)
             if domain.record_a:
-                check_dns(address, 'A', domain.domain)
+                DNSMonitor.check_dns(dao, address, 'A', domain.domain)
             if domain.record_aaaa:
-                check_dns(address, 'AAAA', domain.domain)
+                DNSMonitor.check_dns(dao, address, 'AAAA', domain.domain)
             if domain.record_mx:
-                check_dns(address, 'MX', domain.domain)
+                DNSMonitor.check_dns(dao, address, 'MX', domain.domain)
 
 
         transaction.commit()
 
         return
 
-    def check_dns(address, _type, domain):
+    @staticmethod
+    def check_dns(dao, address, _type, domain):
         timestamp = datetime.now()
 
         dig_cmd = DIG.format(

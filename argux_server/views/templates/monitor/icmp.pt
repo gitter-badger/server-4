@@ -17,10 +17,8 @@
         </div>
         <table class="table table-striped">
             <thead>
-            <th>Host</th>
-            <th>Address</th>
+            <th>Monitor</th>
             <th>Options</th>
-            <th></th>
             </thead>
             <tbody id='monitors'>
             <tr>

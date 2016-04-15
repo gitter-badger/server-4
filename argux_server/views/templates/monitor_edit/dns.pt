@@ -2,10 +2,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">Domains
             <div class="pull-right">
-                <button tal:condition="len(hosts) > 0"
-                        type="button"
+                <button type="button"
                         class="btn btn-default btn-xs"
-                        data-target="#create-monitor-modal"
+                        data-target="#dns-domain-modal"
                         data-toggle="modal">
                     <span class="glyphicon glyphicon-plus alert-default"></span>
                 </button>
@@ -18,66 +17,43 @@
             <th>Last Check</th>
             <th></th>
             </thead>
-            <tbody id='monitors'>
-            <tr class="">
-                <td><span class="glyphicon glyphicon-globe"></span> example.com</td>
+            <tbody id='domains'>
+            <tr class="" tal:repeat="domain domains">
+                <td><span class="glyphicon glyphicon-globe"></span> ${domain.domain}</td>
                 <td>
-                    <a href="#" data-toggle="tooltip" title="A">
-                        <span class="glyphicon glyphicon-check"></span>
-                    </a>
-                    <a href="#" data-toggle="tooltip" title="AAAA">
+                    <a href="#"
+                       class="dns-edit"
+                       data-toggle="tooltip"
+                       data-domain="example.com"
+                       data-domaintype="A"
+                       title="A">
                         <span class="glyphicon glyphicon-unchecked"></span>
                     </a>
-                    <a href="#" data-toggle="tooltip" title="MX">
+                    <a href="#"
+                       class="dns-edit"
+                       data-toggle="tooltip"
+                       data-domain="example.com"
+                       data-domaintype="AAAA"
+                       title="AAAA">
                         <span class="glyphicon glyphicon-unchecked"></span>
                     </a>
-                </td>
-                <td>-
-                </td>
-                <td>
-                    <a href="#" data-toggle="tooltip" title="Edit">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
-                </td>
-            </tr>
-            <tr class="alert-danger">
-                <td><span class="glyphicon glyphicon-globe"></span> www.example.com</td>
-                <td>
-                    <a href="#" data-toggle="tooltip" title="A">
-                        <span class="glyphicon glyphicon-check"></span>
-                    </a>
-                    <a href="#" data-toggle="tooltip" title="AAAA">
-                        <span class="alert-danger glyphicon glyphicon-check"></span>
-                    </a>
-                    <a href="#" data-toggle="tooltip" title="MX">
+                    <a href="#"
+                       class="dns-edit"
+                       data-toggle="tooltip"
+                       data-domain="example.com"
+                       data-domaintype="MX"
+                       title="MX">
                         <span class="glyphicon glyphicon-unchecked"></span>
                     </a>
                 </td>
                 <td>-
                 </td>
                 <td>
-                    <a href="#" data-toggle="tooltip" title="Edit">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
-                </td>
-            </tr>
-            <tr class="alert-danger">
-                <td><span class="glyphicon glyphicon-globe"></span> www2.example.com</td>
-                <td>
-                    <a href="#" data-toggle="tooltip" title="A">
-                        <span class="glyphicon glyphicon-check"></span>
-                    </a>
-                    <a href="#" data-toggle="tooltip" title="AAAA">
-                        <span class="alert-danger glyphicon glyphicon-check"></span>
-                    </a>
-                    <a href="#" data-toggle="tooltip" title="MX">
-                        <span class="glyphicon glyphicon-unchecked"></span>
-                    </a>
-                </td>
-                <td>-
-                </td>
-                <td>
-                    <a href="#" data-toggle="tooltip" title="Edit">
+                    <a  href="#"
+                        class="dns-edit"
+                        data-toggle="tooltip"
+                        data-domain="example.com"
+                        title="Edit">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
                 </td>
@@ -90,12 +66,12 @@
      tabindex="-1"
      role="dialog"
      aria-labelledby="myLargeModalLabel"
-     id="create-monitor-modal">
+     id="dns-domain-modal">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <!-- Add Trigger -->
-            <form id="monitor-form" action="">
+            <form id="dns-domain-form" action="">
             <div class="modal-header">
                 <button type="button"
                         class="close"
@@ -138,4 +114,3 @@
         </div>
     </div>
 </div>
-
