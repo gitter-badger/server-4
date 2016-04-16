@@ -21,41 +21,30 @@
             <tr class="" tal:repeat="domain domains">
                 <td><span class="glyphicon glyphicon-globe"></span> ${domain.domain}</td>
                 <td>
-                    <a href="#"
-                       class="dns-edit"
-                       data-toggle="tooltip"
-                       data-domain="example.com"
-                       data-domaintype="A"
-                       title="A">
-                        <span class="glyphicon glyphicon-unchecked"></span>
-                    </a>
-                    <a href="#"
-                       class="dns-edit"
-                       data-toggle="tooltip"
-                       data-domain="example.com"
-                       data-domaintype="AAAA"
-                       title="AAAA">
-                        <span class="glyphicon glyphicon-unchecked"></span>
-                    </a>
-                    <a href="#"
-                       class="dns-edit"
-                       data-toggle="tooltip"
-                       data-domain="example.com"
-                       data-domaintype="MX"
-                       title="MX">
-                        <span class="glyphicon glyphicon-unchecked"></span>
-                    </a>
+                    <metal:comment tal:content="nothing">
+                    Using a hard-coded array here because I don't
+                    want the order of the elements to change.
+                    </metal:comment>
+                    <span
+                        tal:repeat="record ['A','AAAA','MX']"
+                        tal:content="record"
+                        tal:attributes="class 'label label-primary' if domain.records[record]==True else 'label label-default'"></span>
                 </td>
                 <td>-
                 </td>
                 <td>
-                    <a  href="#"
-                        class="dns-edit"
-                        data-toggle="tooltip"
-                        data-domain="example.com"
-                        title="Edit">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </a>
+                    <div class="pull-right">
+                        <a  href="#"
+                            class="dns-edit"
+                            data-toggle="tooltip"
+                            data-domain="${domain.domain}"
+                            data-domain-a="${domain.records.A"
+                            data-domain-aaaa="${domain.records.AAAA}"
+                            data-domain-mx="${domain.records.MX}"
+                            title="Edit">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </div>
                 </td>
             </tr>
             </tbody>
@@ -82,27 +71,20 @@
                 <h4 class="modal-title">Add Domain<h4>
             </div>
             <div class="modal-body">
-                <div role="tabpanel" class="tab-pane active" id="edit">
-                    <label for="monitor-domain-grp">Domain</label>
-                    <div class="input-group" id='monitor-domain-grp'>
-                      <input type="text" class="form-control" aria-label="..." id='monitor-domain'>
-                      <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-pencil"></span></button>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                          <!--<li><a href="#"></a></li>-->
-                        </ul>
-                      </div><!-- /btn-group -->
-                    </div><!-- /input-group -->
-                </div>
+                <label for="monitor-domain-grp">Domain</label>
+                <input type="text" class="form-control" aria-label="..." id='monitor-domain'>
                 <div role="tabpanel" class="tab-pane active" id="1edit">
                     <div class="input-group">
-                    <label for="monitor-domain-A"><input type="checkbox"/> A record</label>
+                    <label for="monitor-domain-A">
+                        <input id="monitor-domain-A" type="checkbox"/> A record</label>
                     </div>
                     <div class="input-group">
-                    <label for="monitor-domain-AAAA"><input type="checkbox"/> AAAA record</label>
+                    <label for="monitor-domain-AAAA">
+                        <input id="monitor-domain-AAAA" type="checkbox"/> AAAA record</label>
                     </div>
                     <div class="input-group">
-                    <label for="monitor-domain-MX"><input type="checkbox"/> MX record</label>
+                    <label for="monitor-domain-MX">
+                        <input id="monitor-domain-MX" type="checkbox"/> MX record</label>
                     </div>
                 </div>
             </div>

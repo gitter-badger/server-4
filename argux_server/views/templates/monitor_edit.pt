@@ -7,6 +7,8 @@
         var ARGUX_BASE="${request.application_url}";
         var CSRF_TOKEN="${request.session.get_csrf_token()}";
         var ARGUX_MONITOR_TYPE="${action}";
+        var ARGUX_MONITOR_HOST="${host}";
+        var ARGUX_MONITOR_ADDR="${address}";
     </script>
 </div>
 

@@ -76,6 +76,15 @@ class RestMonitorViews(RestView):
         address = self.request.matchdict['address']
 
         try:
+            active = self.request.json_body.get('active', True)
+            if active=='false':
+                active = False
+            else:
+                active = True
+        except ValueError:
+            active = True
+
+        try:
             options = self.request.json_body.get('options', None)
         except ValueError:
             raise HTTPBadRequest(
@@ -122,7 +131,8 @@ class RestMonitorViews(RestView):
         monitor = self.dao.monitor_dao.create_monitor(
             monitor_type,
             d_address,
-            options)
+            options,
+            active=active)
 
         # FIXME: run monitor once to create the items.
         #MONITORS[monitor_type].monitor_once(self.dao, monitor)

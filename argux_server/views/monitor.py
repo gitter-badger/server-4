@@ -68,7 +68,14 @@ class MonitorViews(BaseView):
 
         for monitor in d_address.monitors:
             for domain in monitor.domains:
-                domains.append({"domain": domain.domain})
+                domains.append({
+                    "domain": domain.domain,
+                    "records": {
+                        "A": domain.record_a,
+                        "AAAA": domain.record_aaaa,
+                        "MX": domain.record_mx
+                    }
+                })
 
         return {
             "host": host_name,
