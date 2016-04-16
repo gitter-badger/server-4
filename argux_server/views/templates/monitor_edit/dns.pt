@@ -35,10 +35,17 @@
                 <td>
                     <div class="pull-right">
                         <a  href="#"
+                            class="dns-remove"
+                            data-toggle="tooltip"
+                            data-domain="${domain.domain}"
+                            title="Remove">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                        <a  href="#"
                             class="dns-edit"
                             data-toggle="tooltip"
                             data-domain="${domain.domain}"
-                            data-domain-a="${domain.records.A"
+                            data-domain-a="${domain.records.A}"
                             data-domain-aaaa="${domain.records.AAAA}"
                             data-domain-mx="${domain.records.MX}"
                             title="Edit">

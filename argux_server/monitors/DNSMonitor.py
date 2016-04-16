@@ -96,25 +96,25 @@ class DNSMonitor(AbstractMonitor):
         _type = None
         domain = None
 
-        address = monitor.host_address.name
-
         for domain in monitor.domains:
             print(domain.domain)
             if domain.record_a:
-                DNSMonitor.check_dns(dao, address, 'A', domain.domain)
+                DNSMonitor.check_dns(monitor, dao, 'A', domain.domain)
             if domain.record_aaaa:
-                DNSMonitor.check_dns(dao, address, 'AAAA', domain.domain)
+                DNSMonitor.check_dns(monitor, dao, 'AAAA', domain.domain)
             if domain.record_mx:
-                DNSMonitor.check_dns(dao, address, 'MX', domain.domain)
+                DNSMonitor.check_dns(monitor, dao, 'MX', domain.domain)
 
 
         transaction.commit()
 
         return
 
-    @staticmethod
-    def check_dns(dao, address, _type, domain):
+    def check_dns(monitor, dao, _type, domain):
         timestamp = datetime.now()
+        values = []
+
+        address = monitor.host_address.name
 
         dig_cmd = DIG.format(
             address=address,
@@ -124,36 +124,36 @@ class DNSMonitor(AbstractMonitor):
         try:
             output = subprocess.check_output(
                 dig_cmd, shell=True, universal_newlines=True)
-
-            item_key = 'dns.ttl[type='+_type+',domain='+domain+']'
-            ttl_item = dao.item_dao\
-                .get_item_by_host_key(
-                    monitor.host_address.host,
-                    item_key
-                )
-
-            if ttl_item is None:
-                item_type = dao.item_dao\
-                    .get_itemtype_by_name(name='int')
-
-                ttl_item = dao.item_dao\
-                    .create_item(
-                        {
-                            'host': monitor.host_address.host,
-                            'key': item_key,
-                            'name': 'DNS '+_type+' record for '+domain,
-                            'itemtype': item_type,
-                            'category': 'Network',
-                        }
-                    )
-
-            val = PARSE(monitor, output)
-            for a in val:
-                print(a['value'])
-
-            print('------')
-            for a in sorted(val, key=lambda value: a['value']):
-                print(a)
-
+            values = PARSE(monitor, output)
         except Exception as e:
             print('error '+str(e))
+
+        item_key = 'dns.ttl[type='+_type+',domain='+domain+']'
+        ttl_item = dao.item_dao\
+            .get_item_by_host_key(
+                monitor.host_address.host,
+                item_key
+            )
+
+        if ttl_item is None:
+            print("NO TTL ITEM FOUND");
+            item_type = dao.item_dao\
+                .get_itemtype_by_name(name='int')
+
+            ttl_item = dao.item_dao\
+                .create_item(
+                    {
+                        'host': monitor.host_address.host,
+                        'key': item_key,
+                        'name': 'DNS '+_type+' record for '+domain,
+                        'itemtype': item_type,
+                        'category': 'Network',
+                    }
+                )
+
+        for a in values:
+            print(a['value'])
+
+        #print('------')
+        #for a in sorted(val, key=lambda value: a['value']):
+        #    print(a)
