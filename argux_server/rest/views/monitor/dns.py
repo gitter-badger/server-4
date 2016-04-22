@@ -62,3 +62,22 @@ class RestDNSMonitorDomainViews(RestView):
             domain)
 
         return {'ok':'ok'}
+
+    @view_config(
+        route_name='rest_dns_monitor_domain_1',
+        request_method='DELETE',
+        check_csrf=True,
+        permission='view'
+    )
+    def dns_domain_1_view_delete(self):
+        host_name = self.request.matchdict['host']
+        address = self.request.matchdict['address'].lower()
+        domain = self.request.matchdict['domain'].lower()
+
+        self.dao.monitor_dao.remove_domain(
+            host_name,
+            address,
+            'DNS',
+            domain)
+
+        return {'ok': 'ok'}

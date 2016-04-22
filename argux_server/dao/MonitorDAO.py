@@ -99,3 +99,28 @@ class MonitorDAO(BaseDAO):
             record_mx = True)
 
         self.db_session.add(domain)
+
+    def remove_domain(self, hostname, address, monitor_type, domain):
+        monitor = self.db_session.query(Monitor)\
+            .filter(Monitor.monitor_type_id == (
+                self.db_session.query(MonitorType.id)\
+                    .filter(MonitorType.name == monitor_type)
+                )
+            )\
+            .filter(Monitor.host_address_id == (
+                self.db_session.query(HostAddress.id)\
+                    .filter(HostAddress.name == address)\
+                    .filter(HostAddress.host_id == (
+                        self.db_session.query(Host.id)\
+                            .filter(Host.name == hostname)
+                        )
+                    )
+                )
+            )\
+            .first()
+
+        if monitor is not None:
+            self.db_session.query(DNSMonitorDomain)\
+                .filter(DNSMonitorDomain.monitor_id == monitor.id)\
+                .filter(DNSMonitorDomain.domain == domain)\
+                .delete()

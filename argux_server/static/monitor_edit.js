@@ -3,6 +3,28 @@
 
 
 $(function() {
+    $('a.dns-remove').click(function() {
+        var domain = $(this).attr('data-domain');
+        $.ajax({
+            url: ARGUX_BASE+
+                 "/rest/1.0/monitor/"+
+                 ARGUX_MONITOR_TYPE+
+                 "/"+
+                 ARGUX_MONITOR_HOST+
+                 "/"+
+                 ARGUX_MONITOR_ADDR+
+                 "/domain/"+
+                 domain
+                 ,
+            type: "DELETE",
+            headers: { 'X-CSRF-Token': CSRF_TOKEN },
+            dataType: "json",
+            success: function() {
+            },
+            error: function() {
+            }
+        });
+    });
     $('a.dns-edit').click(function() {
         $('#monitor-domain').val($(this).attr('data-domain'));
         $('#monitor-domain').attr('readonly', true);
