@@ -58,21 +58,28 @@ Database Configuration
 ~~~~~~~~~~~~~~~~~~~~~~
 Choose the database engine::
 
-    Choose Database Engine (mysql, pgsql, sqlite):
-
-.. NOTE::
-    Only sqlite and pgsql are implemented in this wizard at the moment.
-    Other engines should work (like mysql), but you'd have to modify the
-    configuration-file manually to do so.
-
-Sqlite3
-.......
-Select the sqlite3 db-path::
-
-   'database path: (/var/lib/argux-server/argux.sqlite)'
+    Choose Database Engine (mysql, pgsql):
 
 Postgresql
 ..........
+Enter database server::
+
+   'database server: (localhost)'
+
+Provide a database name::
+
+   'database name: (argux)'
+
+Provide a database user::
+
+   'database user:'
+
+Enter the password::
+
+   'database password:'
+
+MySQL
+.....
 Enter database server::
 
    'database server: (localhost)'
@@ -95,12 +102,3 @@ Initialize database
 Argux-Server supports a number of database backends::
 
     $ argux-server_initdb ./argux-server.ini
-
-Add users
----------------
-...
-
-Protect default admin account
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-...
-

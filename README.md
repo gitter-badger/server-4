@@ -11,18 +11,17 @@
 ## Generate config-file
 > argux-server_genconfig
 
-    ###########################################
-    ###                                     ###
-    ### Argux Server configuration wizard.  ###
-    ###                                     ###
-    ###########################################
-     
-    Config file location [./argux-server.ini]: ./argux.ini
-    Use secure cookies? (Enforce HTTPS) ['y', 'n'] (Default: y)n
-    Enable debugging? ['y', 'n'] (Default: n)
-    WSGI Server? ['pserve', 'uwsgi'] (Default: pserve)
-    Choose Database Engine ['mysql', 'pgsql', 'sqlite'] sqlite
-    database path: (/var/lib/argux-server/argux.sqlite)
+> ###########################################
+> ###                                     ###
+> ### Argux Server configuration wizard.  ###
+> ###                                     ###
+> ###########################################
+>     
+> Config file location [./argux-server.ini]: ./argux.ini
+> Use secure cookies? (Enforce HTTPS) ['y', 'n'] (Default: y)n
+> Enable debugging? ['y', 'n'] (Default: n)
+> WSGI Server? ['pserve', 'uwsgi'] (Default: pserve)
+> Choose Database Engine ['mysql', 'pgsql'] pgsql
 
 ## Initialize the database
 >  argux-server_initdb argux-server.ini
