@@ -12,7 +12,6 @@ from .AbstractMonitor import AbstractMonitor
 
 from argux_server.rest.client import (
     RESTClient,
-    monitor_manager,
 )
 
 def parse_freebsd(monitor, output):
@@ -99,7 +98,7 @@ class ICMPMonitor(AbstractMonitor):
         while True:
 
             try:
-                mons = monitor_manager.get_monitors(self.client, 'icmp')
+                mons = self.client.get_monitors('icmp')
                 for mon in mons:
                     try:
                         ICMPMonitor.monitor_once(self.client, mon)

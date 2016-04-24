@@ -13,10 +13,8 @@ from datetime import datetime
 
 from .AbstractMonitor import AbstractMonitor
 
-from argux_server.rest.client import (
-    RESTClient,
-    monitor_manager,
-)
+from argux_server.rest.client import RESTClient
+
 
 def parse_dig(monitor, output):
     """Parse dig output.
@@ -67,7 +65,7 @@ class DNSMonitor(AbstractMonitor):
             cmd = shutil.which('dig', mode=os.X_OK)
 
             try:
-                mons = monitor_manager.get_monitors(self.client, 'dns')
+                mons = self.client.get_monitors('dns')
                 for mon in mons:
                     try:
                         DNSMonitor.monitor_once(self.client, mon)
@@ -102,8 +100,7 @@ class DNSMonitor(AbstractMonitor):
         _type = None
         domain = None
 
-        domains = monitor_manager.get_dns_domains(
-            client,
+        domains = client.get_dns_domains(
             monitor['host'],
             monitor['address'])
 

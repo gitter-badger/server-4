@@ -136,11 +136,11 @@ class RESTClient(AbstractRESTClient):
 
         return []
 
-    def get_monitors(client, monitor_type):
-        client.login()
+    def get_monitors(self, monitor_type):
+        self.login()
 
         try:
-            response = client.get('/rest/1.0/monitor/'+monitor_type)
+            response = self.get('/rest/1.0/monitor/'+monitor_type)
         except ConnectionError as e:
             raise e
         except HTTPError as e:
@@ -157,9 +157,11 @@ class RESTClient(AbstractRESTClient):
         return json_response['monitors']
 
 
-    def get_dns_domains(client, host, address):
+    def get_dns_domains(self, host, address):
+        self.login()
+
         try:
-            response = client.get(
+            response = self.get(
                 '/rest/1.0/monitor/dns/'+host+'/'+address+'/domain')
         except ConnectionError as e:
             raise e
