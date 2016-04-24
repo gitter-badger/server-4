@@ -95,12 +95,3 @@ Initialize database
 Argux-Server supports a number of database backends::
 
     $ argux-server_initdb ./argux-server.ini
-
-Add users
----------------
-...
-
-Protect default admin account
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-...
-
