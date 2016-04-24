@@ -9,13 +9,14 @@ import subprocess
 import shutil
 import os
 
-import sqlalchemy
-
 from datetime import datetime
 
 from .AbstractMonitor import AbstractMonitor
 
-import transaction
+from argux_server.rest.client import (
+    RESTClient,
+    monitor_manager,
+)
 
 def parse_dig(monitor, output):
     """Parse dig output.
@@ -52,7 +53,7 @@ class DNSMonitor(AbstractMonitor):
 
     """DNSMonitor class.
 
-    Queries Monitor dao and schedules monitoring actions.
+    Queries Monitor schedules monitoring actions.
     """
 
     def run(self):
@@ -64,11 +65,16 @@ class DNSMonitor(AbstractMonitor):
         # Thread body.
         while True:
             cmd = shutil.which('dig', mode=os.X_OK)
-            if cmd is not None:
-                mons = self.dao\
-                    .monitor_dao.get_all_monitors_for_type('DNS')
-                for monitor in mons:
-                    DNSMonitor.monitor_once(self.dao, monitor)
+
+            try:
+                mons = monitor_manager.get_monitors(self.client, 'dns')
+                for mon in mons:
+                    try:
+                        DNSMonitor.monitor_once(self.client, mon)
+                    except Exception as e:
+                        print(str(e))
+            except Exception as e:
+                print(str(e))
 
             try:
                 time.sleep(10)
@@ -85,7 +91,7 @@ class DNSMonitor(AbstractMonitor):
         return True
 
     @staticmethod
-    def monitor_once(dao, monitor):
+    def monitor_once(client, monitor):
         """
         Monitor once.
         """
@@ -96,25 +102,27 @@ class DNSMonitor(AbstractMonitor):
         _type = None
         domain = None
 
-        for domain in monitor.domains:
-            print(domain.domain)
-            if domain.record_a:
-                DNSMonitor.check_dns(monitor, dao, 'A', domain.domain)
-            if domain.record_aaaa:
-                DNSMonitor.check_dns(monitor, dao, 'AAAA', domain.domain)
-            if domain.record_mx:
-                DNSMonitor.check_dns(monitor, dao, 'MX', domain.domain)
+        domains = monitor_manager.get_dns_domains(
+            client,
+            monitor['host'],
+            monitor['address'])
 
-
-        transaction.commit()
+        for domain in domains:
+            if domain['record_a']:
+                DNSMonitor.check_dns(client, monitor, 'A', domain['domain'])
+            if domain['record_aaaa']:
+                DNSMonitor.check_dns(client, monitor, 'AAAA', domain['domain'])
+            if domain['record_mx']:
+                DNSMonitor.check_dns(client, monitor, 'MX', domain['domain'])
 
         return
 
-    def check_dns(monitor, dao, _type, domain):
+    def check_dns(client, monitor, _type, domain):
         timestamp = datetime.now()
         values = []
 
-        address = monitor.host_address.name
+        address = monitor['address']
+        host = monitor['host']
 
         dig_cmd = DIG.format(
             address=address,
@@ -129,29 +137,22 @@ class DNSMonitor(AbstractMonitor):
             print('error '+str(e))
 
         item_key = 'dns.ttl[type='+_type+',domain='+domain+']'
-        ttl_item = dao.item_dao\
-            .get_item_by_host_key(
-                monitor.host_address.host,
-                item_key
-            )
+        if True:
+            params = {
+                'name': 'DNS TTL for '+domain+' '+_type+' record.',
+                'type': 'int',
+                'category': 'Network',
+                'unit': 'Seconds',
+                'description': 'DNS record information',
+            }
 
-        if ttl_item is None:
-            print("NO TTL ITEM FOUND");
-            item_type = dao.item_dao\
-                .get_itemtype_by_name(name='int')
-
-            ttl_item = dao.item_dao\
-                .create_item(
-                    {
-                        'host': monitor.host_address.host,
-                        'key': item_key,
-                        'name': 'DNS '+_type+' record for '+domain,
-                        'itemtype': item_type,
-                        'category': 'Network',
-                    }
-                )
+            client.create_item(
+                host,
+                item_key,
+                params)
 
         for a in values:
+            print(a['ttl'])
             print(a['value'])
 
         #print('------')

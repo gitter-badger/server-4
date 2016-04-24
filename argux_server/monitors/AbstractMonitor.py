@@ -8,9 +8,7 @@ from sqlalchemy.orm import (
     sessionmaker
 )
 
-from argux_server.dao import DAO
-from argux_server.models import DB_SESSION
-
+from argux_server.rest.client import RESTClient
 
 class AbstractMonitor(Thread):
 
@@ -22,16 +20,13 @@ class AbstractMonitor(Thread):
     def __init__(self, settings):
         """Initialise AbstractMonitor.
 
-        This constructor builds a DAO and a Session object.
-        This will generate warnings when running on SQLite since
-        the session-object is created in the parent thread but used inside a child.
+        This constructor builds a RESTClient object to communicate with the
+        rest of the server.
         """
         super(AbstractMonitor, self).__init__()
         self.daemon = True
 
-        self.session = DB_SESSION
-
-        self.dao = DAO(self.session)
+        self.client = RESTClient('http://localhost:7000', 'admin', 'admin')
 
     # pylint: disable=no-self-use
     def run(self):

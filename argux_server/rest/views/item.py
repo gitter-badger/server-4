@@ -108,13 +108,20 @@ class RestItemViews(RestView):
 
         item_type = dao.item_dao.get_itemtype_by_name(item_type_key)
 
-        item = dao.item_dao.create_item({
-            'key': item_key,
-            'host': host,
-            'name': item_name,
-            'category': item_category,
-            'itemtype': item_type,
-            'unit': item_unit})
+        try:
+            item = dao.item_dao.create_item({
+                'key': item_key,
+                'host': host,
+                'name': item_name,
+                'category': item_category,
+                'itemtype': item_type,
+                'unit': item_unit})
+        except ValueError:
+            return Response(
+                status='409 Conflict',
+                content_type='application/json',
+                charset='UTF-8',
+                body=json.dumps({'name': item_key,'conflict': 'Already Exists'}))
 
         return Response(
             status='201 Created',

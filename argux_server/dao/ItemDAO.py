@@ -67,6 +67,15 @@ class ItemDAO(BaseDAO):
                     .filter(Unit.name == properties['unit'])\
                     .first()
 
+        item = self.db_session.query(Item)\
+            .filter(Item.host_id == properties['host'].id)\
+            .filter(Item.key == properties['key'])\
+            .filter(Item.category_id == category_id)\
+            .first()
+
+        if item is not None:
+            raise ValueError("Item already exists")
+
         item = Item(
             host_id=properties['host'].id,
             name=properties['name'],
@@ -77,6 +86,7 @@ class ItemDAO(BaseDAO):
 
         self.db_session.add(item)
         self.db_session.flush()
+
         return item
 
     def push_value(self, item, timestamp, value):

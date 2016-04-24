@@ -29,16 +29,10 @@ class SNMPMonitor(AbstractMonitor):
         # Thread body.
         while True:
 
-            mons = self.dao.monitor_dao.get_all_monitors_for_type('SNMP')
-            for monitor in mons:
-                SNMPMonitor.monitor_once(self.dao, monitor)
-
             try:
                 time.sleep(60)
             except KeyboardInterrupt:
                 self.stop()
-
-        self.session.close()
 
     @staticmethod
     def validate_options(options):
@@ -53,12 +47,5 @@ class SNMPMonitor(AbstractMonitor):
         Monitor once.
         """
         system_name = platform.system()
-
-        items = {}
-        val = None
-        address = monitor.host_address.name
-
-
-        transaction.commit()
 
         return

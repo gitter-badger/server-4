@@ -163,6 +163,8 @@ def main(global_config, **settings):
                      '/rest/1.0/monitor/{type}')
     config.add_route('rest_monitor_1',
                      '/rest/1.0/monitor/{type}/{host}/{address}')
+    config.add_route('rest_dns_monitor_domains_1',
+                     '/rest/1.0/monitor/dns/{host}/{address}/domain')
     config.add_route('rest_dns_monitor_domain_1',
                      '/rest/1.0/monitor/dns/{host}/{address}/domain/{domain}')
 

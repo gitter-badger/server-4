@@ -81,3 +81,24 @@ class RestDNSMonitorDomainViews(RestView):
             domain)
 
         return {'ok': 'ok'}
+
+    @view_config(
+        route_name='rest_dns_monitor_domains_1',
+        request_method='GET',
+        check_csrf=True,
+        permission='view'
+    )
+    def dns_domains_1_view_get(self):
+        host_name = self.request.matchdict['host']
+        address = self.request.matchdict['address'].lower()
+
+        return {
+            'domains': [
+                {
+                    'domain': 'example.com',
+                    'record_a': True,
+                    'record_aaaa': False,
+                    'record_mx': True,
+                }
+            ]
+        }
