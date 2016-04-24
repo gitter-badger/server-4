@@ -67,32 +67,38 @@ def main():
         config['uwsgi'] = {}
         config['uwsgi']['http'] = '0.0.0.0:7000'
 
-    database_dialect = cli.option_question(
+    database_engine = cli.option_question(
         'Choose Database Engine',
-        ['mysql', 'pgsql'])
+        ['mysql', 'pgsql', 'sqlite'])
 
-    db_server = input(
-        'database server: (localhost) ')
-    if db_server == '':
-        db_server = 'localhost'
+    if database_engine == 'sqlite':
+        database_path = input(
+            'database path: (/var/lib/argux-server/argux.sqlite)')
+        if database_path == '':
+            database_path = '/var/lib/argux-server/argux.sqlite'
 
-    db_name = input(
-        'database name: (argux) ')
-    if db_name == '':
-        db_name = 'argux'
+        config['app:main']['sqlalchemy.url'] = \
+            'sqlite:///'+database_path
 
-    db_user = input(
-        'database user: ')
+    if database_engine == 'pgsql':
+        db_server = input(
+            'database server: (localhost) ')
+        if db_server == '':
+            db_server = 'localhost'
 
-    db_password = input(
-        'database password: ')
+        db_name = input(
+            'database name: (argux) ')
+        if db_name == '':
+            db_name = 'argux'
 
-    if database_dialect == 'pgsql':
+        db_user = input(
+            'database user: ')
+
+        db_password = input(
+            'database password: ')
+
         config['app:main']['sqlalchemy.url'] = \
             'postgresql+psycopg2://'+db_user+':'+db_password+'@'+db_server+'/'+db_name
-    if database_dialect == 'mysql':
-        config['app:main']['sqlalchemy.url'] = \
-            'mysql://'+db_user+':'+db_password+'@'+db_server+'/'+db_name
 
     with open(filename, 'w') as configfile:
         config.write(configfile)
