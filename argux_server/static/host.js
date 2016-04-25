@@ -142,6 +142,11 @@ function metrics_cb(json) {
     var collapsed  = {};
 
     // Build the panel contents.
+    json.items.sort(function(a,b) {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+    });
     $.each(json.items, function(i, item) {
 
         var category = 'global';

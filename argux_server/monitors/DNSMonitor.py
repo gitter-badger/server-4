@@ -35,7 +35,7 @@ def parse_dig(monitor, output):
                 ret_val.append({
                     'name': m.group('name'),
                     'ttl': m.group('ttl'),
-                    'ttl': m.group('in'),
+                    'in': m.group('in'),
                     'type': m.group('type'),
                     'value': m.group('value'),
                     'prio': m.group('prio')
@@ -75,7 +75,7 @@ class DNSMonitor(AbstractMonitor):
                 print(str(e))
 
             try:
-                time.sleep(10)
+                time.sleep(15)
             except KeyboardInterrupt:
                 self.stop()
 
@@ -133,24 +133,49 @@ class DNSMonitor(AbstractMonitor):
         except Exception as e:
             print('error '+str(e))
 
-        item_key = 'dns.ttl[type='+_type+',domain='+domain+']'
+        ttl_item_key = 'dns.ttl[type='+_type+',domain='+domain+']'
+        val_item_key = 'dns.record[type='+_type+',domain='+domain+']'
         if True:
             params = {
                 'name': 'DNS TTL for '+domain+' '+_type+' record.',
                 'type': 'int',
                 'category': 'Network',
-                'unit': 'Seconds',
+                'unit': None,
                 'description': 'DNS record information',
             }
 
             client.create_item(
                 host,
-                item_key,
+                ttl_item_key,
                 params)
 
-        for a in values:
-            print(a['ttl'])
-            print(a['value'])
+            params = {
+                'name': 'DNS '+_type+' record for '+domain,
+                'type': 'text',
+                'category': 'Network',
+                'unit': None,
+                'description': 'DNS record information',
+            }
+
+            client.create_item(
+                host,
+                val_item_key,
+                params)
+
+        for value in values:
+            if value['ttl'] is not None:
+                client.push_value(
+                    host,
+                    ttl_item_key,
+                    timestamp,
+                    int(value['ttl']))
+
+            if value['value'] is not None:
+                client.push_value(
+                    host,
+                    val_item_key,
+                    timestamp,
+                    value['value'])
 
         #print('------')
         #for a in sorted(val, key=lambda value: a['value']):

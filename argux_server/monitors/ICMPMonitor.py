@@ -108,7 +108,7 @@ class ICMPMonitor(AbstractMonitor):
                 print(str(e))
 
             try:
-                time.sleep(6)
+                time.sleep(60)
             except KeyboardInterrupt:
                 self.stop()
 

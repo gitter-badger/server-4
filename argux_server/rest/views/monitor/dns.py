@@ -95,7 +95,7 @@ class RestDNSMonitorDomainViews(RestView):
         return {
             'domains': [
                 {
-                    'domain': 'example.com',
+                    'domain': 'exampe.com',
                     'record_a': True,
                     'record_aaaa': False,
                     'record_mx': True,
