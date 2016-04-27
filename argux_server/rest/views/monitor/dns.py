@@ -89,16 +89,24 @@ class RestDNSMonitorDomainViews(RestView):
         permission='view'
     )
     def dns_domains_1_view_get(self):
-        host_name = self.request.matchdict['host']
+        hostname = self.request.matchdict['host']
         address = self.request.matchdict['address'].lower()
+        domains = []
+
+        d_domains = self.dao.monitor_dao.get_domains(
+            hostname,
+            address,
+            'DNS')
+
+        if d_domains:
+            for domain in d_domains:
+                domains.append({
+                    'domain': domain.domain,
+                    'record_a': domain.record_a,
+                    'record_aaaa': domain.record_aaaa,
+                    'record_mx': domain.record_mx
+                })
 
         return {
-            'domains': [
-                {
-                    'domain': 'exampe.com',
-                    'record_a': True,
-                    'record_aaaa': False,
-                    'record_mx': True,
-                }
-            ]
+            'domains': domains
         }

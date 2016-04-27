@@ -69,58 +69,64 @@ class MonitorDAO(BaseDAO):
 
         return monitors
 
+    def get_monitor(self, hostname, address, monitor_type):
+        """
+        Get monitor object for host/address of a specific type.
+        """
+        monitor = self.db_session.query(Monitor)\
+            .filter(Monitor.monitor_type_id == (
+                self.db_session.query(MonitorType.id)\
+                    .filter(MonitorType.name == monitor_type)
+                )
+            )\
+            .filter(Monitor.host_address_id == (
+                self.db_session.query(HostAddress.id)\
+                    .filter(HostAddress.name == address)\
+                    .filter(HostAddress.host_id == (
+                        self.db_session.query(Host.id)\
+                            .filter(Host.name == hostname)
+                        )
+                    )
+                )
+            )\
+            .first()
+
+        return monitor
+
     def set_domain(self, hostname, address, monitor_type, domain):
         if monitor_type != 'DNS':
             raise ValueError("cannot add domain to monitor of type" + monitor_type)
 
-        monitor = self.db_session.query(Monitor)\
-            .filter(Monitor.monitor_type_id == (
-                self.db_session.query(MonitorType.id)\
-                    .filter(MonitorType.name == monitor_type)
-                )
-            )\
-            .filter(Monitor.host_address_id == (
-                self.db_session.query(HostAddress.id)\
-                    .filter(HostAddress.name == address)\
-                    .filter(HostAddress.host_id == (
-                        self.db_session.query(Host.id)\
-                            .filter(Host.name == hostname)
-                        )
-                    )
-                )
-            )\
-            .first()
+        monitor = self.get_monitor(hostname, address, monitor_type)
 
-        domain = DNSMonitorDomain(
-            monitor_id = monitor.id,
-            domain = domain,
-            record_a = True,
-            record_aaaa = False,
-            record_mx = True)
+        if monitor is not None:
+            domain = DNSMonitorDomain(
+                monitor_id = monitor.id,
+                domain = domain,
+                record_a = True,
+                record_aaaa = False,
+                record_mx = True)
 
-        self.db_session.add(domain)
+            self.db_session.add(domain)
 
     def remove_domain(self, hostname, address, monitor_type, domain):
-        monitor = self.db_session.query(Monitor)\
-            .filter(Monitor.monitor_type_id == (
-                self.db_session.query(MonitorType.id)\
-                    .filter(MonitorType.name == monitor_type)
-                )
-            )\
-            .filter(Monitor.host_address_id == (
-                self.db_session.query(HostAddress.id)\
-                    .filter(HostAddress.name == address)\
-                    .filter(HostAddress.host_id == (
-                        self.db_session.query(Host.id)\
-                            .filter(Host.name == hostname)
-                        )
-                    )
-                )
-            )\
-            .first()
+
+        monitor = self.get_monitor(hostname, address, monitor_type)
 
         if monitor is not None:
             self.db_session.query(DNSMonitorDomain)\
                 .filter(DNSMonitorDomain.monitor_id == monitor.id)\
                 .filter(DNSMonitorDomain.domain == domain)\
                 .delete()
+
+    def get_domains(self, hostname, address, monitor_type):
+
+        domains = []
+        monitor = self.get_monitor(hostname, address, monitor_type)
+
+        if monitor is not None:
+            domains = self.db_session.query(DNSMonitorDomain)\
+                .filter(DNSMonitorDomain.monitor_id == monitor.id)\
+                .all()
+
+        return domains
