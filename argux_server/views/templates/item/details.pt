@@ -5,7 +5,11 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="panel panel-default" id="timechart">
+        <div tal:condition="argux_item.itemtype.name in ['text']">
+        ...
+        </div>
+        <div tal:condition="argux_item.itemtype.name in ['float', 'int']"
+            class="panel panel-default" id="timechart">
             <div class="panel-heading">Timechart</div>
             <div class="panel-body">
                 <div class="navbar-left pull-left">
