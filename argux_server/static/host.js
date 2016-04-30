@@ -82,8 +82,10 @@ function notes_cb(json) {
             '<p>' +
             note.message +
             '</p>' +
-            '<div class="xs">' +
+            '<div class="xs" data-toggle="tooltip" title="'+
             ts.toLocaleString() +
+            '">' +
+            ts.fromNow() +
             '</div>' +
             '</div>' +
             '</div>');
@@ -229,7 +231,9 @@ function metrics_cb(json) {
           '</a>' +
           '</td>' +
           '<td>' + item_value + ' ' + item_unit_prefix + item_unit + '</td>' +
-          '<td class="hidden-xs">' + item_time +'</td>' +
+          '<td class="hidden-xs" data-toggle="tooltip" title="'+item_time+'">' +
+          moment(item_time).fromNow() +
+          '</td>' +
           '<td class="item-details">' +
           '<a href="'+item_base_url+'/bookmark" aria-label="Bookmark">' +
           '<span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span>' +
