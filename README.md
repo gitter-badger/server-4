@@ -6,26 +6,27 @@
 
 ## Install Argux Server ##
 
->  python setup.py install
+    python setup.py install
 
 ## Generate config-file
-> argux-server_genconfig
+    $ argux-server_genconfig
 
->    ###########################################
->    ###                                     ###
->    ### Argux Server configuration wizard.  ###
->    ###                                     ###
->    ###########################################
->     
->    Config file location [./argux-server.ini]: ./argux.ini
->    Use secure cookies? (Enforce HTTPS) ['y', 'n'] (Default: y)n
->    Enable debugging? ['y', 'n'] (Default: n)
->    WSGI Server? ['pserve', 'uwsgi'] (Default: pserve)
->    Choose Database Engine ['mysql', 'pgsql', 'sqlite'] sqlite
->    database path: (/var/lib/argux-server/argux.sqlite)
+    ###########################################
+    ###                                     ###
+    ### Argux Server configuration wizard.  ###
+    ###                                     ###
+    ###########################################
+     
+    Config file location [./argux-server.ini]: ./argux.ini
+    Use secure cookies? (Enforce HTTPS) ['y', 'n'] (Default: y)n
+    Enable debugging? ['y', 'n'] (Default: n)
+    WSGI Server? ['pserve', 'uwsgi'] (Default: pserve)
+    Choose Database Engine ['mysql', 'pgsql', 'sqlite'] sqlite
+    database path: (/var/lib/argux-server/argux.sqlite)
 
 ## Initialize the database
->  argux-server_initdb argux-server.ini
+
+    argux-server_initdb argux-server.ini
 
 # Dependencies
 Argux depends the following software
@@ -40,15 +41,17 @@ Argux depends the following software
 
 # Installing development tools
 
-> npm install --only=dev
+    npm install --only=dev
 
 # Compile javascripts
-> gulp
+    gulp
 
 # Running test-suites
 
 Testing javascripts
-> npm test
+
+    npm test
 
 Testing python modules
-> python setup.py nosetests
+
+    python setup.py nosetests
