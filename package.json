@@ -1,0 +1,41 @@
+{
+  "name": "argux-server",
+  "version": "0.0.1",
+  "description": "ArguxServer javascript libraries",
+  "main": "argux.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp-concat": "^2.6.0",
+    "chai": "^3.5.0",
+    "gulp-uglify": "^1.5.3",
+    "gulp-minify": "^0.0.11",
+    "jquery": "^2.2.3",
+    "gulp": "^3.9.1",
+    "pump": "^1.0.1",
+    "minify": "^2.0.8",
+    "jsdom": "^8.4.1",
+    "mocha": "^2.4.5"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/argux/server.git"
+  },
+  "keywords": [
+    "monitoring",
+    "argux"
+  ],
+  "author": "Stephan Arts",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/argux/server/issues"
+  },
+  "homepage": "https://github.com/argux/server#readme"
+}

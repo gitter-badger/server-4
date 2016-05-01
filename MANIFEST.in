@@ -1,2 +1,22 @@
 include *.txt *.ini *.cfg *.rst
-recursive-include argux_server *.eot *.ico *.png *.css *.gif *.jpg *.pt *.svg *.ttf *.txt *.mak *.mako *.js *.html *.woff *.woff2 *.xml
+recursive-include argux_server *.eot
+recursive-include argux_server *.ico
+recursive-include argux_server *.css
+recursive-include argux_server *.png
+recursive-include argux_server *.gif
+recursive-include argux_server *.jpg
+recursive-include argux_server *.pt
+recursive-include argux_server *.svg
+recursive-include argux_server *.ttf
+recursive-include argux_server *.txt
+recursive-include argux_server *.mak
+recursive-include argux_server *.mako
+recursive-include argux_server *.js
+recursive-include argux_server *.html
+recursive-include argux_server *.woff
+recursive-include argux_server *.woff2
+recursive-include argux_server *.xml
+
+prune argux_server/static/js/source*
+prune test*
+prune tests*
