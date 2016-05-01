@@ -42,6 +42,9 @@ Argux depends the following software
 
 > npm install --only=dev
 
+# Compile javascripts
+> gulp
+
 # Running test-suites
 
 Testing javascripts
