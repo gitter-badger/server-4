@@ -1,1 +1,1 @@
-python setup.py nosetests && npm test
+python setup.py nosetests
