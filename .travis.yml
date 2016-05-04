@@ -6,7 +6,8 @@ addons:
     packages:
       - python3
 before_install:
-  - python3 -m venv build
+  - pyvenv-3.4 build
+  - . ./build/bin/activate
 install:
   - pip install nose
   - pip install coveralls
