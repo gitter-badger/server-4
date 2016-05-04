@@ -1,8 +1,10 @@
 language: python
 python:
   - "3.3"
-before_install:
-  - sudo apt-get install npm
+addons:
+  apt:
+    packages:
+      - npm
 install:
   - pip install nose
   - pip install coveralls
