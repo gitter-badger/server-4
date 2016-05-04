@@ -13,7 +13,7 @@ install:
   - argux-server_initdb tests/test.ini
 
 # command to run tests, e.g. python setup.py test
-script: run_tests.sh
+script: ./run_tests.sh
 
 after_success:
   coveralls
