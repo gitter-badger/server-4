@@ -98,7 +98,7 @@ class RestHostViewsTests(unittest.TestCase):
         self.assertEqual(items[0]['last_val'], '42')
 
     def test_create_host(self):
-        r = request.Request.blank(path='/argux/rest/1.0/host/localhost', POST="TEST")
+        r = request.Request.blank(path='/argux/rest/1.0/host/localhost', POST="{}")
         r.registry = Registry()
         r.registry.settings = {}
         r.registry.settings['dao'] = dao.DAO()

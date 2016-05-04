@@ -8,6 +8,7 @@ host = {
         });
     },
     poll_overview_success: function(json) {
+        var total_active_alerts = 0;
         $('#hosts').empty();
         $.each(json.hosts, function(i, value) {
             $('#hosts').append(
@@ -24,6 +25,13 @@ host = {
             );
             total_active_alerts+=value.active_alerts;
         });
+
+        // Set the label on the alert tab
+        if (total_active_alerts > 0) {
+            $("#alert_count").text(total_active_alerts);
+        } else {
+            $("#alert_count").text('');
+        }
     },
     poll_overview_error: function(json) {
     },

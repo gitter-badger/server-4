@@ -1,4 +1,4 @@
-REST = {
+rest = {
     CallType : {
         CREATE : "POST",
         READ : "GET",

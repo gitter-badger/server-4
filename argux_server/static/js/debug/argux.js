@@ -2,4 +2,41 @@ var argux = {
     VERSION: "0.0.1"
 };
 
-REST={RESTCallType:{CREATE:"POST",READ:"GET",UPDATE:"POST",DELETE:"DELETE"},rest_call:function(E,T,e,n,c){$.ajax({url:E,type:T,headers:{"X-CSRF-Token":CSRF_TOKEN},dataType:"json",success:function(E){e(E)},error:function(E){n(E)},complete:function(){c()}})}};
+rest = {
+    CallType : {
+        CREATE : "POST",
+        READ : "GET",
+        UPDATE : "POST",
+        DELETE: "DELETE"
+    },
+    call: function (args) {
+        if(args.type === undefined) {
+            args.type = REST.CallType.READ;
+        }
+        if(args.success === undefined) {
+            args.success = function(json){};
+        }
+        if(args.error === undefined) {
+            args.error = function(json){};
+        }
+        if(args.complete === undefined) {
+            args.complete = function(){};
+        }
+
+        $.ajax({
+            url: args.url,
+            type: args.type,
+            headers: { 'X-CSRF-Token': CSRF_TOKEN },
+            dataType: "json",
+            success: function(json) {
+                args.success(json);
+            },
+            error: function(json) {
+                args.error(json);
+            },
+            complete: function() {
+                args.complete();
+            }
+        });
+    }
+};
