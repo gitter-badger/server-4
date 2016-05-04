@@ -2,12 +2,12 @@ host = {
     poll_overview: function () {
         rest.call({
             url : ARGUX_BASE+'/rest/1.0/host',
-            success : host.poll_overview_success,
-            error : host.poll_overview_error,
-            complete : host.poll_overview_complete
+            success : host._poll_overview_success,
+            error : host._poll_overview_error,
+            complete : host._poll_overview_complete
         });
     },
-    poll_overview_success: function(json) {
+    _poll_overview_success: function(json) {
         var total_active_alerts = 0;
         $('#hosts').empty();
         $.each(json.hosts, function(i, value) {
@@ -33,8 +33,19 @@ host = {
             $("#alert_count").text('');
         }
     },
-    poll_overview_error: function(json) {
+    _poll_overview_error: function(json) {
     },
-    poll_overview_complete: function(json) {
+    _poll_overview_complete: function(json) {
+    },
+    create: function(hostname) {
+        rest.call({
+            url : ARGUX_BASE+'/rest/1.0/host/'+hostname,
+            success : host._create_success,
+            error : host._create_error
+        });
+    },
+    _create_error: function(json) {
+    },
+    _create_success: function(json) {
     }
 };
