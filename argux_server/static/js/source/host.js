@@ -36,10 +36,31 @@ host = {
     _poll_overview_error: function(json) {
     },
     _poll_overview_complete: function(json) {
+        setTimeout(host.poll_overview, 10000);
     },
-    create: function(hostname) {
+    create: function(args) {
+        if (args.hostname === undefined) {
+            throw "Hostname argument missing";
+        }
+        if (args.description === undefined) {
+            description = '';
+        } else {
+            description = args.description;
+        }
+        if (args.addresses === undefined) {
+            addresses = []
+        } else {
+            addresses = args.addresses;
+        }
+
+        data = {
+            "description": description,
+            "address": addresses
+        };
+
         rest.call({
             url : ARGUX_BASE+'/rest/1.0/host/'+hostname,
+            data : data,
             success : host._create_success,
             error : host._create_error
         });

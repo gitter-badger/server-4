@@ -45,6 +45,9 @@ describe('host', function() {
         });
     });
     describe('create', function() {
+        //it('should throw an exception if hostname is missing', function() {
+        //    host.create({});
+        //});
         describe('_create_success', function() {
             it('callback should not throw exception', function() {
                 host._create_success();

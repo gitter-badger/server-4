@@ -6,9 +6,9 @@ var pump = require('pump');
 gulp.task('concatenate_js', function() {
     pump([
         gulp.src([
-            'argux_server/static/js/source/argux.js',
+            'argux_server/static/js/source/version.js',
             'argux_server/static/js/source/rest.js',
-            'argux_server/static/js/source/history_chart.js',
+            'argux_server/static/js/source/global_chart_configs.js',
             'argux_server/static/js/source/host.js',
         ]),
         concat('argux.js'),

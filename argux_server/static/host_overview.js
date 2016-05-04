@@ -2,37 +2,6 @@
 /* globals ARGUX_BASE: false */
 /* globals ARGUX_ACTION: false */
 
-var config = {
-    type: 'doughnut',
-    data: {
-        datasets: [
-            {
-                data: [
-                    0,
-                    0,
-                    0,
-                    1 ],
-                backgroundColor: [
-                    "#419641",
-                    "#f0ad4e",
-                    "#c12e2a",
-                    "#e0e0e0"]
-            }
-        ],
-        labels: [
-            "Okay",
-            "Warning",
-            "Critical",
-            "Unknown"
-            ]
-    },
-    options: {
-        responsive: true,
-        legend: {
-            display: false,
-        }
-    }
-};
 
 // Get the context of the canvas element we want to select
 var ctx;

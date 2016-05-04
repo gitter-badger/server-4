@@ -22,12 +22,16 @@ rest = {
         if(args.complete === undefined) {
             args.complete = function(){};
         }
+        if(args.data === undefined) {
+            args.data = '';
+        }
 
         $.ajax({
             url: args.url,
             type: args.type,
             headers: { 'X-CSRF-Token': CSRF_TOKEN },
             dataType: "json",
+            data: args.data,
             success: function(json) {
                 args.success(json);
             },
@@ -103,6 +107,38 @@ var history_chart_config = {
     }
 };
 
+var host_overview_chart_config = {
+    type: 'doughnut',
+    data: {
+        datasets: [
+            {
+                data: [
+                    0,
+                    0,
+                    0,
+                    1 ],
+                backgroundColor: [
+                    "#419641",
+                    "#f0ad4e",
+                    "#c12e2a",
+                    "#e0e0e0"]
+            }
+        ],
+        labels: [
+            "Okay",
+            "Warning",
+            "Critical",
+            "Unknown"
+            ]
+    },
+    options: {
+        responsive: true,
+        legend: {
+            display: false,
+        }
+    }
+};
+
 host = {
     poll_overview: function () {
         rest.call({
@@ -141,10 +177,31 @@ host = {
     _poll_overview_error: function(json) {
     },
     _poll_overview_complete: function(json) {
+        setTimeout(host.poll_overview, 10000);
     },
-    create: function(hostname) {
+    create: function(args) {
+        if (args.hostname === undefined) {
+            throw "Hostname argument missing";
+        }
+        if (args.description === undefined) {
+            description = '';
+        } else {
+            description = args.description;
+        }
+        if (args.addresses === undefined) {
+            addresses = []
+        } else {
+            addresses = args.addresses;
+        }
+
+        data = {
+            "description": description,
+            "address": addresses
+        };
+
         rest.call({
             url : ARGUX_BASE+'/rest/1.0/host/'+hostname,
+            data : data,
             success : host._create_success,
             error : host._create_error
         });
