@@ -3,8 +3,8 @@ var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var pump = require('pump');
 
-gulp.task('default', function() {
-  pump([
+gulp.task('concatenate_js', function() {
+    pump([
         gulp.src([
             'argux_server/static/js/source/argux.js',
             'argux_server/static/js/source/rest.js',
@@ -13,12 +13,15 @@ gulp.task('default', function() {
         ]),
         concat('argux.js'),
         gulp.dest('argux_server/static/js/debug')
-    ]
-    );
-  pump([
+    ]);
+});
+
+gulp.task('minify_js', ['concatenate_js'], function() {
+    pump([
         gulp.src('argux_server/static/js/debug/argux.js'),
         uglify(),
         gulp.dest('argux_server/static/js/')
-    ]
-    );
+    ]);
 });
+
+gulp.task('default', ['minify_js']);
