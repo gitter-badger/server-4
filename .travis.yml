@@ -1,13 +1,6 @@
 language: node
 node_js: 
   - 4
-addons:
-  apt:
-    packages:
-      - python3.4
-before_install:
-  - pyvenv-3.4 build
-  - . ./build/bin/activate
 install:
   - pip install nose
   - pip install coveralls
