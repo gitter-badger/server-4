@@ -7,7 +7,7 @@ rest = {
     },
     call: function (args) {
         if(args.type === undefined) {
-            args.type = REST.CallType.READ;
+            args.type = rest.CallType.READ;
         }
         if(args.success === undefined) {
             args.success = function(json){};

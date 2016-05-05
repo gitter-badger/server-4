@@ -12,7 +12,8 @@
 
 <div metal:fill-slot="custom-js">
     <script src="${request.static_url('argux_server:static/js/Chart.min.js')}"></script>
-    <script src="${request.static_url('argux_server:static/host_overview.js')}"></script>
+    <script src="${request.static_url('argux_server:static/js/lib/argux.js')}"></script>
+    <script src="${request.static_url('argux_server:static/js/overview.js')}"></script>
 </div>
 <div metal:fill-slot="content">
     <ul class="nav nav-tabs">

@@ -11,7 +11,7 @@ rest = {
     },
     call: function (args) {
         if(args.type === undefined) {
-            args.type = REST.CallType.READ;
+            args.type = rest.CallType.READ;
         }
         if(args.success === undefined) {
             args.success = function(json){};
@@ -150,6 +150,8 @@ host = {
     },
     _poll_overview_success: function(json) {
         var total_active_alerts = 0;
+        var graph_data = [0,0,0,0];
+
         $('#hosts').empty();
         $.each(json.hosts, function(i, value) {
             $('#hosts').append(
@@ -164,8 +166,21 @@ host = {
                 value.active_alerts+
                 '</a></td></tr>'
             );
+
+            if (value.severity === 'crit') {
+                graph_data[2] += 1;
+            } else if (value.severity === 'warn') {
+                graph_data[1] += 1;
+            } else if (value.severity === 'info') {
+                graph_data[3] += 1;
+            } else {
+                graph_data[0] += 1;
+            }
+
             total_active_alerts+=value.active_alerts;
         });
+
+        host_overview_chart_config.data.datasets[0].data = graph_data;
 
         // Set the label on the alert tab
         if (total_active_alerts > 0) {
