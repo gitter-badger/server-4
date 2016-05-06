@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
 var pump = require('pump');
+var clean_css = require('gulp-clean-css');
 
 gulp.task('concatenate_js', function() {
     pump([
@@ -36,4 +37,22 @@ gulp.task('minify_js', ['concatenate_js'], function() {
     ]);
 });
 
-gulp.task('default', ['minify_js']);
+gulp.task('concatenate_css', function() {
+    pump([
+        gulp.src([
+            'argux_server/static/css/source/theme.css',
+        ]),
+        concat('argux.css'),
+        gulp.dest('argux_server/static/css/debug')
+    ]);
+});
+
+gulp.task('minify_css', ['concatenate_css'], function() {
+    pump([
+        gulp.src('argux_server/static/css/debug/argux.css'),
+        clean_css(),
+        gulp.dest('argux_server/static/css/')
+    ]);
+});
+
+gulp.task('default', ['minify_js', 'minify_css']);
