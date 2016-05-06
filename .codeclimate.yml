@@ -20,5 +20,9 @@ ratings:
 
 exclude_paths:
   - "tests/**"
-  - "argux_server/static/js/**.min.js"
-  - "argux_server/static/css/**.min.css"
+  - "argux_server/static/js/debug/*.js"
+  - "argux_server/static/js/ext/*.js"
+  - "argux_server/static/js/*.js"
+  - "argux_server/static/css/debug/*.css"
+  - "argux_server/static/css/ext/*.css"
+  - "argux_server/static/css/*.css"
