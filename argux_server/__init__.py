@@ -168,6 +168,11 @@ def main(global_config, **settings):
     config.add_route('rest_dns_monitor_domain_1',
                      '/rest/1.0/monitor/dns/{host}/{address}/domain/{domain}')
 
+    config.add_route('rest_admin_user_1',
+                     '/rest/1.0/admin/user/{username}')
+    config.add_route('rest_admin_users_1',
+                     '/rest/1.0/admin/user')
+
     # Pretty-print JSON, useful for development.
     if settings['rest.pretty_json'] == 'true':
         config.add_renderer('json', JSON(indent=4))

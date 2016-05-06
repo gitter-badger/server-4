@@ -28,7 +28,9 @@
   <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
-            <div metal:extend-macro='load: menu.pt'></div>
+            <div metal:define-slot="topmenu">
+                <div metal:extend-macro='load: menu.pt'></div>
+            </div>
         </div>
     </nav>
     <div class="body container-fluid">

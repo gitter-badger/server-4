@@ -18,6 +18,7 @@ gulp.task('concatenate_js', function() {
             'argux_server/static/js/lib/source/rest.js',
             'argux_server/static/js/lib/source/global_chart_configs.js',
             'argux_server/static/js/lib/source/host.js',
+            'argux_server/static/js/lib/source/user.js',
         ]),
         concat('argux.js'),
         gulp.dest('argux_server/static/js/lib/debug')
