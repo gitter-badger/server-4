@@ -22,8 +22,8 @@
 </div>
 
 <div metal:fill-slot="custom-css">
-   <link href="${request.static_url('argux_server:static/css/bootstrap-datetimepicker.min.css')}" rel="stylesheet">
-    <link href="${request.static_url('argux_server:static/theme.css')}" rel="stylesheet">
+    <link href="${request.static_url('argux_server:static/css/ext/bootstrap-datetimepicker.min.css')}" rel="stylesheet">
+    <link href="${request.static_url('argux_server:static/css/argux.css')}" rel="stylesheet">
 </div>
 
 <div metal:fill-slot="content">
