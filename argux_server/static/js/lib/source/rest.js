@@ -27,7 +27,7 @@ rest = {
             type: args.type,
             headers: { 'X-CSRF-Token': CSRF_TOKEN },
             dataType: "json",
-            data: args.data,
+            data: JSON.stringify(args.data),
             success: function(json) {
                 args.success(json);
             },

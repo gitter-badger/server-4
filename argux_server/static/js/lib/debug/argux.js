@@ -31,7 +31,7 @@ rest = {
             type: args.type,
             headers: { 'X-CSRF-Token': CSRF_TOKEN },
             dataType: "json",
-            data: args.data,
+            data: JSON.stringify(args.data),
             success: function(json) {
                 args.success(json);
             },
@@ -215,7 +215,7 @@ host = {
         };
 
         rest.call({
-            url : ARGUX_BASE+'/rest/1.0/host/'+hostname,
+            url : ARGUX_BASE+'/rest/1.0/host/'+args.hostname,
             type : rest.CallType.CREATE,
             data : data,
             success : host._create_success,

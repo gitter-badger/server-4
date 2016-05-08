@@ -13,5 +13,13 @@ $(function() {
         overviewChart = new Chart(ctx, host_overview_chart_config);
 
         host.get_host_overview({'complete_callback': update_complete_callback});
+
+        $('#host-form').submit(function(event) {
+            event.preventDefault();
+            host.create({
+                'hostname': $('#host-name').val(),
+                'description': $('#host-description').val()
+            })
+        });
     }
 });

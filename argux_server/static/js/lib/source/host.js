@@ -74,7 +74,7 @@ host = {
         };
 
         rest.call({
-            url : ARGUX_BASE+'/rest/1.0/host/'+hostname,
+            url : ARGUX_BASE+'/rest/1.0/host/'+args.hostname,
             type : rest.CallType.CREATE,
             data : data,
             success : host._create_success,
