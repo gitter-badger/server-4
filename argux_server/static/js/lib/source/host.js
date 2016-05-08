@@ -75,6 +75,7 @@ host = {
 
         rest.call({
             url : ARGUX_BASE+'/rest/1.0/host/'+hostname,
+            type : rest.CallType.CREATE,
             data : data,
             success : host._create_success,
             error : host._create_error
@@ -83,5 +84,17 @@ host = {
     _create_error: function(json) {
     },
     _create_success: function(json) {
+    },
+    get_addresses: function(args) {
+        if (args.hostname === undefined) {
+            throw "Hostname argument missing";
+        }
+        if (args.callback_success === undefined) {
+            throw "callback_success missing";
+        }
+        rest.call({
+            url : ARGUX_BASE+'/rest/1.0/host/'+args.hostname+'/addr',
+            success: args.callback_success
+        });
     }
 };

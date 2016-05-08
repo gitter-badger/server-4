@@ -40,5 +40,32 @@ monitors = {
                 '</td></tr>'
             );
         });
+    },
+    create: function(args) {
+        if (args.hostname === undefined) {
+            throw "Hostname argument missing";
+        }
+        if (args.address === undefined) {
+            throw "address argument missing";
+        }
+        if (args.options === undefined) {
+            args.options = {}
+        }
+
+        data = {
+            "options": args.options
+        };
+
+        rest.call({
+            url : ARGUX_BASE+'/rest/1.0/monitor/'+args.hostname+'/'+args.address,
+            type : rest.CallType.CREATE,
+            data : data,
+            success : monitors._create_success,
+            error : monitors._create_error
+        });
+    },
+    _create_error: function(json) {
+    },
+    _create_success: function(json) {
     }
 };
