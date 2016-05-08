@@ -16,7 +16,9 @@ host = {
 
         $('#hosts').empty();
 
-        // Sort by name
+        // Sort by name - this is done here because we can't
+        // trust that the order of the elements remains unaltered
+        // throughout the AJAX chain.
         json.hosts = json.hosts.sort(function(a, b) {return a.name >= b.name});
         $.each(json.hosts, function(i, value) {
             $('#hosts').append(
