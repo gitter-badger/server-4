@@ -1,10 +1,17 @@
+var ctx = null;
+var overviewChart = null;
+
+function update_complete_callback() {
+    overviewChart.update();
+
+    setTimeout(host.get_host_overview, 10000, update_complete_callback);
+}
+
 $(function() {
     if (ARGUX_ACTION==='overview') {
         ctx = document.getElementById("overview").getContext("2d");
         overviewChart = new Chart(ctx, host_overview_chart_config);
 
-        overviewChart.update();
-
-        host.poll_overview();
+        host.get_host_overview(update_complete_callback);
     }
 });

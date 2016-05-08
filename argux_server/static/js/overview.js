@@ -1,1 +1,1 @@
-$(function(){"overview"===ARGUX_ACTION&&(ctx=document.getElementById("overview").getContext("2d"),overviewChart=new Chart(ctx,host_overview_chart_config),overviewChart.update(),host.poll_overview())});
+function update_complete_callback(){overviewChart.update(),setTimeout(host.get_host_overview,1e4,update_complete_callback)}var ctx=null,overviewChart=null;$(function(){"overview"===ARGUX_ACTION&&(ctx=document.getElementById("overview").getContext("2d"),overviewChart=new Chart(ctx,host_overview_chart_config),host.get_host_overview(update_complete_callback))});

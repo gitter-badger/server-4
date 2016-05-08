@@ -1,13 +1,13 @@
 host = {
-    poll_overview: function () {
+    get_host_overview: function (complete_callback = function(){}) {
         rest.call({
             url : ARGUX_BASE+'/rest/1.0/host',
-            success : host._poll_overview_success,
-            error : host._poll_overview_error,
-            complete : host._poll_overview_complete
+            success : host._get_host_overview_success,
+            error : host._get_host_overview_error,
+            complete : complete_callback
         });
     },
-    _poll_overview_success: function(json) {
+    _get_host_overview_success: function(json) {
         var total_active_alerts = 0;
         var graph_data = [0,0,0,0];
 
@@ -48,10 +48,7 @@ host = {
             $("#alert_count").text('');
         }
     },
-    _poll_overview_error: function(json) {
-    },
-    _poll_overview_complete: function(json) {
-        setTimeout(host.poll_overview, 10000);
+    _get_host_overview_error: function(json) {
     },
     create: function(args) {
         if (args.hostname === undefined) {
