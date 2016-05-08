@@ -15,6 +15,9 @@ host = {
         var graph_data = [0,0,0,0];
 
         $('#hosts').empty();
+
+        // Sort by name
+        json.hosts = json.hosts.sort(function(a, b) {return a.name >= b.name});
         $.each(json.hosts, function(i, value) {
             $('#hosts').append(
                 '<tr><td>' +
@@ -77,13 +80,10 @@ host = {
             url : ARGUX_BASE+'/rest/1.0/host/'+args.hostname,
             type : rest.CallType.CREATE,
             data : data,
-            success : host._create_success,
-            error : host._create_error
+            success : args.success,
+            error : args.error,
+            complete : args.complete
         });
-    },
-    _create_error: function(json) {
-    },
-    _create_success: function(json) {
     },
     get_addresses: function(args) {
         if (args.hostname === undefined) {

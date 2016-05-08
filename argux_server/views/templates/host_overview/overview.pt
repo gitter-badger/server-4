@@ -38,7 +38,7 @@
                 </div>
                 <div class="modal-body">
                     <div role="tabpanel" class="tab-pane active" id="edit">
-                        <div id="trigger-form-alerts"></div>
+                        <div class="modal-form-alerts"></div>
                         <label for="host-name">Name</label>
                         <input type="text" class="form-control" id="host-name"/>
                         <label for="host-description">Description</label>

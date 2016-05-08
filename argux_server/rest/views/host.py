@@ -7,6 +7,8 @@ from pyramid.view import (
 
 import transaction
 
+import json
+
 from pyramid.response import Response
 
 from . import RestView
@@ -89,7 +91,7 @@ class RestHostViews(RestView):
         if len(self.request.body) > 0:
             try:
                 json_body = self.request.json_body
-            except ValueError as e:
+            except ValueError as err:
                 return Response(
                     status='400 Bad Request',
                     content_type='application/json')
@@ -121,10 +123,21 @@ class RestHostViews(RestView):
                         address['address'],
                         address_description)
                 except Exception as e:
-                    transaction.rollback()
+                    transaction.abort()
                     return str(e)
 
-        transaction.commit()
+        try:
+            transaction.commit()
+        except Exception as err:
+            transaction.abort()
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json',
+                charset='UTF-8',
+                body=json.dumps({
+                    "error": "400 Bad Request",
+                    "message": str(err)
+                }))
 
         return Response(
             status='201 Created',

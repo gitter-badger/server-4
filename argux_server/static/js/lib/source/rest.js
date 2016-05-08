@@ -31,8 +31,8 @@ rest = {
             success: function(json) {
                 args.success(json);
             },
-            error: function(json) {
-                args.error(json);
+            error: function(a, b, c) {
+                args.error(a, b, c);
             },
             complete: function() {
                 args.complete();
