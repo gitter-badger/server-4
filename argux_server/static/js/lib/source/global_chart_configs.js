@@ -22,8 +22,8 @@ var history_chart_config = {
                         'day': 'YY/MM/DD', // 2015/12/22
                         'month': 'MMM YYYY', // Sept 2015
                         'quarter': '[Q]Q - YYYY', // Q3 - 2015
-                        'year': 'YYYY', // 2015
-                    },
+                        'year': 'YYYY' // 2015
+                    }
                 },
                 scaleLabel: {
                     show: true,
@@ -45,7 +45,7 @@ var history_chart_config = {
                     }
                 },
                 scaleLabel: {
-                    show: true,
+                    show: true
                 }
             }]
         },
@@ -56,7 +56,7 @@ var history_chart_config = {
             point: {
                 radius: 1
             }
-        },
+        }
     }
 };
 
@@ -87,7 +87,7 @@ var host_overview_chart_config = {
     options: {
         responsive: true,
         legend: {
-            display: false,
+            display: false
         }
     }
 };
