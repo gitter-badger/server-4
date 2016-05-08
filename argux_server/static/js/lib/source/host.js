@@ -1,10 +1,13 @@
 host = {
-    get_host_overview: function (complete_callback = function(){}) {
+    get_host_overview: function(args) {
+        if (args.complete_callback === undefined) {
+            args.complete_callback = function(){};
+        }
         rest.call({
             url : ARGUX_BASE+'/rest/1.0/host',
             success : host._get_host_overview_success,
             error : host._get_host_overview_error,
-            complete : complete_callback
+            complete : args.complete_callback
         });
     },
     _get_host_overview_success: function(json) {

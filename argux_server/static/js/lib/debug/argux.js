@@ -69,8 +69,8 @@ var history_chart_config = {
                         'day': 'YY/MM/DD', // 2015/12/22
                         'month': 'MMM YYYY', // Sept 2015
                         'quarter': '[Q]Q - YYYY', // Q3 - 2015
-                        'year': 'YYYY', // 2015
-                    },
+                        'year': 'YYYY' // 2015
+                    }
                 },
                 scaleLabel: {
                     show: true,
@@ -92,7 +92,7 @@ var history_chart_config = {
                     }
                 },
                 scaleLabel: {
-                    show: true,
+                    show: true
                 }
             }]
         },
@@ -103,7 +103,7 @@ var history_chart_config = {
             point: {
                 radius: 1
             }
-        },
+        }
     }
 };
 
@@ -134,18 +134,21 @@ var host_overview_chart_config = {
     options: {
         responsive: true,
         legend: {
-            display: false,
+            display: false
         }
     }
 };
 
 host = {
-    get_host_overview: function (complete_callback = function(){}) {
+    get_host_overview: function(args) {
+        if (args.complete_callback === undefined) {
+            args.complete_callback = function(){};
+        }
         rest.call({
             url : ARGUX_BASE+'/rest/1.0/host',
             success : host._get_host_overview_success,
             error : host._get_host_overview_error,
-            complete : complete_callback
+            complete : args.complete_callback
         });
     },
     _get_host_overview_success: function(json) {
@@ -221,6 +224,51 @@ host = {
     _create_error: function(json) {
     },
     _create_success: function(json) {
+    }
+};
+
+monitors = {
+    get_monitors: function (args) {
+        if (args.complete_callback === undefined) {
+            args.complete_callback = function(){};
+        }
+        rest.call({
+            url : ARGUX_BASE + '/rest/1.0/monitor/' + args.type,
+            success : monitors._get_monitors_success,
+            complete: args.complete_callback
+        });
+    },
+    _get_monitors_success: function(json) {
+        $('#monitors').empty();
+        $.each(json.monitors, function(i, monitor) { options = '';
+            $.each(monitor.options, function(key, value) {
+                options+= '<li><span style="font-weight: bold">'+key+':</span> '+value+'</li>';
+            });
+            if (monitor.active) {
+                button = 
+                '<a href="#">' +
+                '<span class="glyphicon glyphicon-pause"></span>' +
+                '</a> ';
+            } else {
+                button =
+                '<a href="#">' +
+                '<span class="glyphicon glyphicon-play"></span>' +
+                '</a> ';
+            }
+            $('#monitors').append(
+                '<tr class=""><td>' +
+                button +
+                '<a href="'+ARGUX_BASE+'/monitor/'+ARGUX_MONITOR_TYPE+'/'+monitor.host+'/'+monitor.address+'/edit">' +
+                monitor.host +
+                ' (' + monitor.address + ')' +
+                '</a>' +
+                '</td><td>' +
+                '<ul>' +
+                options + 
+                '</ul>' +
+                '</td></tr>'
+            );
+        });
     }
 };
 

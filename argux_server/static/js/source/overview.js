@@ -4,7 +4,7 @@ var overviewChart = null;
 function update_complete_callback() {
     overviewChart.update();
 
-    setTimeout(host.get_host_overview, 10000, update_complete_callback);
+    setTimeout(host.get_host_overview, 10000, {'complete_callback' : update_complete_callback});
 }
 
 $(function() {
@@ -12,6 +12,6 @@ $(function() {
         ctx = document.getElementById("overview").getContext("2d");
         overviewChart = new Chart(ctx, host_overview_chart_config);
 
-        host.get_host_overview(update_complete_callback);
+        host.get_host_overview({'complete_callback': update_complete_callback});
     }
 });
