@@ -5,11 +5,15 @@
     -c -m \
     > ./argux_server/static/js/lib/argux.js
 
+for b in `ls ./argux_server/static/js/source/*.js`
+do
+    a=`basename $b`
 
-cp ./argux_server/static/js/source/overview.js \
-   ./argux_server/static/js/debug/overview.js
+    cp ./argux_server/static/js/source/$a \
+       ./argux_server/static/js/debug/$a
 
-./node_modules/uglify-js/bin/uglifyjs \
-    ./argux_server/static/js/debug/overview.js \
-    -c -m \
-    > ./argux_server/static/js/overview.js
+    ./node_modules/uglify-js/bin/uglifyjs \
+        ./argux_server/static/js/debug/$a \
+        -c -m \
+        > ./argux_server/static/js/$a
+done

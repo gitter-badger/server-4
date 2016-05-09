@@ -157,7 +157,9 @@ host = {
 
         $('#hosts').empty();
 
-        // Sort by name
+        // Sort by name - this is done here because we can't
+        // trust that the order of the elements remains unaltered
+        // throughout the AJAX chain.
         json.hosts = json.hosts.sort(function(a, b) {return a.name >= b.name});
         $.each(json.hosts, function(i, value) {
             $('#hosts').append(
@@ -259,12 +261,16 @@ monitors = {
             });
             if (monitor.active) {
                 button = 
-                '<a href="#">' +
+                '<a class="monitor-pause-btn" ' +
+                'data-hostname="' + monitor.host +'" ' +
+                'data-address="' + monitor.address +'" ' +
+                'data-type="' + ARGUX_MONITOR_TYPE +'" ' +
+                '>' +
                 '<span class="glyphicon glyphicon-pause"></span>' +
                 '</a> ';
             } else {
                 button =
-                '<a href="#">' +
+                '<a href="#" class="argux-monitor-play-btn">' +
                 '<span class="glyphicon glyphicon-play"></span>' +
                 '</a> ';
             }
@@ -282,6 +288,11 @@ monitors = {
                 '</td></tr>'
             );
         });
+
+        $('.monitor-pause-btn').click(function() {
+            alert('> '+ $(this).data('hostname')+ ' > ' + $(this).data('address') + ' > ' + ARGUX_MONITOR_TYPE);
+        });
+
     },
     create: function(args) {
         if (args.hostname === undefined) {

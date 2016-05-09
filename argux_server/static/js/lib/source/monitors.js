@@ -17,12 +17,16 @@ monitors = {
             });
             if (monitor.active) {
                 button = 
-                '<a href="#">' +
+                '<a class="monitor-pause-btn" ' +
+                'data-hostname="' + monitor.host +'" ' +
+                'data-address="' + monitor.address +'" ' +
+                'data-type="' + ARGUX_MONITOR_TYPE +'" ' +
+                '>' +
                 '<span class="glyphicon glyphicon-pause"></span>' +
                 '</a> ';
             } else {
                 button =
-                '<a href="#">' +
+                '<a href="#" class="argux-monitor-play-btn">' +
                 '<span class="glyphicon glyphicon-play"></span>' +
                 '</a> ';
             }
@@ -40,6 +44,11 @@ monitors = {
                 '</td></tr>'
             );
         });
+
+        $('.monitor-pause-btn').click(function() {
+            alert('> '+ $(this).data('hostname')+ ' > ' + $(this).data('address') + ' > ' + ARGUX_MONITOR_TYPE);
+        });
+
     },
     create: function(args) {
         if (args.hostname === undefined) {
