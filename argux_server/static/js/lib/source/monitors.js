@@ -17,7 +17,7 @@ monitors = {
             });
             if (monitor.active) {
                 button = 
-                '<a class="monitor-pause-btn" ' +
+                '<a class="monitor-play-btn pause" ' +
                 'data-hostname="' + monitor.host +'" ' +
                 'data-address="' + monitor.address +'" ' +
                 'data-type="' + ARGUX_MONITOR_TYPE +'" ' +
@@ -26,7 +26,11 @@ monitors = {
                 '</a> ';
             } else {
                 button =
-                '<a href="#" class="argux-monitor-play-btn">' +
+                '<a href="#" class="monitor-play-btn" ' +
+                'data-hostname="' + monitor.host +'" ' +
+                'data-address="' + monitor.address +'" ' +
+                'data-type="' + ARGUX_MONITOR_TYPE +'" ' +
+                '>' +
                 '<span class="glyphicon glyphicon-play"></span>' +
                 '</a> ';
             }
@@ -45,8 +49,48 @@ monitors = {
             );
         });
 
-        $('.monitor-pause-btn').click(function() {
-            alert('> '+ $(this).data('hostname')+ ' > ' + $(this).data('address') + ' > ' + ARGUX_MONITOR_TYPE);
+        $('.monitor-play-btn').click(function() {
+            var hostname = $(this).data('hostname'); 
+            var address = $(this).data('address'); 
+            var button = $(this);
+
+            data = {
+                "active": "true",
+                "options" : {"interval": 60}
+            };
+
+            rest.call({
+                url : ARGUX_BASE+'/rest/1.0/monitor/'+ARGUX_MONITOR_TYPE+'/'+hostname+'/'+address,
+                type : rest.CallType.UPDATE,
+                data : data,
+                success : function() {
+                    button.addClass('pause');
+                    button.children().removeClass('glyphicon-play');
+                    button.children().addClass('glyphicon-pause');
+                }
+            });
+        });
+
+        $('.monitor-play-btn.pause').click(function() {
+            var hostname = $(this).data('hostname'); 
+            var address = $(this).data('address'); 
+            var button = $(this);
+
+            data = {
+                "active": "false",
+                "options" : {"interval": 60}
+            };
+
+            rest.call({
+                url : ARGUX_BASE+'/rest/1.0/monitor/'+ARGUX_MONITOR_TYPE+'/'+hostname+'/'+address,
+                type : rest.CallType.UPDATE,
+                data : data,
+                success : function() {
+                    button.removeClass('pause');
+                    button.children().removeClass('glyphicon-pause');
+                    button.children().addClass('glyphicon-play');
+                }
+            });
         });
 
     },
@@ -66,7 +110,7 @@ monitors = {
         };
 
         rest.call({
-            url : ARGUX_BASE+'/rest/1.0/monitor/'+args.hostname+'/'+args.address,
+            url : ARGUX_BASE+'/rest/1.0/monitor/'+ARGUX_MONITOR_TYPE+'/'+hostname+'/'+address,
             type : rest.CallType.CREATE,
             data : data,
             success : monitors._create_success,

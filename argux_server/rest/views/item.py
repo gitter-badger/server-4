@@ -300,7 +300,7 @@ class RestItemViews(RestView):
             # Also, it should calculate min/max/avg values.
             if old_value:
                 tdelta = value.timestamp - old_value.timestamp
-                if tdelta.seconds > interval:
+                if tdelta.seconds > (1.5*interval):
                     for a in range(0, int(tdelta.seconds/interval)):
                         values.append({
                             'ts': (old_value.timestamp + timedelta(minutes=a)).strftime(DATE_FMT),

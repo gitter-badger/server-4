@@ -37,13 +37,11 @@ class MonitorDAO(BaseDAO):
             option = MonitorOption(key=key, value=value, monitor=monitor)
             self.db_session.add(option)
 
-
-        self.db_session.flush()
-
         try:
             transaction.commit()
         except:
-            transaction.rollback()
+            transaction.abort()
+            monitor = None
 
         return monitor
 

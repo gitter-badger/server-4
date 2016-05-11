@@ -67,10 +67,11 @@ class DNSMonitor(AbstractMonitor):
                 try:
                     mons = self.client.get_monitors('dns')
                     for mon in mons:
-                        try:
-                            DNSMonitor.monitor_once(self.client, mon)
-                        except Exception as err:
-                            print(">> "+str(err))
+                        if mon['active']:
+                            try:
+                                DNSMonitor.monitor_once(self.client, mon)
+                            except Exception as err:
+                                print(">> "+str(err))
                 except Exception as err:
                     print(">< "+str(err))
 

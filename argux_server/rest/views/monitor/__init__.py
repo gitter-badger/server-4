@@ -14,6 +14,8 @@ from pyramid.response import Response
 
 import json
 
+import transaction
+
 from .. import RestView
 
 from argux_server.monitors import MONITORS
@@ -77,7 +79,7 @@ class RestMonitorViews(RestView):
 
         try:
             active = self.request.json_body.get('active', True)
-            if active=='false':
+            if active=='false' or active==False:
                 active = False
             else:
                 active = True
@@ -133,6 +135,14 @@ class RestMonitorViews(RestView):
             d_address,
             options,
             active=active)
+        if monitor is None:
+            monitor = self.dao.monitor_dao.get_monitor(
+                host_name,
+                address,
+                monitor_type)
+            if monitor is not None:
+                monitor.active = active
+                transaction.commit()
 
         # FIXME: run monitor once to create the items.
         #MONITORS[monitor_type].monitor_once(self.dao, monitor)

@@ -100,10 +100,11 @@ class ICMPMonitor(AbstractMonitor):
             try:
                 mons = self.client.get_monitors('icmp')
                 for mon in mons:
-                    try:
-                        ICMPMonitor.monitor_once(self.client, mon)
-                    except Exception as e:
-                        print(str(e))
+                    if mon['active']:
+                        try:
+                            ICMPMonitor.monitor_once(self.client, mon)
+                        except Exception as e:
+                            print(str(e))
             except Exception as e:
                 print(str(e))
 
@@ -115,7 +116,7 @@ class ICMPMonitor(AbstractMonitor):
     @staticmethod
     def validate_options(options):
         if not 'interval' in options:
-            raise KeyError
+            return False
 
         return True
 

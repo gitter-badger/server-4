@@ -354,17 +354,21 @@ function details_cb(json) {
     }
     if (json.values) {
         $.each(json.values.avg, function(i, value) {
-            switch (item_unit_prefix) {
-                case '\u{00B5}':
-                    item_value = (value.value*1000000);
-                    break;
-                case 'm':
-                    item_value = (value.value*1000);
-                    break;
-                default:
-                    item_value = value.value
+            if(value.value != null) {
+                switch (item_unit_prefix) {
+                    case '\u{00B5}':
+                        item_value = (value.value*1000000);
+                        break;
+                    case 'm':
+                        item_value = (value.value*1000);
+                        break;
+                    default:
+                        item_value = value.value
+                }
+                item_value = Math.round(item_value*100)/100;
+            } else {
+                item_value = value.value;
             }
-            item_value = Math.round(item_value*100)/100;
 
             datapoints.push({
                 x: value.ts,
