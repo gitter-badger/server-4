@@ -17,25 +17,21 @@ monitors = {
             });
             if (monitor.active) {
                 button = 
-                '<a class="monitor-play-btn pause" ' +
-                'data-hostname="' + monitor.host +'" ' +
-                'data-address="' + monitor.address +'" ' +
-                'data-type="' + ARGUX_MONITOR_TYPE +'" ' +
-                '>' +
+                '<a class="monitor-play-btn pause">' +
                 '<span class="glyphicon glyphicon-pause"></span>' +
                 '</a> ';
             } else {
                 button =
-                '<a href="#" class="monitor-play-btn" ' +
-                'data-hostname="' + monitor.host +'" ' +
-                'data-address="' + monitor.address +'" ' +
-                'data-type="' + ARGUX_MONITOR_TYPE +'" ' +
-                '>' +
+                '<a href="#" class="monitor-play-btn">' +
                 '<span class="glyphicon glyphicon-play"></span>' +
                 '</a> ';
             }
             $('#monitors').append(
-                '<tr class=""><td>' +
+                '<tr class="" ' +
+                'data-hostname="' + monitor.host +'" ' +
+                'data-address="' + monitor.address +'" ' +
+                '>' +
+                '<td>' +
                 button +
                 '<a href="'+ARGUX_BASE+'/monitor/'+ARGUX_MONITOR_TYPE+'/'+monitor.host+'/'+monitor.address+'/edit">' +
                 monitor.host +
@@ -45,13 +41,19 @@ monitors = {
                 '<ul>' +
                 options + 
                 '</ul>' +
-                '</td></tr>'
+                '</td>' +
+                '<td>' +
+                '<div class="pull-right">' +
+                '<a href="#" class="monitor-remove"><span class="glyphicon glyphicon-trash"></span></a>' +
+                '</div>' +
+                '</td>' +
+                '</tr>'
             );
         });
 
         $('.monitor-play-btn').click(function() {
-            var hostname = $(this).data('hostname'); 
-            var address = $(this).data('address'); 
+            var hostname = $(this).parents('tr').data('hostname');
+            var address = $(this).parents('tr').data('address');
             var button = $(this);
 
             data = {
@@ -71,9 +73,15 @@ monitors = {
             });
         });
 
+        $('.monitor-remove').click(function() {
+            var hostname = $(this).parents('tr').data('hostname');
+            var address = $(this).parents('tr').data('address');
+            $('#dmcm').modal('show');
+        });
+
         $('.monitor-play-btn.pause').click(function() {
-            var hostname = $(this).data('hostname'); 
-            var address = $(this).data('address'); 
+            var hostname = $(this).parents('tr').data('hostname');
+            var address = $(this).parents('tr').data('address');
             var button = $(this);
 
             data = {
