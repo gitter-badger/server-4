@@ -19,15 +19,15 @@ Create a host using the following command::
         }" \
         http://localhost/rest/1.0/host/HOSTNAME
 
-Read Host
+READ Host
 ---------
 todo...
 
-Update Host
+UPDATE Host
 -----------
 todo...
 
-Delete Host
+DELETE Host
 -----------
 Delete a host
 
