@@ -1,18 +1,52 @@
-
-function update_complete_callback() {
-    setTimeout(
-        monitors.get_monitors,
-        60000,
-        {
-            'complete_callback' : update_complete_callback,
-            'type': ARGUX_MONITOR_TYPE
-        }
-    );
-}
-
 $(function() {
-    monitors.get_monitors({'complete_callback': update_complete_callback, 'type': ARGUX_MONITOR_TYPE});
+    function update_complete_callback() {
+        setTimeout(
+            monitors.get_monitors,
+            60000,
+            {
+                'complete_callback' : update_complete_callback,
+                'type': ARGUX_MONITOR_TYPE
+            }
+        );
+    }
 
+    function get_address_success_callback(json) {
+        $('#monitor-address').empty();
+        if(json.addresses.length == 0) {
+            $('#monitor-address').append(
+                '<option disabled>No addresses</option>');
+        } else {
+            $.each(json.addresses, function(i, address) {
+                if (address.description != '') {
+                    $('#monitor-address').append(
+                        '<option value="'+address.name+'">'+
+                        address.name+' ('+address.description+')'+
+                        '</option>');
+                } else {
+                    $('#monitor-address').append(
+                        '<option value="'+address.name+'">'+
+                        address.name +
+                        '</option>');
+                }
+            });
+        }
+
+    }
+
+    var hostname = $('#monitor-host').val();
+
+// Initialisation
+    monitors.get_monitors({
+        'complete_callback': update_complete_callback,
+        'type': ARGUX_MONITOR_TYPE
+    });
+
+    host.get_addresses({
+        'hostname': hostname,
+        'callback_success': get_address_success_callback
+    });
+
+// Forms
     $('#monitor-form').submit(function(event) {
         monitors.create({
             'hostname': $('#monitor-host').val(),
@@ -21,6 +55,7 @@ $(function() {
                 'interval': $('#monitor-interval').val(),
             }
         })
+        monitors.get_monitors({'type': ARGUX_MONITOR_TYPE});
     });
     $('#monitor-delete-form').submit(function(event) {
         monitors.remove({
@@ -29,5 +64,12 @@ $(function() {
         });
         $('#dmcm').modal('hide');
         monitors.get_monitors({'type': ARGUX_MONITOR_TYPE});
+    });
+
+    $('#monitor-host').on('change', function(e) {
+        host.get_addresses({
+            'hostname': this.value,
+            'callback_success': get_address_success_callback
+        });
     });
 });
