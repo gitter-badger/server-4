@@ -10,6 +10,14 @@ this command are stored in items associated with this host.
 
 .. image:: images/icmp_monitor_overview.png
 
+Add a new ICMP Monitor
+^^^^^^^^^^^^^^^^^^^^^^
+.. image:: images/icmp_monitor_add.png
+
+Delete an ICMP Monitor
+^^^^^^^^^^^^^^^^^^^^^^
+.. image:: images/icmp_monitor_delete.png
+
 DNS Monitor
 -----------
 The DNS Monitor can be used to monitor a DNS server and guard
@@ -19,6 +27,8 @@ associated items.
 
 SNMP Monitor
 ------------
+.. NOTE::
+The SNMP Monitor is not yet implemented, any suggestions are welcome.
 
 JMX Monitor
 -----------
