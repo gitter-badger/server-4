@@ -9,7 +9,8 @@ web. It is designed with the following aspects in mind.
 .. NOTE::
    Argux is still under heavy development, some of the statements below
    might still be a bit 'optimistic'. (eg. they will be true once there
-   is a release)
+   is a release) - These remarks also count as reminders to what it is
+   that is being developed.
 
 **Decentralisation**
    In short, most of the time you are not interested in ping times 
@@ -23,6 +24,10 @@ web. It is designed with the following aspects in mind.
    Argux is clear and easy to use. It will have client API's in several
    programming languages, but if all else fails you could control it
    with ``CURL``.
+
+   The REST API is the center of the application, it is meant for use by
+   external scripts but it is also used internally and as backend to the
+   Web-interface.
 
 **Encryption**
    Since Argux is using basic HTTP requests, you can simply configure

@@ -2,6 +2,9 @@
 REST API
 ========
 
+The REST API is at the base of everything todo with Argux. It is exposed for users to automate tasks todo with monitoring their infrastructure, 
+but it is also at the core of the interactive User-Interface and internal monitoring-processes.
+
 **************
 Authentication
 **************

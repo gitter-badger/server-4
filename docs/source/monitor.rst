@@ -1,6 +1,9 @@
 ========
 Monitors
 ========
+Monitors are executed by backend-processes to perform monitoring tasks.
+These backend-threads use the same REST API as everything else inside Argux,
+like registering metric-items and publishing values.
 
 ICMP Monitor
 ------------
@@ -47,10 +50,10 @@ Add Monitored DNS domain
 SNMP Monitor
 ------------
 .. NOTE::
-The SNMP Monitor is not yet implemented, any suggestions are welcome.
+  The SNMP Monitor is not yet implemented, any suggestions are welcome.
 
 JMX Monitor
 -----------
 .. NOTE::
-The JMX Monitor is not yet implemented, it requires a java proxy that
-translates to the binary JMX protocol.
+  The JMX Monitor is not yet implemented, it requires a java proxy that
+  translates to the binary JMX protocol.
