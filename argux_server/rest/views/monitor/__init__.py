@@ -63,7 +63,7 @@ class RestMonitorViews(RestView):
             })
 
         return {
-            'monitors':monitors
+            'monitors': monitors
         }
 
     @view_config(
@@ -146,5 +146,23 @@ class RestMonitorViews(RestView):
 
         # FIXME: run monitor once to create the items.
         #MONITORS[monitor_type].monitor_once(self.dao, monitor)
+
+        return {'ok':'ok'}
+
+    @view_config(
+        route_name='rest_monitor_1',
+        request_method='DELETE',
+        check_csrf=True,
+        permission='view'
+    )
+    def monitor_1_view_delete(self):
+        monitor_type = self.request.matchdict['type'].upper()
+        host_name = self.request.matchdict['host']
+        address = self.request.matchdict['address']
+
+        self.dao.monitor_dao.delete_monitor(
+            host_name,
+            address,
+            monitor_type)
 
         return {'ok':'ok'}

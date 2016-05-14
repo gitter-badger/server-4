@@ -1,6 +1,13 @@
 
 function update_complete_callback() {
-    setTimeout(monitors.get_monitors, 60000, {'complete_callback' : update_complete_callback, 'type': ARGUX_MONITOR_TYPE});
+    setTimeout(
+        monitors.get_monitors,
+        60000,
+        {
+            'complete_callback' : update_complete_callback,
+            'type': ARGUX_MONITOR_TYPE
+        }
+    );
 }
 
 $(function() {
@@ -14,5 +21,13 @@ $(function() {
                 'interval': $('#monitor-interval').val(),
             }
         })
+    });
+    $('#monitor-delete-form').submit(function(event) {
+        monitors.remove({
+            'hostname': $('#dmcm-hostname').val(),
+            'address': $('#dmcm-address').val()
+        });
+        $('#dmcm').modal('hide');
+        monitors.get_monitors({'type': ARGUX_MONITOR_TYPE});
     });
 });

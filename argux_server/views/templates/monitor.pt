@@ -47,7 +47,11 @@
                         <h4 class="modal-title">Delete Monitor?<h4>
                     </div>
                     <div class="modal-body">
-                        <div role="tabpanel" class="tab-pane active" id="edit">
+                        <div role="tabpanel" class="tab-pane active">
+                        <input type="hidden" id="dmcm-hostname"></input>
+                        <input type="hidden" id="dmcm-address"></input>
+                        <p id="dmcm-message">Do you want to remove the monitor for...</p>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

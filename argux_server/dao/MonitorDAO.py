@@ -91,6 +91,16 @@ class MonitorDAO(BaseDAO):
 
         return monitor
 
+    def delete_monitor(self, hostname, address, monitor_type):
+        """
+        Delete monitor object for host/address of a specific type.
+        """
+        monitor = self.get_monitor(hostname, address, monitor_type)
+        if monitor is not None:
+            self.db_session.delete(monitor)
+
+        return
+
     def set_domain(self, hostname, address, monitor_type, domain):
         if monitor_type != 'DNS':
             raise ValueError("cannot add domain to monitor of type" + monitor_type)

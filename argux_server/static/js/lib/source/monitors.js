@@ -76,7 +76,18 @@ monitors = {
         $('.monitor-remove').click(function() {
             var hostname = $(this).parents('tr').data('hostname');
             var address = $(this).parents('tr').data('address');
+
+            $('#dmcm-hostname').val(hostname);
+            $('#dmcm-address').val(address);
+            $('#dmcm-message').text(
+                'Do you want to remove the ' +
+                ARGUX_MONITOR_TYPE +
+                ' monitor for ' +
+                hostname + 
+                ' on ' +
+                address);
             $('#dmcm').modal('show');
+
         });
 
         $('.monitor-play-btn.pause').click(function() {
@@ -128,5 +139,18 @@ monitors = {
     _create_error: function(json) {
     },
     _create_success: function(json) {
+    },
+    remove: function(args) {
+        if (args.hostname === undefined) {
+            throw "Hostname argument missing";
+        }
+        if (args.address === undefined) {
+            throw "address argument missing";
+        }
+
+        rest.call({
+            url : ARGUX_BASE+'/rest/1.0/monitor/'+ARGUX_MONITOR_TYPE+'/'+args.hostname+'/'+args.address,
+            type : rest.CallType.DELETE
+        });
     }
 };
