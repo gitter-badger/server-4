@@ -8,6 +8,8 @@ The ICMP Monitor executes the `ping` command and performs an
 ICMP echo request to a specified host-address. The results of
 this command are stored in items associated with this host.
 
+.. image:: images/icmp_monitor_overview.png
+
 DNS Monitor
 -----------
 The DNS Monitor can be used to monitor a DNS server and guard
