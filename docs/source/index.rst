@@ -13,9 +13,9 @@ Contents:
 
    intro
    getting-started
-   monitor
-   cli
+   monitor/index
    rest/index
+   cli
 
 Indices and tables
 ==================
