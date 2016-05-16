@@ -116,6 +116,14 @@ class RestItemViews(RestView):
                 'category': item_category,
                 'itemtype': item_type,
                 'unit': item_unit})
+            #graph = dao.graph_dao.create_graph({
+            #    'name': item_name,
+            #    'items': [{
+            #        'hostname': host_name,
+            #        'item': item_key
+            #        }]
+            #    })
+            #item.default_graph_id = graph.id
         except ValueError:
             return Response(
                 status='409 Conflict',

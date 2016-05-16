@@ -41,6 +41,7 @@ class Item(BASE):
     itemtype = relationship(ItemType, backref='items')
     unit_id = Column(Integer, ForeignKey('unit.id'))
     unit = relationship(Unit)
+    default_graph_id = Column(Integer, ForeignKey('history_graph.id'), nullable=True, default=None)
 
 Index('u_item_key_host_id_index', Item.key, Item.host_id, unique=True)
 Index('i_item_host_id_index', Item.host_id)

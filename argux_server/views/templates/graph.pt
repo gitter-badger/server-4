@@ -1,4 +1,7 @@
-<div class="">
-    <div data-item='localhost:cpu.load.avg[1]'>
+<div class="panel panel-default" tal:attributes="data-graphid graph_id">
+    <div class="panel-heading">[ Graph ] - <span class="title">title</span>
+    </div>
+    <div class="panel-body">
+        <canvas class="argux-chart"></canvas>
     </div>
 </div>
