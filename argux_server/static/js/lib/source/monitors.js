@@ -50,7 +50,7 @@ monitors = {
                 '</div>' +
                 '</td>' +
                 '<td>' +
-                status
+                status +
                 '</td>' + 
                 '</tr>'
             );

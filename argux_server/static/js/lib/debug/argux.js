@@ -264,11 +264,13 @@ monitors = {
                 '<a class="monitor-play-btn pause">' +
                 '<span class="glyphicon glyphicon-pause"></span>' +
                 '</a> ';
+                status = 'running';
             } else {
                 button =
                 '<a href="#" class="monitor-play-btn">' +
                 '<span class="glyphicon glyphicon-play"></span>' +
                 '</a> ';
+                status = 'paused';
             }
             $('#monitors').append(
                 '<tr class="" ' +
@@ -291,6 +293,9 @@ monitors = {
                 '<a href="#" class="monitor-remove"><span class="glyphicon glyphicon-trash"></span></a>' +
                 '</div>' +
                 '</td>' +
+                '<td>' +
+                status +
+                '</td>' + 
                 '</tr>'
             );
         });
