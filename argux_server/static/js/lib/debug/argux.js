@@ -260,25 +260,23 @@ monitors = {
                 options+= '<li><span style="font-weight: bold">'+key+':</span> '+value+'</li>';
             });
             if (monitor.active) {
-                button = 
-                '<a class="monitor-play-btn pause">' +
-                '<span class="glyphicon glyphicon-pause"></span>' +
-                '</a> ';
-                status = 'running';
+                button = '<span class="glyphicon glyphicon-pause"></span>';
+                state = 'running';
+                klass = '';
             } else {
-                button =
-                '<a href="#" class="monitor-play-btn">' +
-                '<span class="glyphicon glyphicon-play"></span>' +
-                '</a> ';
-                status = 'paused';
+                button = '<span class="glyphicon glyphicon-play"></span>';
+                state = 'paused';
+                klass = 'pause';
             }
             $('#monitors').append(
-                '<tr class="" ' +
+                '<tr class="'+klass+'" ' +
                 'data-hostname="' + monitor.host +'" ' +
                 'data-address="' + monitor.address +'" ' +
                 '>' +
                 '<td>' +
+                '<a href="#" class="monitor-play-btn">' +
                 button +
+                '</a>' +
                 '<a href="'+ARGUX_BASE+'/monitor/'+ARGUX_MONITOR_TYPE+'/'+monitor.host+'/'+monitor.address+'/edit">' +
                 monitor.host +
                 ' (' + monitor.address + ')' +
@@ -288,38 +286,58 @@ monitors = {
                 options + 
                 '</ul>' +
                 '</td>' +
+                '<td class="state">' +
+                state +
+                '</td>' + 
                 '<td>' +
                 '<div class="pull-right">' +
                 '<a href="#" class="monitor-remove"><span class="glyphicon glyphicon-trash"></span></a>' +
                 '</div>' +
                 '</td>' +
-                '<td>' +
-                status +
-                '</td>' + 
                 '</tr>'
             );
         });
 
         $('.monitor-play-btn').click(function() {
-            var hostname = $(this).parents('tr').data('hostname');
-            var address = $(this).parents('tr').data('address');
             var button = $(this);
+            var par = button.parents('tr');
+            var hostname = par.data('hostname');
+            var address = par.data('address');
+            var state = par.children('td.state');
+            var paused = par.hasClass('pause');
 
             data = {
-                "active": "true",
                 "options" : {"interval": 60}
             };
 
-            rest.call({
-                url : ARGUX_BASE+'/rest/1.0/monitor/'+ARGUX_MONITOR_TYPE+'/'+hostname+'/'+address,
-                type : rest.CallType.UPDATE,
-                data : data,
-                success : function() {
-                    button.addClass('pause');
-                    button.children().removeClass('glyphicon-play');
-                    button.children().addClass('glyphicon-pause');
-                }
-            });
+            if (paused === true) {
+                data['active'] = "true";
+                rest.call({
+                    url : ARGUX_BASE+'/rest/1.0/monitor/'+ARGUX_MONITOR_TYPE+'/'+hostname+'/'+address,
+                    type : rest.CallType.UPDATE,
+                    data : data,
+                    success : function() {
+                        par.removeClass('pause');
+                        button.children().removeClass('glyphicon-play');
+                        button.children().addClass('glyphicon-pause');
+                        state.text('running');
+                    }
+                });
+            } else {
+                data['active'] = "false";
+                rest.call({
+                    url : ARGUX_BASE+'/rest/1.0/monitor/'+ARGUX_MONITOR_TYPE+'/'+hostname+'/'+address,
+                    type : rest.CallType.UPDATE,
+                    data : data,
+                    success : function() {
+                        par.addClass('pause');
+                        button.children().addClass('glyphicon-play');
+                        button.children().removeClass('glyphicon-pause');
+                        state.text('paused');
+                    }
+                });
+            }
+
         });
 
         $('.monitor-remove').click(function() {
@@ -337,28 +355,6 @@ monitors = {
                 address);
             $('#dmcm').modal('show');
 
-        });
-
-        $('.monitor-play-btn.pause').click(function() {
-            var hostname = $(this).parents('tr').data('hostname');
-            var address = $(this).parents('tr').data('address');
-            var button = $(this);
-
-            data = {
-                "active": "false",
-                "options" : {"interval": 60}
-            };
-
-            rest.call({
-                url : ARGUX_BASE+'/rest/1.0/monitor/'+ARGUX_MONITOR_TYPE+'/'+hostname+'/'+address,
-                type : rest.CallType.UPDATE,
-                data : data,
-                success : function() {
-                    button.removeClass('pause');
-                    button.children().removeClass('glyphicon-pause');
-                    button.children().addClass('glyphicon-play');
-                }
-            });
         });
 
     },
