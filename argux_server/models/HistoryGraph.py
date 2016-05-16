@@ -30,3 +30,18 @@ class HistoryGraph(BASE):
     name = Column(Text, nullable=False)
     suggested_min = Column(Float, nullable=True, default=None)
     suggested_max = Column(Float, nullable=True, default=None)
+
+# pylint: disable=too-few-public-methods
+class HistoryGraphItems(BASE):
+
+    """
+    HistoryGraphItem class.
+
+    Model for storing HistoryGraph - Item relationship details.
+    """
+
+    __tablename__ = 'history_graph_items'
+    id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
+    history_graph_id = Column(Integer, ForeignKey('history_graph.id'), nullable=False)
+    history_graph = relationship(HistoryGraph, backref='items')
+    item_id = Column(Integer, ForeignKey('item.id'))

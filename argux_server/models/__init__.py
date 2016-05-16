@@ -26,7 +26,7 @@ from .Note import Note
 
 from .User import User, HashMethod
 
-from .HistoryGraph import HistoryGraph
+from .HistoryGraph import HistoryGraph, HistoryGraphItems
 
 from .HostAddress import HostAddress
 from .Monitor import Monitor
