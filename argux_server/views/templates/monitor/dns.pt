@@ -19,6 +19,7 @@
             <thead>
             <th>Monitor</th>
             <th>Options</th>
+            <th>Status</th>
             <th></th>
             </thead>
             <tbody id='monitors'>
