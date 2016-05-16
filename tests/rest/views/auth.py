@@ -21,14 +21,17 @@ def _initTestingDB():
         BASE,
         ItemType,
         TriggerSeverity,
-        HashMethod
+        HashMethod,
+        MonitorType,
+        Unit,
+        MetricPrefix
         )
     from argux_server.dao.UserDAO import UserDAO
 
     engine = create_engine('sqlite://')
-    BASE.metadata.create_all(engine)
     session = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
     session.configure(bind=engine)
+    BASE.metadata.create_all(engine)
     with transaction.manager:
         model = ItemType(name='int', description='Integer field')
         session.add(model)
