@@ -19,3 +19,11 @@ class GraphDAO(BaseDAO):
             name=name)
 
         self.db_session.add(graph)
+
+        return graph
+
+    def get_graph(self, graph_id):
+        graph = self.db_session.query(HistoryGraph)\
+            .filter(HistoryGraph.id==graph_id).first()
+
+        return graph

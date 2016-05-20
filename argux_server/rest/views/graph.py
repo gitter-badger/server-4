@@ -72,7 +72,14 @@ class RestGraphViews(RestView):
         permission='view'
     )
     def graphs_1_view_read(self):
-        return []
+        graph_id = self.request.matchdict['id']
+
+        graph = self.dao.graph_dao.get_graph(graph_id=graph_id)
+
+        return {
+            'id': graph.id,
+            'name': graph.name
+        }
 
     @view_config(
         route_name='rest_graphs_1',
@@ -81,4 +88,10 @@ class RestGraphViews(RestView):
         permission='view'
     )
     def graphs_1_view_create(self):
-        return []
+
+        graph = self.dao.graph_dao.create_graph(name=graph_name)
+
+        return {
+            'id': graph.id,
+            'name': graph.name
+        }

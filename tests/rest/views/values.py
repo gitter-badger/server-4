@@ -14,17 +14,3 @@ class RestValuesViewsTests(unittest.TestCase):
 
     def tearDown(self):
         testing.tearDown()
-
-    @unittest.skip('not implemented')
-    def test_hosts(self):
-        """
-
-        """
-        r = request.Request.blank(path='/rest/1.0/item')
-        r.registry = Registry()
-        r.registry.settings = {}
-        r.registry.settings['dao'] = dao.DAO()
-        v = RestItemViews(r)
-        response = v.item_1_view()
-
-        self.assertEquals(host['name'], "localhost")
