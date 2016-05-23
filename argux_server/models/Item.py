@@ -16,6 +16,7 @@ from sqlalchemy.orm import (
 from .ItemType import ItemType
 from .ItemCategory import ItemCategory
 from .Unit import Unit
+from .Host import Host 
 
 from . import BASE
 
@@ -33,6 +34,7 @@ class Item(BASE):
     id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     key = Column(Text, nullable=False)
     host_id = Column(Integer, ForeignKey('host.id'), nullable=False)
+    host = relationship(Host, backref='items')
     name = Column(Text, nullable=False)
     description = Column(Text, nullable=False, default='')
     category_id = Column(Integer, ForeignKey('item_category.id'), nullable=True, default=None)

@@ -40,8 +40,21 @@ class RestGraphViews(RestView):
     )
     def graph_1_view_read(self):
         graph_id = self.request.matchdict['id']
+        items = []
 
-        return {}
+        graph = self.dao.graph_dao.get_graph(graph_id=graph_id)
+        d_items = self.dao.graph_do.get_items(graph)
+        for d_item in d_items:
+            items.append({
+                'name': d_item.name,
+                'key': d_item.key,
+                'host': d_item.host.name
+            })
+        return {
+            'id': graph.id,
+            'name': graph.name,
+            'items': items
+        }
 
     @view_config(
         route_name='rest_graph_1',
@@ -72,14 +85,7 @@ class RestGraphViews(RestView):
         permission='view'
     )
     def graphs_1_view_read(self):
-        graph_id = self.request.matchdict['id']
-
-        graph = self.dao.graph_dao.get_graph(graph_id=graph_id)
-
-        return {
-            'id': graph.id,
-            'name': graph.name
-        }
+        return {}
 
     @view_config(
         route_name='rest_graphs_1',
@@ -118,15 +124,32 @@ class RestGraphViews(RestView):
                 status='400 Bad Request',
                 content_type='application/json')
 
+        d_items = []
+
         for item in items:
-            if not self.dao.item_dao.get_item_exists(item['name'], item['host']):
+            d_host = self.dao.host_dao.get_host_by_name(item['host'])
+            if d_host is None:
                 return Response(
                     status='400 Bad Request',
                     content_type='application/json')
 
+            d_item = self.dao.item_dao.get_item_by_host_key(
+                host=d_host,
+                key=item['name'])
+            if d_item is None:
+                return Response(
+                    status='400 Bad Request',
+                    content_type='application/json')
+
+            d_items.append(d_item)
+
         graph = self.dao.graph_dao.create_graph(name=graph_name)
+
+        for d_item in d_items:
+            self.dao.graph_dao.graph_add_item(graph, d_item)
 
         return {
             'id': graph.id,
-            'name': graph.name
+            'name': graph.name,
+            'items': items
         }

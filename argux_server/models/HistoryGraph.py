@@ -16,6 +16,8 @@ from sqlalchemy.orm import (
 
 from . import BASE
 
+from .Item  import Item
+
 # pylint: disable=too-few-public-methods
 class HistoryGraph(BASE):
 
@@ -32,7 +34,7 @@ class HistoryGraph(BASE):
     suggested_max = Column(Float, nullable=True, default=None)
 
 # pylint: disable=too-few-public-methods
-class HistoryGraphItems(BASE):
+class HistoryGraphItem(BASE):
 
     """
     HistoryGraphItem class.
@@ -40,8 +42,9 @@ class HistoryGraphItems(BASE):
     Model for storing HistoryGraph - Item relationship details.
     """
 
-    __tablename__ = 'history_graph_items'
+    __tablename__ = 'history_graph_item'
     id = Column(Integer, primary_key=True)  # pylint: disable=invalid-name
     history_graph_id = Column(Integer, ForeignKey('history_graph.id'), nullable=False)
     history_graph = relationship(HistoryGraph, backref='items')
     item_id = Column(Integer, ForeignKey('item.id'))
+    item = relationship(Item, backref='history_graphs')

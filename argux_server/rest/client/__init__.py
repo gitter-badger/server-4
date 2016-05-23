@@ -151,8 +151,7 @@ class RESTClient(AbstractRESTClient):
         try:
             json_response = response.json()
         except Exception as e:
-            print("SHIT")
-            print("\""+response+"\"")
+            print("\""+str(response)+"\"")
             raise ValueError('Invalid Response, could not decode JSON')
 
         if json_response is None:
