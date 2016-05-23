@@ -89,6 +89,41 @@ class RestGraphViews(RestView):
     )
     def graphs_1_view_create(self):
 
+        try:
+            json_body = self.request.json_body
+        except ValueError as err:
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json')
+
+        try:
+            items = json_body.get('items', [])
+        except ValueError:
+            item = []
+
+        try:
+            graph_name = json_body.get('name', None)
+        except ValueError as err:
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json')
+        if graph_name is None:
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json')
+
+
+        if items.count == 0:
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json')
+
+        for item in items:
+            if not self.dao.item_dao.get_item_exists(item['name'], item['host']):
+                return Response(
+                    status='400 Bad Request',
+                    content_type='application/json')
+
         graph = self.dao.graph_dao.create_graph(name=graph_name)
 
         return {

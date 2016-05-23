@@ -148,7 +148,13 @@ class RESTClient(AbstractRESTClient):
         except MaxRetryError as e:
             return []
 
-        json_response = response.json()
+        try:
+            json_response = response.json()
+        except Exception as e:
+            print("SHIT")
+            print("\""+response+"\"")
+            raise ValueError('Invalid Response, could not decode JSON')
+
         if json_response is None:
             raise ValueError('Invalid Response, could not decode JSON')
         if not 'monitors' in json_response:

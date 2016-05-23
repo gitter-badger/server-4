@@ -106,7 +106,7 @@ class ICMPMonitor(AbstractMonitor):
                         except Exception as e:
                             print(str(e))
             except Exception as e:
-                print(str(e))
+                print("ICMP Monitor Error: "+str(e))
 
             try:
                 time.sleep(60)

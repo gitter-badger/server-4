@@ -13,12 +13,14 @@ class GraphDAO(BaseDAO):
 
     """GraphDAO Class."""
 
-    def create_graph(self):
+    def create_graph(self, name):
 
         graph = HistoryGraph(
             name=name)
 
         self.db_session.add(graph)
+
+        self.db_session.flush()
 
         return graph
 
