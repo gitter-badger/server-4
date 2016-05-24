@@ -2,6 +2,6 @@
     <div class="panel-heading">[ Graph ] - <span class="title">title</span>
     </div>
     <div class="panel-body">
-        <canvas class="argux-chart"></canvas>
+        <canvas class="argux-chart" tal:attributes="data-graphid graph_id"></canvas>
     </div>
 </div>

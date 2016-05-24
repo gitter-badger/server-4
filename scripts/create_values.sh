@@ -34,20 +34,23 @@ do
 
 cmd="date -v-"$i"M +%FT%TZ"
 
-TS=`$cmd`
-RND=$(((RANDOM%100)))
+for a in 1 5 15
+do
+    TS=`$cmd`
+    RND=$(((RANDOM%100)))
 
-VAL=5.$RND
+    VAL=5.$RND
 
-curl -X POST \
-    -b $COOKIE_FILE \
-    -H "Content-Type: application/json" \
-    -H "X-CSRF-Token: $CSRF_TOKEN" \
-    -d "{
-        \"value\":\"$VAL\",
-        \"timestamp\":\"$TS\"
-        }" \
-    $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[15\\\]/values
+    curl -X POST \
+        -b $COOKIE_FILE \
+        -H "Content-Type: application/json" \
+        -H "X-CSRF-Token: $CSRF_TOKEN" \
+        -d "{
+            \"value\":\"$VAL\",
+            \"timestamp\":\"$TS\"
+            }" \
+        $SERVER/$REST_URI/$HOST_URI/$HOST_NAME/item/cpu.load.avg\\\[$a\\\]/values
+done
 done
 
 unlink $COOKIE_FILE

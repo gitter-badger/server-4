@@ -29,10 +29,10 @@ curl -X POST \
 
 CSRF_TOKEN=`cat $HEADER_FILE | grep -i X-CSRF-TOKEN | awk -F : '{ print $2 }'`
 
-echo $SERVER/$REST_URI/graph/8
+echo $SERVER/$REST_URI/graph/6
 
 curl -X GET \
     -b $COOKIE_FILE \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
-    $SERVER/$REST_URI/graph/8?get_values=true
+    $SERVER/$REST_URI/graph/6?get_values=true
