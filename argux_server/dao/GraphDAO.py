@@ -7,6 +7,10 @@ from argux_server.models import (
 
 import argux_server.auth
 
+from sqlalchemy.orm import (
+    joinedload
+)
+
 from .BaseDAO import BaseDAO
 
 
@@ -27,7 +31,9 @@ class GraphDAO(BaseDAO):
 
     def get_graph(self, graph_id):
         graph = self.db_session.query(HistoryGraph)\
-            .filter(HistoryGraph.id==graph_id).first()
+            .options(joinedload('items'))\
+            .filter(HistoryGraph.id==graph_id)\
+            .first()
 
         return graph
 
@@ -37,7 +43,7 @@ class GraphDAO(BaseDAO):
             .filter(HistoryGraphItem.item_id == item.id)\
             .first()
 
-        if d_graph_item is not None:
+        if d_graph_item is None:
             d_graph_item = HistoryGraphItem(
                 history_graph_id=graph.id,
                 item_id=item.id)
@@ -53,4 +59,3 @@ class GraphDAO(BaseDAO):
             items.append(item.item)
 
         return items
-        graph.items

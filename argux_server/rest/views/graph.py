@@ -40,16 +40,44 @@ class RestGraphViews(RestView):
     )
     def graph_1_view_read(self):
         graph_id = self.request.matchdict['id']
+        get_values = self.request.params.get('get_values', 'false')
+
         items = []
 
         graph = self.dao.graph_dao.get_graph(graph_id=graph_id)
-        d_items = self.dao.graph_do.get_items(graph)
+        d_items = self.dao.graph_dao.graph_get_items(graph)
         for d_item in d_items:
-            items.append({
+            item = {
                 'name': d_item.name,
                 'key': d_item.key,
                 'host': d_item.host.name
-            })
+            }
+
+            if get_values == 'true':
+                q_start = self.request.params.get('start', None)
+                q_end = self.request.params.get('end', None)
+
+                try:
+                    interval = int(self.request.params.get('interval', '60'))
+                except ValueError:
+                    interval = 60
+
+                if (q_start != None):
+                    start = dateutil.parser.parse(q_start)
+                else:
+                    start = datetime.now() - timedelta(minutes=15)
+
+                if q_end != None:
+                    end = dateutil.parser.parse(q_end)
+                else:
+                    end = datetime.now()
+
+                (values, max_val, min_val) = self.__get_values(d_item, start, end, interval)
+
+                item['values'] = values
+
+            items.append(item)
+
         return {
             'id': graph.id,
             'name': graph.name,
@@ -126,6 +154,8 @@ class RestGraphViews(RestView):
 
         d_items = []
 
+        # Add items to graph
+        ####################
         for item in items:
             d_host = self.dao.host_dao.get_host_by_name(item['host'])
             if d_host is None:
@@ -153,3 +183,63 @@ class RestGraphViews(RestView):
             'name': graph.name,
             'items': items
         }
+
+    def __get_values(self, item, start, end, interval=60):
+        """Return array of timestamp+value objects within a timeframe.
+
+        timestamp is formatted according to argux_server.util.DATE_FMT
+
+        This format should be in ISO8601 (YYYY/MM/DDTmm:hh:ssZ)
+        """
+        values = []
+        max_values = []
+        min_values = []
+        max_value = None
+        min_value = None
+        d_values = self.dao.item_dao.get_values(
+            item,
+            start_time=start,
+            end_time=end)
+
+        old_value = None
+
+        for index, value in enumerate(d_values):
+            # Fill in the gaps between values.
+            # This section of the code assumes 1 minute gaps, which is silly.
+            # The interval should be known somehow (maybe configurable in the item?).
+            # Also, it should calculate min/max/avg values.
+            if old_value:
+                tdelta = value.timestamp - old_value.timestamp
+                if tdelta.seconds > (1.5*interval):
+                    for a in range(0, int(tdelta.seconds/interval)):
+                        values.append({
+                            'ts': (old_value.timestamp + timedelta(minutes=a)).strftime(DATE_FMT),
+                            'value': None
+                        })
+
+            if max_value is None:
+                max_value = value.value
+                min_value = value.value
+
+            if value.value < min_value:
+                min_value = value.value
+
+            if value.value > max_value:
+                max_value = value.value
+
+            values.append({
+                'ts': value.timestamp.strftime(DATE_FMT),
+                'value': str(value.value)
+            })
+
+            old_value = value
+
+        return (
+            {
+                'avg': values,
+                'max': max_values,
+                'min': min_values
+            },
+            max_value,
+            min_value
+        )
