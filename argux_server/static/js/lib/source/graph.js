@@ -54,7 +54,6 @@ $(function() {
         var canvas = $('<canvas/>');
         chart_obj.append(canvas);
         var ctx = canvas[0].getContext("2d");
-        //var ctx = $(this)[0].getContext("2d");
 
         // Create a copy of the history_chart_config so we can use
         // a different configuration for each chart.

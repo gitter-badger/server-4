@@ -1,5 +1,15 @@
 <div class="panel panel-default argux-chart" tal:attributes="data-graphid graph_id">
     <div class="panel-heading heading">[ Graph ] - <span class="title">title</span>
+        <div class="pull-right">
+            <button type="button"
+                    class="btn btn-default btn-xs">
+                <span class="glyphicon glyphicon-pencil"></span>
+            </button>
+            <button type="button"
+                    class="btn btn-default btn-xs">
+                <span class="glyphicon glyphicon-resize-full"></span>
+            </button>
+        </div>
     </div>
     <div class="panel-body chart-body">
     </div>
