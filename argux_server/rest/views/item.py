@@ -90,6 +90,7 @@ class RestItemViews(RestView):
             item_category = self.request.json_body.get('category', None)
             item_type_key = self.request.json_body.get('type', None)
             item_unit = self.request.json_body.get('unit', None)
+            create_graph = self.request.json_body.get('create_graph', 'true')
         except ValueError:
             return Response(
                 status='400 Bad Request',
@@ -116,14 +117,10 @@ class RestItemViews(RestView):
                 'category': item_category,
                 'itemtype': item_type,
                 'unit': item_unit})
-            #graph = dao.graph_dao.create_graph({
-            #    'name': item_name,
-            #    'items': [{
-            #        'hostname': host_name,
-            #        'item': item_key
-            #        }]
-            #    })
-            #item.default_graph_id = graph.id
+            if create_graph == 'true':
+                graph = dao.graph_dao.create_graph(name=item_name)
+                self.dao.graph_dao.graph_add_item(graph, item)
+                item.default_graph_id = graph.id
         except ValueError:
             return Response(
                 status='409 Conflict',
