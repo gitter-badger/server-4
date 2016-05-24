@@ -8,7 +8,7 @@ function update_chart (obj, chart, config) {
              "?get_values=true",
         dataType: "json",
         success: function(json) {
-
+            obj.children(".heading").children(".title").text(json.name);
             config.data.datasets = [];
 
             // Set data for each item separately.
@@ -48,12 +48,19 @@ function update_chart (obj, chart, config) {
 
 $(function() {
     $('.argux-chart').each(function (index) {
-        var ctx = $(this)[0].getContext("2d");
+        var obj = $(this);
+
+        var chart_obj  = obj.children('.chart-body');
+        var canvas = $('<canvas/>');
+        chart_obj.append(canvas);
+        var ctx = canvas[0].getContext("2d");
+        //var ctx = $(this)[0].getContext("2d");
+
         // Create a copy of the history_chart_config so we can use
         // a different configuration for each chart.
         var config = $.extend(true, {}, history_chart_config);
         var chart = new Chart(ctx, config);
 
-        update_chart ($(this), chart, config);
+        update_chart (obj, chart, config);
     });
 });

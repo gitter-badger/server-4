@@ -1,7 +1,6 @@
-<div class="panel panel-default" tal:attributes="data-graphid graph_id">
-    <div class="panel-heading">[ Graph ] - <span class="title">title</span>
+<div class="panel panel-default argux-chart" tal:attributes="data-graphid graph_id">
+    <div class="panel-heading heading">[ Graph ] - <span class="title">title</span>
     </div>
-    <div class="panel-body">
-        <canvas class="argux-chart" tal:attributes="data-graphid graph_id"></canvas>
+    <div class="panel-body chart-body">
     </div>
 </div>

@@ -1,4 +1,5 @@
 
+var unit = {};
 
 var history_chart_config = {
     type: 'line',
