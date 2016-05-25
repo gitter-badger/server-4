@@ -39,17 +39,17 @@ curl -X POST \
             {
                 \"name\": \"cpu.load.avg[1]\",
                 \"host\": \"localhost\",
-                \"color\": \"00dddd\"
+                \"color\": \"0099fd\"
             },
             {
                 \"name\": \"cpu.load.avg[5]\",
                 \"host\": \"localhost\",
-                \"color\": \"dd00dd\"
+                \"color\": \"fd00aa\"
             },
             {
                 \"name\": \"cpu.load.avg[15]\",
                 \"host\": \"localhost\",
-                \"color\": \"dddd00\"
+                \"color\": \"aafd00\"
             }
         ]
         }" \

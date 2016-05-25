@@ -465,7 +465,7 @@ function update_chart (obj, chart, config) {
                     counter = pc[1];
                 }
 
-                dataset['borderColor'] = color;
+                dataset['borderColor'] = hex2rgba(color, 1);
                 dataset['backgroundColor'] = hex2rgba(color, 0.1);
 
                 $.each(item.values.avg, function(i, value) {
