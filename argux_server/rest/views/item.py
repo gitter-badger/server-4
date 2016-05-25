@@ -48,8 +48,6 @@ class RestItemViews(RestView):
             return Response(
                 status='404 Missing',
                 content_type='application/json')
-            
-
 
         item = self.dao.item_dao.get_item_by_host_key(
             host,
@@ -71,7 +69,7 @@ class RestItemViews(RestView):
         permission='view'
     )
     def item_1_view_create(self):
-        """Read Item"""
+        """Create Item"""
         host_name = self.request.matchdict['host']
         item_key = self.request.matchdict['item']
 
@@ -220,7 +218,7 @@ class RestItemViews(RestView):
             interval = 60
 
 
-        if (q_start != None):
+        if q_start is not None:
             start = dateutil.parser.parse(q_start)
         else:
             start = datetime.now() - timedelta(minutes=15)
