@@ -7,6 +7,10 @@ var palette = [
     "#0000ff",
 ];
 
+var UnitScale = Chart.Scale.extend({
+
+});
+
 var history_chart_config = {
     type: 'line',
     data: {
@@ -121,3 +125,5 @@ function get_palette_color(counter) {
 
     return [color, counter];
 }
+
+Chart.scaleService.registerScaleType('unitScale', UnitScale, defaultConfigObject);
