@@ -96,7 +96,6 @@ class AbstractRESTClient:
 class RESTClient(AbstractRESTClient):
 
     def create_item(self, host, key, params):
-        self.login()
 
         payload = {
             'name': params['name'],
@@ -118,7 +117,6 @@ class RESTClient(AbstractRESTClient):
         return []
 
     def push_value(self, host, key, timestamp, value):
-        self.login()
 
         payload = {
             'value': value,
@@ -137,8 +135,6 @@ class RESTClient(AbstractRESTClient):
         return []
 
     def get_monitors(self, monitor_type):
-        self.login()
-
         try:
             response = self.get('/rest/1.0/monitor/'+monitor_type)
         except ConnectionError as e:
@@ -163,7 +159,6 @@ class RESTClient(AbstractRESTClient):
 
 
     def get_dns_domains(self, host, address):
-        self.login()
 
         try:
             response = self.get(
