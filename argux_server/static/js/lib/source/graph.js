@@ -30,17 +30,53 @@ function update_chart (obj, chart, config) {
                 }
 
                 dataset['borderColor'] = hex2rgba(color, 1);
-                dataset['backgroundColor'] = hex2rgba(color, 0.1);
+                dataset['backgroundColor'] = hex2rgba(color, 0.2);
+
+                if (item.unit) {
+                    if (json.max_value < 0.1 && json.min_value > -0.1) {
+                        item_unit_prefix = 'm';
+                    }
+                    if (json.max_value < 0.0001 && json.min_value > -0.0001) {
+                        item_unit_prefix = '\u00B5';
+                    }
+                    if (json.max_value > 100 && json.min_value < -100) {
+                        item_unit_prefix = 'k';
+                    }
+                    if (json.max_value > 1000000 && json.min_value < -100000) {
+                        item_unit_prefix = 'M';
+                    }
+                    if (json.max_value > 1000000000 && json.min_value < -100000000) {
+                        item_unit_prefix = 'G';
+                    }
+                }
+
 
                 $.each(item.values.avg, function(i, value) {
+                    if(value.value != null) {
+                        switch (item_unit_prefix) {
+                            case '\u00B5':
+                                item_value = (value.value*1000000);
+                                break;
+                            case 'm':
+                                item_value = (value.value*1000);
+                                break;
+                            default:
+                                item_value = value.value
+                        }
+                        item_value = Math.round(item_value*100)/100;
+                    } else {
+                        item_value = value.value;
+                    }
+
                     datapoints.push({
                         x: value.ts,
-                        y: value.value});
+                        y: item_value});
                 });
 
                 dataset.data = datapoints;
 
                 config.data.datasets.push(dataset)
+
             });
             chart.update();
         },

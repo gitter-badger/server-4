@@ -43,8 +43,15 @@ class RestGraphViews(RestView):
         get_values = self.request.params.get('get_values', 'false')
 
         items = []
+        max_value = 0
+        min_value = 0
 
         graph = self.dao.graph_dao.get_graph(graph_id=graph_id)
+        if graph is None:
+            return Response(
+                status='404 Not Found',
+                content_type='application/json')
+
         d_items = self.dao.graph_dao.graph_get_items(graph)
         for d_item in d_items:
             item = {
@@ -79,22 +86,63 @@ class RestGraphViews(RestView):
 
                 item['values'] = values
 
+                if max_val > max_value:
+                    max_value = max_val
+                if min_val < min_value:
+                    min_value = min_val
+
+                if d_item.unit_id:
+                    item['unit'] = {
+                        'name': d_item.unit.name,
+                        'symbol': d_item.unit.symbol,
+                    }
+
             items.append(item)
 
         return {
             'id': graph.id,
             'name': graph.name,
-            'items': items
+            'items': items,
+            'max_value': max_value,
+            'min_value': min_value
         }
 
     @view_config(
         route_name='rest_graph_1',
-        request_method='POST',
+        request_method='PATCH',
         check_csrf=True,
         permission='view'
     )
     def graph_1_view_update(self):
         graph_id = self.request.matchdict['id']
+
+        try:
+            json_body = self.request.json_body
+        except ValueError as err:
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json')
+
+        try:
+            items = json_body.get('items', [])
+        except ValueError:
+            item = []
+
+        try:
+            graph_name = json_body.get('name', None)
+        except ValueError as err:
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json')
+        if graph_name is None:
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json')
+
+        if items.count == 0:
+            return Response(
+                status='400 Bad Request',
+                content_type='application/json')
 
         return {} 
 
