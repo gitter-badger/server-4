@@ -48,8 +48,6 @@ rest = {
 
 var unit = {};
 
-var palette_counter = 0;
-
 var palette = [
     "#ff0000",
     "#00ff00",
@@ -158,17 +156,17 @@ function hex2rgba(color, opacity) {
     return 'rgba('+r+','+g+','+b+','+opacity+')';
 }
 
-function get_palette_color() {
+function get_palette_color(counter) {
 
-    if(palette_counter == palette.length) {
-        palette_counter = 0;
+    if(counter >= palette.length) {
+        counter = 0;
     }
 
-    color = palette[palette_counter];
+    color = palette[counter];
 
-    palette_counter++;
+    counter++;
 
-    return color;
+    return [color, counter];
 }
 
 host = {
@@ -449,6 +447,7 @@ function update_chart (obj, chart, config) {
             obj.children(".heading").children(".title").text(json.name);
             config.data.datasets = [];
 
+            counter = 0;
             // Set data for each item separately.
             $.each(json.items, function(i, item) {
                 var dataset = {
@@ -461,11 +460,13 @@ function update_chart (obj, chart, config) {
                 if(item.color !== undefined){
                     color = item.color;
                 } else {
-                    color = get_palette_color();
+                    pc = get_palette_color(counter);
+                    color = pc[0];
+                    counter = pc[1];
                 }
 
                 dataset['borderColor'] = color;
-                dataset['backgroundColor'] = hex2rgba(color, 0.4);
+                dataset['backgroundColor'] = hex2rgba(color, 0.1);
 
                 $.each(item.values.avg, function(i, value) {
                     datapoints.push({

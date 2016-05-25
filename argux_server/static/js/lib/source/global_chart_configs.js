@@ -1,8 +1,6 @@
 
 var unit = {};
 
-var palette_counter = 0;
-
 var palette = [
     "#ff0000",
     "#00ff00",
@@ -111,15 +109,15 @@ function hex2rgba(color, opacity) {
     return 'rgba('+r+','+g+','+b+','+opacity+')';
 }
 
-function get_palette_color() {
+function get_palette_color(counter) {
 
-    if(palette_counter == palette.length) {
-        palette_counter = 0;
+    if(counter >= palette.length) {
+        counter = 0;
     }
 
-    color = palette[palette_counter];
+    color = palette[counter];
 
-    palette_counter++;
+    counter++;
 
-    return color;
+    return [color, counter];
 }

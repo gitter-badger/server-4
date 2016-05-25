@@ -11,6 +11,7 @@ function update_chart (obj, chart, config) {
             obj.children(".heading").children(".title").text(json.name);
             config.data.datasets = [];
 
+            counter = 0;
             // Set data for each item separately.
             $.each(json.items, function(i, item) {
                 var dataset = {
@@ -23,11 +24,13 @@ function update_chart (obj, chart, config) {
                 if(item.color !== undefined){
                     color = item.color;
                 } else {
-                    color = get_palette_color();
+                    pc = get_palette_color(counter);
+                    color = pc[0];
+                    counter = pc[1];
                 }
 
                 dataset['borderColor'] = color;
-                dataset['backgroundColor'] = hex2rgba(color, 0.4);
+                dataset['backgroundColor'] = hex2rgba(color, 0.1);
 
                 $.each(item.values.avg, function(i, value) {
                     datapoints.push({
