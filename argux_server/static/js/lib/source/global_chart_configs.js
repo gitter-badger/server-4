@@ -1,6 +1,14 @@
 
 var unit = {};
 
+var palette_counter = 0;
+
+var palette = [
+    "#ff0000",
+    "#00ff00",
+    "#0000ff",
+];
+
 var history_chart_config = {
     type: 'line',
     data: {
@@ -92,3 +100,26 @@ var host_overview_chart_config = {
         }
     }
 };
+
+function hex2rgba(color, opacity) {
+    color = color.replace('#','');
+
+    r = parseInt(color.substring(0,2), 16);
+    g = parseInt(color.substring(2,4), 16);
+    b = parseInt(color.substring(4,6), 16);
+
+    return 'rgba('+r+','+g+','+b+','+opacity+')';
+}
+
+function get_palette_color() {
+
+    if(palette_counter == palette.length) {
+        palette_counter = 0;
+    }
+
+    color = palette[palette_counter];
+
+    palette_counter++;
+
+    return color;
+}

@@ -48,6 +48,14 @@ rest = {
 
 var unit = {};
 
+var palette_counter = 0;
+
+var palette = [
+    "#ff0000",
+    "#00ff00",
+    "#0000ff",
+];
+
 var history_chart_config = {
     type: 'line',
     data: {
@@ -139,6 +147,29 @@ var host_overview_chart_config = {
         }
     }
 };
+
+function hex2rgba(color, opacity) {
+    color = color.replace('#','');
+
+    r = parseInt(color.substring(0,2), 16);
+    g = parseInt(color.substring(2,4), 16);
+    b = parseInt(color.substring(4,6), 16);
+
+    return 'rgba('+r+','+g+','+b+','+opacity+')';
+}
+
+function get_palette_color() {
+
+    if(palette_counter == palette.length) {
+        palette_counter = 0;
+    }
+
+    color = palette[palette_counter];
+
+    palette_counter++;
+
+    return color;
+}
 
 host = {
     get_host_overview: function(args) {
@@ -423,12 +454,18 @@ function update_chart (obj, chart, config) {
                 var dataset = {
                     label: item.name,
                     borderWidth: 1,
-                    borderColor: "rgba(10,145,115,1)",
-                    backgroundColor: "rgba(10,200,160,0.2)",
                     pointHoverRadius: 4,
                     data: [{'x': '0', 'y': '1'}]
                 };
                 var datapoints = [];
+                if(item.color !== undefined){
+                    color = item.color;
+                } else {
+                    color = get_palette_color();
+                }
+
+                dataset['borderColor'] = color;
+                dataset['backgroundColor'] = hex2rgba(color, 0.4);
 
                 $.each(item.values.avg, function(i, value) {
                     datapoints.push({

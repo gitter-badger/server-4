@@ -16,12 +16,18 @@ function update_chart (obj, chart, config) {
                 var dataset = {
                     label: item.name,
                     borderWidth: 1,
-                    borderColor: "rgba(10,145,115,1)",
-                    backgroundColor: "rgba(10,200,160,0.2)",
                     pointHoverRadius: 4,
                     data: [{'x': '0', 'y': '1'}]
                 };
                 var datapoints = [];
+                if(item.color !== undefined){
+                    color = item.color;
+                } else {
+                    color = get_palette_color();
+                }
+
+                dataset['borderColor'] = color;
+                dataset['backgroundColor'] = hex2rgba(color, 0.4);
 
                 $.each(item.values.avg, function(i, value) {
                     datapoints.push({
