@@ -14,6 +14,9 @@ from argux_server.rest.client import (
     RESTClient,
 )
 
+import gc
+import objgraph
+
 def parse_freebsd(monitor, output):
     """Parse FreeBSD PING output.
 
@@ -95,12 +98,11 @@ class ICMPMonitor(AbstractMonitor):
         ICMP checks are executed at 60second intervals.
         """
 
-        time.sleep(60)
+        time.sleep(20)
         self.client.login()
 
         # Thread body.
         while True:
-
             try:
                 mons = self.client.get_monitors('icmp')
                 for mon in mons:
@@ -113,7 +115,7 @@ class ICMPMonitor(AbstractMonitor):
                 print(str(e))
 
             try:
-                time.sleep(60)
+                time.sleep(20)
             except KeyboardInterrupt:
                 self.stop()
 

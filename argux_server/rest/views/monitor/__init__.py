@@ -20,6 +20,8 @@ from .. import RestView
 
 from argux_server.monitors import MONITORS
 
+import objgraph
+
 @view_defaults(renderer='json')
 class RestMonitorViews(RestView):
 
@@ -36,6 +38,8 @@ class RestMonitorViews(RestView):
         permission='view'
     )
     def monitors_1_view_read(self):
+        print('.........')
+        objgraph.show_growth()
         monitor_type = self.request.matchdict['type'].upper()
         monitors = []
 
@@ -46,6 +50,8 @@ class RestMonitorViews(RestView):
                     'message': 'invalid type'
                 }))
 
+        print('---------')
+        objgraph.show_growth()
         d_monitors = self.dao.monitor_dao.get_all_monitors_for_type(
             monitor_type)
 
@@ -61,6 +67,8 @@ class RestMonitorViews(RestView):
                 'active': d_monitor.active,
                 'options': options
             })
+        print('=========')
+        objgraph.show_growth()
 
         return {
             'monitors': monitors

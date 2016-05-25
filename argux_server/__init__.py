@@ -173,6 +173,9 @@ def main(global_config, **settings):
     config.add_route('rest_admin_users_1',
                      '/rest/1.0/admin/user')
 
+    config.add_route('rest_admin_meminfo_1',
+                     '/rest/1.0/admin/meminfo')
+
     # Pretty-print JSON, useful for development.
     if settings['rest.pretty_json'] == 'true':
         config.add_renderer('json', JSON(indent=4))
@@ -180,8 +183,8 @@ def main(global_config, **settings):
     config.scan('.views')
     config.scan('.rest.views')
 
-    worker = TriggerWorker()
-    worker.start()
+    #worker = TriggerWorker()
+    #worker.start()
 
     start_monitors(settings=settings)
 

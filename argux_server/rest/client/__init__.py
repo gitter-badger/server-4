@@ -12,6 +12,7 @@ from argux_server.util import (
     DATE_FMT
 )
 
+import objgraph
 
 class AbstractRESTClient:
 
