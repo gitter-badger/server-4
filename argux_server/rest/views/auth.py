@@ -38,7 +38,7 @@ class RestAuthenticationViews(RestView):
         username = self.request.json_body.get('username', None)
         password = self.request.json_body.get('password', None)
 
-        if username == password:
+        if self.dao.user_dao.validate_user(username, password):
             self.request.session['username'] = username
 
             headers = remember(self.request, username)
