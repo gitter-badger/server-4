@@ -7,6 +7,7 @@ from sqlalchemy import (
     Float,
     Text,
     ForeignKey,
+    String,
     Boolean
 )
 
@@ -48,3 +49,4 @@ class HistoryGraphItem(BASE):
     history_graph = relationship(HistoryGraph, backref='items')
     item_id = Column(Integer, ForeignKey('item.id'))
     item = relationship(Item, backref='history_graphs')
+    color = Column(String(6), nullable=True, default=None);

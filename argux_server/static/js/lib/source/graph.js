@@ -21,7 +21,7 @@ function update_chart (obj, chart, config) {
                     data: [{'x': '0', 'y': '1'}]
                 };
                 var datapoints = [];
-                if(item.color !== undefined){
+                if(item.color !== undefined && item.color !== null){
                     color = item.color;
                 } else {
                     pc = get_palette_color(counter);

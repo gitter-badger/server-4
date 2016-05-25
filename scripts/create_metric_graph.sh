@@ -34,11 +34,46 @@ curl -X POST \
     -H "Content-Type: application/json" \
     -H "X-CSRF-Token: $CSRF_TOKEN" \
     -d "{
-        \"name\" : \"CPU Load Average\",
+        \"name\" : \"CPU Load Average (Custom colors)\",
         \"items\": [
-            { \"name\": \"cpu.load.avg[1]\", \"host\": \"localhost\" },
-            { \"name\": \"cpu.load.avg[5]\", \"host\": \"localhost\" },
-            { \"name\": \"cpu.load.avg[15]\", \"host\": \"localhost\" }
+            {
+                \"name\": \"cpu.load.avg[1]\",
+                \"host\": \"localhost\",
+                \"color\": \"00dddd\"
+            },
+            {
+                \"name\": \"cpu.load.avg[5]\",
+                \"host\": \"localhost\",
+                \"color\": \"dd00dd\"
+            },
+            {
+                \"name\": \"cpu.load.avg[15]\",
+                \"host\": \"localhost\",
+                \"color\": \"dddd00\"
+            }
+        ]
+        }" \
+    $SERVER/$REST_URI/graph
+
+curl -X POST \
+    -b $COOKIE_FILE \
+    -H "Content-Type: application/json" \
+    -H "X-CSRF-Token: $CSRF_TOKEN" \
+    -d "{
+        \"name\" : \"CPU Load Average (Automatic colors)\",
+        \"items\": [
+            {
+                \"name\": \"cpu.load.avg[1]\",
+                \"host\": \"localhost\"
+            },
+            {
+                \"name\": \"cpu.load.avg[5]\",
+                \"host\": \"localhost\"
+            },
+            {
+                \"name\": \"cpu.load.avg[15]\",
+                \"host\": \"localhost\",
+            }
         ]
         }" \
     $SERVER/$REST_URI/graph

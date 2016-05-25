@@ -50,8 +50,11 @@ class RestGraphViews(RestView):
             item = {
                 'name': d_item.name,
                 'key': d_item.key,
-                'host': d_item.host.name
+                'host': d_item.host.name,
             }
+
+            if d_item.color is not None:
+                item['color'] = d_item.color
 
             if get_values == 'true':
                 q_start = self.request.params.get('start', None)
@@ -171,12 +174,15 @@ class RestGraphViews(RestView):
                     status='400 Bad Request',
                     content_type='application/json')
 
-            d_items.append(d_item)
+            if 'color' in item:
+                d_items.append([d_item, item['color']])
+            else:
+                d_items.append([d_item, None])
 
         graph = self.dao.graph_dao.create_graph(name=graph_name)
 
         for d_item in d_items:
-            self.dao.graph_dao.graph_add_item(graph, d_item)
+            self.dao.graph_dao.graph_add_item(graph, d_item[0], color=d_item[1])
 
         return {
             'id': graph.id,

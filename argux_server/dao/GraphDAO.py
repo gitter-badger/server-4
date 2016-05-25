@@ -37,7 +37,7 @@ class GraphDAO(BaseDAO):
 
         return graph
 
-    def graph_add_item(self, graph, item):
+    def graph_add_item(self, graph, item, color=None):
         d_graph_item = self.db_session.query(HistoryGraphItem)\
             .filter(HistoryGraphItem.history_graph_id == graph.id)\
             .filter(HistoryGraphItem.item_id == item.id)\
@@ -46,7 +46,8 @@ class GraphDAO(BaseDAO):
         if d_graph_item is None:
             d_graph_item = HistoryGraphItem(
                 history_graph_id=graph.id,
-                item_id=item.id)
+                item_id=item.id,
+                color=color)
             self.db_session.add(d_graph_item)
             self.db_session.flush()
 
@@ -56,6 +57,8 @@ class GraphDAO(BaseDAO):
         items = []
 
         for item in graph.items:
-            items.append(item.item)
+            i = item.item
+            i.color = item.color
+            items.append(i)
 
         return items
