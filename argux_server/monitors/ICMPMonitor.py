@@ -94,6 +94,10 @@ class ICMPMonitor(AbstractMonitor):
         Ignores the 'interval' option at the moment.
         ICMP checks are executed at 60second intervals.
         """
+
+        time.sleep(60)
+        self.client.login()
+
         # Thread body.
         while True:
 

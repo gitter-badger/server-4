@@ -59,6 +59,9 @@ class DNSMonitor(AbstractMonitor):
         DNS checks are executed at 300second intervals.
         """
 
+        time.sleep(30)
+        self.client.login()
+
         # Thread body.
         while True:
             cmd = shutil.which('dig', mode=os.X_OK)
