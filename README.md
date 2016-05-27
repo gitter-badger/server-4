@@ -6,6 +6,8 @@
 
 ## Install Argux Server ##
 
+[![Join the chat at https://gitter.im/argux/server](https://badges.gitter.im/argux/server.svg)](https://gitter.im/argux/server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
     python setup.py install
 
 ## Generate config-file
